@@ -1,0 +1,22 @@
+{
+  "id": "p4-sensacao-ao-dado",
+  "name": "Da Sensação ao Dado (carrossel 5)",
+  "description": "Inicia com sensação subjetiva universal (cansaço, névoa, libido baixa), traduz pro biomarcador correspondente.",
+  "pillar": 4,
+  "format": "carousel",
+  "slide_count": 5,
+  "performance_target": { "vsMedian_min": 1.4, "save_rate_min": 0.06 },
+  "structure": [
+    { "slide": 1, "role": "sensacao", "elements": ["sintoma_universal_em_1_frase"] },
+    { "slide": 2, "role": "ponte", "elements": ["o_que_seu_corpo_pode_estar_te_dizendo"] },
+    { "slide": 3, "role": "biomarcador", "elements": ["1_marcador_provavel", "faixa_funcional"] },
+    { "slide": 4, "role": "context", "elements": ["o_que_otimizar_se_for_isso"] },
+    { "slide": 5, "role": "cta", "elements": ["convite_para_painel", "logo"] }
+  ],
+  "voice": { "tone": "Mito + Aesop, mais empático no slide 1-2", "forbidden": ["diagnostico_a_distancia", "fear"] },
+  "visual": { "palette": { "bg": "#000F08", "text": "#f8fffc", "accent_gold": "#C89136" } },
+  "caption_template": "Hook que descreve a sensação. Ponte editorial. Biomarcador citado.",
+  "anti_patterns": ["promessa_de_cura", "diagnostico_explicito"],
+  "fact_check_required": true,
+  "estimated_cost_usd": 4
+}

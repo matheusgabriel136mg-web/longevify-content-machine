@@ -1,0 +1,48 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm/
+
+# Build / cache
+dist/
+build/
+.next/
+.cache/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Heavy generated assets — vão pro Cloudinary/disco separado
+runs/**/assets/
+runs/**/drafts/
+assets/
+dashboard-images/
+attached_assets/
+
+# Output heavy artifacts (mantém JSONs leves)
+output/_deprecated/
+output/stories/
+output/tmp-big3-assets/
+output/replications/
+output/longevify-posts/
+output/brief-superpower-adaptation/
+output/analysis-*/thumbs/
+output/analysis-*/*.png
+output/analysis-*/*.jpg
+output/analysis-*/*.mp4
+
+# Backup-only
+*.bak

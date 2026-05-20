@@ -1,0 +1,23 @@
+{
+  "ideas": [
+    {
+      "id": "idea-2026-05-18-matcha-vs-cafe",
+      "title": "Matcha vs Café: L-theanine + EGCG + Akkermansia",
+      "biomarker_focus": "Cortisol / GABA / Akkermansia muciniphila",
+      "format_suggestion": "carousel",
+      "pillar": 2,
+      "source_text": "Matcha contains L-theanine. L-theanine crosses the blood-brain barrier and binds to GABA receptors. It produces what researchers call 'alert calm.' Focused. Clear. No spike. No crash. No cortisol surge. By week two my bloating was gone. By week four I was sleeping through the night for the first time in three years. Matcha also contains EGCG - epigallocatechin gallate - one of the most potent anti-inflammatory polyphenols studied. It feeds Akkermansia muciniphila, the bacteria that rebuilds your gut's mucus lining. Coffee was burning the house down. Matcha was sending in the repair crew.",
+      "hook_suggestions": [
+        "Você não precisa parar com café. Você precisa entender o que ele te custou.",
+        "Akkermansia muciniphila. O nome é difícil. O que ela faz pelo seu intestino é mais difícil ainda de ignorar.",
+        "Matcha não é tendência. É bioquímica."
+      ],
+      "angle": "Brain fog, gut lining, cortisol — 3 sintomas comuns conectados a 1 troca de hábito (café → matcha) com mecanismo bioquímico claro.",
+      "added_at": "2026-05-18T18:00:00.000Z",
+      "added_by": "matheus",
+      "status": "queued",
+      "notes": "Conteúdo original (parece copy de wellness brand US). Estilo storytelling primeira pessoa + mecanismo biológico. Reescrever em pt-BR com tom Mito+Aesop, manter as estatísticas (semana 2, semana 4) e a metáfora 'burning house / repair crew'."
+    }
+  ],
+  "updated_at": "2026-05-18T18:36:27.292Z"
+}

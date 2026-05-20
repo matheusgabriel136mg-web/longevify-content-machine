@@ -1,0 +1,42 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, aspect ratio 4:5, premium scientific aesthetic. Solid deep forest-black background hex #0a1a0e. Centered vertical composition with Portuguese-Brazilian text rendered in DM Sans typeface, color #f8fffc.\n\nHEADLINE (DM Sans Medium, very large ~78px equivalent, line-height 1.0, letter-spacing -0.02em, left-aligned mid-slide):\nA ferritina \"normal\"\nque está te custando\n90 segundos\nno seu 10k.\n\nThe word \"normal\" (with surrounding quotation marks) must be rendered in italic style, slightly desaturated teal #5BAE9E.\n\nSMALL SUBCOPY at bottom-third of slide (DM Sans Regular ~42px, color #f8fffc at 80% opacity):\nO número está no laudo. Ninguém te mostrou.\n\nRESERVE empty space at bottom-center, 80px from bottom edge, approximately 280px wide x 60px tall — for logo overlay added in post (do NOT generate any logo or wordmark).\n\nMood: Mito Health editorial precision crossed with Equinox athletic restraint. Lots of negative space. No illustrations, no icons, no photographs. Pure typographic composition.\n\nABSOLUTELY NO: test tubes, blue lab tubes, iron supplement bottles, smiling runners in pink athletic wear, 3D heart or chrome DNA visuals, pure white background, red saturated blood drop icons, emojis, decorative flourishes, em-dashes overuse.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Hook slide. Italics on 'normal'. Heavy negative space."
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, aspect ratio 4:5, scientific data visualization aesthetic. Solid deep forest-black background hex #0a1a0e. Portuguese-Brazilian text in DM Sans typeface, primary text color #f8fffc.\n\nTOP HEADLINE (DM Sans Medium ~78px, line-height 1.0, letter-spacing -0.02em, left-aligned, color #f8fffc):\nNormal para o laboratório.\nInsuficiente para você.\n\nMIDDLE — vertical numeric stack, left-aligned, each row has a very large number in DM Sans Light ~140px (tight kerning) in color #7ab5a0 sage, followed by descriptor in DM Sans Regular ~42px in color #f8fffc at 85% opacity. Three rows stacked vertically with generous spacing:\n\n15 ng/mL — limite inferior da faixa convencional\n50 ng/mL — mínimo para sustentar endurance\n80–100 ng/mL — território de performance\n\nVISUAL HIGHLIGHT: a translucent horizontal band/rectangle behind/across the area covering values 15 to 50 (the first two rows), filled with teal #5BAE9E at 15% opacity, with a thin 1px teal border. To the right of this band, a short italic label in DM Sans Regular ~36px color #5BAE9E:\nA zona da corredora exausta.\n\nBOTTOM CAPTION (DM Sans Regular ~36px, color #f8fffc at 65% opacity, left-aligned):\nA faixa do laboratório é genérica. Não foi escrita para quem corre 4x na semana.\n\nRESERVE empty space at bottom-center, 80px from bottom edge, ~280x60px for logo overlay (do NOT generate logo).\n\nMood: precise, editorial, scientific Mito Health vibe. Pure typography + one subtle translucent band. No charts, no graphs, no icons, no photographs.\n\nABSOLUTELY NO: test tubes, blue lab tubes, supplement bottles, runners, 3D anatomy, chrome DNA, pure white background, red blood drop icons, emojis, bar charts, pie charts.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Data slide — numeric stack with highlight band 15-50."
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, aspect ratio 4:5, premium typographic composition. Solid deep forest-black background hex #0a1a0e. Portuguese-Brazilian text in DM Sans, primary color #f8fffc.\n\nHEADLINE (DM Sans Medium ~78px, line-height 1.0, letter-spacing -0.02em, left-aligned, top of slide, color #f8fffc):\nPor que o seu corpo\ndrena ferro mais rápido\ndo que repõe.\n\nBODY PROSE (DM Sans Regular ~42px, line-height 1.3, color #f8fffc at 90% opacity, left-aligned, multiple paragraphs with breathing room between them):\n\nFerritina é o estoque. Hemoglobina é o transporte.\n\nA cada passada, microhemólise. Cada treino longo, perda pelo suor. Cada ciclo, mais saída.\n\nQuando o estoque cai, a hemoglobina ainda parece adequada — mas a entrega de oxigênio ao músculo desacelera antes do hemograma acusar.\n\nFadiga subclínica. Cadência que escorrega. Longo que pesa do quilômetro 7.\n\nThe word \"adequada\" rendered in italic style.\n\nCLOSING LINE at bottom, in DM Sans Regular Italic ~42px, color #5BAE9E (teal accent), left-aligned:\nA anemia chega depois. A queda de performance, primeiro.\n\nRESERVE empty space at bottom-center, 80px from bottom edge, ~280x60px for logo overlay (do NOT generate logo).\n\nMood: editorial Aesop-meets-Mito-Health. Pure typography. Heavy use of negative space. No images, no icons.\n\nABSOLUTELY NO: test tubes, supplement bottles, runners in pink, 3D hearts, chrome DNA, pure white background, red blood icons, emojis, decorative ornaments.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Mechanism slide — prose-heavy, italic closing in teal."
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, aspect ratio 4:5, structured plan layout. Solid deep forest-black background hex #0a1a0e. Portuguese-Brazilian text in DM Sans, primary color #f8fffc.\n\nHEADLINE at top (DM Sans Medium ~78px, line-height 1.0, letter-spacing -0.02em, left-aligned, color #f8fffc):\nO que pedir.\nO que cruzar.\nO que esperar.\n\nBODY — four stacked blocks, each with a bold-weight short title and a regular-weight one-sentence explanation. Generous vertical spacing between blocks. Left-aligned.\n\nBlock title style: DM Sans Medium ~48px, color #5BAE9E teal.\nBlock body style: DM Sans Regular ~38px, line-height 1.3, color #f8fffc at 85% opacity.\n\nBlock 1:\nPeça ferritina específica.\nNão aceite \"hemograma normal\" como resposta.\n\nBlock 2:\nCruze com transferrina e saturação.\nEstoque sozinho não conta a história inteira.\n\nBlock 3:\nSuplementação é contexto, não receita.\nForma, dose e janela dependem do seu painel. Ferro mal-prescrito não absorve — ou inflama.\n\nBlock 4:\nReavalie em 8 a 12 semanas.\nFerritina sobe devagar. Performance volta na sequência.\n\nRESERVE empty space at bottom-center, 80px from bottom edge, ~280x60px for logo overlay (do NOT generate logo).\n\nMood: clinical, editorial, restrained. Pure typography. No icons, no checkmarks, no numbered circles, no photographs.\n\nABSOLUTELY NO: test tubes, supplement bottles, runners, 3D anatomy, chrome DNA, pure white background, red blood icons, emojis, checkbox icons, numbered bullets in circles.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Plan slide — four titled blocks with teal headers."
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel CTA slide, aspect ratio 4:5, closing composition with heavy negative space. Solid deep forest-black background hex #0a1a0e. Portuguese-Brazilian text in DM Sans, primary color #f8fffc.\n\nMAIN HEADLINE centered vertically slightly above middle (DM Sans Light/Medium ~78px, line-height 1.0, letter-spacing -0.02em, left-aligned, color #f8fffc):\nSua ferritina exata\né um número público\nno seu corpo.\n\nDIRECTLY BELOW headline, with small vertical gap, ITALIC subhead in DM Sans Regular Italic ~48px, color #5BAE9E teal, left-aligned:\nVocê pode pedir.\n\nFOOTER LINE near bottom (but above logo zone), DM Sans Regular ~32px, color #f8fffc at 60% opacity, left-aligned or centered:\nLongevify — 100+ biomarcadores + AI on-demand. Para quem treina sério.\n\nRESERVE empty horizontal space at bottom-center, 80px from bottom edge, approximately 320px wide x 70px tall — for logo overlay added in post-processing (do NOT generate any logo, wordmark, or text in that zone — leave it empty background).\n\nMood: Aesop-quiet, editorial closing. Pure typography. Lots of breathing room. No icons, no photographs, no decorative elements.\n\nABSOLUTELY NO: test tubes, blue lab tubes, supplement bottles, runners in pink, 3D hearts, chrome DNA, pure white background, red blood drop icons, emojis, arrow icons, swipe-up graphics.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "CTA slide. Italic subhead in teal. Logo zone reserved at bottom-center."
+  }
+]

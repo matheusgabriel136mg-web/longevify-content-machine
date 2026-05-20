@@ -1,0 +1,94 @@
+version: "3.9"
+# docker-compose pra estrutura tipo Hermes: 1 container por agente, brain compartilhado via volume.
+services:
+  brain:
+    image: alpine:3
+    command: tail -f /dev/null
+    volumes:
+      - ./brands:/brain/brands:ro
+      - ./foundation:/brain/foundation:ro
+      - ./LONGEVIFY_BRAND.md:/brain/LONGEVIFY_BRAND.md:ro
+      - ./LONGEVIFY_PILLARS.md:/brain/LONGEVIFY_PILLARS.md:ro
+      - ./BRAND_DEFAULTS.md:/brain/BRAND_DEFAULTS.md:ro
+
+  writer:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+      - ./foundation:/app/foundation:ro
+      - ./brands:/app/brands:ro
+    command: ["sh", "-c", "node --import tsx/esm scripts/writer.ts --run $$RUN_ID"]
+    profiles: ["agent"]
+
+  visual-gen:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+      - ./attached_assets:/app/attached_assets:ro
+    command: ["sh", "-c", "node --import tsx/esm scripts/visual-gen.ts --run $$RUN_ID"]
+    profiles: ["agent"]
+
+  visual-qa:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+    command: ["sh", "-c", "node --import tsx/esm scripts/visual-qa.ts --run $$RUN_ID"]
+    profiles: ["agent"]
+
+  verifier:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+      - ./foundation:/app/foundation:ro
+    command: ["sh", "-c", "node --import tsx/esm scripts/verifier.ts --run $$RUN_ID"]
+    profiles: ["agent"]
+
+  publish:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+    command: ["sh", "-c", "node --import tsx/esm scripts/publish.ts --run $$RUN_ID"]
+    profiles: ["agent"]
+
+  competitor-scan:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+      - ./foundation:/app/foundation:ro
+    command: ["node", "--import", "tsx/esm", "scripts/competitor-scan.ts"]
+    profiles: ["cron"]
+
+  idea-calendar:
+    build: .
+    env_file: .env
+    volumes:
+      - ./runs:/app/runs
+      - ./logs:/app/logs
+      - ./foundation:/app/foundation:ro
+      - ./brands:/app/brands:ro
+    command: ["node", "--import", "tsx/esm", "scripts/idea-calendar.ts"]
+    profiles: ["cron"]
+
+  reviewer-dashboard:
+    build: .
+    env_file: .env
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./runs:/app/runs:ro
+      - ./logs:/app/logs:ro
+      - ./dashboard:/app/dashboard
+    command: ["node", "--import", "tsx/esm", "scripts/review-queue.ts", "--serve"]
+    restart: unless-stopped

@@ -1,0 +1,23 @@
+{
+  "id": "p2-biomarcador-deep-dive",
+  "name": "Biomarcador Deep Dive (carrossel 6 slides)",
+  "description": "Foco em UM biomarcador — hook narrativo, dado, contexto fisiológico, faixa funcional, recomendação implícita.",
+  "pillar": 2,
+  "format": "carousel",
+  "slide_count": 6,
+  "performance_target": { "vsMedian_min": 1.5, "save_rate_min": 0.07 },
+  "structure": [
+    { "slide": 1, "role": "hook_cover", "elements": ["narrativa_cenario_real", "biomarcador_nomeado"] },
+    { "slide": 2, "role": "data_reveal", "elements": ["numero_exato", "ranges_lado_a_lado"] },
+    { "slide": 3, "role": "mechanism", "elements": ["o_que_acontece_no_corpo", "linguagem_acessivel"] },
+    { "slide": 4, "role": "longevify_functional_range", "elements": ["faixa_funcional", "porque_diferente_do_lab"] },
+    { "slide": 5, "role": "context", "elements": ["ICP_relatable", "sintoma_atletico"] },
+    { "slide": 6, "role": "cta", "elements": ["pergunta_retorica", "logo"] }
+  ],
+  "voice": { "tone": "Mito + Aesop", "forbidden": ["fear", "diagnostico"], "italic_rule": "1 frase pivô por slide" },
+  "visual": { "palette": { "bg": "#000F08", "text": "#f8fffc", "accent_gold": "#C89136" } },
+  "caption_template": "1 frase hook editorial. 3-4 frases contextualizando. Pergunta retórica que convida pra próximo exame. Sem hashtags.",
+  "anti_patterns": ["promessa", "fear", "5_passos_de_X"],
+  "fact_check_required": true,
+  "estimated_cost_usd": 4.5
+}

@@ -1,0 +1,118 @@
+{
+  "id": "story-highlight-sequence",
+  "name": "Story Highlight Sequence (SP Our Mission-inspired, 7 stories)",
+  "description": "Highlight permanente em narrativa cinematográfica de 7 stories conectados. Modelado em @superpowerapp 'Our Mission' highlight. Aprovado pelo Matheus em 17/mai/2026 — story 1 v3 'agora sim ficou pica'.",
+  "format": "story_sequence",
+  "story_count": 7,
+  "aspect": "9:16",
+  "resolution": "1080x1920",
+  "performance_target": "highlight permanente — não viral; long-term brand asset",
+  "visual_template_locked": {
+    "background_aesthetic": "real fluorescence microscopy photograph",
+    "background_rules": [
+      "REAL fluorescence microscopy (GFP-stained look) — não painterly, não watercolor, não macro earth, não cell illustration",
+      "Cinematic diagonal composition: cells cluster densely in TOP-RIGHT 60% of canvas",
+      "Center-left should have NATURAL DARK ZONE (pure forest #000F08) for typography",
+      "Real depth-of-field — some cells sharp, others soft/blurred",
+      "Visible cell anatomy: membrane, nucleus, mitochondria dots, tubulin/actin filaments",
+      "Cell-to-cell contacts at boundaries"
+    ],
+    "palette": {
+      "background_void": "#000F08",
+      "cells_main_glow": "#2D7A5C",
+      "cells_secondary": "#557D6D",
+      "cells_edge_highlights": "#91B69D",
+      "text_off_white": "#f8fffc",
+      "editorial_accent": "#C89136",
+      "forbidden": ["red", "amber", "orange", "purple", "yellow", "pure_white_#FFFFFF"]
+    },
+    "typography": {
+      "label_caps": "DM Sans Regular 400, uppercase, letter-spacing +0.18em, off-white #f8fffc, single line, ~24px",
+      "frame_number": "DM Sans Regular 400, ~14px, gold #C89136, top-left corner [01]/[02]/etc",
+      "single_font_rule": "ONLY DM Sans — NEVER serif (Georgia/Source Serif/Times)"
+    },
+    "layout": {
+      "top_left_8_pct": "frame number [NN] in gold",
+      "vertical_50_pct_left_10_to_45_pct_horizontal": "label CAPS in dark zone",
+      "vertical_48_pct_right_55_pct_horizontal": "logo Longevify wordmark (overlay in post-processing, 26% canvas width)",
+      "bottom_18_pct": "clean forest #000F08 reserved for Instagram UI"
+    }
+  },
+  "narrative_sequence": [
+    {
+      "frame": 1,
+      "label_caps": "SAÚDE É SEU PATRIMÔNIO",
+      "background_focus": "fluorescent cells cluster right, dark void left",
+      "logo_visible": true,
+      "status": "GENERATED v3 — runs/_stories-backlog/missao-01-patrimonio/assets/story-1-v3-final.png"
+    },
+    {
+      "frame": 2,
+      "label_caps": "ESTÁ NA HORA DE ENXERGAR",
+      "background_focus": "same microscopy continues — slightly different cell cluster, maybe sharper",
+      "logo_visible": false,
+      "italic_pivot": "enxergar"
+    },
+    {
+      "frame": 3,
+      "label_caps": "O CHECK-UP ESTÁ QUEBRADO",
+      "background_aesthetic_override": "DIFFERENT — chaotic red/dark organic texture, NOT cells. Inflammation aesthetic.",
+      "body_list": ["Reativo", "Genérico", "Vago", "Lento", "Caro", "Cego ao seu corpo"],
+      "punch_line": "A gente não aceita.",
+      "logo_visible": false
+    },
+    {
+      "frame": 4,
+      "label_caps": "NOSSA MISSÃO",
+      "background_aesthetic_override": "warm forest+gold abstract glow, atmospheric",
+      "body_message": "Construir um modelo melhor de saúde — e torná-lo acessível a quem decide enxergar.",
+      "logo_visible": false
+    },
+    {
+      "frame": 5,
+      "label_caps": null,
+      "body_message": "Por isso construímos algo diferente...",
+      "background_aesthetic_override": "blood smear macro OR pill capsule close-up",
+      "logo_visible": false
+    },
+    {
+      "frame": 6,
+      "label_caps": "O PAINEL LONGEVIFY",
+      "background_aesthetic_override": "natural BR scene — onda do Atlântico, floresta, ou paisagem Mantiqueira",
+      "body_list": ["Preventivo", "Personalizado", "Acionável", "Imediato", "Data-driven", "Para você"],
+      "last_item_accent_gold_square": true,
+      "logo_visible": false
+    },
+    {
+      "frame": 7,
+      "label_caps": "PLANO LONGEVIFY",
+      "subtitle": "O que está incluso",
+      "background_aesthetic_override": "forest dark with subtle gold particles",
+      "body_features": [
+        { "text": "100+ biomarcadores analisados anualmente", "thumb": "blood_tube" },
+        { "text": "Idade biológica", "thumb": "score_card" },
+        { "text": "Dados unificados em um painel", "thumb": "app_screen" },
+        { "text": "Protocolo personalizado", "thumb": "doctor_card" },
+        { "text": "Suporte direto 24/7", "thumb": "phone_app" },
+        { "text": "Marketplace 25% off", "thumb": "products" }
+      ],
+      "logo_visible": true
+    }
+  ],
+  "voice_rules": {
+    "tone": "Mito (precisão) + Aesop (restrição) + Manifesto (no frame 3-4)",
+    "forbidden": ["fear_explícito", "self-help", "promessa_cura", "buzzwords", "corporativês"],
+    "italic_rule": "italic em 1 palavra-pivô por frame (asteriscos no prompt → italic via Higgsfield)",
+    "frames_3_4_voice": "anti-status quo, manifesto editorial, restrained"
+  },
+  "production_workflow": [
+    "1. Higgsfield text-to-image em 9:16 com template visual locked",
+    "2. Sharp logo overlay (DST: story-N-final.png)",
+    "3. (P2) Animar com seedance_2_0 image-to-video pra criar versão vídeo cinematográfica em loop",
+    "4. Upload sequência no Instagram (Stories → Highlights → save permanent)"
+  ],
+  "estimated_cost_per_story": 0.5,
+  "estimated_total_cost": 3.5,
+  "frequency_recommendation": "Highlight permanente — gera 1x, atualiza a cada 6 meses se posicionamento evoluir",
+  "reference": "@superpowerapp 'Our Mission' highlight (October 24, 2025) — 7 stories sequence narrative"
+}

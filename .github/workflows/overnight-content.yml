@@ -1,0 +1,85 @@
+name: Overnight Content Generation
+
+# Roda toda noite às 02h BRT (05h UTC). Pode rodar manual pela aba Actions.
+# NÃO publica nada — só gera draft-package.md + brief.md + content-object.md.
+# Matheus revisa de manhã, aprova/edita, depois trigga publish manual.
+
+on:
+  schedule:
+    # 02:00 BRT = 05:00 UTC
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot alvo (tomorrow / today / monday / tuesday / ...)"
+        required: false
+        default: "tomorrow"
+      dry_run:
+        description: "Dry-run (não grava arquivos, só loga)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install deps
+        run: npm ci || npm install
+
+      - name: Run overnight-generator
+        id: gen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLOT: ${{ github.event.inputs.slot }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: |
+          # Monta args dinamicamente
+          ARGS=""
+          if [ "${DRY_RUN}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          if [ -n "${SLOT}" ] && [ "${SLOT}" != "tomorrow" ]; then
+            ARGS="$ARGS --slot ${SLOT}"
+          fi
+
+          # Roda — o script já é graceful (exit 0 mesmo em erro de API)
+          set +e
+          OUTPUT=$(node --import tsx/esm scripts/overnight-generator.ts $ARGS 2>&1)
+          STATUS=$?
+          set -e
+
+          echo "$OUTPUT"
+
+          # Captura RUN_ID se foi emitido (formato: "RUN_ID=...")
+          RUN_ID=$(echo "$OUTPUT" | grep -oE '^RUN_ID=[^ ]+' | tail -1 | cut -d= -f2)
+          echo "run_id=${RUN_ID:-none}" >> $GITHUB_OUTPUT
+          exit 0
+
+      - name: Commit + push draft
+        if: steps.gen.outputs.run_id != 'none' && github.event.inputs.dry_run != 'true'
+        run: |
+          git config user.name "overnight-gen-bot"
+          git config user.email "bot@longevify.com.br"
+          git add runs/ output/overnight-runs.log 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nada novo pra commitar (provavelmente skip de slot já preenchido)"
+            exit 0
+          fi
+          git commit -m "🌙 overnight gen: ${{ steps.gen.outputs.run_id }}"
+          git push

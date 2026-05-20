@@ -1,0 +1,44 @@
+name: Idea Calendar (auto-pillar rotation)
+
+on:
+  schedule:
+    # Terça e quinta 10:00 UTC = 07:00 BRT
+    - cron: "0 10 * * 2,4"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  calendar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci || npm install
+
+      - name: Run idea-calendar
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node --import tsx/esm scripts/idea-calendar.ts
+
+      - name: Commit new run
+        run: |
+          git config user.name "calendar-bot"
+          git config user.email "bot@longevify.com.br"
+          git add runs/
+          if git diff --cached --quiet; then
+            echo "Nenhuma run nova"
+            exit 0
+          fi
+          DATE=$(date -u +"%Y-%m-%d")
+          git commit -m "idea-calendar: $DATE auto pillar rotation"
+          git push

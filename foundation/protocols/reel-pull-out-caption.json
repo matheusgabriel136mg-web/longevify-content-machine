@@ -1,0 +1,95 @@
+{
+  "id": "reel-pull-out-caption",
+  "name": "Reel com caption pull-out (Function-inspired, 15-25s)",
+  "description": "Reel talking-head com caption box BRANCA destacada sobre o vídeo. Pattern Function: 'We track everything but this', 'HEALTH starts at HOME'. Accessibility + scroll-stop garantido.",
+  "pillar": 3,
+  "format": "reel",
+  "duration_sec": 20,
+  "performance_target": { "vsMedian_min": 1.5, "watch_through_min": 0.55 },
+  "series_badge_optional": "FAIXA FUNCIONAL OR CASO REAL OR null",
+  "structure": [
+    {
+      "second_range": "0-2",
+      "role": "hook_visual",
+      "elements": [
+        "frame_que_para_scroll_(talking_head_close-up_OU_objeto_visual_inesperado)",
+        "caption_pull-out_branca_aparecendo_em_0.3s_no_canto",
+        "texto_pull-out_max_4_palavras"
+      ],
+      "constraints": ["primeira_frase_falada_segura_2s", "caption_pull-out_em_DM_Sans_Bold_400"]
+    },
+    {
+      "second_range": "2-12",
+      "role": "core_message",
+      "elements": [
+        "talking_head_continua",
+        "caption_pull-out_atualiza_a_cada_3-5s_com_frase_chave",
+        "background_neutro_OU_setting_que_sugere_BR_(consultório, casa)"
+      ],
+      "constraints": [
+        "caption_box_branca_sobre_video_dark_OR_box_dark_sobre_video_claro",
+        "max_3_caption_updates_no_meio",
+        "caption_size_grande_(legível_no_mobile_sem_zoom)"
+      ]
+    },
+    {
+      "second_range": "12-18",
+      "role": "reveal_OR_dado",
+      "elements": ["biomarcador_OR_insight_central_revelado", "caption_pull-out_destacando_o_número_OR_palavra-chave"],
+      "constraints": ["foco_visual_no_dado", "caption_em_gold_se_for_número"]
+    },
+    {
+      "second_range": "18-20",
+      "role": "cta_final_frame",
+      "elements": ["logo_longevify_horizontal_branca_centralizada", "convite_implícito_('seu painel também conta isso')_em_pull-out_final"],
+      "constraints": ["frame_estático_2s_no_final_pra_logo_grudar"]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão) + Aesop (concisão) + Function (caption pull-out style)",
+    "forbidden": ["fear", "alarmismo", "diagnóstico", "promessa"],
+    "speech_rule": "Speaker em pt-BR brasileiro. Linguagem coloquial mas técnica quando precisa. Sem 'tá vendo?' / 'galera' / corporativês."
+  },
+  "visual": {
+    "palette": {
+      "video_bg_neutral": "forest_OR_paleta_natural_BR",
+      "caption_box": "#FFFFFF_OR_#f8fffc",
+      "caption_text": "#000F08 OR #1C3F3A",
+      "caption_number_highlight": "#C89136",
+      "logo_final_frame": "#f8fffc"
+    },
+    "typography": {
+      "caption_pull_out": "DM Sans Bold OR Inter Bold, font-size 32-48px equivalente, line-height 1.2",
+      "caption_max_3_lines": true
+    },
+    "anti": [
+      "jumpcut_excessivo_(>3_cuts_em_20s)",
+      "filtros_de_beleza_exagerados",
+      "música_genérica_de_motivação",
+      "transições_decorativas_(wipes, flips)",
+      "lower_third_típico_de_TV"
+    ]
+  },
+  "caption_template": "Hook editorial 1 frase. Reflexão 2-3 frases. CTA implícito (link bio OU 'DM painel'). Sem hashtags decorativos. ~300-500 chars.",
+  "audio": {
+    "music": "ambient_minimalista_OR_silence_OR_voice_only",
+    "music_rights": "Meta_library_OR_creative_commons",
+    "voice_over": "speaker_em_pt-BR_brasileiro_natural"
+  },
+  "anti_patterns": [
+    "talking_head_genérico_sem_caption_pull-out_(perde_o_diferencial)",
+    "caption_pequena_difícil_de_ler_mobile",
+    "música_alta_que_compete_com_voz",
+    "duração_>30s_(perde_attention)"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 8,
+  "estimated_time_min": 30,
+  "frequency_recommendation": "2x/semana (terça + quinta — slots de reel da cadência)",
+  "production_notes": "Pode usar Higgsfield text-to-video pro B-roll + ffmpeg pra overlay caption pull-out. OU gravar speaker real (Matheus/Valle/parceiro médico) e compor via ffmpeg.",
+  "reference_posts": [
+    "@functionhealth 'We track everything but this'",
+    "@functionhealth 'HEALTH starts at HOME'",
+    "@functionhealth Dr. Tiffany Lester perimenopause reel"
+  ]
+}

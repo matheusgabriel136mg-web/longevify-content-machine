@@ -1,0 +1,628 @@
+[
+  {
+    "brand": "Superpower",
+    "totalPosts": 96,
+    "postsWithUrl": 3,
+    "postsWithMention": 9,
+    "postsWithResearchClaim": 4,
+    "postsWithAuthorityCite": 13,
+    "urls": {
+      "https://doi.org/10.1038/s41467-021-23014-1": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPhZyIJE10l/"
+      },
+      "https://hms.harvard.edu/news/paying-health-care-time": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DRK_UNsj5R6/"
+      },
+      "https://doi.org/10.7326/0003-4819-152-7-201004060-00007": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPFW6b3jKkL/"
+      },
+      "https://doi.org/10.1056/NEJMsa0706154": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPFW6b3jKkL/"
+      },
+      "https://doi.org/10.1136/bmj.a2338": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPFW6b3jKkL/"
+      },
+      "https://doi.org/10.1037/a0016076": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPFW6b3jKkL/"
+      },
+      "https://doi.org/10.1038/ncomms14753": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DPFW6b3jKkL/"
+      }
+    },
+    "mentions": {
+      "grunsdaily": 1,
+      "neilbrownjr": 1,
+      "the_bmj_": 1,
+      "forerunnerventures": 1,
+      "americanredcross": 1,
+      "soulcycle": 1,
+      "shaanvpuri": 1,
+      "dranantmd": 1,
+      "ritual": 1,
+      "katandkale": 1
+    },
+    "hashtags": {
+      "bloodwork": 1,
+      "healthoptimization": 1,
+      "bloodfriday": 2,
+      "coldandflu": 1,
+      "immunesupport": 1,
+      "peptides": 1,
+      "glp": 1,
+      "ozempic": 1
+    },
+    "authorities": {
+      "American College of Cardiology": 1,
+      "who": 8,
+      "Stanford": 1,
+      "FDA": 1,
+      "science": 2,
+      "Nature": 2,
+      "Harvard": 1,
+      "harvard": 1,
+      "Annals of Internal Medicine": 1,
+      "BMJ": 1,
+      "bmj": 1
+    },
+    "researchClaims": [
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DPuJtLljxJV/",
+        "vsMedian": 1.4333333333333333
+      },
+      {
+        "phrase": "Nature",
+        "postUrl": "https://www.instagram.com/p/DPhZyIJE10l/",
+        "vsMedian": 0.8933333333333333
+      },
+      {
+        "phrase": "Research shows",
+        "postUrl": "https://www.instagram.com/p/DPFW6b3jKkL/",
+        "vsMedian": 0.5933333333333334
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DXuLLuBESUv/",
+        "vsMedian": 0.56
+      }
+    ],
+    "yearsCited": {
+      "2021": 1,
+      "2025": 6,
+      "2026": 2
+    }
+  },
+  {
+    "brand": "Mito Health",
+    "totalPosts": 315,
+    "postsWithUrl": 7,
+    "postsWithMention": 38,
+    "postsWithResearchClaim": 33,
+    "postsWithAuthorityCite": 51,
+    "urls": {
+      "https://www.nytimes.com/2025/03/20/well/ai-drug-repurposing.html": {
+        "count": 1,
+        "type": "premium-news",
+        "samplePost": "https://www.instagram.com/p/DHt5WWAR4N6/"
+      },
+      "https://mitohealth.com/blog/cold-plunge-sauna-longevity-heat-therapy": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DGytZE0xtVY/"
+      },
+      "https://mitohealth.com/blog/the-hidden-dangers-of-seed-oils-why-you-should-think-twice-before-using-them": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DG6V-2nx4uu/"
+      },
+      "https://mitohealth.com/blog/mito-health-bryan-johnson-dont-die-summit-health-diagnostics": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DF-tmnBxZ6I/"
+      },
+      "https://mitohealth.com/blog/omega-3-fats-eicosapentaenoic-acid-depression-mood": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DF0_dXHxegy/"
+      },
+      "https://mitohealth.com/blog/the-science-of-testosterone": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/DHG3FWNR9pR/"
+      },
+      "https://mitohealth.com/sg/how-it-works": {
+        "count": 1,
+        "type": "other",
+        "samplePost": "https://www.instagram.com/p/C9WQashho5m/"
+      }
+    },
+    "mentions": {
+      "tiny.health": 2,
+      "joelkek": 1,
+      "dr.ryanware": 2,
+      "milescullphoto": 1,
+      "thequalityedit": 1,
+      "eudemoniasummit": 2,
+      "absorb.more": 3,
+      "helenowen": 1,
+      "optispan_": 1,
+      "molekuleair": 1,
+      "pvolve": 1,
+      "11am": 1,
+      "pvolvewesthollywood": 1,
+      "purformhealth": 1,
+      "humanauthealth": 1,
+      "acornbiolabs": 1,
+      "alignsmart": 1,
+      "genovadiagnostics": 1,
+      "dave.asprey": 1,
+      "the.biohackingconference": 1,
+      "studiothree": 2,
+      "cassidyrhodessa": 1,
+      "andrewjsteele": 1,
+      "bryanjohnson_": 6,
+      "timurban": 1,
+      "waitbutwhy": 1,
+      "everkennn": 3,
+      "dontdiesummit": 6,
+      "kennysantucci": 1,
+      "ouraring": 1,
+      "nasdaily": 1,
+      "nassummit": 1,
+      "producthunt": 1,
+      "ycombinator": 1,
+      "neyal99": 3,
+      "maddyfloss": 1,
+      "gabriel.simmy": 2,
+      "owen_c_art": 1,
+      "sharonk2308": 1,
+      "awaresingapore": 1,
+      "thehydragun": 1,
+      "thebold.co": 1,
+      "gustavoburratajoy": 1,
+      "amazingrazesg": 1,
+      "coldfrontco": 1,
+      "get.blood": 1,
+      "construckk": 1,
+      "lovage": 1,
+      "trapezerecclub": 1
+    },
+    "hashtags": {
+      "mitohealth": 16,
+      "testosterone": 2,
+      "bloodwork": 2,
+      "health": 16,
+      "bloodtest": 2,
+      "healthexam": 1,
+      "dontdie": 4,
+      "longevity": 114,
+      "bryanjohnson": 7,
+      "tracking": 11,
+      "biomarkers": 7,
+      "miami": 2,
+      "sleep": 4,
+      "sleephabits": 1,
+      "fitness": 15,
+      "nutrition": 5,
+      "ai": 2,
+      "medicine": 1,
+      "technology": 1,
+      "josephcoates": 1,
+      "prevention": 3,
+      "seedoils": 2,
+      "biohacking": 102,
+      "coldplunge": 2,
+      "sauna": 2,
+      "nyc": 2,
+      "healthspan": 101,
+      "dontdiesummit": 1,
+      "healthcare": 1,
+      "cholesterol": 2,
+      "newyork": 1,
+      "unitedstates": 1,
+      "checkup": 1,
+      "wellnessjourney": 1,
+      "plantbased": 1,
+      "preventativehealth": 1,
+      "fsa": 1,
+      "hsa": 1,
+      "spartanracesg": 1,
+      "spartansingapore": 1,
+      "beunbreakable": 1,
+      "healthtech": 5,
+      "detoxification": 1,
+      "who": 1,
+      "thrive": 1,
+      "mediterranean": 1,
+      "mediterraneandiet": 1,
+      "linkinbio": 2,
+      "outlive": 1,
+      "stress": 3,
+      "exercise": 2,
+      "mentalhealth": 1,
+      "peterattia": 1,
+      "mitochondria": 1,
+      "livelonger": 1,
+      "cancerawareness": 1,
+      "fightcancer": 1,
+      "sghealth": 1,
+      "wellbeing": 1,
+      "keto": 1,
+      "ketogenicdiet": 1,
+      "ketosis": 1,
+      "fattyliverdisease": 1,
+      "cancer": 2,
+      "skincancer": 1,
+      "melanoma": 1,
+      "ashwagandha": 1,
+      "supplements": 3,
+      "dexascan": 1,
+      "mindfulness": 1,
+      "sleephygiene": 1,
+      "eyesight": 1,
+      "eyehealth": 1,
+      "foodmedicine": 1,
+      "sleephealth": 1,
+      "ycombinator": 1,
+      "ycs24": 1,
+      "startup": 2,
+      "fathersday": 1,
+      "cortisol": 1,
+      "nmn": 1,
+      "coloncancer": 1,
+      "crc": 1,
+      "habits": 3,
+      "apob": 4,
+      "biomarker": 5,
+      "nad": 1,
+      "mothersday": 1,
+      "cardio": 2,
+      "strengthtraining": 1,
+      "fatloss": 1,
+      "productivity": 1,
+      "nireyal": 1,
+      "biohacking101": 1,
+      "healthylifestyle": 2,
+      "dayinalife": 1,
+      "techstartup": 1,
+      "homocysteine": 2,
+      "mitoinsider": 1,
+      "liss": 1,
+      "fermentedfoods": 1,
+      "hiit": 1,
+      "whymito": 1,
+      "gutmicrobiome": 1,
+      "cancerscreening": 1,
+      "lucenceinsight": 1,
+      "liver": 1,
+      "alt": 1,
+      "ast": 1,
+      "metabolicbiomarkers": 1,
+      "dexa": 2,
+      "sleephacks": 1,
+      "intermittentfasting": 1,
+      "diet": 1,
+      "healthscreening": 3,
+      "sghealthyliving": 1,
+      "coldwater": 1,
+      "inflammation": 1,
+      "twinexperiment": 1,
+      "youarewhatyoueat": 1,
+      "revltraining": 1,
+      "revltrainingsingapore": 1,
+      "community": 1,
+      "movesweatperform": 1,
+      "grouptraining": 1,
+      "neweraoffunctionalfitness": 1,
+      "bluezones": 2,
+      "cny": 1,
+      "yearofdragon": 1,
+      "lunarnewyear": 1,
+      "sglocal": 2,
+      "iwd2024": 1,
+      "femaleempowerment": 1,
+      "womenday": 1,
+      "womenhealth": 1,
+      "wellness": 3,
+      "sginsta": 1,
+      "cancerprevention": 1,
+      "longerhealthierlife": 2,
+      "hearthealth": 3,
+      "healthiswealth": 1,
+      "fitsg": 1,
+      "stayfit": 1,
+      "healthandwellness": 1,
+      "healthy": 1,
+      "fitnessmotivation": 1,
+      "couplegoals": 1,
+      "couplevideos": 1,
+      "livelongerhealthier": 1,
+      "livebetterwithmito": 1,
+      "helathspan": 1,
+      "futurehealth": 1,
+      "doctors": 1,
+      "medical": 1,
+      "preventivecare": 1
+    },
+    "authorities": {
+      "science": 27,
+      "FDA": 1,
+      "who": 21,
+      "cell": 5,
+      "CDC": 1,
+      "Science": 4,
+      "Stanford": 1,
+      "MIT": 1,
+      "WHO": 1,
+      "Who": 1
+    },
+    "researchClaims": [
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DWC0P9VgYRf/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DWSAWQXjTY2/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DQ7VOXzktbI/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "research shows",
+        "postUrl": "https://www.instagram.com/p/DQm1sFOkgSD/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DQHombTjwoj/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "research shows",
+        "postUrl": "https://www.instagram.com/p/DP4MzxnCShN/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DOoUaKDCYEr/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "research shows",
+        "postUrl": "https://www.instagram.com/p/DPhAP9CEitL/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DNoblJISAii/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DOZRegMkiz3/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DNN72dzuxmH/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "cell",
+        "postUrl": "https://www.instagram.com/p/DM_M585hn6e/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "study in",
+        "postUrl": "https://www.instagram.com/p/DNWSCvZy0Jj/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DL-8nU7B2wi/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "research shows",
+        "postUrl": "https://www.instagram.com/p/DNG_t3ISlgk/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DLIQZmtR7SI/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DL2tZD4JjE8/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "cell",
+        "postUrl": "https://www.instagram.com/p/DLaip1zziYa/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DKj-r4ms2Xr/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "Science",
+        "postUrl": "https://www.instagram.com/p/DKPayGZOSPt/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DKKuwoeRrbn/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DJCPpV4Rn2N/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DJXIV4AR9mM/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "Studies show",
+        "postUrl": "https://www.instagram.com/p/DGytZE0xtVY/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DHG3FWNR9pR/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "Science",
+        "postUrl": "https://www.instagram.com/p/C8Eq0SvuCYS/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "cell",
+        "postUrl": "https://www.instagram.com/p/C8_5H4qtrIi/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "Research suggests",
+        "postUrl": "https://www.instagram.com/p/C6yYCMJMhdu/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "Science",
+        "postUrl": "https://www.instagram.com/p/C5niHAXuI29/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/C4sDdJKMS8E/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/C45iulEsxUU/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/C4vbxgyNo92/",
+        "vsMedian": 0
+      },
+      {
+        "phrase": "cell",
+        "postUrl": "https://www.instagram.com/p/C1n9X9wgwID/",
+        "vsMedian": 0
+      }
+    ],
+    "yearsCited": {
+      "2024": 2,
+      "2025": 6,
+      "2026": 2
+    }
+  },
+  {
+    "brand": "Function Health",
+    "totalPosts": 100,
+    "postsWithUrl": 0,
+    "postsWithMention": 28,
+    "postsWithResearchClaim": 8,
+    "postsWithAuthorityCite": 13,
+    "urls": {},
+    "mentions": {
+      "drmarkhyman.": 1,
+      "function": 50,
+      "sweetgreen": 1,
+      "cp3": 1,
+      "drmarkhyman": 2,
+      "fidjissimo": 2,
+      "erewhon": 2,
+      "sweetgreen.": 1,
+      "equinox": 2,
+      "bayavoce": 1,
+      "incmagazine": 1,
+      "nazperez": 2
+    },
+    "hashtags": {
+      "functionpartner": 11,
+      "femalefounders500": 1
+    },
+    "authorities": {
+      "nature": 1,
+      "science": 5,
+      "who": 5,
+      "cell": 1,
+      "Science": 1
+    },
+    "researchClaims": [
+      {
+        "phrase": "nature",
+        "postUrl": "https://www.instagram.com/p/DXcaQ4FFFqz/",
+        "vsMedian": 11.366691015339663
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DVO1u6bkokG/",
+        "vsMedian": 6.422936449963477
+      },
+      {
+        "phrase": "cell",
+        "postUrl": "https://www.instagram.com/p/DU6sEbmjUvN/",
+        "vsMedian": 2.62527392257122
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DUBcc6SD04z/",
+        "vsMedian": 2.5989773557341125
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DV87zFqjbxC/",
+        "vsMedian": 0.8918918918918919
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DUtN9ZdishQ/",
+        "vsMedian": 0.6720233747260774
+      },
+      {
+        "phrase": "Science",
+        "postUrl": "https://www.instagram.com/p/DWrwWJvFHPA/",
+        "vsMedian": 0.5646457268078889
+      },
+      {
+        "phrase": "science",
+        "postUrl": "https://www.instagram.com/p/DXHjedcmNfT/",
+        "vsMedian": 0.20233747260774287
+      }
+    ],
+    "yearsCited": {
+      "2022": 1,
+      "2024": 1,
+      "2025": 4,
+      "2026": 2
+    }
+  }
+]

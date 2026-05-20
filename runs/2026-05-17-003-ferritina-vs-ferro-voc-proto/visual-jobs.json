@@ -1,0 +1,50 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Editorial premium magazine-style poster, 4:5 vertical composition. Deep matte background hex #000F08 with subtle paper-grain texture. Centered typographic layout. Main headline in three short lines, DM Sans Light weight 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0, large size: 'Ferro normal.' / 'Ferritina baixa.' / 'Fadiga real.' Below, a thin horizontal divider line 1px in gold hex #C89136, 80px wide. Below divider, smaller subhead in DM Sans Light 300, color hex #f8fffc at 70% opacity: 'O seu hemograma disse \"tudo certo\". A sua corrida de domingo discordou.' At the very top, micro footer label in uppercase DM Sans Regular, color hex #C89136 gold, letter-spacing +0.08em: 'ESTUDO DE BIOMARCADOR · 01'. RESERVE empty space at bottom-center, approximately 80px from edge, for logo placement (do not draw any logo). Generous negative space. Aesthetic references: Mito Health editorial, Aesop product poster, scientific journal cover. ABSOLUTELY NO blood drop icons, NO test tubes, NO red heatmaps, NO before/after comparisons, NO decorative charts, NO 3D elements, NO gradients, NO photography. Pure typography on flat dark background. Text must be sharp, perfectly legible, no spelling errors in Portuguese.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Cover/hook slide. Logo overlay added in post."
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Editorial 4:5 vertical poster, background hex #000F08 with subtle paper grain. Top headline DM Sans Light 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0: 'O exame padrão olha pra cá.' Below, two stacked data blocks separated by generous vertical whitespace and a thin 1px gold hex #C89136 divider between them. BLOCO A (top): label 'Ferro sérico' DM Sans Regular 400 white #f8fffc. Large number '70 µg/dL' DM Sans Light 300, color white #f8fffc. Small line 'Faixa laboratorial: 65–175 µg/dL' DM Sans Regular 400 white at 60% opacity. Italic line in Georgia italic, white at 60%: 'Status no laudo: normal.' BLOCO B (bottom, HIGHLIGHTED): label 'Ferritina' DM Sans Regular 400 in gold hex #C89136. Large number '22 ng/mL' DM Sans Light 300 in gold hex #C89136 (prominent). Small line 'Faixa laboratorial: 15–200 ng/mL' white at 60%. Italic 'Status no laudo: normal.' white at 60%. Bold line 'Faixa funcional para quem treina: ≥ 50 ng/mL.' DM Sans Regular 400 with '≥ 50 ng/mL' in gold #C89136. Closing line at bottom in Georgia italic, white at 70%: 'Dois números. Um deles foi pedido. O outro decide o seu pace.' RESERVE bottom-center space ~80px from edge for logo (do not draw logo). ABSOLUTELY NO blood drop icons, NO test tubes, NO heatmaps, NO charts, NO graphs, NO photography, NO 3D, NO gradients. Pure typography. Portuguese text must be spelled perfectly.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Data reveal — biggest text density slide. Gold accents on key numbers."
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Editorial 4:5 vertical poster, background hex #000F08 with subtle paper grain. Top headline DM Sans Light 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0: 'Por que ferritina importa mais.' Below, body text in DM Sans Regular 400, color #f8fffc, organized in 4 short paragraphs separated by generous whitespace, line-height 1.4: Paragraph 1: 'Ferro sérico mostra o que está circulando agora. É a foto do bolso, não da poupança.' Paragraph 2: 'Ferritina é a reserva. É de onde o corpo puxa quando você sobe ladeira, fecha série, atravessa o longo de domingo.' Paragraph 3: 'Quando a reserva esvazia, o ferro sérico segura a aparência por meses. O treino é o primeiro a sentir.' Paragraph 4: 'Frequência cardíaca sobe sem motivo. Recuperação alonga. O pace de sempre vira esforço novo.' Subtle 1px gold hex #C89136 horizontal divider between paragraphs 2 and 3. RESERVE bottom-center empty space ~80px from edge for logo (do not draw logo). ABSOLUTELY NO blood drop icons, NO test tubes, NO heatmaps, NO anatomical illustrations, NO photography, NO charts, NO icons of any kind, NO 3D. Pure typography on flat dark background. Portuguese spelling must be perfect.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Mechanism slide — pure prose, generous whitespace."
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Editorial 4:5 vertical poster, background hex #000F08 with subtle paper grain. Top headline DM Sans Light 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0: 'Lab range ≠ faixa funcional.' Below, two-column comparison layout with vertical 1px gold hex #C89136 divider between columns. LEFT COLUMN: small uppercase label 'LABORATÓRIO' DM Sans Regular 400 white at 60%, letter-spacing +0.08em. Below, 'Ferritina 15–200 ng/mL' DM Sans Light 300 white #f8fffc. Below, italic Georgia: 'Definido para detectar doença.' white at 70%. RIGHT COLUMN: small uppercase label 'LONGEVIFY' DM Sans Regular 400 in gold hex #C89136, letter-spacing +0.08em. Below, 'Ferritina ≥ 50 ng/mL' DM Sans Light 300 in gold #C89136. Below, italic Georgia: 'Definido para sustentar performance.' white at 70%. Below both columns, generous whitespace, then closing line centered in Georgia italic, color white #f8fffc at 80% opacity: 'A medicina padrão te avisa quando algo quebrou. A faixa funcional te avisa antes.' RESERVE bottom-center empty space ~80px from edge for logo (do not draw logo). ABSOLUTELY NO blood drop icons, NO test tubes, NO heatmaps, NO photography, NO 3D, NO decorative icons. Pure typography. Portuguese spelling perfect.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Functional range slide — Mito-style two-column comparison."
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Editorial 4:5 vertical poster, background hex #000F08 with subtle paper grain. Top headline DM Sans Light 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0: 'Como aparece no treino.' Below, body in DM Sans Regular 400, color #f8fffc, four short rhythmic sentences each on its own line block with generous whitespace and 1px gold hex #C89136 thin dividers between them: Line 1: 'Você corre os 10k de sempre 90 segundos mais lento. Sem explicação.' Line 2: 'A série de força que era confortável virou pesada na terça.' Line 3: 'O sono está bom. A nutrição está em dia. O HRV oscila — mas não chama atenção.' Final line, slightly larger, DM Sans Light 300 white: 'Não é preguiça. Não é idade. É um número que ninguém te pediu.' RESERVE bottom-center empty space ~80px from edge for logo (do not draw logo). ABSOLUTELY NO athlete photography, NO running shoes, NO sweat, NO heart rate icons, NO blood drops, NO test tubes, NO heatmaps, NO charts, NO 3D. Pure typography on dark editorial background. Portuguese spelling perfect.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "ICP context slide — rhythmic prose."
+  },
+  {
+    "slot": "slide-6",
+    "model": "nano_banana_2",
+    "prompt": "Editorial 4:5 vertical poster, background hex #000F08 with subtle paper grain. Centered minimal layout with maximum negative space. Main headline LARGE, DM Sans Light 300, color hex #f8fffc, letter-spacing -0.02em, line-height 1.0, three lines centered: 'O que mais' / 'o seu exame' / 'não te mostrou?' Below headline, generous whitespace, then smaller subhead in Georgia italic, color #f8fffc at 70% opacity, centered: '100+ biomarcadores. Faixa funcional. Interpretação on-demand.' At the very bottom, micro footer in uppercase DM Sans Regular, color hex #C89136 gold, letter-spacing +0.08em, centered: 'longevify · inteligência de saúde para quem treina'. RESERVE centered space above the footer micro, ~280px wide, for logo placement (do not draw any logo glyph, just leave the area clean). Layout: maximum whitespace, editorial, contemplative. ABSOLUTELY NO blood drops, NO test tubes, NO heatmaps, NO photography, NO icons, NO 3D, NO gradients, NO decorative elements. Pure typography. Portuguese spelling perfect.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "CTA slide — logo gets 28% width centered placement in post."
+  }
+]

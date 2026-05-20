@@ -1,0 +1,589 @@
+[
+  {
+    "carouselUrl": "https://www.instagram.com/p/DUOwskFkqaQ/",
+    "brand": "Superpower",
+    "slideIdx": 0,
+    "videoUrl": "https://scontent-atl3-1.cdninstagram.com/o1/v/t16/f2/m84/AQM1WQu9glsNlT9DFAGBM0wYJeN1KV0lA1XI7MKEhlbRGSaiafFNkmpcnCy7O83Ub-PbLOsCGfaI9YZssYC22FvOzpl8VAgpW8LmOJA.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi43MjAuYmFzZWxpbmUifQ&_nc_cat=106&vs=1957004675239848_3922047151&_nc_vs=HBksFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC81QzQwQzY1Q0U3REExQTk5RTQ4RUEyQjRERTU1ODhBRV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYUWlnX3hwdl9wbGFjZW1lbnRfcGVybWFuZW50X3YyLzMzNEJCRTc1ODNENkU1NTE5M0NGOTE5QTJFOEFBNzg3X2F1ZGlvX2Rhc2hpbml0Lm1wNBUCAsgBEgAoABgAGwAVAAAmvJaqx8iQwD8VAigCQzMsF0AkAAAAAAAAGBJkYXNoX2Jhc2VsaW5lXzFfdjERAHXuB2XEngEA&_nc_rid=47c79f8549&ccb=9-4&oh=00_Af58JdCRl0pOtbHy3c1vaD6g4BmGef-e_5JOkxVVCdZStg&oe=69FFD12F&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "9.0s",
+      "movement": "Elementos aparecem, título central é digitado, depois se estabelece em uma composição estática com uma sutil sobreposição de grão de filme.",
+      "scenes": [
+        {
+          "range": "0.0s-9.0s",
+          "description": "Um infográfico em estilo moodboard sobre como otimizar o ritmo circadiano, apresentado sobre um fundo branco. A composição é estática após a animação inicial. A cena consiste em sete imagens pequenas e seus textos explicativos correspondentes, dispostos em torno de um título central que aparece digitado.",
+          "subject": "Layout de colagem com imagens: (canto superior esquerdo) mulher olhando pela janela pela manhã; (canto superior direito) despertador analógico; (meio-direita) cápsulas de suplemento; (meio-centro-esquerda) textura iridescente; (canto inferior esquerdo) close-up de grama; (canto inferior direito) tronco de mulher em roupa de ginástica; (canto inferior esquerdo, abaixo da grama) textura de calor abstrata.",
+          "framing": "FS (Full Shot)",
+          "cameraMove": "Estático",
+          "palette": [
+            "#FFFFFF",
+            "#404040",
+            "#EAE9E4",
+            "#A3B59A",
+            "#D8CDBE",
+            "#1A1A1A"
+          ]
+        }
+      ],
+      "audio": {
+        "present": true,
+        "type": "sfx",
+        "description": "Gravação de campo ambiente de grilos e sons de insetos, criando uma atmosfera calma, natural e noturna."
+      },
+      "textOverlays": [
+        {
+          "time": "0.1s-9.0s",
+          "text": "20-30 MINUTES OF MORNING SUNLIGHT",
+          "position": "upper left, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "WAKE UP WITHIN THE SAME ONE-HOUR WINDOW EACH DAY",
+          "position": "upper right, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "TAKE SUPPLEMENTS TO SMOOTH CIRCADIAN TRANSITIONS",
+          "position": "middle right, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "REDUCE EVENING DOPAMINE",
+          "position": "middle left, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "GO OUTSIDE AT LEAST TWICE A DAY",
+          "position": "bottom left, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "PRIORITIZE MOVEMENT BEFORE SUNSET",
+          "position": "bottom right, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "0.1s-9.0s",
+          "text": "USE HEAT AT NIGHT, COLD IN THE MORNING",
+          "position": "bottom far left, under image",
+          "font": "Sans-serif condensado, maiúsculas",
+          "color": "#404040"
+        },
+        {
+          "time": "1.0s-9.0s",
+          "text": "Circadian\nMaxxing",
+          "position": "center",
+          "font": "Serif clássico (estilo Garamond), itálico, com espaçamento entre linhas apertado",
+          "color": "#262626"
+        }
+      ],
+      "lookAndFeel": "Estética de bem-estar limpa, minimalista e aspiracional. A composição parece um moodboard digital de alta qualidade ou uma página de revista. A iluminação geral é suave e natural, com as imagens tendo uma qualidade ligeiramente desbotada e sonhadora. O clima é calmo, informativo e focado na auto-otimização.",
+      "replicationPrompt": "Crie um slide de vídeo de 9 segundos com uma estética de bem-estar limpa e minimalista. O fundo é branco (#FFFFFF). Uma colagem de imagens e texto aparece, formando um layout de moodboard estático. No centro, o título 'Circadian Maxxing' é digitado em uma fonte serif clássica em itálico, cor #262626. As imagens, com uma aparência suave e ligeiramente desbotada, incluem uma mulher na janela, um despertador, suplementos, grama e uma pessoa se exercitando. Cada imagem é acompanhada por um texto curto em sans-serif maiúsculo, cor #404040. A paleta de cores é suave, incluindo verdes suaves (#A3B59A) e beges (#D8CDBE). O clima é calmo e aspiracional, com uma leve sobreposição de grão de filme para textura. O áudio deve ser uma gravação ambiente e contínua de grilos noturnos, reforçando um tema natural e tranquilo."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T20:58:34.770Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "9.0s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DNZMUnnNf4N/",
+    "brand": "Superpower",
+    "slideIdx": 0,
+    "videoUrl": "https://scontent-atl3-3.cdninstagram.com/o1/v/t16/f2/m84/AQOsfPrkNX8zcEKCSe8Crzao09btdUNjk5kJ7maTFUSRsWucUA4Oqab7zFoVN87yddntJ9UnJO_ettBJlgnA_f08aFUe4Xgnx_EhOqk.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi4zNjAuYmFzZWxpbmUifQ&_nc_cat=109&vs=1288075769704283_1504322312&_nc_vs=HBksFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC83NDQwNDY2RERFQjk4QUU2N0ZDNjg3RDMxMjVCMDhCNF92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HQUoyMWhfWHVNQVEwWllDQVBxYWhMd21LMVFqYmtZTEFBQUYVAgLIARIAKAAYABsAFQAAJrz96vjUobc%2FFQIoAkMzLBdAIAAAAAAAABgSZGFzaF9iYXNlbGluZV8zX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=33547cd185&ccb=9-4&oh=00_Af7TL_S0fONgzuNm7ftwPHtT4cqQvNz83p7QUR9QNKD1zw&oe=69FFD223&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "3.5s",
+      "movement": "static",
+      "scenes": [
+        {
+          "range": "0.0s-3.5s",
+          "description": "Plano macro extremo e estático de um líquido âmbar carbonatado. A superfície do líquido forma uma linha horizontal que divide o quadro. A parte inferior está cheia de pequenas bolhas densas. A iluminação vem de trás, criando um brilho quente e um alto contraste.",
+          "subject": "Líquido carbonatado",
+          "framing": "ECU",
+          "cameraMove": "static",
+          "palette": [
+            "#5a2a0a",
+            "#c7752b",
+            "#1a0a01",
+            "#f0f0f0"
+          ]
+        }
+      ],
+      "audio": {
+        "present": false,
+        "type": "none",
+        "description": "Não há áudio neste slide."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-3.5s",
+          "text": "Health",
+          "position": "center-left, just above the liquid's surface line",
+          "font": "Sans-serif limpo e moderno (similar a Helvetica Neue)",
+          "color": "#f0f0f0"
+        },
+        {
+          "time": "1.0s-3.5s",
+          "text": "is broken",
+          "position": "center, split below the liquid's surface line",
+          "font": "Sans-serif limpo e moderno (similar a Helvetica Neue)",
+          "color": "#f0f0f0"
+        }
+      ],
+      "lookAndFeel": "Abstrato, sombrio e clínico. O uso de um líquido que remete a refrigerante como metáfora visual para 'saúde quebrada' cria uma sensação inquietante e provocativa. A iluminação de fundo e a paleta escura estabelecem um tom sério e urgente, funcionando como uma forte declaração de problema no início do carrossel.",
+      "replicationPrompt": "Gerar um vídeo em plano macro extremo (ECU) e estático de um líquido âmbar escuro e carbonatado, semelhante a um refrigerante de cola, dentro de um recipiente de vidro. A superfície do líquido deve criar uma linha horizontal nítida que divide o quadro ao meio. Abaixo da superfície, mostre uma densa camada de pequenas bolhas efervescentes. Acima, algumas bolhas maiores. A cena é retroiluminada, criando um brilho quente e sinistro através do líquido, com alto contraste e sombras profundas. A paleta de cores deve ser dominada por âmbar escuro (#5a2a0a), realces alaranjados (#c7752b) e pretos (#1a0a01). O clima é sério, abstrato e um pouco inquietante. A câmera e o líquido permanecem completamente imóveis durante todo o clipe. O foco é nítido na superfície e nas bolhas."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T20:59:07.023Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "3.5s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DNZMUnnNf4N/",
+    "brand": "Superpower",
+    "slideIdx": 1,
+    "videoUrl": "https://scontent-atl3-3.cdninstagram.com/o1/v/t16/f2/m84/AQPRzghXDPQNq9DWGeD3T4B2WdOrIA67i5AQ7buine5B6kN2a0Xub_bI7GEy89pksZVkOqTe45VlW7Ot2tkrJAnxTNaCmFd8pTxidrc.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi4zNjAuYmFzZWxpbmUifQ&_nc_cat=108&vs=785307390636675_2624197712&_nc_vs=HBksFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC8wMTQ2QzQwMEJCQjczOURDNzA4OEVENTAyQ0IwOTU4Q192aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HRVREc1I5ZzdXeDdjOUFDQU5JUjBHYjdCODB6YmtZTEFBQUYVAgLIARIAKAAYABsAFQAAJryY2fvUobc%2FFQIoAkMzLBdAJBDlYEGJNxgSZGFzaF9iYXNlbGluZV8zX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=3354772817&ccb=9-4&oh=00_Af6dc467LjMQWn-W8hwhIjS4rkkjESyIfUCv5CT0jPSDcA&oe=69FFDC56&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "9.0s",
+      "movement": "subtle organic shimmer/distortion, slow particle drift",
+      "scenes": [
+        {
+          "range": "0.0s-9.0s",
+          "description": "Uma imagem abstrata e etérea de duas figuras humanas se abraçando, banhadas por uma luz quente e alaranjada. A imagem tem uma qualidade pictórica e de foco suave, com um efeito de distorção sutil, como uma onda de calor ou um reflexo na água. Partículas brilhantes e suaves, semelhantes a brasas, flutuam lentamente para cima. A câmera permanece estática durante todo o slide.",
+          "subject": "Figuras humanas abstratas e abraçadas",
+          "framing": "MS (Medium Shot)",
+          "cameraMove": "static",
+          "palette": [
+            "#521609",
+            "#C95D11",
+            "#F9A426",
+            "#FFFFFF",
+            "#1E1E1E"
+          ]
+        }
+      ],
+      "audio": {
+        "present": true,
+        "type": "music / sfx",
+        "description": "Um drone de sintetizador ambiente, baixo e ressonante, acompanhado por sons sutis e agudos de brilho/cintilação que criam uma atmosfera contemplativa, quase opressiva."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-9.0s",
+          "text": "superpower",
+          "position": "top-left",
+          "font": "Modern Sans-serif, bold",
+          "color": "#1E1E1E"
+        },
+        {
+          "time": "0.0s-9.0s",
+          "text": "The status quo",
+          "position": "center",
+          "font": "Modern Sans-serif, bold",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "0.5s-9.0s",
+          "text": "Reactive",
+          "position": "center-left, below title",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "1.0s-9.0s",
+          "text": "One-size-fits-all",
+          "position": "center-left, below previous",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "1.5s-9.0s",
+          "text": "Vague",
+          "position": "center-left, below previous",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "2.0s-9.0s",
+          "text": "Slow to respond",
+          "position": "center-left, below previous",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "2.5s-9.0s",
+          "text": "Incentive-driven",
+          "position": "center-left, below previous",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "3.0s-9.0s",
+          "text": "Disease is part of life",
+          "position": "center-left, below previous",
+          "font": "Modern Sans-serif",
+          "color": "#FFFFFF"
+        }
+      ],
+      "lookAndFeel": "O slide tem uma estética sombria, etérea e orgânica. O uso de uma paleta de cores quentes e incandescentes, combinado com a imagem abstrata e o movimento sutil, cria uma sensação de estagnação, calor e opressão. A intenção é definir visualmente o 'status quo' como um estado problemático, nebuloso e desconfortável, preparando o terreno para uma solução no próximo slide.",
+      "replicationPrompt": "Crie um slide de vídeo cinematográfico com um estilo abstrato e etéreo. O fundo é uma imagem pictórica e de foco suave de duas figuras humanas se abraçando, semelhante a uma imagem térmica ou de mapa de calor. A cena é dominada por uma paleta de cores quentes e incandescentes, incluindo vermelho profundo (#521609), laranja (#C95D11) e amarelo brilhante (#F9A426). A iluminação é difusa, criando um brilho nebuloso em toda a cena. Partículas suaves e brilhantes, como brasas, flutuam lentamente para cima. A câmera é completamente estática, mas a imagem de fundo tem uma distorção orgânica e sutil, como uma onda de calor. O clima é sombrio, estagnado e contemplativo. O áudio é um drone de sintetizador ambiente baixo, com sons cintilantes sutis e agudos."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T20:59:35.445Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "9.0s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DNZMUnnNf4N/",
+    "brand": "Superpower",
+    "slideIdx": 2,
+    "videoUrl": "https://scontent-atl3-2.cdninstagram.com/o1/v/t16/f2/m84/AQNpGLL4T90vgwpBUVVOB9dCVbyjx1uN7Trap6dqiRb_27dgz0BmMVENTrGNtUlXGzeZ54pKTqbXOqSEdPczzMX5AP6vn_HXiR4ElWo.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi4zNjAuYmFzZWxpbmUifQ&_nc_cat=101&vs=1341437417696535_1553576592&_nc_vs=HBksFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC84MTRBOTZEQkMwNkNFNEFGOUVFN0YwQTgxQjMyOEZBNV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HRTkwMWg5Zmxacm1ySGdFQU1MOUg0RjU2ek1kYmtZTEFBQUYVAgLIARIAKAAYABsAFQAAJryzx%2F7Uobc%2FFQIoAkMzLBdAJBDlYEGJNxgSZGFzaF9iYXNlbGluZV8zX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=335478c04f&ccb=9-4&oh=00_Af6OQRmWdvtgpk4y_oUrQoe2mEcGVJGFjZOFstRbLACOjw&oe=69FFD051&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "10.0s",
+      "movement": "subtle organic light refraction",
+      "scenes": [
+        {
+          "range": "0.0s-10.0s",
+          "description": "Um fundo escuro e abstrato com rastros de luz quentes e fluidos que parecem delinear a silhueta desfocada do torso e ombros de uma pessoa. O movimento da luz é lento e orgânico, como chamas ou auroras. Texto branco aparece em sobreposição na parte esquerda da tela.",
+          "subject": "Silhueta abstrata, rastros de luz, sobreposição de texto",
+          "framing": "MS",
+          "cameraMove": "static",
+          "palette": [
+            "#110B13",
+            "#FFB00E",
+            "#E9751D",
+            "#980A0A",
+            "#EAEAEA"
+          ]
+        }
+      ],
+      "audio": {
+        "present": false,
+        "type": "none",
+        "description": "O clipe é silencioso."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-10.0s",
+          "text": "superpower",
+          "position": "top-left",
+          "font": "modern sans-serif, lowercase",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "0.0s-10.0s",
+          "text": "The future",
+          "position": "left-center, large heading",
+          "font": "modern sans-serif, bold",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "0.7s-10.0s",
+          "text": "Proactive",
+          "position": "left-center, below heading",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "1.1s-10.0s",
+          "text": "Personalized",
+          "position": "left-center, below previous line",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "1.5s-10.0s",
+          "text": "Actionable",
+          "position": "left-center, below previous line",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "1.9s-10.0s",
+          "text": "Instant, always on",
+          "position": "left-center, below previous line",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "2.4s-10.0s",
+          "text": "Data-driven",
+          "position": "left-center, below previous line",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        },
+        {
+          "time": "2.9s-10.0s",
+          "text": "Vitality is the norm",
+          "position": "left-center, below previous line",
+          "font": "modern sans-serif",
+          "color": "#EAEAEA"
+        }
+      ],
+      "lookAndFeel": "O visual é sofisticado, moderno e energético. A combinação de um fundo escuro e misterioso com a luz quente e vibrante cria uma atmosfera de poder e transformação. A tipografia limpa e a animação minimalista reforçam uma sensação de clareza e confiança futurista. É um slide que comunica inovação e aspiração.",
+      "replicationPrompt": "Vertical video, medium shot, photorealistic abstract motion graphics. The scene is static. In the center, the dark silhouette of a person's torso is outlined by slow-moving, organic trails of fiery light. The lighting is dramatic and warm, creating a feeling of energy and vitality. The color palette is composed of a deep, dark background (#110B13), vibrant yellow-orange light (#FFB00E, #E9751D), and deep red shadows (#980A0A). On the left side of the screen, clean, modern sans-serif text in an off-white color (#EAEAEA) appears sequentially, line by line, defining the future. The overall mood is futuristic, powerful, and aspirational. The video should be a seamless loop."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T21:00:07.347Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "10.0s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DPKjO7MDKb9/",
+    "brand": "Superpower",
+    "slideIdx": 1,
+    "videoUrl": "https://scontent-den2-1.cdninstagram.com/o1/v/t16/f2/m367/AQNcniEgJoLKwsmN2SiT61Zjn3KuUSwkPc0I7qXp3v8Vkm3Jl63iLTCKzAE1-Wz_o1mSytLHEiVJSxkfXMMfR7Q4BmMD9Fc7fWAl670.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi43MjAuYmFzZWxpbmUifQ&_nc_cat=105&vs=1467874648349283_2380927803&_nc_vs=HBksFQIYQGlnX2VwaGVtZXJhbC85NzREMUVFRTlBQkY1OEExNDI0NzE1MjBCQUZCODI4Ql92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HSWVRT1NGS1JkQ2xhdkVEQUFSWUpNbzQ4c3NDYmtZTEFBQUYVAgLIARIAKAAYABsAFQAAJrzEivfN0Lk%2FFQIoAkMzLBdAMXN0vGp%2B%2BhgSZGFzaF9iYXNlbGluZV8xX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=6c1857a8da&ccb=9-4&oh=00_Af7SUGswUoPZS2PnUbmrrI9gX33C0l-Nv7nGxCAfKEQTow&oe=69FFBA57&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "17.0s",
+      "movement": "Câmera estática com movimento lento e morfo de luz cáustica e sombras pela cena.",
+      "scenes": [
+        {
+          "range": "0.0s-17.0s",
+          "description": "Uma cena estática vista de cima de um prato e um garfo sobre uma toalha de mesa de cor quente. A luz do sol poente, filtrada através de um copo fora do enquadramento, projeta sombras e cáusticos em movimento lento e ondulante sobre o prato, criando um efeito hipnótico e um loop contínuo.",
+          "subject": "Prato de jantar, garfo, toalha de mesa, sombras em movimento.",
+          "framing": "CU",
+          "cameraMove": "Static",
+          "palette": [
+            "#D99427",
+            "#FFFFFF",
+            "#6B3B0C",
+            "#D86071",
+            "#4E2A08"
+          ]
+        }
+      ],
+      "audio": {
+        "present": false,
+        "type": "none",
+        "description": "Sem áudio."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-17.0s",
+          "text": "The Goldilocks zone for eating is 11–12 hours.",
+          "position": "Center-left",
+          "font": "Bold sans-serif (e.g., Helvetica Neue Bold)",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "0.0s-17.0s",
+          "text": "A large U.S. study found the lowest mortality risk among people who ate within an 11–12 hour window. Eating in under 8 hours increased risk by 34%, while stretching meals across 15+ hours raised it by 25.¹",
+          "position": "Bottom-left",
+          "font": "Regular sans-serif (e.g., Helvetica Neue)",
+          "color": "#FFFFFF"
+        }
+      ],
+      "lookAndFeel": "O slide tem uma aparência quente, cinematográfica e sofisticada. A iluminação é a estrela, criando um ambiente calmo e contemplativo através do uso de luz natural da 'golden hour' e do movimento lento das sombras. O design é minimalista e focado na tipografia limpa, transmitindo informação de forma elegante e credível. A paleta de cores âmbar e dourada é convidativa e serena.",
+      "replicationPrompt": "Cinematic top-down close-up of a dinner setting. An off-white ceramic plate and a vintage silver fork rest on a textured linen tablecloth. The entire scene is bathed in a warm, low-key, golden hour glow, creating soft shadows. The key movement is slow, mesmerizing caustic light patterns, as if warm sunlight is passing through a glass of rosé wine just out of frame, drifting and morphing across the plate's surface. The movement should be subtle, hypnotic, and continuous for a looping effect. The mood is tranquil, sophisticated, and contemplative. Color palette: dominant warm amber (#D99427), deep shadow brown (#6B3B0C), and bright highlights, with hints of refracted magenta (#D86071). Camera is completely static."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T21:00:36.397Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "17.0s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DUG5TqdEgc5/",
+    "brand": "Superpower",
+    "slideIdx": 0,
+    "videoUrl": "https://scontent-lax7-1.cdninstagram.com/o1/v/t16/f2/m84/AQOmPspFdGl6rxgYqJjgfeWA5Hkgi-lVITgnG5mVLRDtiW94nRc6lUAyMzg51GYVVFK_AC6XttAN2eIKTKNtyhhmwaXwGl4r_I2i5aQ.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi43MjAuYmFzZWxpbmUifQ&_nc_cat=105&vs=896268159450295_2302507986&_nc_vs=HBkcFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC8zNDRBNzVCOTU3MzBDRTg3OTJDQjE2NEZGQ0VDMzhBM192aWRlb19kYXNoaW5pdC5tcDQVAALIARIAKAAYABsAFQAAJryG0t6U%2Br8%2FFQIoAkMzLBdAMkzMzMzMzRgSZGFzaF9iYXNlbGluZV8xX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=5e9516f076&ccb=9-4&oh=00_Af4d3lopVZLvmqMMCGNdsluj0YIYF1PwW5ahN7VABNrFyg&oe=69FFCF3E&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "4.0s (loop)",
+      "movement": "static",
+      "scenes": [
+        {
+          "range": "0.0s-4.0s",
+          "description": "Uma mulher jovem, parecendo exausta, esconde o rosto com o braço. Um overlay de 'System Warning' pisca em frente ao seu rosto, alternando entre uma pilha de painéis translúcidos e um único painel. Por volta de 0.3s, ela afasta o braço o suficiente para espreitar a câmara com um olho, antes de se esconder novamente. O movimento é subtil e cíclico.",
+          "subject": "Mulher jovem com cabelo ruivo-acastanhado e pele clara.",
+          "framing": "CU (Close-up)",
+          "cameraMove": "static",
+          "palette": [
+            "#DDC0B1",
+            "#8F5C3B",
+            "#EAE6E1",
+            "#FFFFFF"
+          ]
+        }
+      ],
+      "audio": {
+        "present": true,
+        "type": "sfx",
+        "description": "Um som subtil de 'glitch' digital e um zumbido de baixa frequência, quase inaudível, que acompanha a animação do overlay, para reforçar a metáfora de 'falha no sistema'."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-4.0s",
+          "text": "⚠️ SYSTEM WARNING\nALERT ID: B-017\nCORTISOL ELEVATED\nSLEEP DEBT ACCUMULATING\nDO NOT CONTINUE OPERATING",
+          "position": "Center-left",
+          "font": "Monospace, sans-serif, tipo 'Roboto Mono'",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "0.0s-4.0s",
+          "text": "SWIPE TO FIND OUT WHY YOUR SYSTEM IS FAILING",
+          "position": "Bottom-center",
+          "font": "Monospace, sans-serif, tipo 'Roboto Mono'",
+          "color": "#FFFFFF"
+        }
+      ],
+      "lookAndFeel": "O slide tem uma estética limpa, quase de ficção científica, mas aplicada a um contexto humano e vulnerável. A iluminação é suave e difusa, criando uma atmosfera íntima e melancólica. O contraste entre o overlay digital e a expressão de exaustão humana é o ponto central, criando uma metáfora visual poderosa para o burnout. A paleta de cores é desaturada e quente, focada em tons de pele e neutros.",
+      "replicationPrompt": "Cinematic 4K close-up estático de uma mulher jovem e exausta com cabelo ruivo (#8F5C3B) e pele clara (#DDC0B1). Ela esconde o rosto com o braço contra um fundo de estúdio esbranquiçado (#EAE6E1). A iluminação é suave e difusa. Ela espreita a câmara por um breve momento antes de se esconder novamente, num loop subtil. Sobreposto na imagem, um overlay de interface futurista, translúcido e com efeito de vidro fosco, pisca com um som de glitch digital. O overlay exibe um alerta de 'SYSTEM WARNING' em texto monospace branco (#FFFFFF). O ambiente é íntimo, melancólico e retrata o esgotamento. Adicionar um zumbido subtil de baixa frequência."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T21:01:09.979Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "4.0s (loop)"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DQXT2qoCY7I/",
+    "brand": "Superpower",
+    "slideIdx": 0,
+    "videoUrl": "https://scontent-bos5-1.cdninstagram.com/o1/v/t16/f2/m84/AQM84Mg0DSBuhyQ4cQLWEGjB9zpTHsXmDMtikGpuRXUr2XskLkqgvDWiF3A7i_ZFBSE7DG1Ku0uSsuFzWxMucV4kyO76BKJORSdMH9I.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi4zNjAuYmFzZWxpbmUifQ&_nc_cat=105&vs=675226952328527_762390025&_nc_vs=HBksFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC8wQzQyMzhCMEQzNzdEOTg5QkU0ODY1MzNFMTdBQTBCRV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HR0dqR2lLTGpKcUJtRThGQUNzRWNoUGZIaHdSYnNwVEFRQUYVAgLIARIAKAAYABsAFQAAJryA0vyajbs%2FFQIoAkMzLBdAH90vGp%2B%2BdxgSZGFzaF9iYXNlbGluZV8zX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=0596660af8&ccb=9-4&oh=00_Af4kmF0w_fqoZixw-RNpc34OCmu986NapJ6nxWoyJQRrrw&oe=69FFDB1C&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "2.0s",
+      "movement": "static",
+      "scenes": [
+        {
+          "range": "0.0s-1.0s",
+          "description": "Um fundo sólido laranja avermelhado preenche a tela. No centro, a palavra 'STOP' aparece em uma fonte sans-serif branca e em negrito.",
+          "subject": "Texto 'STOP'",
+          "framing": "N/A (Gráfico)",
+          "cameraMove": "static",
+          "palette": [
+            "#F2542D",
+            "#FFFFFF"
+          ]
+        },
+        {
+          "range": "1.0s-2.0s",
+          "description": "O texto 'WHAT YOU'RE' aparece instantaneamente abaixo de 'STOP', mantendo o mesmo estilo de fonte branca, em negrito e sans-serif, e o alinhamento central.",
+          "subject": "Texto 'STOP WHAT YOU'RE'",
+          "framing": "N/A (Gráfico)",
+          "cameraMove": "static",
+          "palette": [
+            "#F2542D",
+            "#FFFFFF"
+          ]
+        }
+      ],
+      "audio": {
+        "present": false,
+        "type": "none",
+        "description": "Não há áudio neste slide."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-2.0s",
+          "text": "STOP",
+          "position": "center",
+          "font": "Bold Sans-Serif (similar a Helvetica Neue Bold)",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "1.0s-2.0s",
+          "text": "WHAT YOU'RE",
+          "position": "center (abaixo de 'STOP')",
+          "font": "Bold Sans-Serif (similar a Helvetica Neue Bold)",
+          "color": "#FFFFFF"
+        }
+      ],
+      "lookAndFeel": "Minimalista, ousado e que chama a atenção. O uso de uma cor de fundo vibrante e de alto contraste com tipografia limpa e branca serve como um 'pattern interrupt' para parar o scroll do usuário. A animação é abrupta e direta, reforçando a urgência da mensagem. O estilo é moderno, limpo e gráfico, típico de marcas de consumo direto ao consumidor.",
+      "replicationPrompt": "Crie um vídeo de 2 segundos com um fundo estático e sólido na cor laranja avermelhada vibrante (#F2542D). A cena é uma animação de texto minimalista. Desde o início (0.0s), a palavra 'STOP' aparece centralizada, em uma fonte sans-serif branca (#FFFFFF) e em negrito. Exatamente em 1.0 segundo, o texto 'WHAT YOU'RE' aparece instantaneamente abaixo de 'STOP', com a mesma fonte, cor e alinhamento central. A câmera permanece completamente estática. A iluminação é plana e uniforme, como um gráfico digital. O clima é urgente, direto e limpo, projetado para capturar a atenção imediatamente. Não deve haver som."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T21:01:38.772Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "2.0s"
+  },
+  {
+    "carouselUrl": "https://www.instagram.com/p/DSdmBjQCfpx/",
+    "brand": "Superpower",
+    "slideIdx": 0,
+    "videoUrl": "https://scontent-phx1-1.cdninstagram.com/o1/v/t16/f2/m84/AQPFm-J65T3EoDHYoSU0hs0I5STJ0R1GDtAneyd8nMEkF_dhDf25Bv4jpzs6nIPwWQWSRGmllE_k8fvAJ6H98cE4lzNAgTinkG2AxMI.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2Fyb3VzZWxfaXRlbS5jMi4zNjAuYmFzZWxpbmUifQ&_nc_cat=107&vs=1232397785408405_2072946719&_nc_vs=HBkcFQIYTGlnX2JhY2tmaWxsX3RpbWVsaW5lX3ZvZC8zQzQwMzI1OTBBMTgyMTU1NkNENjAyNjI2M0Y2RTA4OV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAKAAYABsAFQAAJryAz8nW2r0%2FFQIoAkMzLBdAIAAAAAAAABgSZGFzaF9iYXNlbGluZV8zX3YxEQB17gdlxJ4BAA%3D%3D&_nc_rid=a0ac908fd5&ccb=9-4&oh=00_Af4upxCHVszcNUjNzVtVGgLG8snLlwgoNg6g_RIDSfMVxQ&oe=69FFE63C&_nc_sid=10d13b",
+    "analysis": {
+      "duration": "7.0s",
+      "movement": "Kinetic typography com transição de corte seco",
+      "scenes": [
+        {
+          "range": "0.0s-1.8s",
+          "description": "Uma tela de fundo vermelho-alaranjado sólido. Texto branco aparece sequencialmente no centro, criando um gancho visual forte.",
+          "subject": "O texto 'STOP WHAT YOU'RE'",
+          "framing": "MS (Medium Shot)",
+          "cameraMove": "Static",
+          "palette": [
+            "#F24E29",
+            "#FFFFFF"
+          ]
+        },
+        {
+          "range": "1.8s-7.0s",
+          "description": "Após um corte seco, a tela muda para um fundo branco-sujo. O texto principal aparece em vermelho-alaranjado, seguido por um subtítulo menor, estabelecendo o tema do carrossel.",
+          "subject": "O texto 'AND FIX YOUR WATER INTAKE' e um subtítulo informativo",
+          "framing": "MS (Medium Shot)",
+          "cameraMove": "Static",
+          "palette": [
+            "#F5F5F5",
+            "#F24E29"
+          ]
+        }
+      ],
+      "audio": {
+        "present": false,
+        "type": "none",
+        "description": "O clipe é silencioso, focando toda a atenção do espectador na mensagem textual."
+      },
+      "textOverlays": [
+        {
+          "time": "0.0s-1.8s",
+          "text": "STOP",
+          "position": "center-top",
+          "font": "Modern Sans-Serif, Bold, Uppercase",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "0.9s-1.8s",
+          "text": "WHAT\nYOU'RE",
+          "position": "center",
+          "font": "Modern Sans-Serif, Bold, Uppercase",
+          "color": "#FFFFFF"
+        },
+        {
+          "time": "1.8s-7.0s",
+          "text": "AND FIX\nYOUR\nWATER\nINTAKE",
+          "position": "center",
+          "font": "Modern Sans-Serif, Bold, Uppercase",
+          "color": "#F24E29"
+        },
+        {
+          "time": "3.0s-7.0s",
+          "text": "4 Hydration Mistakes You're Probably Making and What to Do Instead",
+          "position": "bottom-center",
+          "font": "Modern Sans-Serif, Regular",
+          "color": "#F24E29"
+        }
+      ],
+      "lookAndFeel": "Minimalista e direto. Utiliza tipografia cinética para criar um 'pattern interrupt' visual. A paleta de cores de alto contraste (vermelho-alaranjado vibrante e branco) reforça a urgência e a clareza da mensagem. O design é limpo, focado exclusivamente no texto para máxima legibilidade e impacto. A intenção é capturar a atenção imediatamente e estabelecer o tema do carrossel: um guia prático sobre hidratação.",
+      "replicationPrompt": "Crie um vídeo de tipografia cinética com 7 segundos de duração, estilo minimalista e de alto contraste, sem áudio. A câmera é estática. A primeira cena, de 0 a 1.8 segundos, tem um fundo sólido vermelho-alaranjado (#F24E29). No centro, texto branco (#FFFFFF) em fonte sans-serif moderna e em negrito aparece: primeiro 'STOP', depois 'WHAT YOU'RE' abaixo. Aos 1.8 segundos, um corte seco para a segunda cena. O fundo muda para um branco-sujo sólido (#F5F5F5). O texto central, agora na cor #F24E29, aparece: 'AND FIX YOUR WATER INTAKE'. Aos 3 segundos, um subtítulo menor na mesma cor e fonte (porém não em negrito) surge abaixo: '4 Hydration Mistakes You're Probably Making and What to Do Instead'. O clima é urgente, informativo e direto, projetado para interromper a rolagem e engajar o espectador."
+    },
+    "meta": {
+      "analyzedAt": "2026-05-08T21:01:58.923Z",
+      "model": "gemini-2.5-pro"
+    },
+    "durationFromAnalysis": "7.0s"
+  }
+]

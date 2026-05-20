@@ -1,0 +1,59 @@
+{
+  "$schema": "./protocol-schema.json",
+  "id": "p2-biomarcador-watch-list",
+  "name": "Biomarcador Watch List (carrossel)",
+  "description": "Lista editorial de 3-5 biomarcadores escondidos com faixa funcional Longevify vs faixa de laboratório.",
+  "pillar": 2,
+  "format": "carousel",
+  "slide_count": 7,
+  "performance_target": { "vsMedian_min": 1.2, "save_rate_min": 0.05 },
+  "structure": [
+    {
+      "slide": 1,
+      "role": "cover",
+      "elements": ["headline_editorial", "numeral_destaque", "subline_descritiva"],
+      "constraints": ["max_8_palavras_headline", "numeral_gold", "sem_logo"]
+    },
+    {
+      "slide": 2,
+      "role": "list",
+      "elements": ["3-5_biomarcadores_em_lista", "numeração_gold_01_02_03"],
+      "constraints": ["uma_linha_por_biomarcador", "italic_only_em_subline"]
+    },
+    {
+      "slide_range": "3-N",
+      "role": "biomarker_detail",
+      "elements": ["nome_biomarcador", "faixa_laboratorio", "faixa_funcional_longevify", "paragrafo_editorial_italic", "footer_micro"],
+      "constraints": ["1_biomarcador_por_slide", "max_25_palavras_paragrafo", "evidencia_atletica_baseline"]
+    },
+    {
+      "slide": "last",
+      "role": "cta",
+      "elements": ["call_to_save", "logo_longevify"],
+      "constraints": ["cta_implicito_nao_imperativo", "logo_centralizado_bottom"]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão técnica) + Aesop (restrição editorial)",
+    "forbidden": ["fear", "self-help", "promessa_cura", "corporativês", "buzzwords", "risco_oncologico_sem_evidencia"],
+    "italic_rule": "Georgia italic só pra blocos editoriais (1-2 palavras em destaque)"
+  },
+  "visual": {
+    "palette": { "bg": "#000F08", "text": "#f8fffc", "accent_gold": "#C89136", "greens": ["#2D7A5C", "#557D6D", "#91B69D"] },
+    "typography": { "primary": "DM Sans Light 300", "labels": "DM Sans Regular 400" },
+    "anti": ["pure_white", "red", "amber", "orange", "bullets", "medical_icons", "drop_shadows", "neon"]
+  },
+  "caption_template": "Hook poético (1 frase). Contexto editorial (2-3 frases). Lista dos biomarcadores citados. CTA implícito ('Salva pra pedir no próximo exame'). Sem hashtags decorativos.",
+  "anti_patterns": [
+    "lista_generica_sem_dado",
+    "claim_clinico_sem_evidencia",
+    "promessa_implicita_diagnostico",
+    "5_dicas_para_X_format"
+  ],
+  "examples_canonical": [
+    "runs/2026-05-13-001-biomarker-watch-list/draft-package.md (referência)"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 5.5,
+  "estimated_time_min": 12
+}

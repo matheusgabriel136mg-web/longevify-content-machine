@@ -1,0 +1,37 @@
+{
+  "feedback": [
+    {
+      "id": "fb-2026-05-18-ahidvx",
+      "target_type": "post",
+      "target_id": "abc123",
+      "target_label": "Bryan Johnson · cycling at 5am post",
+      "author": "matheus",
+      "text": "esse formato simples + numero gigante é replicavel pra DADO",
+      "tags": [
+        "copy",
+        "hook",
+        "format"
+      ],
+      "severity": "praise",
+      "created_at": "2026-05-18T19:33:57.522Z",
+      "resolved": true,
+      "resolved_at": "2026-05-18T19:34:21.695Z",
+      "resolved_by": "matheus"
+    },
+    {
+      "id": "fb-2026-05-18-rd9jjm",
+      "target_type": "general",
+      "target_id": "",
+      "author": "valle",
+      "text": "Os botões de bookmark e dismiss tao escondidos no hover, melhor sempre visiveis",
+      "tags": [
+        "visual",
+        "ux"
+      ],
+      "severity": "must-fix",
+      "created_at": "2026-05-18T19:33:56.862Z",
+      "resolved": false
+    }
+  ],
+  "updated_at": "2026-05-18T19:34:21.695Z"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "p3-falha-checkup-reel",
+  "name": "Falha do Check-up (reel 15-20s)",
+  "description": "Punch curto: contradição entre 'tudo dentro da faixa' e sintoma real. Hook nos primeiros 2s.",
+  "pillar": 3,
+  "format": "reel",
+  "duration_sec": 18,
+  "performance_target": { "vsMedian_min": 1.5, "watch_through_min": 0.5 },
+  "structure": [
+    { "second_range": "0-2", "role": "hook", "elements": ["frase_provocativa", "frame_que_para_scroll"] },
+    { "second_range": "2-8", "role": "tensao", "elements": ["narrativa_caso_real", "sintoma_que_persiste"] },
+    { "second_range": "8-14", "role": "reveal", "elements": ["biomarcador_que_ninguem_pediu", "faixa_funcional"] },
+    { "second_range": "14-18", "role": "cta", "elements": ["pergunta_que_invita_DM", "logo_final_frame"] }
+  ],
+  "voice": { "tone": "Mito + Aesop", "forbidden": ["fear", "alarmismo", "atacar_medico_nominalmente"] },
+  "visual": { "palette": { "bg": "#000F08", "text": "#f8fffc", "accent_gold": "#C89136" } },
+  "audio": { "type": "ambient_minimalista", "vocal": "voice_over_em_pt-BR_calmo_se_aplicavel", "music_rights": "creative_commons_OU_biblioteca_meta" },
+  "caption_template": "Hook editorial 1 frase. Reflexão 2 frases. CTA implícito.",
+  "anti_patterns": ["jumpcut_excessivo", "fonts_genericos", "fear_de_morrer", "criticar_medico_individual"],
+  "fact_check_required": true,
+  "estimated_cost_usd": 6
+}

@@ -1,0 +1,111 @@
+{
+  "id": "timeline-progression",
+  "name": "Timeline Progression (Rerise-inspired, carrossel 5)",
+  "description": "Mostra evolução de biomarcador/protocolo ao longo do tempo. Modelado em @rerisehealth Week-by-week format. Adaptado pra Longevify: Dia 1 → Dia 30 → Dia 90 do painel.",
+  "pillar": 2,
+  "format": "carousel",
+  "slide_count": 5,
+  "performance_target": { "vsMedian_min": 1.5, "save_rate_min": 0.08 },
+  "structure": [
+    {
+      "slide": 1,
+      "role": "cover_baseline",
+      "elements": ["headline_editorial_promessa_de_transformacao", "biomarcador_destaque", "data_point_inicial"],
+      "constraints": [
+        "headline_max_8_palavras",
+        "número_baseline_grande_em_gold",
+        "label_pequeno_em_off_white_60_opacity"
+      ],
+      "examples_rerise": ["Week 6: Energy returns / Day 1: ApoB 142"]
+    },
+    {
+      "slide": 2,
+      "role": "milestone_1",
+      "elements": ["timeline_marker_(Dia_30)", "biomarcador_em_progressao", "frase_curta_descrevendo_mudanca"],
+      "constraints": [
+        "comparison_lado_a_lado_baseline_vs_atual",
+        "delta_em_gold_(-15% etc)",
+        "frase_max_20_palavras"
+      ]
+    },
+    {
+      "slide": 3,
+      "role": "milestone_2",
+      "elements": ["timeline_marker_(Dia_60)", "biomarcador_continuando", "contexto_fisiologico_breve"],
+      "constraints": ["mesma_diagramação_slide_2", "italic_em_palavra_pivô"]
+    },
+    {
+      "slide": 4,
+      "role": "milestone_3_outcome",
+      "elements": ["timeline_marker_(Dia_90)", "biomarcador_em_faixa_funcional", "frase_resultado_concreto"],
+      "constraints": ["destaque_visual_no_atingimento_faixa_funcional", "sem_promessa_implicita_de_cura"]
+    },
+    {
+      "slide": 5,
+      "role": "cta_protocolo",
+      "elements": ["resumo_3_passos_que_geraram_evolucao", "convite_painel", "logo_longevify"],
+      "constraints": [
+        "max_3_bullets_(numerados_gold)",
+        "cta_implícito_('seu painel mostra isso')",
+        "logo_centralizado_bottom"
+      ]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão técnica) + Aesop (restrição editorial) + Rerise (transparência numérica)",
+    "forbidden": ["promessa_de_cura", "fear", "transformação_milagrosa", "30_dias_você_não_será_o_mesmo", "se_funcionou_pra_X_funciona_pra_você"],
+    "transparency_rule": "Sempre cita NÚMEROS REAIS (não 'alta', 'baixa' — usa '142 mg/dL', '< 70 mg/dL'). Cita estudo ou guideline se aplicável.",
+    "italic_rule": "Italic em 1 palavra-pivô por slide (a palavra que muda)"
+  },
+  "visual": {
+    "palette": {
+      "bg": "#000F08",
+      "text": "#f8fffc",
+      "accent_gold": "#C89136",
+      "baseline_color": "#557D6D",
+      "current_color": "#C89136",
+      "functional_range_color": "#2D7A5C"
+    },
+    "typography": {
+      "headline": "DM Sans Light 300, kerning -0.02em, off-white",
+      "baseline_number": "DM Sans Light 300 mas TAMANHO display (96-128px), gold ou off-white",
+      "delta_indicator": "DM Sans Regular 400, gold, com seta unicode ↓ ou ↑",
+      "label_micro": "DM Sans Regular 400, off-white 50% opacity, uppercase, +0.08em letter-spacing"
+    },
+    "layout_hints": [
+      "timeline_horizontal_no_topo_dos_slides_2-4_(linha_fina_gold_com_marcadores)",
+      "biomarcador_lado_esquerdo_baseline_vs_lado_direito_atual",
+      "delta_em_gold_centralizado_entre_os_dois",
+      "fade_visual_progressivo_entre_slides_(emerald_mais_intenso_a_cada_milestone)"
+    ],
+    "anti": [
+      "barras_de_progresso_decorativas",
+      "ícones_de_check_verde_brilhante",
+      "fotos_de_pessoa_feliz",
+      "antes_e_depois_genérico",
+      "drop_shadows",
+      "neon",
+      "pure_white"
+    ]
+  },
+  "caption_template": "Hook editorial 1 frase descrevendo o ponto de partida. Contexto 2-3 frases sobre o protocolo aplicado (ex: 'ajuste de magnésio, walking pós-refeição, ômega 3'). Outcome em 1 frase com número exato. CTA implícito: 'Seu painel Longevify mostra isso semana a semana.'",
+  "anti_patterns": [
+    "antes_e_depois_de_pessoa_(rosto)",
+    "promessa_implicita_que_VAI_funcionar_para_qualquer_um",
+    "timeline_genérica_sem_biomarcador_quantificado",
+    "5_passos_para_X_format"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 4.5,
+  "estimated_time_min": 10,
+  "reference_posts": [
+    "@rerisehealth Week 6/14/52 progression",
+    "@rerisehealth science page numbered framework"
+  ],
+  "ideal_use_cases": [
+    "ApoB 142 → 78 em 90 dias com walking pós-refeição + ômega",
+    "Ferritina 280 → 60 em 60 dias com flebotomia + chá verde",
+    "Insulina 18 → 4 em 90 dias com restricted feeding window",
+    "hs-CRP 4.2 → 0.8 em 30 dias com magnésio + sono"
+  ]
+}

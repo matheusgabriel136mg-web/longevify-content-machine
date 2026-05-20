@@ -1,0 +1,48 @@
+name: Competitor Scan
+
+on:
+  schedule:
+    # Toda segunda-feira 10:00 UTC = 07:00 BRT
+    - cron: "0 10 * * 1"
+  workflow_dispatch: # permite trigger manual pela UI do GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci || npm install
+
+      - name: Run competitor-scan
+        env:
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node --import tsx/esm scripts/competitor-scan.ts
+
+      - name: Commit new scan
+        run: |
+          git config user.name "competitor-scan-bot"
+          git config user.email "bot@longevify.com.br"
+          git add runs/
+          if git diff --cached --quiet; then
+            echo "Nenhum scan novo (provavelmente erro ou semana vazia)"
+            exit 0
+          fi
+          DATE=$(date -u +"%Y-%m-%d")
+          git commit -m "competitor-scan: $DATE weekly run"
+          git push

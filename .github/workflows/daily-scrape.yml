@@ -1,0 +1,43 @@
+name: Daily Competitor Scrape
+
+on:
+  schedule:
+    # Todo dia 09:00 UTC = 06:00 BRT
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci || npm install
+
+      - name: Run analyze-instagrams
+        env:
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: node --import tsx/esm scripts/analyze-instagrams.ts
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "daily-scrape-bot"
+          git config user.email "bot@longevify.com.br"
+          git add output/analysis-*
+          if git diff --cached --quiet; then
+            echo "Nada novo"
+            exit 0
+          fi
+          DATE=$(date -u +"%Y-%m-%d")
+          git commit -m "daily-scrape: $DATE snapshot"
+          git push

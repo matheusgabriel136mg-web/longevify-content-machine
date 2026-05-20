@@ -1,0 +1,1908 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Longevify · Content Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0F2622;
+      --bg-deeper: #0a1c19;
+      --panel: #1C3F3A;
+      --panel-hover: #244E47;
+      --border: #2E5650;
+      --border-strong: #3F6862;
+      --text: #f8fffc;
+      --text-soft: #c9ddd4;
+      --muted: #8FB1A4;
+      --gold: #C89136;
+      --gold-soft: #E0B878;
+      --emerald: #2D7A5C;
+      --emerald-bright: #3D9D77;
+      --teal: #557D6D;
+      --sage: #91B69D;
+      --danger: #f56262;
+      --warn: #f5a623;
+      --success: #4ade80;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.18);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.22);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.28);
+      --radius: 10px;
+      --radius-sm: 6px;
+      --transition: 180ms cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+    * { box-sizing: border-box; }
+    html, body { background: var(--bg); }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+      font-feature-settings: 'ss01', 'ss02', 'cv01';
+      letter-spacing: -0.005em;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deeper); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; border: 2px solid var(--bg-deeper); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    header {
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 38, 34, 0.85);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand-logo {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+    }
+    .brand-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .brand-text span {
+      color: var(--muted);
+      font-weight: 300;
+      margin-left: 6px;
+    }
+    .header-right {
+      display: flex; align-items: center; gap: 24px;
+    }
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .live-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .kbd-hint {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .kbd { padding: 2px 6px; border-radius: 3px; background: var(--bg-deeper); border: 1px solid var(--border); font-family: ui-monospace, monospace; font-size: 10px; }
+
+    /* ─── KPI BAR ─────────────────────────────────────── */
+    .kpi-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .kpi {
+      background: var(--bg);
+      padding: 14px 32px;
+      display: flex; flex-direction: column;
+      gap: 4px;
+    }
+    .kpi-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .kpi-value {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .kpi-value .accent { color: var(--gold); }
+    .kpi-value .small { font-size: 13px; color: var(--muted); margin-left: 4px; font-weight: 400; }
+
+    /* ─── TABS ─────────────────────────────────────── */
+    .tabs {
+      display: flex; gap: 0;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .tab {
+      padding: 14px 18px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tab:hover { color: var(--text-soft); }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--gold);
+    }
+    .tab .count {
+      font-size: 10px;
+      background: var(--border);
+      padding: 2px 8px;
+      border-radius: 10px;
+      color: var(--text-soft);
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+    .tab.active .count { background: var(--gold); color: var(--bg-deeper); }
+
+    /* ─── MAIN ─────────────────────────────────────── */
+    main {
+      padding: 24px 32px 80px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    /* ─── FILTER BAR (Inspire) ───────────────────────── */
+    .filter-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 0;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      flex: 1; min-width: 280px;
+      display: flex; align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .search-box:focus-within {
+      border-color: var(--gold);
+      background: var(--panel-hover);
+    }
+    .search-box input {
+      background: none; border: none; outline: none;
+      color: var(--text); font-family: inherit; font-size: 13px;
+      width: 100%;
+    }
+    .search-box input::placeholder { color: var(--muted); }
+    .search-box svg { color: var(--muted); flex-shrink: 0; }
+
+    .filter-chip {
+      padding: 7px 14px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      transition: var(--transition);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .filter-chip:hover {
+      background: var(--panel-hover);
+      border-color: var(--border-strong);
+    }
+    .filter-chip.active {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg-deeper);
+    }
+    .filter-chip .badge-count {
+      margin-left: 6px;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .meta-line {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .meta-line .dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; }
+
+    /* ─── GRID + CARD ─────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-width: 0;
+      max-width: 100%;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-strong);
+    }
+    .card.focused {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px rgba(200, 145, 54, 0.25), var(--shadow-md);
+    }
+    .card.removing {
+      opacity: 0;
+      transform: scale(0.92) translateY(8px);
+      transition: opacity 0.28s, transform 0.28s;
+      pointer-events: none;
+    }
+    .card.entering {
+      animation: cardIn 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card .card-actions-overlay {
+      position: absolute;
+      top: 10px; right: 10px;
+      display: flex; gap: 6px;
+      z-index: 10;
+    }
+    .card .icon-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; line-height: 1;
+      transition: var(--transition);
+      padding: 0;
+      opacity: 0.85;
+    }
+    .card:hover .icon-btn, .card.focused .icon-btn { opacity: 1; }
+    .card .icon-btn:hover { transform: scale(1.1); background: rgba(0,0,0,0.85); }
+    .card .icon-btn.dismiss:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .card .icon-btn.bookmark:hover { background: var(--gold); color: var(--bg-deeper); border-color: var(--gold); }
+    .card .icon-btn.bookmark.active {
+      background: var(--gold); color: var(--bg-deeper);
+      border-color: var(--gold);
+      opacity: 1;
+    }
+
+    .card .thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--bg-deeper);
+      overflow: hidden;
+      position: relative;
+    }
+    .card .thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .card:hover .thumb img { transform: scale(1.03); }
+    .card .thumb .fallback {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--bg-deeper) 0%, var(--panel) 50%, var(--bg) 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 24px; text-align: center;
+    }
+    .card .thumb .fallback .initial { font-size: 52px; color: var(--gold); font-weight: 300; line-height: 1; margin-bottom: 12px; }
+    .card .thumb .fallback .brand-name { font-size: 10px; color: var(--sage); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 16px; font-weight: 500; }
+    .card .thumb .fallback .cap-snippet { font-size: 12px; color: var(--text-soft); line-height: 1.5; max-width: 90%; font-style: italic; opacity: .9; }
+
+    .card .body {
+      padding: 14px 16px;
+      display: flex; flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .badges-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.viral {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+      color: var(--bg-deeper);
+      box-shadow: 0 0 10px rgba(200, 145, 54, 0.3);
+    }
+    .badge.draft { background: rgba(245, 166, 35, 0.2); color: var(--warn); border: 1px solid rgba(245, 166, 35, 0.4); }
+    .badge.verified { background: rgba(45, 122, 92, 0.25); color: var(--success); border: 1px solid rgba(74, 222, 128, 0.4); }
+    .badge.sp { background: rgba(255, 77, 77, 0.12); color: #ff9999; border: 1px solid rgba(255, 77, 77, 0.3); }
+    .badge.mito { background: rgba(77, 159, 255, 0.12); color: #88bfff; border: 1px solid rgba(77, 159, 255, 0.3); }
+    .badge.function { background: rgba(200, 145, 54, 0.12); color: var(--gold-soft); border: 1px solid rgba(200, 145, 54, 0.3); }
+    .badge.idea {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+      color: var(--bg-deeper); font-weight: 600;
+      box-shadow: 0 0 12px rgba(200, 145, 54, 0.35);
+    }
+    .badge.tiktok {
+      background: linear-gradient(135deg, rgba(0, 242, 234, 0.18) 0%, rgba(255, 0, 80, 0.18) 100%);
+      color: #f8fffc;
+      border: 1px solid rgba(0, 242, 234, 0.45);
+      font-weight: 600;
+    }
+    .badge.severity-must-fix { background: rgba(231, 76, 60, 0.18); color: #ff9b8b; border: 1px solid rgba(231,76,60,0.4); }
+    .badge.severity-nit { background: rgba(245, 166, 35, 0.18); color: #f5c87e; border: 1px solid rgba(245,166,35,0.4); }
+    .badge.severity-praise { background: rgba(45, 122, 92, 0.22); color: #91e0b8; border: 1px solid rgba(74,222,128,0.4); }
+    .badge.tag { background: rgba(255,255,255,0.06); color: var(--text-soft); border: 1px solid rgba(255,255,255,0.12); font-weight:400; }
+    .fbtag { font-size: 11px; padding: 4px 10px; }
+    .fbtag.active { background: var(--gold) !important; color: var(--bg-deeper) !important; border-color: var(--gold) !important; font-weight: 600; }
+    .feedback-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s, opacity 0.2s;
+    }
+    .feedback-item:hover { border-color: rgba(200,145,54,0.3); }
+    .feedback-item.resolved { opacity: 0.5; }
+    .feedback-item .fb-head { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; font-size: 11px; }
+    .feedback-item .fb-target {
+      font-size: 12px; color: var(--muted);
+      background: rgba(255,255,255,0.04); border-radius: 6px;
+      padding: 6px 10px; margin-bottom: 10px;
+      border-left: 2px solid var(--gold);
+    }
+    .feedback-item .fb-text { font-size: 14px; line-height: 1.55; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+    .feedback-item .fb-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .feedback-item .fb-meta-date { font-size: 11px; color: var(--muted); margin-left: auto; }
+    .fb-inline-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-soft); font-size: 12px; padding: 4px 10px;
+      border-radius: 6px; cursor: pointer; transition: all 0.15s;
+    }
+    .fb-inline-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .card .card-actions-overlay .icon-btn.feedback {
+      color: rgba(200,145,54,0.7);
+    }
+    .card .card-actions-overlay .icon-btn.feedback:hover {
+      color: var(--gold); background: rgba(200,145,54,0.15);
+    }
+    .card.idea-card {
+      background: linear-gradient(180deg, var(--panel-hover) 0%, var(--panel) 100%);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(200, 145, 54, 0.2);
+    }
+    .card.idea-card .thumb {
+      background: linear-gradient(135deg, var(--bg-deeper) 0%, var(--panel-hover) 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; text-align: center;
+    }
+    .card.idea-card .thumb .idea-content {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 12px;
+    }
+    .card.idea-card .thumb .idea-icon { font-size: 48px; line-height: 1; }
+    .card.idea-card .thumb .idea-title {
+      font-size: 18px; line-height: 1.3;
+      font-weight: 400; color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    .card.idea-card .thumb .idea-bio {
+      font-size: 10px;
+      color: var(--gold);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.01em;
+    }
+    .hook { font-size: 14px; font-weight: 400; line-height: 1.4; color: var(--text); }
+    .caption-preview {
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.08);
+    }
+    button.btn {
+      flex: 1 1 0;
+      padding: 0 12px;
+      height: 34px;
+      line-height: 34px;
+      background: var(--emerald);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    button.btn:hover { background: var(--emerald-bright); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    button.btn:active { transform: translateY(0); }
+    button.btn.secondary { background: var(--teal); }
+    button.btn.secondary:hover { background: #6A9080; }
+    button.btn.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+    button.btn.danger:hover { background: var(--danger); color: #fff; }
+    button.btn.gold { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%); color: var(--bg-deeper); font-weight: 600; }
+    button.btn.gold:hover { box-shadow: 0 4px 12px rgba(200, 145, 54, 0.35); }
+    button.btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+    /* Review slides preview */
+    .slides-row { display: flex; gap: 6px; overflow-x: auto; padding: 12px 14px 0; }
+    .slides-row::-webkit-scrollbar { height: 4px; }
+    .slides-row img {
+      width: 80px; height: 100px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      flex-shrink: 0; cursor: pointer;
+      transition: var(--transition);
+    }
+    .slides-row img:hover { border-color: var(--gold); transform: scale(1.04); }
+
+    /* Ops cards */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0.6;
+    }
+    .stat .label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+    .stat .value { font-size: 28px; font-weight: 300; color: var(--gold); margin-top: 6px; letter-spacing: -0.02em; }
+
+    /* Active jobs */
+    .job {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .job-id { color: var(--gold); font-family: ui-monospace, monospace; font-size: 11px; }
+    .job-phase { color: var(--muted); margin-left: 8px; }
+    .job-log { color: #6a8c80; font-family: ui-monospace, monospace; font-size: 11px; margin-top: 6px; white-space: pre-wrap; max-height: 100px; overflow-y: auto; background: var(--bg-deeper); padding: 8px; border-radius: 4px; }
+
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 80px 20px;
+      font-size: 14px;
+      font-weight: 300;
+    }
+    .empty .icon { font-size: 48px; opacity: 0.4; margin-bottom: 16px; }
+    .empty .title { color: var(--text-soft); font-size: 16px; font-weight: 400; margin-bottom: 6px; }
+    .empty .hint { color: var(--muted); font-size: 12px; }
+
+    /* Skeleton */
+    .skeleton-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+    .skeleton-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .skeleton-thumb {
+      width: 100%; aspect-ratio: 1/1;
+      background: linear-gradient(110deg, var(--panel) 30%, var(--panel-hover) 50%, var(--panel) 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+    }
+    .skeleton-line {
+      height: 12px; margin: 12px 16px;
+      background: linear-gradient(110deg, var(--bg-deeper) 30%, var(--panel-hover) 50%, var(--bg-deeper) 70%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite linear;
+      border-radius: 3px;
+    }
+    .skeleton-line.short { width: 40%; }
+    @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 100;
+      cursor: pointer;
+    }
+    .lightbox.open { display: flex; animation: lightboxIn 0.2s ease-out; }
+    @keyframes lightboxIn { from { opacity: 0; } to { opacity: 1; } }
+    .lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 4px; box-shadow: var(--shadow-lg); }
+
+    /* ─── CRONOGRAMA ─────────────────────────────────── */
+    .cron-header { margin-bottom: 24px; }
+    .cron-week-nav {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .cron-week-label {
+      font-size: 18px; font-weight: 400;
+      color: var(--text); letter-spacing: -0.01em;
+      flex: 1; min-width: 0;
+    }
+    .cron-week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 980px) { .cron-week-grid { grid-template-columns: repeat(2, 1fr); } }
+    .cron-day {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column;
+      min-height: 260px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .cron-day:hover { border-color: var(--border-strong); }
+    .cron-day.today {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+    .cron-day.past { opacity: 0.55; }
+    .cron-day.no-feed { background: var(--bg-deeper); }
+    .cron-day-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: baseline; justify-content: space-between;
+    }
+    .cron-day-name {
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .cron-day.today .cron-day-name { color: var(--gold); }
+    .cron-day-date {
+      font-size: 13px; color: var(--text-soft);
+      font-weight: 400;
+    }
+    .cron-slot {
+      padding: 8px 14px;
+      font-size: 11px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.02em;
+    }
+    .cron-slot .time { color: var(--gold); font-weight: 500; margin-right: 6px; }
+    .cron-slot .format { color: var(--text-soft); }
+    .cron-day-items {
+      padding: 10px;
+      display: flex; flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 360px;
+    }
+    .cron-item {
+      background: var(--bg-deeper);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .cron-item:hover { border-color: var(--border-strong); background: var(--bg); }
+    .cron-item.status-queued { border-left: 2px solid var(--warn); }
+    .cron-item.status-verified { border-left: 2px solid var(--success); }
+    .cron-item.status-published { border-left: 2px solid var(--gold); opacity: 0.6; }
+    .cron-item.status-skipped { border-left: 2px solid var(--muted); opacity: 0.4; }
+    .cron-item-brand { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; font-weight: 500; }
+    .cron-item-caption { color: var(--text-soft); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .cron-item-status { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 5px; }
+    .cron-item .remove-x {
+      position: absolute; top: 4px; right: 4px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(0,0,0,0.4); color: var(--text-soft);
+      border: none; cursor: pointer;
+      font-size: 11px; line-height: 18px; text-align: center;
+      padding: 0; opacity: 0;
+      transition: var(--transition);
+    }
+    .cron-item:hover .remove-x { opacity: 1; }
+    .cron-item .remove-x:hover { background: var(--danger); color: #fff; }
+    .cron-day-empty {
+      color: var(--muted);
+      font-size: 11px;
+      font-style: italic;
+      padding: 12px;
+      text-align: center;
+      opacity: 0.6;
+    }
+
+    /* ─── MODAL ─────────────────────────────────────── */
+    .modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center; justify-content: center;
+      z-index: 150;
+      animation: lightboxIn 0.2s ease-out;
+    }
+    .modal.open { display: flex; }
+    .modal-content {
+      background: var(--panel);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      animation: modalIn 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal h2 {
+      margin: 0 0 6px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: -0.01em;
+    }
+    .modal-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    .modal-source {
+      background: var(--bg-deeper);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+    .modal-source .source-brand { color: var(--gold); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .form-group select, .form-group input, .form-group textarea {
+      width: 100%;
+      background: var(--bg-deeper);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+    .form-group select:focus, .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--bg);
+    }
+    .form-group textarea { resize: vertical; min-height: 60px; font-family: inherit; }
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+      justify-content: flex-end;
+    }
+    .modal-actions .btn { flex: 0 0 auto; padding: 0 18px; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--panel);
+      border-left: 3px solid var(--gold);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      max-width: 380px;
+      box-shadow: var(--shadow-lg);
+      animation: toastIn 0.3s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+      z-index: 200;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    @keyframes toastIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .toast.leaving { animation: toastOut 0.25s ease-in forwards; }
+    @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo">
+      <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 20 Q 12 4, 16 16 T 28 12"/>
+        <circle cx="16" cy="16" r="2" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="brand-text">Longevify <span>· Content</span></div>
+  </div>
+  <div class="header-right">
+    <div class="live-label"><span class="live-dot"></span> Live · auto 15s</div>
+    <div class="kbd-hint"><span class="kbd">/</span> busca · <span class="kbd">J/K</span> nav · <span class="kbd">X</span> dismiss · <span class="kbd">R</span> reproduzir</div>
+  </div>
+</header>
+
+<div class="kpi-bar">
+  <div class="kpi">
+    <div class="kpi-label">Posts hoje</div>
+    <div class="kpi-value" id="kpiPostsToday">—</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Custo · mês</div>
+    <div class="kpi-value" id="kpiCostMonth">—</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Fila de revisão</div>
+    <div class="kpi-value" id="kpiReviewQueue">—</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Snapshot competidores</div>
+    <div class="kpi-value" id="kpiSnapshot">—</div>
+  </div>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="inspire">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+    Inspire
+    <span class="count" id="tabCountInspire">—</span>
+  </button>
+  <button class="tab" data-tab="review">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Review
+    <span class="count" id="tabCountReview">—</span>
+  </button>
+  <button class="tab" data-tab="cronograma">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Cronograma
+    <span class="count" id="tabCountCronograma">—</span>
+  </button>
+  <button class="tab" data-tab="feedback">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Feedback
+    <span class="count" id="tabCountFeedback">—</span>
+  </button>
+  <button class="tab" data-tab="ops">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Ops
+  </button>
+</nav>
+
+<main>
+  <section id="tab-inspire">
+    <div class="filter-bar">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="searchInput" placeholder="Buscar caption, brand, hook…" autocomplete="off" />
+      </div>
+      <button class="filter-chip active" data-filter="all">Todos</button>
+      <button class="filter-chip" data-filter="viral">VIRAL ≥ 2x</button>
+      <button class="filter-chip" data-filter="format-carousel">Carrossel</button>
+      <button class="filter-chip" data-filter="format-reel">Reel</button>
+      <button class="filter-chip" data-filter="platform-tiktok">🎵 TikTok</button>
+      <button class="filter-chip" data-filter="platform-tiktok-br">🎵 TT BR</button>
+      <button class="filter-chip" data-filter="platform-instagram">📷 Instagram</button>
+      <button class="filter-chip" data-filter="bookmarked">★ Salvos</button>
+      <button class="filter-chip" data-filter="ideas">💡 Ideias</button>
+      <button class="filter-chip" style="background:var(--emerald);color:#fff;border-color:var(--emerald);" onclick="window.openNewIdeaModal()">+ Nova ideia</button>
+    </div>
+    <div class="filter-bar" id="brandChipsBar" style="margin-top:8px;border-top:1px solid var(--border);padding-top:10px;">
+      <span class="meta" style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-right:4px;">brands</span>
+      <!-- chips renderizados dinamicamente em renderBrandChips() -->
+    </div>
+    <div class="meta-line" id="inspireMeta">Carregando feed competidores…</div>
+    <div id="inspireGrid"></div>
+  </section>
+
+  <section id="tab-review" style="display:none">
+    <div class="meta-line" id="reviewMeta">Carregando fila…</div>
+    <div class="grid" id="reviewGrid"></div>
+  </section>
+
+  <section id="tab-cronograma" style="display:none">
+    <div class="cron-header">
+      <div class="cron-week-nav">
+        <button class="filter-chip" onclick="window.navWeek(-1)" title="Semana anterior">‹</button>
+        <div class="cron-week-label" id="cronWeekLabel">—</div>
+        <button class="filter-chip" onclick="window.navWeek(1)" title="Próxima semana">›</button>
+        <button class="filter-chip" onclick="window.navWeek(0)" title="Voltar pra esta semana">Hoje</button>
+      </div>
+      <div class="meta-line" id="cronMeta">—</div>
+    </div>
+    <div class="cron-week-grid" id="cronWeekGrid"></div>
+  </section>
+
+  <section id="tab-feedback" style="display:none">
+    <div class="filter-bar">
+      <button class="filter-chip active" data-fbfilter="all">Todos</button>
+      <button class="filter-chip" data-fbfilter="unresolved">Pendentes</button>
+      <button class="filter-chip" data-fbfilter="resolved">Resolvidos</button>
+      <button class="filter-chip" data-fbfilter="must-fix">🔴 Must-fix</button>
+      <button class="filter-chip" data-fbfilter="nit">🟡 Nit</button>
+      <button class="filter-chip" data-fbfilter="praise">✨ Elogios</button>
+      <button class="filter-chip" data-fbfilter="author-matheus">Matheus</button>
+      <button class="filter-chip" data-fbfilter="author-valle">Valle</button>
+      <button class="filter-chip" style="background:var(--emerald);color:#fff;border-color:var(--emerald);" onclick="window.openFeedbackModal({target_type:'general'})">+ Novo comentário</button>
+    </div>
+    <div class="meta-line" id="feedbackMeta">Carregando feedback…</div>
+    <div id="feedbackList"></div>
+  </section>
+
+  <section id="tab-ops" style="display:none">
+    <div class="meta-line">Snapshot ops · auto-refresh 10s</div>
+    <div class="stats" id="opsStats"></div>
+    <h3 style="color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.12em; margin-top:36px; font-weight:500;">Active jobs</h3>
+    <div id="opsJobs"></div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lbImg" /></div>
+
+<div class="modal" id="scheduleModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2>Adicionar ao cronograma</h2>
+    <div class="modal-subtitle">Esse post vira inspiração pro slot escolhido. Pipeline gera versão adaptada Longevify.</div>
+    <div class="modal-source" id="modalSource"></div>
+    <div class="form-group">
+      <label>Dia da semana</label>
+      <select id="scheduleDay">
+        <option value="monday">Segunda · 11h · Carrossel</option>
+        <option value="tuesday">Terça · 19h · Carrossel/DADO</option>
+        <option value="wednesday">Quarta · 13h · Reel</option>
+        <option value="thursday" selected>Quinta · 19h · Carrossel premium</option>
+        <option value="friday">Sexta · 19h · Single/FAIXA FUNCIONAL</option>
+        <option value="saturday">Sábado · stories only</option>
+        <option value="sunday">Domingo · 10h · Carrossel premium/OVERHEARD</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Format adaptado</label>
+      <select id="scheduleFormat">
+        <option value="carousel">Carrossel</option>
+        <option value="reel">Reel</option>
+        <option value="single">Single image</option>
+        <option value="story">Story</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Series (opcional)</label>
+      <select id="scheduleSeries">
+        <option value="">— sem series —</option>
+        <option value="FAIXA FUNCIONAL">FAIXA FUNCIONAL</option>
+        <option value="CASO REAL">CASO REAL</option>
+        <option value="DADO">DADO</option>
+        <option value="OVERHEARD NO BR">OVERHEARD NO BR</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Notas (opcional)</label>
+      <textarea id="scheduleNotes" placeholder="Ângulo específico, biomarcador, adaptação BR…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="window.closeScheduleModal()">Cancelar</button>
+      <button class="btn gold" onclick="window.saveSchedule()">Adicionar ao backlog</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="ideaModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2 id="ideaModalTitle">Nova ideia</h2>
+    <div class="modal-subtitle">Ideias entram no feed como cards dourados. Use ⚡ Gerar pra disparar pipeline ou + Agendar pra slot específico.</div>
+    <input type="hidden" id="ideaId" value="" />
+    <div class="form-group">
+      <label>Título *</label>
+      <input type="text" id="ideaTitle" placeholder="Ex: Matcha vs Café: L-theanine + Akkermansia" />
+    </div>
+    <div class="form-group">
+      <label>Biomarcador / foco</label>
+      <input type="text" id="ideaBiomarker" placeholder="Ex: Cortisol / GABA / Akkermansia muciniphila" />
+    </div>
+    <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div>
+        <label>Pilar</label>
+        <select id="ideaPillar">
+          <option value="1">1 — Terroir BR</option>
+          <option value="2" selected>2 — Biomarcador escondido</option>
+          <option value="3">3 — Falha check-up</option>
+          <option value="4">4 — Sensação → dado</option>
+        </select>
+      </div>
+      <div>
+        <label>Format sugerido</label>
+        <select id="ideaFormat">
+          <option value="carousel" selected>Carrossel</option>
+          <option value="reel">Reel</option>
+          <option value="single">Single image</option>
+          <option value="story">Story</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Conteúdo / fonte *</label>
+      <textarea id="ideaSource" placeholder="Cole texto-fonte, paper, observação clínica, screenshot transcrito…" style="min-height:120px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Ângulo / hook (opcional)</label>
+      <textarea id="ideaAngle" placeholder="Qual o ângulo Longevify? Que tensão narrativa? Que dado-âncora?" style="min-height:70px;"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Notas (opcional)</label>
+      <textarea id="ideaNotes" placeholder="Referências, links, observações…" style="min-height:60px;"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="window.closeIdeaModal()">Cancelar</button>
+      <button class="btn gold" onclick="window.saveIdea()">Salvar ideia</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="feedbackModal">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2>💬 Comentário</h2>
+    <div class="modal-subtitle">Tudo que você anotar aqui o modelo lê quando gera o próximo conteúdo do mesmo tipo.</div>
+    <div class="modal-source" id="feedbackSource" style="display:none"></div>
+    <input type="hidden" id="feedbackTargetType" value="general" />
+    <input type="hidden" id="feedbackTargetId" value="" />
+    <input type="hidden" id="feedbackTargetLabel" value="" />
+    <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div>
+        <label>Autor</label>
+        <select id="feedbackAuthor">
+          <option value="matheus">Matheus</option>
+          <option value="valle">Valle</option>
+          <option value="external">Outro</option>
+        </select>
+      </div>
+      <div>
+        <label>Severidade</label>
+        <select id="feedbackSeverity">
+          <option value="nit">🟡 Nit (sugestão)</option>
+          <option value="must-fix">🔴 Must-fix (precisa corrigir)</option>
+          <option value="praise">✨ Elogio (manter o padrão)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tags <span style="opacity:0.5;font-weight:400">(clique pra adicionar)</span></label>
+      <div id="feedbackTagsRow" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">
+        <button type="button" class="filter-chip fbtag" data-tag="voice">voice</button>
+        <button type="button" class="filter-chip fbtag" data-tag="visual">visual</button>
+        <button type="button" class="filter-chip fbtag" data-tag="palette">palette</button>
+        <button type="button" class="filter-chip fbtag" data-tag="copy">copy</button>
+        <button type="button" class="filter-chip fbtag" data-tag="hook">hook</button>
+        <button type="button" class="filter-chip fbtag" data-tag="cta">cta</button>
+        <button type="button" class="filter-chip fbtag" data-tag="pillar">pillar</button>
+        <button type="button" class="filter-chip fbtag" data-tag="format">format</button>
+        <button type="button" class="filter-chip fbtag" data-tag="logo">logo</button>
+        <button type="button" class="filter-chip fbtag" data-tag="typography">typography</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Comentário *</label>
+      <textarea id="feedbackText" placeholder="O que tá funcionando, o que precisa ajustar, exemplo concreto…" style="min-height:120px;"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn secondary" onclick="window.closeFeedbackModal()">Cancelar</button>
+      <button class="btn gold" onclick="window.saveFeedback()">Salvar comentário</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── State ────────────────────────────────────────────
+  let state = {
+    posts: [],
+    filtered: [],
+    filter: 'all',
+    search: '',
+    focusedIdx: -1,
+    activeTab: 'inspire',
+  };
+
+  // ─── Tab switching ────────────────────────────────────
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+    document.getElementById('tab-' + t.dataset.tab).style.display = 'block';
+    state.activeTab = t.dataset.tab;
+    state.focusedIdx = -1;
+  }));
+
+  // ─── Toast ────────────────────────────────────────────
+  function toast(msg, level = 'info') {
+    const t = document.createElement('div');
+    t.className = 'toast ' + level;
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.classList.add('leaving'); setTimeout(() => t.remove(), 260); }, 3200);
+  }
+
+  // ─── Lightbox ─────────────────────────────────────────
+  window.openLightbox = function(src) {
+    document.getElementById('lbImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  };
+
+  // ─── Thumb fallback ────────────────────────────────────
+  window.showThumbFallback = function(imgEl) {
+    const postId = imgEl.getAttribute('data-post-id');
+    const p = (window._feedPosts || {})[postId];
+    if (!p) { imgEl.style.display = 'none'; return; }
+    const parent = imgEl.parentElement;
+    const cap = (p.caption || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const snippet = cap.slice(0, 140) + (cap.length > 140 ? '…' : '');
+    parent.innerHTML = '<div class="fallback">'
+      + '<div class="initial">' + p.brand.charAt(0) + '</div>'
+      + '<div class="brand-name">' + p.brand + '</div>'
+      + '<div class="cap-snippet">' + snippet + '</div>'
+      + '</div>';
+  };
+
+  // ─── Skeleton ────────────────────────────────────────
+  function renderSkeleton(target, count = 6) {
+    const t = document.getElementById(target);
+    t.innerHTML = '<div class="skeleton-grid">'
+      + Array(count).fill().map(() =>
+        '<div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>'
+      ).join('')
+      + '</div>';
+  }
+
+  // ─── Inspire ──────────────────────────────────────────
+  function brandKey(b) {
+    if (b === 'Superpower') return 'sp';
+    if (b === 'Mito Health') return 'mito';
+    if (b === 'Function Health') return 'function';
+    if (b === '💡 Ideias') return 'idea';
+    return 'other';
+  }
+  function escapeHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function applyFilters() {
+    const q = state.search.trim().toLowerCase();
+    state.filtered = state.posts.filter(p => {
+      if (state.filter === 'viral' && p.vsMedian < 2 && !p._isIdea) return false;
+      if (state.filter && state.filter.startsWith('brand:')) {
+        const wanted = state.filter.slice(6);
+        if (p.brand !== wanted) return false;
+      }
+      if (state.filter === 'format-carousel' && p.format !== 'carousel') return false;
+      if (state.filter === 'format-reel' && p.format !== 'reel') return false;
+      if (state.filter === 'platform-tiktok' && p.platform !== 'tiktok') return false;
+      if (state.filter === 'platform-tiktok-br' && (p.platform !== 'tiktok' || p._geo !== 'BR')) return false;
+      if (state.filter === 'platform-instagram' && p.platform === 'tiktok') return false;
+      if (state.filter === 'bookmarked' && !(window._bookmarked||{})[p.id]) return false;
+      if (state.filter === 'ideas' && !p._isIdea) return false;
+      if (q) {
+        const hay = ((p.caption||'') + ' ' + p.brand + ' ' + (p._title||'') + ' ' + (p._biomarker||'')).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    renderInspireGrid();
+  }
+
+  function renderInspireGrid() {
+    const grid = document.getElementById('inspireGrid');
+    if (!state.filtered.length) {
+      grid.innerHTML = '<div class="empty"><div class="icon">🔍</div><div class="title">Nenhum post encontrado</div><div class="hint">Tente outro filtro ou limpe a busca</div></div>';
+      return;
+    }
+    window._feedPosts = {};
+    grid.innerHTML = '<div class="grid">' + state.filtered.map(p => {
+      window._feedPosts[p.id] = p;
+      const badge = brandKey(p.brand);
+      const safeCap = escapeHtml(p.caption||'');
+      const safeUrl = escapeHtml(p.url||'');
+      const isIdea = !!p._isIdea;
+
+      // THUMBNAIL: idea cards show idea title + biomarker, competitors show photo
+      const thumbContent = isIdea
+        ? `<div class="idea-content">
+             <div class="idea-icon">💡</div>
+             <div class="idea-title">${escapeHtml(p._title || 'Ideia')}</div>
+             ${p._biomarker ? `<div class="idea-bio">${escapeHtml(p._biomarker)}</div>` : ''}
+           </div>`
+        : `<img src="${p.thumbnail ? `/api/thumb?postId=${encodeURIComponent(p.id)}&url=${encodeURIComponent(p.thumbnail)}` : `/api/thumb?postId=${encodeURIComponent(p.id)}`}" loading="lazy" data-post-id="${p.id}" onerror="window.showThumbFallback(this)" />`;
+
+      // PLATFORM badge: 🎵 TikTok (com geo) ou nada (Instagram default)
+      const isTikTok = p.platform === 'tiktok';
+      const platformBadge = isTikTok
+        ? `<span class="badge tiktok" title="TikTok${p._geo ? ' · ' + p._geo : ''}">🎵 TT${p._geo === 'BR' ? ' 🇧🇷' : (p._geo === 'US' ? ' 🇺🇸' : '')}</span>`
+        : '';
+
+      // BADGES: ideas don't show likes/comments
+      const badgesRow = isIdea
+        ? `<span class="badge idea">💡 IDEIA</span>
+           ${p._pillar ? `<span class="meta">Pilar ${p._pillar}</span>` : ''}
+           <span class="meta">${p.format}</span>`
+        : `${platformBadge}<span class="badge ${badge}">${p.brand}</span>
+           ${p.isViral ? `<span class="badge viral">VIRAL ${p.vsMedian.toFixed(1)}x</span>` : `<span class="meta">${p.vsMedian.toFixed(1)}x</span>`}
+           <span class="meta">${p.format} · ${p.likes.toLocaleString()} ❤ · ${p.comments.toLocaleString()} 💬${isTikTok && p._playCount ? ' · ' + (p._playCount > 1000 ? (p._playCount/1000).toFixed(0)+'k' : p._playCount) + ' ▶' : ''}</span>`;
+
+      // ACTIONS: ideas have "Editar" + "Agendar" + "Gerar"
+      const platformLabel = isTikTok ? 'TT' : 'IG';
+      const platformAria = isTikTok ? 'Abrir post original no TikTok' : 'Abrir post original no IG';
+      const actionsHtml = isIdea
+        ? `<button class="btn secondary" onclick="window.editIdea('${p.id}')" title="Editar ideia">✎ Editar</button>
+           <button class="btn" onclick="window.openScheduleModal('${p.id}')" title="Adicionar ao cronograma">+ Agendar</button>
+           <button class="btn gold" onclick="window.reproduceById('${p.id}')" title="Gerar carrossel agora">⚡ Gerar</button>`
+        : `<button class="btn secondary" onclick="window.open('${safeUrl}', '_blank')" title="${platformAria}">↗ ${platformLabel}</button>
+           <button class="btn" onclick="window.openScheduleModal('${p.id}')" title="Adicionar ao cronograma de posts">+ Agendar</button>
+           <button class="btn gold" onclick="window.reproduceById('${p.id}')" title="Disparar pipeline agora">⚡ Reproduzir</button>`;
+
+      return `
+        <div class="card entering ${isIdea ? 'idea-card' : ''}" data-post-id="${p.id}">
+          <div class="card-actions-overlay">
+            ${!isIdea ? `<button class="icon-btn bookmark ${(window._bookmarked||{})[p.id] ? 'active' : ''}" title="Salvar pra depois" onclick="window.toggleBookmark('${p.id}', event)" aria-label="Bookmark">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="${(window._bookmarked||{})[p.id] ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>` : ''}
+            <button class="icon-btn feedback" title="Comentar sobre esse post" onclick="event.stopPropagation();window.openFeedbackModal({target_type:'post', target_id:'${p.id}', target_label:${JSON.stringify((p._title || p.brand + ' · ' + (p.caption || '').slice(0, 80)))}});" aria-label="Comentar">💬</button>
+            <button class="icon-btn dismiss" title="${isIdea ? 'Remover ideia' : 'Não usar esse post'}" onclick="${isIdea ? `window.deleteIdea('${p.id}', event)` : `window.dismissPost('${p.id}', event)`}" aria-label="Dismiss">×</button>
+          </div>
+          <div class="thumb">${thumbContent}</div>
+          <div class="body">
+            <div class="badges-row">${badgesRow}</div>
+            <div class="caption-preview">${safeCap.slice(0, 240)}${safeCap.length > 240 ? '…' : ''}</div>
+          </div>
+          <div class="actions">${actionsHtml}</div>
+        </div>`;
+    }).join('') + '</div>';
+  }
+
+  async function loadBookmarks() {
+    try {
+      const r = await fetch('/api/feed/bookmarked');
+      const d = await r.json();
+      window._bookmarked = {};
+      (d.ids || []).forEach(id => { window._bookmarked[id] = true; });
+    } catch (e) { window._bookmarked = window._bookmarked || {}; }
+  }
+
+  async function loadInspire() {
+    try {
+      if (!state.posts.length) renderSkeleton('inspireGrid', 6);
+      await loadBookmarks();
+      const r = await fetch('/api/feed');
+      const d = await r.json();
+      state.posts = d.posts || [];
+      const dismissedNote = d.dismissed_count > 0 ? ` · ${d.dismissed_count} dismissed` : '';
+      document.getElementById('inspireMeta').innerHTML = d.snapshot
+        ? `<span>${d.posts.length} posts</span><span class="dot"></span><span>Snapshot ${d.snapshot.replace('analysis-', '')}</span>${dismissedNote ? `<span class="dot"></span><span>${d.dismissed_count} dismissed</span>` : ''}`
+        : (d.message || 'Sem dados');
+      document.getElementById('tabCountInspire').textContent = d.posts.length;
+      document.getElementById('kpiSnapshot').innerHTML = d.snapshot ? `${d.posts.length}<span class="small">posts</span>` : '—';
+      renderBrandChips();
+      applyFilters();
+    } catch (e) { console.error(e); toast('Erro ao carregar feed: ' + e.message, 'error'); }
+  }
+
+  function renderBrandChips() {
+    const bar = document.getElementById('brandChipsBar');
+    if (!bar) return;
+    // Conta por brand (excluindo ideias)
+    const counts = {};
+    for (const p of state.posts) {
+      if (p._isIdea) continue;
+      counts[p.brand] = (counts[p.brand] || 0) + 1;
+    }
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    // Mantém o label "brands" fixo, remove chips antigos
+    bar.querySelectorAll('.filter-chip[data-brand-chip]').forEach(x => x.remove());
+    for (const [brand, count] of sorted) {
+      const chip = document.createElement('button');
+      chip.className = 'filter-chip' + (state.filter === 'brand:' + brand ? ' active' : '');
+      chip.dataset.brandChip = '1';
+      chip.dataset.filter = 'brand:' + brand;
+      chip.innerHTML = `${brand} <span class="badge-count" style="margin-left:6px;">${count}</span>`;
+      bar.appendChild(chip);
+    }
+  }
+
+  async function reproduce(p) {
+    if (!confirm(`Reproduzir post de ${p.brand}?\n\nVai disparar pipeline (writer + visual-gen + QA + verifier). ~10min.`)) return;
+    try {
+      const r = await fetch('/api/reproduce', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ postId: p.id, shortCode: p.shortCode, caption: p.caption, brand: p.brand, format: p.format })
+      });
+      const d = await r.json();
+      toast(d.message || 'Pipeline iniciada', 'success');
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  }
+
+  window.reproduceById = function(postId) {
+    const p = (window._feedPosts || {})[postId];
+    if (p) reproduce(p);
+  };
+
+  // ─── Schedule modal ────────────────────────────────────
+  let _schedulingPostId = null;
+  window.openScheduleModal = function(postId) {
+    const p = (window._feedPosts || {})[postId];
+    if (!p) return;
+    _schedulingPostId = postId;
+    const cap = (p.caption || '').slice(0, 140) + (p.caption && p.caption.length > 140 ? '…' : '');
+    document.getElementById('modalSource').innerHTML =
+      `<div class="source-brand">${p.brand} · ${p.vsMedian.toFixed(1)}x · ${p.format}</div>`
+      + `<div style="margin-top:6px;">${escapeHtml(cap)}</div>`;
+    // Auto-suggest format based on source
+    document.getElementById('scheduleFormat').value = p.format === 'reel' ? 'reel' : 'carousel';
+    document.getElementById('scheduleSeries').value = '';
+    document.getElementById('scheduleNotes').value = '';
+    document.getElementById('scheduleModal').classList.add('open');
+  };
+  window.closeScheduleModal = function() {
+    document.getElementById('scheduleModal').classList.remove('open');
+    _schedulingPostId = null;
+  };
+  window.saveSchedule = async function() {
+    if (!_schedulingPostId) return;
+    const p = (window._feedPosts || {})[_schedulingPostId];
+    if (!p) return;
+    const payload = {
+      day: document.getElementById('scheduleDay').value,
+      format: document.getElementById('scheduleFormat').value,
+      series: document.getElementById('scheduleSeries').value || undefined,
+      notes: document.getElementById('scheduleNotes').value || undefined,
+      brand: p.brand,
+      caption: p.caption,
+      url: p.url,
+      vsMedian: p.vsMedian,
+      sourceFormat: p.format,
+    };
+    try {
+      const r = await fetch('/api/feed/schedule/' + encodeURIComponent(_schedulingPostId), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const d = await r.json();
+      toast(`Agendado · ${d.count} posts no backlog`, 'success');
+      window.closeScheduleModal();
+    } catch (e) {
+      toast('Erro: ' + e.message, 'error');
+    }
+  };
+  // Close modal on outside click
+  document.getElementById('scheduleModal').addEventListener('click', (e) => {
+    if (e.target.id === 'scheduleModal') window.closeScheduleModal();
+  });
+  // ESC to close modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeScheduleModal();
+      window.closeIdeaModal();
+    }
+  });
+
+  // ─── Idea modal (nova / editar) ────────────────────────
+  function resetIdeaForm() {
+    document.getElementById('ideaId').value = '';
+    document.getElementById('ideaTitle').value = '';
+    document.getElementById('ideaBiomarker').value = '';
+    document.getElementById('ideaPillar').value = '2';
+    document.getElementById('ideaFormat').value = 'carousel';
+    document.getElementById('ideaSource').value = '';
+    document.getElementById('ideaAngle').value = '';
+    document.getElementById('ideaNotes').value = '';
+  }
+  window.openNewIdeaModal = function() {
+    resetIdeaForm();
+    document.getElementById('ideaModalTitle').textContent = 'Nova ideia';
+    document.getElementById('ideaModal').classList.add('open');
+    setTimeout(() => document.getElementById('ideaTitle').focus(), 60);
+  };
+  window.closeIdeaModal = function() {
+    document.getElementById('ideaModal').classList.remove('open');
+  };
+  window.editIdea = function(ideaId) {
+    const p = (window._feedPosts || {})[ideaId];
+    if (!p || !p._isIdea) { toast('Ideia não encontrada', 'error'); return; }
+    resetIdeaForm();
+    document.getElementById('ideaModalTitle').textContent = 'Editar ideia';
+    document.getElementById('ideaId').value = ideaId;
+    document.getElementById('ideaTitle').value = p._title || '';
+    document.getElementById('ideaBiomarker').value = p._biomarker || '';
+    document.getElementById('ideaPillar').value = String(p._pillar || 2);
+    document.getElementById('ideaFormat').value = p.format || 'carousel';
+    document.getElementById('ideaSource').value = p.caption || '';
+    document.getElementById('ideaAngle').value = p._angle || '';
+    document.getElementById('ideaNotes').value = p._notes || '';
+    document.getElementById('ideaModal').classList.add('open');
+  };
+  window.saveIdea = async function() {
+    const id = document.getElementById('ideaId').value.trim();
+    const title = document.getElementById('ideaTitle').value.trim();
+    const source = document.getElementById('ideaSource').value.trim();
+    if (!title) { toast('Título obrigatório', 'error'); return; }
+    if (!source) { toast('Conteúdo / fonte obrigatório', 'error'); return; }
+    const payload = {
+      title,
+      biomarker_focus: document.getElementById('ideaBiomarker').value.trim() || undefined,
+      pillar: Number(document.getElementById('ideaPillar').value),
+      format_suggestion: document.getElementById('ideaFormat').value,
+      source_text: source,
+      angle: document.getElementById('ideaAngle').value.trim() || undefined,
+      notes: document.getElementById('ideaNotes').value.trim() || undefined,
+    };
+    try {
+      const url = id ? '/api/ideas/' + encodeURIComponent(id) : '/api/ideas';
+      const method = id ? 'PUT' : 'POST';
+      const r = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) {
+        const err = await r.json().catch(() => ({}));
+        throw new Error(err.error || 'Erro HTTP ' + r.status);
+      }
+      toast(id ? 'Ideia atualizada' : '💡 Ideia salva', 'success');
+      window.closeIdeaModal();
+      loadInspire();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+  window.deleteIdea = async function(ideaId, evt) {
+    if (evt) { evt.stopPropagation(); evt.preventDefault(); }
+    if (!confirm('Remover essa ideia? Não dá pra desfazer.')) return;
+    const card = document.querySelector(`.card[data-post-id="${ideaId}"]`);
+    if (card) card.classList.add('removing');
+    try {
+      const r = await fetch('/api/ideas/' + encodeURIComponent(ideaId), { method: 'DELETE' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      setTimeout(() => { if (card) card.remove(); }, 280);
+      state.posts = state.posts.filter(p => p.id !== ideaId);
+      toast('Ideia removida', 'success');
+    } catch (e) {
+      if (card) card.classList.remove('removing');
+      toast('Erro: ' + e.message, 'error');
+    }
+  };
+  // Close idea modal on outside click
+  document.getElementById('ideaModal').addEventListener('click', (e) => {
+    if (e.target.id === 'ideaModal') window.closeIdeaModal();
+  });
+
+  window.toggleBookmark = async function(postId, evt) {
+    if (evt) { evt.stopPropagation(); evt.preventDefault(); }
+    const isBookmarked = !!(window._bookmarked||{})[postId];
+    const endpoint = isBookmarked ? 'unbookmark' : 'bookmark';
+    try {
+      const r = await fetch(`/api/feed/${endpoint}/${encodeURIComponent(postId)}`, { method: 'POST' });
+      const d = await r.json();
+      window._bookmarked = window._bookmarked || {};
+      if (isBookmarked) delete window._bookmarked[postId];
+      else window._bookmarked[postId] = true;
+      // Update button state inline
+      const btn = document.querySelector(`.card[data-post-id="${postId}"] .icon-btn.bookmark`);
+      if (btn) {
+        btn.classList.toggle('active', !isBookmarked);
+        const svg = btn.querySelector('svg');
+        if (svg) svg.setAttribute('fill', !isBookmarked ? 'currentColor' : 'none');
+      }
+      toast(isBookmarked ? 'Removido dos salvos' : '★ Salvo pra depois', 'success');
+      if (state.filter === 'bookmarked') applyFilters();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  window.dismissPost = async function(postId, evt) {
+    if (evt) { evt.stopPropagation(); evt.preventDefault(); }
+    const card = document.querySelector(`.card[data-post-id="${postId}"]`);
+    if (card) card.classList.add('removing');
+    try {
+      await fetch(`/api/feed/dismiss/${encodeURIComponent(postId)}`, { method: 'POST' });
+      setTimeout(() => { if (card) card.remove(); }, 280);
+      state.posts = state.posts.filter(p => p.id !== postId);
+      toast('Descartado', 'success');
+    } catch (e) {
+      if (card) card.classList.remove('removing');
+      toast('Erro: ' + e.message, 'error');
+    }
+  };
+
+  // Filter chips — event delegation no tab-inspire (pega chips dinâmicos tb)
+  document.getElementById('tab-inspire').addEventListener('click', (e) => {
+    const chip = e.target.closest('.filter-chip');
+    if (!chip || !chip.dataset.filter) return; // ignora chips sem data-filter (ex. "+ Nova ideia")
+    document.querySelectorAll('#tab-inspire .filter-chip').forEach(x => x.classList.remove('active'));
+    chip.classList.add('active');
+    state.filter = chip.dataset.filter;
+    applyFilters();
+  });
+
+  // Search
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    state.search = e.target.value;
+    applyFilters();
+  });
+
+  // ─── Review ───────────────────────────────────────────
+  async function loadReview() {
+    try {
+      const r = await fetch('/api/review-queue');
+      const d = await r.json();
+      const grid = document.getElementById('reviewGrid');
+      document.getElementById('reviewMeta').innerHTML = `<span>${d.items.length} run(s) aguardando aprovação</span>`;
+      document.getElementById('tabCountReview').textContent = d.items.length;
+      document.getElementById('kpiReviewQueue').innerHTML = d.items.length;
+      if (!d.items.length) { grid.innerHTML = '<div class="empty"><div class="icon">✓</div><div class="title">Fila vazia</div><div class="hint">Todos os runs publicados ou arquivados</div></div>'; return; }
+      grid.innerHTML = d.items.map(it => `
+        <div class="card entering" data-run-id="${it.run_id}">
+          ${it.slides && it.slides.length ? `<div class="slides-row">${it.slides.map(s => `<img src="${s}" onclick="window.openLightbox('${s}')" />`).join('')}</div>` : ''}
+          <div class="body">
+            <div class="badges-row">
+              <span class="badge ${it.state}">${it.state}</span>
+              <span class="meta">Pilar ${it.pillar} · ${it.format} · ${it.updated_at||''}</span>
+            </div>
+            <div class="hook">${escapeHtml(it.hook || it.run_id)}</div>
+            ${it.verifier_score ? `<div class="meta">Verifier: <b style="color:var(--text)">${it.verifier_score}</b> · ${it.verifier_verdict||''} · <b style="color:var(--gold)">$${it.cost_usd.toFixed(2)}</b></div>` : ''}
+            ${it.caption ? `<div class="caption-preview">${escapeHtml(it.caption)}</div>` : ''}
+          </div>
+          <div class="actions">
+            <button class="btn danger" onclick="window.rejectRun('${it.run_id}')">Rejeitar</button>
+            <button class="btn secondary" onclick="window.openFeedbackModal({target_type:'run', target_id:'${it.run_id}', target_label:${JSON.stringify(it.hook || it.run_id)}})" title="Deixar comentário sobre esse run">💬 Comentar</button>
+            <button class="btn" onclick="window.approveRun('${it.run_id}')">Aprovar + Publicar</button>
+          </div>
+        </div>`).join('');
+    } catch (e) { console.error(e); }
+  }
+
+  window.approveRun = async function(runId) {
+    if (!confirm(`Publicar ${runId} no Instagram AGORA?`)) return;
+    try { const r = await fetch('/api/approve/' + runId, { method: 'POST' }); const d = await r.json(); toast(d.message || 'Publish iniciado', 'success'); setTimeout(loadReview, 1500); }
+    catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+  window.rejectRun = async function(runId) {
+    if (!confirm(`Rejeitar ${runId}?`)) return;
+    try { await fetch('/api/reject/' + runId, { method: 'POST' }); toast('Rejeitado', 'success'); loadReview(); }
+    catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  // ─── Cronograma ───────────────────────────────────────
+  const CADENCE = {
+    monday:    { time: '11h', format: 'Carrossel' },
+    tuesday:   { time: '19h', format: 'Carrossel / DADO' },
+    wednesday: { time: '13h', format: 'Reel' },
+    thursday:  { time: '19h', format: 'Carrossel premium' },
+    friday:    { time: '19h', format: 'Single / FAIXA FUNCIONAL' },
+    saturday:  { time: '—',   format: 'Stories only' },
+    sunday:    { time: '10h', format: 'Carrossel / OVERHEARD' },
+  };
+  const DAY_NAMES = { monday: 'SEG', tuesday: 'TER', wednesday: 'QUA', thursday: 'QUI', friday: 'SEX', saturday: 'SÁB', sunday: 'DOM' };
+  const DAY_ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+
+  let cronWeekOffset = 0;
+
+  function startOfWeek(date) {
+    const d = new Date(date);
+    const day = d.getDay() === 0 ? 7 : d.getDay(); // Monday = 1
+    d.setDate(d.getDate() - day + 1);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  function addDays(date, n) { const d = new Date(date); d.setDate(d.getDate()+n); return d; }
+  function fmtDate(d) { return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`; }
+  function isoDate(d) { return d.toISOString().slice(0,10); }
+
+  window.navWeek = function(delta) {
+    if (delta === 0) cronWeekOffset = 0;
+    else cronWeekOffset += delta;
+    loadCronograma();
+  };
+
+  async function loadCronograma() {
+    try {
+      const today = new Date();
+      const baseMonday = startOfWeek(today);
+      const weekStart = addDays(baseMonday, cronWeekOffset * 7);
+      const weekEnd = addDays(weekStart, 6);
+
+      document.getElementById('cronWeekLabel').textContent =
+        `${fmtDate(weekStart)} → ${fmtDate(weekEnd)}` + (cronWeekOffset === 0 ? ' · esta semana' : '');
+
+      // Fetch scheduled posts + runs
+      const [schedRes, queueRes] = await Promise.all([
+        fetch('/api/scheduled'),
+        fetch('/api/review-queue')
+      ]);
+      const sched = await schedRes.json();
+      const queue = await queueRes.json();
+
+      const todayISO = isoDate(today);
+      const grid = document.getElementById('cronWeekGrid');
+      grid.innerHTML = DAY_ORDER.map((dayKey, idx) => {
+        const date = addDays(weekStart, idx);
+        const dateISO = isoDate(date);
+        const isToday = dateISO === todayISO;
+        const isPast = dateISO < todayISO;
+        const cad = CADENCE[dayKey];
+        const noFeed = dayKey === 'saturday';
+
+        // Items: scheduled posts for this day OR runs for this date
+        const items = (sched.items || []).filter(it => it.scheduled_day === dayKey);
+        const dayRuns = (queue.items || []).filter(it => (it.updated_at || '').startsWith(dateISO));
+
+        const classes = ['cron-day'];
+        if (isToday) classes.push('today');
+        if (isPast && !isToday) classes.push('past');
+        if (noFeed) classes.push('no-feed');
+
+        const itemsHtml = items.map(it => `
+          <div class="cron-item status-${it.status}">
+            <button class="remove-x" onclick="window.removeScheduled('${it.post_id}', '${it.scheduled_day}', event)" title="Remover">×</button>
+            <div class="cron-item-brand">${it.brand} · ${it.scheduled_format}${it.scheduled_series ? ' · ' + it.scheduled_series : ''}</div>
+            <div class="cron-item-caption">${escapeHtml(it.caption_excerpt)}</div>
+            <div class="cron-item-status">${it.status} · ${(it.source_vsmedian||0).toFixed(1)}x source</div>
+          </div>`).join('');
+
+        const runsHtml = dayRuns.map(r => `
+          <div class="cron-item status-${r.state}">
+            <div class="cron-item-brand">RUN · ${r.format} · pilar ${r.pillar}</div>
+            <div class="cron-item-caption">${escapeHtml(r.hook || r.run_id)}</div>
+            <div class="cron-item-status">${r.state}${r.verifier_score ? ' · ' + r.verifier_score : ''}</div>
+          </div>`).join('');
+
+        const totalItems = items.length + dayRuns.length;
+        const empty = totalItems === 0 ? '<div class="cron-day-empty">' + (noFeed ? '— sem feed —' : 'vazio') + '</div>' : '';
+
+        return `
+          <div class="${classes.join(' ')}">
+            <div class="cron-day-head">
+              <div class="cron-day-name">${DAY_NAMES[dayKey]}${isToday ? ' · hoje' : ''}</div>
+              <div class="cron-day-date">${fmtDate(date)}</div>
+            </div>
+            <div class="cron-slot">
+              <span class="time">${cad.time}</span>
+              <span class="format">${cad.format}</span>
+            </div>
+            <div class="cron-day-items">
+              ${itemsHtml}${runsHtml}${empty}
+            </div>
+          </div>`;
+      }).join('');
+
+      const totalScheduled = (sched.items || []).length;
+      document.getElementById('cronMeta').innerHTML = `<span>${totalScheduled} posts agendados no backlog total</span>`;
+      document.getElementById('tabCountCronograma').textContent = totalScheduled;
+    } catch (e) { console.error(e); }
+  }
+
+  window.removeScheduled = async function(postId, day, evt) {
+    if (evt) { evt.stopPropagation(); evt.preventDefault(); }
+    if (!confirm('Remover do cronograma?')) return;
+    try {
+      await fetch(`/api/scheduled/remove/${encodeURIComponent(postId)}/${day}`, { method: 'POST' });
+      toast('Removido', 'success');
+      loadCronograma();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  // ─── Ops ──────────────────────────────────────────────
+  async function loadOps() {
+    try {
+      const r = await fetch('/api/ops');
+      const d = await r.json();
+      const stats = [
+        { label: 'Hoje', value: '$' + d.cost.today_usd.toFixed(2) },
+        { label: 'Mês', value: '$' + d.cost.month_usd.toFixed(2) },
+        { label: 'Total runs', value: d.runs.total },
+      ];
+      Object.entries(d.runs.state_counts).forEach(([s, n]) => stats.push({ label: s, value: n }));
+      document.getElementById('opsStats').innerHTML = stats.map(s => `<div class="stat"><div class="label">${s.label}</div><div class="value">${s.value}</div></div>`).join('');
+      document.getElementById('kpiCostMonth').innerHTML = '$' + d.cost.month_usd.toFixed(2);
+      document.getElementById('kpiPostsToday').innerHTML = (d.runs.state_counts.published || 0);
+
+      const jobs = document.getElementById('opsJobs');
+      if (!d.jobs.length) jobs.innerHTML = '<div class="empty" style="padding:24px"><div class="hint">Nenhum job ativo</div></div>';
+      else jobs.innerHTML = d.jobs.map(j => `
+        <div class="job">
+          <span class="job-id">${j.runId}</span>
+          <span class="job-phase">· ${j.phase} · ${j.runtimeSec}s</span>
+          <div class="job-log">${escapeHtml(j.logTail.join('').slice(-500))}</div>
+        </div>`).join('');
+    } catch (e) { console.error(e); }
+  }
+
+  // ─── Keyboard shortcuts ───────────────────────────────
+  function setFocusedCard(idx) {
+    document.querySelectorAll('.card.focused').forEach(c => c.classList.remove('focused'));
+    if (state.activeTab !== 'inspire') return;
+    if (idx < 0 || idx >= state.filtered.length) return;
+    const cards = document.querySelectorAll('#inspireGrid .card');
+    if (!cards[idx]) return;
+    cards[idx].classList.add('focused');
+    cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    state.focusedIdx = idx;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === '/') { e.preventDefault(); document.getElementById('searchInput').focus(); return; }
+    if (state.activeTab !== 'inspire') return;
+    if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); setFocusedCard(Math.min(state.focusedIdx + 1, state.filtered.length - 1)); }
+    else if (e.key === 'k' || e.key === 'ArrowUp') { e.preventDefault(); setFocusedCard(Math.max(state.focusedIdx - 1, 0)); }
+    else if (e.key === 'x' || e.key === 'X') {
+      if (state.focusedIdx >= 0 && state.filtered[state.focusedIdx]) {
+        e.preventDefault();
+        window.dismissPost(state.filtered[state.focusedIdx].id);
+      }
+    } else if (e.key === 'r' || e.key === 'R') {
+      if (state.focusedIdx >= 0 && state.filtered[state.focusedIdx]) {
+        e.preventDefault();
+        window.reproduceById(state.filtered[state.focusedIdx].id);
+      }
+    }
+  });
+
+  // ─── Feedback ─────────────────────────────────────────
+  const fbState = { all: [], filter: 'unresolved', selectedTags: new Set() };
+
+  window.openFeedbackModal = function(opts) {
+    opts = opts || {};
+    document.getElementById('feedbackTargetType').value = opts.target_type || 'general';
+    document.getElementById('feedbackTargetId').value = opts.target_id || '';
+    document.getElementById('feedbackTargetLabel').value = opts.target_label || '';
+    document.getElementById('feedbackText').value = '';
+    document.getElementById('feedbackAuthor').value = opts.author || 'matheus';
+    document.getElementById('feedbackSeverity').value = opts.severity || 'nit';
+    // Reset tag chips
+    document.querySelectorAll('#feedbackTagsRow .fbtag').forEach(b => b.classList.remove('active'));
+    if (opts.target_label) {
+      const src = document.getElementById('feedbackSource');
+      src.style.display = 'block';
+      src.innerHTML = `<div class="source-brand">${opts.target_type.toUpperCase()}</div><div style="margin-top:6px;">${escapeHtml(opts.target_label.slice(0, 200))}</div>`;
+    } else {
+      document.getElementById('feedbackSource').style.display = 'none';
+    }
+    document.getElementById('feedbackModal').classList.add('open');
+    setTimeout(() => document.getElementById('feedbackText').focus(), 60);
+  };
+  window.closeFeedbackModal = function() {
+    document.getElementById('feedbackModal').classList.remove('open');
+  };
+
+  // Tag chip toggle inside modal
+  document.querySelectorAll('#feedbackTagsRow .fbtag').forEach(b => {
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      b.classList.toggle('active');
+    });
+  });
+
+  window.saveFeedback = async function() {
+    const text = document.getElementById('feedbackText').value.trim();
+    if (!text) { toast('Comentário obrigatório', 'error'); return; }
+    const tags = [...document.querySelectorAll('#feedbackTagsRow .fbtag.active')].map(b => b.dataset.tag);
+    const payload = {
+      target_type: document.getElementById('feedbackTargetType').value,
+      target_id: document.getElementById('feedbackTargetId').value,
+      target_label: document.getElementById('feedbackTargetLabel').value || undefined,
+      author: document.getElementById('feedbackAuthor').value,
+      severity: document.getElementById('feedbackSeverity').value,
+      text,
+      tags,
+    };
+    try {
+      const r = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.error || 'HTTP ' + r.status); }
+      toast('💬 Comentário salvo', 'success');
+      window.closeFeedbackModal();
+      loadFeedback();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  window.toggleResolveFeedback = async function(id, author) {
+    try {
+      const r = await fetch('/api/feedback/' + encodeURIComponent(id) + '/resolve', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resolved_by: author || 'matheus' }),
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const d = await r.json();
+      toast(d.feedback.resolved ? '✓ Resolvido' : 'Reaberto', 'success');
+      loadFeedback();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  window.deleteFeedback = async function(id, evt) {
+    if (evt) { evt.stopPropagation(); evt.preventDefault(); }
+    if (!confirm('Apagar esse comentário? Não dá pra desfazer.')) return;
+    try {
+      const r = await fetch('/api/feedback/' + encodeURIComponent(id), { method: 'DELETE' });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      toast('Apagado', 'success');
+      loadFeedback();
+    } catch (e) { toast('Erro: ' + e.message, 'error'); }
+  };
+
+  async function loadFeedback() {
+    try {
+      const r = await fetch('/api/feedback');
+      const d = await r.json();
+      fbState.all = d.feedback || [];
+      document.getElementById('tabCountFeedback').textContent = String(d.unresolved ?? 0);
+      renderFeedback();
+    } catch (e) { console.error(e); }
+  }
+
+  function renderFeedback() {
+    const list = document.getElementById('feedbackList');
+    const meta = document.getElementById('feedbackMeta');
+    let items = fbState.all;
+
+    if (fbState.filter === 'unresolved') items = items.filter(f => !f.resolved);
+    else if (fbState.filter === 'resolved') items = items.filter(f => f.resolved);
+    else if (['must-fix','nit','praise'].includes(fbState.filter)) items = items.filter(f => f.severity === fbState.filter);
+    else if (fbState.filter === 'author-matheus') items = items.filter(f => f.author === 'matheus');
+    else if (fbState.filter === 'author-valle') items = items.filter(f => f.author === 'valle');
+
+    meta.innerHTML = `<span>${items.length} comentário(s) · ${fbState.all.filter(f=>!f.resolved).length} pendente(s) · total ${fbState.all.length}</span>`;
+
+    if (!items.length) {
+      list.innerHTML = '<div class="empty"><div class="icon">💬</div><div class="title">Nenhum comentário</div><div class="hint">Clique em "+ Novo comentário" ou no botão 💬 de um card pra começar</div></div>';
+      return;
+    }
+
+    const sevIcon = { 'must-fix': '🔴', 'nit': '🟡', 'praise': '✨' };
+    const authorIcon = { matheus: 'M', valle: 'V', ai: '🤖', external: '👤' };
+
+    list.innerHTML = items.map(f => `
+      <div class="feedback-item ${f.resolved ? 'resolved' : ''}">
+        <div class="fb-head">
+          <span class="badge severity-${f.severity}">${sevIcon[f.severity] || ''} ${f.severity}</span>
+          <span class="badge tag" title="Autor">${authorIcon[f.author] || '?'} ${f.author}</span>
+          ${(f.tags || []).map(t => `<span class="badge tag">${t}</span>`).join('')}
+          <span class="fb-meta-date">${new Date(f.created_at).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+        ${f.target_label ? `<div class="fb-target"><b style="text-transform:uppercase;letter-spacing:0.05em;font-size:10px;">${f.target_type}</b> · ${escapeHtml(f.target_label.slice(0, 200))}</div>` : ''}
+        <div class="fb-text">${escapeHtml(f.text)}</div>
+        <div class="fb-actions">
+          <button class="fb-inline-btn" onclick="window.toggleResolveFeedback('${f.id}', '${f.author}')">${f.resolved ? '↺ Reabrir' : '✓ Resolver'}</button>
+          <button class="fb-inline-btn" onclick="window.deleteFeedback('${f.id}', event)">🗑 Apagar</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Feedback filter chips
+  document.querySelectorAll('#tab-feedback .filter-chip[data-fbfilter]').forEach(c => c.addEventListener('click', () => {
+    document.querySelectorAll('#tab-feedback .filter-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    fbState.filter = c.dataset.fbfilter;
+    renderFeedback();
+  }));
+
+  // Close feedback modal on outside / ESC
+  document.getElementById('feedbackModal').addEventListener('click', (e) => {
+    if (e.target.id === 'feedbackModal') window.closeFeedbackModal();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeFeedbackModal(); });
+
+  // ─── Refresh loop ─────────────────────────────────────
+  function refresh() {
+    if (state.activeTab === 'inspire') loadInspire();
+    if (state.activeTab === 'cronograma') loadCronograma();
+    if (state.activeTab === 'feedback') loadFeedback();
+    loadReview();
+    loadOps();
+  }
+  // Initial load cronograma on first render (for tab counter)
+  loadCronograma();
+  loadFeedback();
+  refresh();
+  setInterval(refresh, 15000);
+</script>
+</body>
+</html>

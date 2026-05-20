@@ -1,0 +1,48 @@
+[
+  {
+    "slot": "slide-1-cover",
+    "model": "nano_banana_2",
+    "prompt": "Editorial magazine cover composition, 4:5 aspect ratio (1080x1350). A woman partially veiled behind a translucent tangerine-orange fabric, soft diffused studio lighting, skin tones muted and warm. Background gradient from tangerine #F47A24 at top to coral #E36A4F mid to terracotta #B74635 at bottom, continuous smooth blend. Render TEXT exactly as follows in pure white #FFFFFF, DM Sans typeface: top-left eyebrow in small caps DM Sans Regular 400, tracking +0.1em: 'PROTOCOLO · 01'. Centered title in DM Sans Light 300, letter-spacing -0.02em, line-height 1.0, large display size: 'O Protocolo da Inflamação'. One line below in DM Sans Light 300, smaller: 'Três sintomas. Um marcador. Um número.' Generous negative space. Reserve clean empty area at bottom 80px from edge — DO NOT render any logo or wordmark. ABSOLUTELY NO: medical icons, blood drops, stethoscopes, lab coats, test tubes, heavy drop shadows, neon colors, plastic AI look, white backgrounds, colorful infographics, bar charts, decorative arrows, horizontal divider lines, exclamation marks, emoji. Editorial fashion-magazine aesthetic, Aesop-meets-Equinox restraint.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Cover — no logo per brief, stop-scroll via tangerine contrast + veiled portrait"
+  },
+  {
+    "slot": "slide-2-hook",
+    "model": "nano_banana_2",
+    "prompt": "Editorial typography slide, 4:5 aspect ratio (1080x1350). Solid background gradient tangerine #F47A24 to coral #E36A4F, continuing the cover's gradient progression. All text pure white #FFFFFF, DM Sans typeface, left-aligned with generous left margin. Stacked lines with vertical breathing room between them, line-height 1.3: Line 1 DM Sans Light 300, medium size: 'Inchaço que não desce em 24h.' Line 2 DM Sans Light 300, medium size: 'Breakouts que voltam a cada bloco intenso.' Line 3 DM Sans Light 300, medium size: 'Fadiga que o sono não cura.' Then significant negative space (one full line of empty). Closing line DM Sans Regular 400, slightly larger: 'Três sinais. Um marcador escondido.' Letter-spacing -0.02em on the closing line. Reserve clean empty space at bottom-right corner ~10% width for logo overlay — DO NOT render any logo or wordmark, leave that area visually clean. ABSOLUTELY NO: medical icons, blood drops, stethoscopes, lab coats, test tubes, drop shadows, neon, plastic AI look, white background, infographics, bar charts, decorative arrows, horizontal divider lines, exclamation marks, emoji, photography. Pure editorial typography, Aesop restraint.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Logo overlay added post-process bottom-right"
+  },
+  {
+    "slot": "slide-3-reveal",
+    "model": "nano_banana_2",
+    "prompt": "Editorial typography slide, 4:5 aspect ratio (1080x1350). Solid background coral #E36A4F shifting toward terracotta #B74635 at the edges, continuing gradient progression from slide 2. All text pure white #FFFFFF, DM Sans typeface, centered composition. Top: eyebrow text DM Sans Regular 400, small caps, tracking +0.1em: 'O MARCADOR'. Generous space below. Center: large display 'hs-CRP' in DM Sans Regular 400, letter-spacing -0.02em, line-height 1.0, dominant scale. One line below in DM Sans Light 300, medium: 'Proteína C-reativa de alta sensibilidade.' Space. Centered justified body paragraph, DM Sans Light 300, smaller, line-height 1.3: 'Mede inflamação sistêmica de baixo grau — a que não dói, não inflama visível, e não aparece no exame de rotina.' Space. Bottom closing line in DM Sans Regular 400 light italic: 'Pra quem treina, é a diferença entre adaptação e overreaching.' Reserve clean empty space at bottom-right ~10% width for logo overlay — DO NOT render any logo. ABSOLUTELY NO: medical icons, blood drops, molecule diagrams, stethoscopes, lab coats, test tubes, drop shadows, neon, plastic AI look, white background, infographics, bar charts, arrows, horizontal divider lines, exclamation marks, emoji. Pure editorial typography.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k"
+  },
+  {
+    "slot": "slide-4-range",
+    "model": "nano_banana_2",
+    "prompt": "Editorial typography slide, 4:5 aspect ratio (1080x1350). Solid background terracotta #B74635 with subtle gradient toward coral #E36A4F at top, continuing gradient. All text pure white #FFFFFF, DM Sans typeface, left-aligned with generous margins. Top: eyebrow DM Sans Regular 400, small caps, tracking +0.1em: 'A FAIXA QUE IMPORTA'. Generous space. Block 1 — label DM Sans Light 300 medium: 'Faixa “normal” de laboratório', then on next line in DM Sans Light 300 italic, slightly larger: '< 3.0 mg/L'. Vertical breathing space (no horizontal divider line). Block 2 — label DM Sans Regular 400, slightly heavier: 'Faixa funcional para atleta', then on next line in DM Sans Regular 400 italic, larger and visually dominant: '< 1.0 mg/L'. Space. Closing line at bottom in DM Sans Light 300: 'Entre os dois números mora o plateau que você não consegue explicar.' Letter-spacing -0.02em on numerals. Reserve clean empty space at bottom-right ~10% width for logo overlay — DO NOT render any logo. ABSOLUTELY NO: bar charts, gauge graphics, range bars, sliders, medical icons, blood drops, test tubes, drop shadows, neon, plastic AI look, white background, infographics, arrows, horizontal divider lines, exclamation marks, emoji. Pure editorial typography only — comparison expressed through typographic hierarchy, NOT graphics.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Critical: no chart/bar/gauge — typography hierarchy only"
+  },
+  {
+    "slot": "slide-5-context",
+    "model": "nano_banana_2",
+    "prompt": "Editorial typography slide, 4:5 aspect ratio (1080x1350). Solid background terracotta #B74635 deepening slightly, continuing gradient. All text pure white #FFFFFF, DM Sans typeface, left-aligned with generous left margin. Top: eyebrow DM Sans Regular 400, small caps, tracking +0.1em: 'ONDE ELE APARECE'. Generous space. Stacked short lines, DM Sans Light 300, medium size, line-height 1.4: Line 1 'Bloco intenso que não converte em PR.' Line 2 'Recuperação que ficou mais lenta esse ano.' Line 3 'Aquela fadiga inespecífica que o exame anual disse que era normal.' Space. Closing line in DM Sans Regular 400, slightly larger: 'hs-CRP responde a três antes do médico responder a uma.' Letter-spacing -0.02em. Reserve clean empty space at bottom-right ~10% width for logo overlay — DO NOT render any logo. ABSOLUTELY NO: medical icons, blood drops, stethoscopes, lab coats, test tubes, drop shadows, neon, plastic AI look, white background, infographics, bar charts, arrows, horizontal divider lines, exclamation marks, emoji, bullet point dots, photography. Pure editorial typography.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k"
+  },
+  {
+    "slot": "slide-6-cta",
+    "model": "nano_banana_2",
+    "prompt": "Editorial typography slide, 4:5 aspect ratio (1080x1350). Solid background terracotta #B74635 at top deepening toward a darker terracotta at bottom, closing the gradient progression from cover. All text pure white #FFFFFF, DM Sans typeface, left-aligned with generous margins. Top: eyebrow DM Sans Regular 400, small caps, tracking +0.1em: 'PRÓXIMO PASSO'. Space. Line 1 in DM Sans Regular 400, medium-large: 'No próximo exame, peça hs-CRP.' Line 2 in DM Sans Light 300, medium: 'R$30. Mostra o que ferritina e cortisol não mostram.' Substantial vertical negative space (no horizontal divider line — space only). Bottom block in DM Sans Light 300, smaller, line-height 1.3: 'Longevify mede 100+ marcadores como esse — e a AI te explica o número às 6h da manhã, antes do treino.' Space. Signature line in DM Sans Regular 400 light italic: 'Ignorado por muitos. Testado e mapeado por nós.' Letter-spacing -0.02em on display lines. Reserve clean empty space at bottom-right ~10% width for logo overlay — DO NOT render any logo or wordmark, keep area clean. ABSOLUTELY NO: medical icons, blood drops, test tubes, app screenshots, phone mockups, drop shadows, neon, plastic AI look, white background, infographics, bar charts, arrows, horizontal divider lines, exclamation marks, emoji. Pure editorial typography, Aesop-restraint closing.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Final slide — gradient closes the carousel arc; logo overlay post-process"
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "id": "quick-question",
+  "name": "QUICK QUESTION (Function-inspired, single image)",
+  "description": "Pergunta provocativa em serif italic sobre fundo sólido + sub-headline editorial curta. Modelado em @functionhealth 'QUICK QUESTION' series. Cabe em FAIXA FUNCIONAL series Longevify.",
+  "pillar": 2,
+  "format": "post",
+  "slide_count": 1,
+  "performance_target": { "vsMedian_min": 1.3, "comments_min": 30 },
+  "series_badge": "FAIXA FUNCIONAL",
+  "structure": [
+    {
+      "slide": 1,
+      "role": "provocative_question",
+      "elements": [
+        "badge_pill_no_topo_centralizado_(gold_borda_uppercase_letter-spacing_aberto)",
+        "pergunta_provocativa_em_DM_Sans_Light_Italic_300_display",
+        "subline_editorial_max_15_palavras_off-white_60_opacity_em_DM_Sans_Light",
+        "background_forest_solido_OU_microscopy_sutil_low_opacity",
+        "RESERVE_clean_black_space_BOTTOM_pra_overlay_de_logo_(NAO_desenhar_logo)"
+      ],
+      "constraints": [
+        "max_12_palavras_pergunta",
+        "italic_em_palavra-pivô_da_pergunta_(palavra_em_gold)",
+        "background_forest_solido_OU_microscopy_sutil_low_opacity",
+        "pergunta_não_pode_ser_yes/no_simples_(precisa_provocar_reflexão)",
+        "sem_imagem_de_pessoa_no_post",
+        "USAR_APENAS_DM_Sans_(nunca_Georgia_nem_Serif_outros)",
+        "DO_NOT_render_logo_OR_placeholder_rectangle_at_bottom"
+      ],
+      "examples_function": [
+        "QUICK QUESTION: You're doing the work — so why isn't the scale moving?",
+        "QUICK QUESTION: My annual physical tests glucose. Is that enough?",
+        "QUICK QUESTION: Can time in the sun transform your health?"
+      ],
+      "examples_longevify_BR": [
+        "FAIXA FUNCIONAL: Seu ApoB está 95. Dentro da faixa do laboratório. *Por que ainda preocupa?*",
+        "FAIXA FUNCIONAL: Seu exame anual dosa colesterol total. *É suficiente?*",
+        "FAIXA FUNCIONAL: Ferritina 80 em homem atleta. *Você sabe por que isso pesa?*"
+      ]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão) + Aesop (restrição) + Function (provocação editorial)",
+    "forbidden": ["fear", "alarmismo", "promessa", "perguntas_retóricas_sem_dado_(precisa_ter_biomarcador_concreto_OU_referência_clínica)"],
+    "italic_rule": "Italic em 1-2 palavras chave da pergunta (a palavra que pivota o sentido)"
+  },
+  "visual": {
+    "palette": {
+      "bg": "#000F08",
+      "badge_border": "#C89136",
+      "badge_text": "#C89136",
+      "headline": "#f8fffc",
+      "italic_pivot": "#C89136",
+      "subline": "#f8fffc 60% opacity"
+    },
+    "typography": {
+      "badge": "DM Sans Regular 400, uppercase, letter-spacing +0.12em, font-size 11px",
+      "headline": "DM Sans Light Italic 300, font-size 48-72px, line-height 1.2, kerning -0.02em",
+      "subline": "DM Sans Light 300 (não italic), font-size 16px, line-height 1.5",
+      "single_font_rule": "TUDO em DM Sans (Light, Light Italic, Regular). NUNCA Georgia, Source Serif, ou qualquer outra serif."
+    },
+    "layout_hints": [
+      "badge_topo_5%_canvas",
+      "headline_centro_vertical_max_75%_width",
+      "subline_logo_abaixo_da_headline_mesma_largura",
+      "logo_bottom_5%_padding"
+    ],
+    "anti": [
+      "imagem_de_pessoa",
+      "borders_visiveis_em_volta_do_card",
+      "bullets",
+      "Georgia_OR_qualquer_serif_(tudo_DM_Sans)",
+      "logo_OR_retangulo_placeholder_no_bottom_(reservar_espaço_vazio_pra_overlay)",
+      "background_pure_white",
+      "drop_shadows"
+    ]
+  },
+  "caption_template": "Reframe a pergunta em prosa editorial (2-3 frases). Dado/biomarcador que justifica a pergunta. Pergunta retórica de fechamento ou convite. Sem hashtags decorativos. ~300-500 chars.",
+  "anti_patterns": [
+    "pergunta_genérica_sem_dado_concreto",
+    "yes_no_question_simples",
+    "fear_implícito_(que_seu_exame_pode_estar_te_traindo)",
+    "5_perguntas_para_X_format"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 1.5,
+  "estimated_time_min": 5,
+  "frequency_recommendation": "1x/semana (sexta noite)",
+  "reference_posts": [
+    "@functionhealth QUICK QUESTION series (orange bg, serif italic)",
+    "@functionhealth 'You're doing the work...'",
+    "@functionhealth 'My annual physical tests glucose...'"
+  ]
+}

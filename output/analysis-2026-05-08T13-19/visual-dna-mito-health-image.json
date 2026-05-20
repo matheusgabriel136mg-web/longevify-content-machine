@@ -1,0 +1,1291 @@
+[
+  {
+    "url": "https://www.instagram.com/p/DU34WUTko6l/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "When workouts start feeling heavier and performance plateaus despite doing “everything right”, that’s not random.\n\nElevated hsCRP can signal ongoing inflammation.\nLow ferritin can limit oxygen delivery to muscle.\nHormone shifts can affects strength, drive, and adaptation.\n\nSometimes poor recovery isn’t a motivation problem. It’s often a biological signal that most just aren’t measuring.",
+    "hookLine": "When workouts start feeling heavier and performance plateaus despite doing “everything right”, that’s not random.",
+    "primary": {
+      "composition": "Interface de usuário translúcida sobreposta a uma fotografia de perfil de um atleta.",
+      "palette": [
+        "#1E1E1E",
+        "#C89980",
+        "#F6EFEC",
+        "#86D4BF",
+        "#E75F8A"
+      ],
+      "subject": "Gráficos de dados de saúde sobrepostos a uma pessoa.",
+      "textOverlay": "Poor performance isn't random. Listen to your body's signals. Metabolic Health C WARNING hsCRP WARNING 8.12 Testosterone OPTIMAL 67 Ferritin INSUFFICIENT 21.3",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "Os gráficos de dados translúcidos com informações de saúde.",
+      "prompt": "An editorial-style photograph featuring the upper body of an athletic person from behind, wearing a light-colored sports top, under soft natural light. Overlaid are sleek, transparent frosted glass UI cards displaying health metrics. These cards feature vibrant, minimalist line graphs in neon pink, teal, and orange, with bold white numbers and text. Focus is sharp on the UI, with a gentle bokeh on the background. High-resolution, health technology aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T20:59:51.762Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DV1UPcQEcl7/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Giving you the most complete view of your health, with the follow-up and care to match - like clockwork.",
+    "hookLine": "Giving you the most complete view of your health, with the follow-up and care to match - like clockwork.",
+    "primary": {
+      "composition": "Close-up de uma pessoa com cabelos longos, vista de lado e de costas, com um texto semi-transparente sobreposto a um fundo natural desfocado.",
+      "palette": [
+        "#EFCF8D",
+        "#D2DDC7",
+        "#90A093",
+        "#CDB49C",
+        "#363737"
+      ],
+      "subject": "Pessoa e texto sobreposto",
+      "textOverlay": "Paula\n@_thepaulaklein12\nThe best DTC preventive\nhealthcare company so far.\nEverything went like clockwork\nwith Mito. The follow-up and\nanalysis was the most thorough\nI've seen yet.\n11:45 AM, March 12, 2026",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "A avaliação positiva e autêntica de um cliente, sobreposta a uma imagem natural e relaxante.",
+      "prompt": "Editorial photograph featuring a close-up of a person from the shoulder up, with long wavy blonde hair, looking towards a softly blurred, tranquil natural background. The lighting is soft, natural daylight with warm tones, creating a serene and authentic mood. Shallow depth of field. A semi-transparent text box overlay is positioned centrally. Muted green and beige palette with golden hair highlights. --ar 9:16 --style raw"
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:00:03.093Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DT3LUSbDz1e/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Your Mito Health results, now easier to share. \n\nMembers can now export a PDF of their results directly from their dashboard, making it easy to bring to your next appointment or share with anyone involved in your care. \n\nNo more portal logins mid-appointment. No more screenshots.",
+    "hookLine": "Your Mito Health results, now easier to share. ",
+    "primary": {
+      "composition": "Prominente tipografia e um mockup de documento digital sobre um fundo neutro, com ícones discretos no topo.",
+      "palette": [
+        "#efebe4",
+        "#333333",
+        "#51b279"
+      ],
+      "subject": "mockup de produto",
+      "textOverlay": "Your Mito results, now downloadable.\nShareable to bring to your next doctor's visit\nExport as PDF\nMito\nAt a glance\nBody Systems\nInflammation and Immunity\nRed Blood Cells\nMetabolic Health\nBrain and Nerve Health\nFitness and Muscle\nLiver Health\nBone Health\nAllergy\nCancer Risk and Detection\nKidney and Urinary Health\nSexual Health\nNutrient Balances\nIron balance\nVitamin D balance\nMagnesium balance\nVitamin B balance\nHeavy Metal Exposure\nOmega-3 fatty acid balance\nVitamin A balance\nVitamin E balance\nHormone Balances\nSex Hormones (Female)\nStress Hormones\nThyroid Hormones\nGrowth Hormones\nJane Doe | Sex: Female | DOB: January 1, 1985\nReport generated: January 22, 2024\nMito\nBiological Age\nGood news Jane, your aging\n39\nYou have a biological age of 39, which is 6 years younger than your chronological age (45). This is an excellent sign of healthy aging, suggesting that your diet, exercise, and lifestyle are all contributing positively to your overall health. Keep up the good work!",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "O título grande e em negrito 'Your Mito results, now downloadable.' chama a atenção imediatamente.",
+      "prompt": "A clean, minimalist digital interface design featuring a prominent, bold headline atop a mockup of a detailed health report document. The composition includes a download button and small, subtle icon illustrations (brain, liver, DNA strand). The color palette consists of a light beige background, dark contrasting text, and subtle accent colors like soft pink, light green, and muted orange. The style is professional and informative, with clear typography and structured data visualization, rendered with even, soft lighting. --ar 9:16"
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:00:23.041Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DSF41buAe3C/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Gift your loved ones better health this holiday. \nFor a limited time, enjoy $75 off all Mito gift cards.",
+    "hookLine": "Gift your loved ones better health this holiday. ",
+    "primary": {
+      "composition": "close-up de duas pessoas se abraçando, com foco nos braços entrelaçados e texto sobreposto no centro da imagem.",
+      "palette": [
+        "#e0d0c3",
+        "#715546",
+        "#402f2d"
+      ],
+      "subject": "braços e corpos superiores de duas pessoas",
+      "textOverlay": "Mito\nHoliday Special\nGive the gift of health\nEnjoy $75 off all gift cards\nLimited-time only.",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "Os braços entrelaçados das pessoas e o texto grande e centralizado 'Give the gift of health' capturam a atenção.",
+      "prompt": "Close-up editorial photograph featuring two people, one with lighter skin and one with darker skin, gently embracing with their arms intertwined. The shot focuses on their upper bodies and hands, captured with soft, warm natural lighting and a shallow depth of field. The color palette consists of natural skin tones, warm browns, and earthy neutrals. The overall mood is intimate, caring, and wholesome."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:00:31.946Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DRz3gYVgZTX/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "He looks 34.\nHis biology says otherwise.\n\nTyler trains, eats well, and even looks like he does everything “right”. But on the inside, his body is working overtime.\n\nHormonal imbalances and deficiencies that may seem minor now could be silently building and accelerating aging beneath the surface. \n\nA simple blood draw can catch it early and adjust your future.",
+    "hookLine": "He looks 34.",
+    "primary": {
+      "composition": "Um homem sorridente está sentado em uma sauna de madeira com painéis de dados semitransparentes sobrepostos à imagem.",
+      "palette": [
+        "#A06D4D",
+        "#E6B697",
+        "#FFFFFF",
+        "#28282D",
+        "#E67272"
+      ],
+      "subject": "Homem em uma sauna com gráficos de dados de saúde sobrepostos",
+      "textOverlay": "MEET TYLER J.\nAGE: 34\nBIOLOGICAL AGE: 44\nVitamin D\nINSUFFICIENT\n21.3\nhsCRP\nWARNING\n8.12",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A discrepância entre a idade real e a idade biológica do homem, juntamente com os avisos de saúde visíveis nos overlays, prende o olhar imediatamente.",
+      "prompt": "A candid, editorial lifestyle photograph of a smiling, fit man in his 30s sitting casually in a warm, light-wood sauna, holding a glass of fruit-infused water. Futuristic, semi-transparent augmented reality data panels displaying personal health metrics like 'Biological Age: 44' and health warnings are overlaid on the image. The scene is lit with soft, natural light, emphasizing warm wood tones, clear white text, and subtle colored accents on the data displays, shot with a prime lens."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:00:49.708Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DRhzs98j4Io/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Your future self remembers how you treat your health today. \n\nThis Black Friday, we’re giving $75 off to help you invest in what matters most: your health.",
+    "hookLine": "Your future self remembers how you treat your health today. ",
+    "primary": {
+      "composition": "Tipografia grande, um botão de oferta e um mockup de smartphone com dados de saúde são dispostos verticalmente sobre um fundo branco liso.",
+      "palette": [
+        "#1A1A1A",
+        "#FFFFFF",
+        "#C8F0DA"
+      ],
+      "subject": "mockup de smartphone com gráficos de saúde e tipografia",
+      "textOverlay": "BLACK FRIDAY • BLACK FRIDAY • BLACK FRIDAY • BLACK FRIDAY • BLACK FRID\nInvest in your future self.\nNOW $75 OFF\n✓ HSA/FSA Eligible\n9:41\nMito\nMagnesium\nOPTIMAL • Jun 2025\nBiological age\nGood news - Your biological age is 6 years younger\nthan your chronological age.\n38\n32\nYears old\nBrain and Nerve Health\nA OPTIMAL\nIron deficiency\nNEEDS ATTENTION\nIron deficiency is the most likely root cause of low energy, hair loss and inflammation you're ... targeting this first.\nHeart health\nMODERATE RISK\nproved cholesterol profile shows your heart-...yp pescetarian diet is working—keep prioritizing...n and iron for ongoing progress.\nVitamin D\nINSUFFICIENT • Apr 2025\nHormonal Health",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A tipografia grande e a oferta de desconto em verde-claro chamam a atenção imediatamente.",
+      "prompt": "A clean, modern studio shot featuring a large, centered headline on a pure white background. Below the headline, a pastel green call-to-action button. A pair of hands holds a sleek smartphone in the lower frame, displaying a health monitoring application interface. The app shows diverse biometric data, progress charts, and minimalist icons in a digital wellness aesthetic, with accents of light green, subtle pinks, and yellows. Bright, even lighting. Flat lay perspective, minimalist typography."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:01:05.998Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DQ7VOXzktbI/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "It’s almost here.\n\nThis week, the Eudemonia Summit begins in West Palm Beach.\n\nJoin us November 13–16 for three days dedicated to science, longevity, and human potential. Connect with experts and a community united by curiosity—and a shared commitment to better health.\n\nMeet the Mito team at EXPOSOME to experience on-site blood testing, access advanced diagnostic panels, and explore your own data alongside leaders in the field.\n\nSee you in West Palm Beach.\nNov 13–16 | West Palm Beach, FL",
+    "hookLine": "It’s almost here.",
+    "primary": {
+      "composition": "Retrato em close de um homem olhando para cima, contra um fundo quase branco, com tipografia sobreposta.",
+      "palette": [
+        "#F8F8F8",
+        "#000000",
+        "#FFFFFF",
+        "#D2AF99"
+      ],
+      "subject": "rosto humano",
+      "textOverlay": "NOV 13-16, 2025\nWEST PALM BEACH\nNOT A TREND.\nA TRANSFORMATION.\nMito AT EUDĒMONIA SUMMIT\n100+ EXPERTS\n3 DAYS\n1 LIFE-ALTERING SUMMIT\nTickets\nEUDEMONIA.NET\n→",
+      "mood": "contemplativo",
+      "style": "fotografia editorial",
+      "hookSignal": "A pose marcante do homem olhando para cima e a frase 'NOT A TREND. A TRANSFORMATION.' prendem o olhar imediatamente.",
+      "prompt": "Editorial close-up of a person, head tilted back looking upwards with an elongated neck and contemplative expression, wearing a dark, high-collar garment. Set against a clean, bright white background. Soft, high-key studio lighting with strong contrast. Minimalist composition. White sans-serif typography is strategically overlaid on the image, conveying a sense of profound change and a high-end event. Shot with a prime lens, shallow depth of field, sharp focus, cinematic aesthetic. Palette of deep blacks, pristine whites, and natural skin tones."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:01:17.865Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DQ58TaQkdTB/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "64% of our members discovered elevated health risks through their baseline test - and were able to reduce their risk of future disease with early intervention and lifestyle changes. \n\nThe key to preventing disease as you age is early detection so you can make smarter choices before symptoms appear.\n\nThese are quiet wins your future health will thank you for.",
+    "hookLine": "64% of our members discovered elevated health risks through their baseline test - and were able to reduce their risk of future disease with early intervention and lifestyle changes. ",
+    "primary": {
+      "composition": "Uma carta de dados digital sobreposta a um retrato desfocado de uma pessoa relaxada.",
+      "palette": [
+        "#b2a79d",
+        "#fcfdfc",
+        "#3cc28f"
+      ],
+      "subject": "Gráfico de dados de saúde e texto sobreposto em fundo de retrato desfocado.",
+      "textOverlay": "Proof that your habits are finally paying off:\nApolipoprotein B (apoB)\n74 mg/dL\nOPTIMAL • Feb 2025\n110\n99\n80\nJUL 2023\nAUG 2024\nFEB 2025\nTARGET\n74",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "O título em destaque 'Proof that your habits are finally paying off:' e o gráfico claro mostrando uma melhora para o status 'OPTIMAL' chamam a atenção.",
+      "prompt": "A soft-focus, blurred background features a person with closed eyes in a serene, contemplative pose, bathed in warm, natural light. Centered over this, a modern, minimalist white data card showcases a line graph illustrating a downward health trend to an optimal state, with green highlights and specific numerical values. A prominent, optimistic headline text is placed above the card. Editorial photography, shallow depth of field, bright, clean aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:01:31.712Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DQZw3B6gU3z/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Join us at the Eudēmonia Summit this November, a three-day experience redefining what it means to live healthier, longer, and with greater intention.\n\nCome connect with us at EXPOSŌME, where you can expect on-site blood draws, exclusive access to advanced diagnostic panels, and an inside look into how Mito Health is redefining this next era of personalized health.\n\nBe among a community just as curious as you are to better your health.\n\nWe’ll be there and we’d love to see you there too.\nTickets at eudemonia.net \n@eudemoniasummit \nNov 13-16 | West Palm Peach",
+    "hookLine": "Join us at the Eudēmonia Summit this November, a three-day experience redefining what it means to live healthier, longer, and with greater intention.",
+    "primary": {
+      "composition": "retrato em close-up de uma mulher com os braços levantados, com texto sobreposto na parte superior e inferior",
+      "palette": [
+        "#E6E8E6",
+        "#BF876B",
+        "#FFFFFF",
+        "#F5F3EF"
+      ],
+      "subject": "rosto humano",
+      "textOverlay": "NOV 13-16, 2025\nWEST PALM BEACH\nJOIN US IRL\nAT EUDĒMONIA\nMito AT EUDEMONIA SUMMIT\n100+ EXPERTS\n3 DAYS\n1 LIFE-ALTERING SUMMIT\nTickets\nEUDEMONIA.NET",
+      "mood": "energético",
+      "style": "fotografia editorial",
+      "hookSignal": "A imagem vibrante da mulher e o texto 'JOIN US IRL AT EUDĒMONIA' prendem o olhar imediatamente.",
+      "prompt": "Half-body portrait of a vibrant young woman with curly hair, arms gently raised above her head, looking towards the left with a subtle smile and a sense of calm strength. Shot with soft, bright natural light, slightly diffuse, emphasizing healthy skin texture against a light gray background. Modern editorial photography, high-key, clean aesthetic, shallow depth of field, focused on wellness and vitality."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:01:46.207Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DNN72dzuxmH/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "** GIVEAWAY CLOSED ** \n\nWe’ve teamed up with our friends @mitohealthapp to give you the kind of health insights that usually stay locked behind clinic doors. \n\nOne lucky winner will receive: \n\n* A Core Biomarker Panel that gives you personalized insights into your metabolism, inflammation, cardiovascular markers, and more \n\n* A full Allergy Panel to uncover hidden sensitivities and triggers \n\n* A Molekule Air Mini+ with PECO Technology, our award-winning air purifier designed to trap and destroy airborne allergens at home \n\nThis giveaway is for anyone ready to take health into their own hands, whether you’re on a wellness journey, seeking better sleep, or just want to stop guessing and start knowing. \n\nThe best part? You’ll get a detailed, science-backed snapshot of what’s happening inside your body, and the air you breathe. \n\nTo enter: Like this post, follow @molekuleair and @mitohealthapp, and tag a friend. Open to U.S. residents only. We’ll choose a winner on August 12, 2025.",
+    "hookLine": "** GIVEAWAY CLOSED ** ",
+    "primary": {
+      "composition": "Duas seções verticais, uma com um produto e outra com um mockup de celular, sobrepostas por um círculo de 'GIVEAWAY', tudo em um fundo verde-escuro com uma faixa de texto inferior.",
+      "palette": [
+        "#1B4232",
+        "#F9F9F9",
+        "#C08B5B"
+      ],
+      "subject": "mockup de produto, tela de aplicativo de saúde em smartphone",
+      "textOverlay": "GIVEAWAY\n9:41\nMito\nBiological age\nGood news - Your biological age is 5 years younger than your chronological age.\n32\nYears old\nKey findings\nIron deficiency\nIron deficiency is the most likely root cause of low energy, hair loss and inflammation you're experiencing - addressing this first.\nHeart health\nIncreased cholesterol profile shows your heart-preoccupation that is working - keep prioritizing and aim for ongoing progress.\nHormonal Health\nTO WIN\nENTER TO WIN\nENTER TO WIN\nENTER\nMito\n×\nMOLEKULE",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A chamada proeminente 'GIVEAWAY' em um círculo branco e a exibição de um produto moderno e limpo.",
+      "prompt": "Editorial photograph featuring a split composition: the left side displays a sleek, minimalist white cylindrical smart device with a tan leather strap on a light tabletop, an orange fruit nearby. The right side shows a silhouetted hand holding a smartphone screen displaying a health app interface with 'Biological age 32'. A prominent white circle with 'GIVEAWAY' text overlays the center. The scene is set against a dark green background with clean white typography at the bottom, high detail, soft studio lighting, modern aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:01:58.633Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DLqc7GxqYGV/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Your annual checkup looks at ~19 biomarkers. Mito looks at over 100. Most people never get the data they need to improve their energy, metabolism, or long-term healthspan.\n\nThis July 4th weekend, we’re offering $50 off the Mito Core Test:\n- 100+ lab-analyzed biomarkers\n- 1:1 doctor consult\n- Personalized, clinically-backed health plan\n- HSA/FSA eligible\n\nNow $349 through July 6.",
+    "hookLine": "Your annual checkup looks at ~19 biomarkers. Mito looks at over 100. Most people never get the data they need to improve their energy, metabolism, or long-term healthspan.",
+    "primary": {
+      "composition": "mulher sorrindo cozinhando na churrasqueira, com tipografia grande e centralizada na imagem",
+      "palette": [
+        "#282828",
+        "#EFCB49",
+        "#FFFFFF"
+      ],
+      "subject": "mulher interagindo com produto e tipografia",
+      "textOverlay": "Mito\nFreedom starts\nwith your health.\n100+ advanced lab tests. Real doctors.\nPersonalized plans to help you feel better,\nlonger.\nDeveloped by researchers at MIT, Stanford, and the Buck Institute for Aging.\n$50 OFF THROUGH JULY 6TH\nHSA/FSA\nEligible",
+      "mood": "casual",
+      "style": "fotografia editorial",
+      "hookSignal": "A frase grande e em destaque 'Freedom starts with your health' prende o olhar, junto com a imagem da mulher sorrindo e feliz.",
+      "prompt": "Medium-close lifestyle photo of a smiling woman with reddish-brown hair and sunglasses, wearing a yellow striped shirt, happily grilling skewers on a modern outdoor barbecue. Warm, natural daylight, soft focus background, creating an inviting and happy mood. Foreground features large white text overlays. Editorial style, high-quality, vibrant colors with dominant dark and yellow tones. Shot with a prime lens, shallow depth of field, photorealistic, 8k."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:02:09.063Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DL2tZD4JjE8/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Join us in San Francisco for a high-energy morning at the intersection of AI, longevity, and preventive medicine. \n\nOn July 19, we’re bringing together some of the brightest minds in health tech.\n\nWhat to expect:\n• Expert-led talks on AI-driven healthcare, longevity science, and personalized prevention\n• Live product demos + a behind-the-scenes look at what we’re building at Mito\n• Network with bright minds in health tech + longevity\n• Healthy catered lunch + organic networking\n\nFeatured Speakers:\n• Joel Kek (Mito Health): Building an AI longevity doctor\n• Kian Sadeghi (Nucleus): Genomics as the foundation of personalized care\n• Adam Gries (Vitalism): Tackling the biology of aging\n• Leah Francis (Mito Health): Redefining the standard in preventive health\n\nYour next 10x health insight might just come from the person sitting next to you.\n\n🗓 Saturday, July 19 | 11 AM\n📍 House of AI, San Francisco\n\nSpots are limited—RSVP now to lock in your spot [link in bio]",
+    "hookLine": "Join us in San Francisco for a high-energy morning at the intersection of AI, longevity, and preventive medicine. ",
+    "primary": {
+      "composition": "Um pôster de anúncio de evento com tipografia proeminente e quatro retratos de palestrantes alinhados horizontalmente na parte inferior, sobre um fundo escuro com reflexos sutis de bola de discoteca.",
+      "palette": [
+        "#28242D",
+        "#E6FB54",
+        "#FFFFFF",
+        "#CCCCCC"
+      ],
+      "subject": "tipografia de evento e retratos de pessoas",
+      "textOverlay": "YOU'RE INVITED\nMito\nInside the Longevity Revolution: A Mito Health Community Panel\nJoin the minds driving the future of preventive healthcare and longevity.\nSaturday, July 19, 11:00 AM\n40 Boardman P1, San Francisco, CA\nJoel Kek\nCo-Founder & CTO at Mito Health\nBuilding an AI longevity doctor\nMito\nKian Sadeghi\nFounder & CEO at Nucleus\nBuilding the future of genomics\nNucleus\nAdam Gries\nFounder at Vitalism\nBuilding a world without unhealthy aging\nVITALISM.\nLeah Francis\nHead of Growth at Mito Health\nBuilding the new standard in preventive healthcare\nMito\nRegister Now",
+      "mood": "energético",
+      "style": "tipografia minimalista",
+      "hookSignal": "O título grande e em negrito 'Inside the Longevity Revolution' em branco claro contra o fundo escuro.",
+      "prompt": "A sleek, modern event announcement poster featuring a dark, slightly textured background with subtle reflections of a disco ball. Bold white and vibrant yellow typography forms the main title and event details. Below the textual information, four professionally shot headshot portraits are arranged in a horizontal line, each framed by a thin white border. The portraits depict diverse individuals with friendly expressions, lit brightly from the front. The design is clean, minimalist, and conveys a forward-thinking, energetic mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:02:21.008Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DKciBnAMHFq/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "What if your blood could tell you how to live longer?\n\nWe run 100+ clinically-backed lab tests in a single visit—paired with real MD insights, habit tracking, and a personalized action plan built for your biology. \n\nNo guesswork. Just data you can actually use.\n\n🧬 Built for longevity. Designed for people who want to feel better—longer.",
+    "hookLine": "What if your blood could tell you how to live longer?",
+    "primary": {
+      "composition": "Tipografia minimalista sobre um fundo escuro e sutilmente texturizado, com um bloco de texto informativo em destaque.",
+      "palette": [
+        "#1a1614",
+        "#ffffff",
+        "#7bd2ff"
+      ],
+      "subject": "tipografia pura e um bloco de texto informativo",
+      "textOverlay": "Mito\nPrecision health, built for longevity.\n✓ 100+ clinically-backed lab tests—in a single visit\n✓ Personalized action plan, built by real MDs\n✓ Track which habits are helping or hurting\n✓ For those who want to feel better—longer",
+      "mood": "clínico",
+      "style": "tipografia minimalista",
+      "hookSignal": "O título grande e em negrito 'Precision health, built for longevity' sobre o fundo escuro.",
+      "prompt": "Minimalist UI design, white sans-serif typography on a dark, subtly textured, out-of-focus background. A prominent clean white rectangular card with rounded corners contains a bold headline, where one key word is highlighted in a soft light blue. Below, bullet points with checkmarks in white text. Clean, modern, high-resolution, professional, soft studio lighting, UI/UX aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:02:30.607Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DKPayGZOSPt/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Join us at Mito x @studiothree for Sweat + Science.\n\nPush your limits with a strength-focused workout led by expert trainer @cassidyrhodessa, paired with personalized wellness insights from Mito. Because peak performance starts with understanding your body—inside and out.\n\n📍 Studio III Austin 🗓️ May 31 | 9:45 AM",
+    "hookLine": "Join us at Mito x @studiothree for Sweat + Science.",
+    "primary": {
+      "composition": "Logos e um título em script no topo, seguidos por duas fotos fitness em preto e branco, e informações de evento abaixo.",
+      "palette": [
+        "#FFFFFF",
+        "#000000",
+        "#808080",
+        "#E5002B",
+        "#00A7D8"
+      ],
+      "subject": "Tipografia e fotografia de fitness.",
+      "textOverlay": "STUDIO/// x Mito\nSweat + Science\nJoin us for a dynamic full-body workout –\npaired with personalized wellness and\ndata-driven self-care.\n+ complimentary goodies\nMay 31 | 9:45 AM | Studio III Austin",
+      "mood": "energético",
+      "style": "fotografia editorial",
+      "hookSignal": "O título em script 'Sweat + Science' e as vibrantes fotografias em preto e branco capturam a atenção.",
+      "prompt": "An editorial social media ad poster on a clean white background. Top features minimalist brand logos (one in gray with colorful vertical lines, another in black bold serif) separated by an 'x'. Below, a prominent elegant script font reads 'Sweat + Science'. Two high-contrast black and white fitness photographs showcase active individuals in workout poses, one a smiling woman kneeling, the other multiple people doing yoga, with bright studio lighting. Bottom text in black sans-serif details an event description and date. Studio photography, bright, clean."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:02:39.927Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DKzbBgGMv-w/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "The kind of Father’s Day gift that actually lasts. Help him feel sharper, stronger, and better—for longer.\n\n100+ biomarkers, a real doctor, and a plan built for his health goals. Now $349 through June 16.",
+    "hookLine": "The kind of Father’s Day gift that actually lasts. Help him feel sharper, stronger, and better—for longer.",
+    "primary": {
+      "composition": "fotografia de pai e filho sorrindo em um cenário natural, com tipografia sobreposta e um botão de CTA na parte inferior",
+      "palette": [
+        "#2E333D",
+        "#5C6E5C",
+        "#E0C0AE"
+      ],
+      "subject": "pai e filho em cena natural",
+      "textOverlay": "Mito Give dad the gift of life. 100+ advanced lab tests. A real doctor. A custom plan to help him feel better—longer. GIFT DAD HEALTH FOR $349 HSA/FSA Eligible",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "A imagem de um pai e filho sorrindo feliz, evocando uma sensação de bem-estar e conexão familiar.",
+      "prompt": "A genuine and heartwarming candid photograph of a father carrying his young child on his shoulders, both smiling broadly at the camera. They are in a natural outdoor environment with soft, diffused sunlight filtering through lush green trees in the blurred background. The image has a warm, inviting, and authentic lifestyle photography feel, captured with a shallow depth of field."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:02:51.977Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DLaSTuXRhBT/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "You’re not defined by your age—your habits tell the real story.\n\nThis Mito member’s biological age came back 4 years younger than their actual age. When you move with intention, nourish your body, and stay curious about your health, it shows—from the inside out.\n\nYour data is waiting to tell you more.",
+    "hookLine": "You’re not defined by your age—your habits tell the real story.",
+    "primary": {
+      "composition": "Digital interface overlay sobre mulher alongando ao ar livre em um balcão.",
+      "palette": [
+        "#afc7d2",
+        "#d1b2b9",
+        "#f9fafb"
+      ],
+      "subject": "Mulher em pose de alongamento e mockup de interface de aplicativo.",
+      "textOverlay": "Biological age Your biological age is 4 years younger than your chronological age. 28 24 Biological age Your habits are rewriting your age.",
+      "mood": "energético",
+      "style": "fotografia editorial",
+      "hookSignal": "O mockup de interface de aplicativo com o número '24' e a mensagem sobre idade biológica.",
+      "prompt": "A serene young woman in a ribbed light pink athletic set stretching on a sleek, modern balcony under a clear, bright sky. A translucent digital health app interface is overlaid on the image, displaying 'Biological age' and numerical data. Soft natural daylight, wide shot, editorial photography style, with a color palette of muted blues, soft pinks, and clean whites, evoking an uplifting and health-conscious mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:03:02.557Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DLQAuHHx8MJ/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Your annual physical only runs 10-25 basic labs. We run 100+.\n\nWelcome to the future of your health. Personalized, proactive, and powered by real data.",
+    "hookLine": "Your annual physical only runs 10-25 basic labs. We run 100+.",
+    "primary": {
+      "composition": "Tipografia proeminente e uma grade de marcadores de texto em bolhas, sobre um fundo escuro e abstrato.",
+      "palette": [
+        "#2E2927",
+        "#FFFFFF",
+        "#53483F"
+      ],
+      "subject": "tipografia",
+      "textOverlay": "Mito\n100+ biomarkers\nyour doctor isn't\nrunning.\nFrom inflammation and hormone imbalances to metabolic risk\nand aging markers—get insights you can actually act on.\nhsCRP\nVitamin D\nHomocysteine\nApolipoprotein B\nHbA1c\nLDL-Cholesterol\nHOMA-IR\nHemoglobin\nFasting Insulin\nCystatin C\nVitamin B12\nFerritin\nMagnesium\nTriglycerides\nTestosterone\nCortisol\nDHEA-S\nProstate Specific Antigen",
+      "mood": "clínico",
+      "style": "tipografia minimalista",
+      "hookSignal": "A frase grande e impactante '100+ biomarkers your doctor isn't running.' em destaque sobre o fundo escuro.",
+      "prompt": "A modern, minimalist typographic composition featuring large white sans-serif text against a dark, warm brown gradient background. Below, a grid of smaller white text labels, each enclosed in a thin white oval outline. Soft, diffused lighting highlights subtle textures on the dark surface. The overall mood is clinical and informative, with clean lines and high contrast, resembling a digital health interface."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:03:17.270Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DJCPpV4Rn2N/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "We’re heading to West Palm Beach this November. Mito will be live at Eudēmonia Summit — where science meets soul and performance meets philosophy.\n\nMore than a conference, it’s a convergence of bold ideas and pioneering voices. From Andrew Huberman and Mark Hyman to Rick Doblin, Gabby Bernstein, and Arthur C. Brooks — the stage brings together the visionaries shaping the future of well-being.\n\nFind us at EXPOSŌME, a hands-on showcase of the next generation of personalized health, wellness tech, and functional medicine.\n\n3 days. 100+ experts. 1 life-altering summit.\nTickets at eudemonia.net.\n@EudemoniaSummit → see you there.",
+    "hookLine": "We’re heading to West Palm Beach this November. Mito will be live at Eudēmonia Summit — where science meets soul and performance meets philosophy.",
+    "primary": {
+      "composition": "fotografia de corpo humano em pose expressiva com tipografia sobreposta",
+      "palette": [
+        "#EFEBE7",
+        "#4A4A4A",
+        "#FFFFFF"
+      ],
+      "subject": "figura humana e tipografia sobreposta",
+      "textOverlay": "NOV 13-16, 2025\nWEST PALM BEACH\nTHE HEALING IS MUTUAL.\nMito AT EUDĒMONIA SUMMIT\n100+ EXPERTS\n3 DAYS\n1 LIFE-ALTERING SUMMIT\nTickets\nEUDEMONIA.NET\n→",
+      "mood": "contemplativo",
+      "style": "fotografia editorial",
+      "hookSignal": "A pose única e expressiva da figura humana, juntamente com o texto principal, prende o olhar imediatamente.",
+      "prompt": "Editorial photograph of a male figure in a contemplative, bending pose, head down, with one hand visible in the foreground. The image features soft, diffused chiaroscuro lighting, creating a profound and serene mood. The palette is monochromatic with warm, desaturated sepia tones, reminiscent of vintage prints. Clean, modern sans-serif typography is overlaid onto the image, presenting event details. Shot with a professional prime lens for sharp detail and a wide perspective, capturing an introspective atmosphere."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:03:26.730Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DJchVA5xn4S/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Advanced testing for the women who made you who you are. 100+ biomarkers. Clinical-grade insights. Personalized care. Now 10% off through Sunday for Mother’s Day.",
+    "hookLine": "Advanced testing for the women who made you who you are. 100+ biomarkers. Clinical-grade insights. Personalized care. Now 10% off through Sunday for Mother’s Day.",
+    "primary": {
+      "composition": "duas mulheres de diferentes gerações em um close-up íntimo, com tipografia centralizada em destaque",
+      "palette": [
+        "#6b5c54",
+        "#a08c87",
+        "#ffffff"
+      ],
+      "subject": "rosto humano, tipografia pura",
+      "textOverlay": "Built for every\ngeneration.\n\n100+ biomarkers. Clinical-grade testing.\nBecause her health deserves better than\n“normal.”",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "a tipografia grande e branca 'Built for every generation.' que contrasta fortemente com o fundo escuro.",
+      "prompt": "Close-up, intimate editorial photograph of two women, one older and one younger, embracing gently with eyes closed or softly cast down. Soft, diffused light creates a tender, contemplative mood. Muted, warm earth tones and subtle nudes dominate the palette. Prominent, elegant white typography is centered over the image. Captures a feeling of generational connection and health."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:03:36.837Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DJrY3wHRm7c/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Standard care scratches the surface. We go deeper—with over 100+ biomarkers, personalized insights, and doctor-reviewed plans built to optimize your health over time. This is what comprehensive really looks like.",
+    "hookLine": "Standard care scratches the surface. We go deeper—with over 100+ biomarkers, personalized insights, and doctor-reviewed plans built to optimize your health over time. This is what comprehensive really",
+    "primary": {
+      "composition": "Tipografia minimalista em fundo preto na parte superior, com um retrato em close de uma mulher na parte inferior sob luz lateral quente.",
+      "palette": [
+        "#000000",
+        "#FFFFFF",
+        "#DDA07C"
+      ],
+      "subject": "tipografia pura e rosto humano",
+      "textOverlay": "Mito\n\"Far more\ncomprehensive than any\noffering from standard\nprimary care.\"\nThe Washington Post",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "A frase impactante em branco sobre o fundo preto chama a atenção imediatamente.",
+      "prompt": "A split image, top two-thirds black background with bold white sans-serif typography featuring a compelling quote attributed to a respected publication. The bottom one-third is a close-up editorial portrait of a serene woman with closed eyes and wet hair, illuminated by warm, soft side lighting creating gentle shadows. The style is clean, minimalist, and high-contrast, blending sophisticated text with natural, contemplative photography. Shot with a prime lens for shallow depth of field, conveying a sense of calm and depth. --ar 9:16"
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:03:46.422Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DJABz2LxSOt/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "$15,000 in testing. Personalized doctor care.\nGet 2x the biomarkers, a real 1:1 doctor consult, lifetime lab access at 85% off, and full health tracking — for 30% less than other providers like Function Health.",
+    "hookLine": "$15,000 in testing. Personalized doctor care.",
+    "primary": {
+      "composition": "um infográfico de tabela comparativa centralizado com um título grande sobre um fundo escuro e gradiente",
+      "palette": [
+        "#2e3b44",
+        "#ffffff",
+        "#4d5b69",
+        "#13d664"
+      ],
+      "subject": "gráfico de dados",
+      "textOverlay": "Mito\nMore insights. Better value.\nOTHER PROVIDERS\nPrice\n$359\n$499+\nBiomarkers Tested\n100+\n49+\nDoctor + AI Health Plan\nPersonalized\nGeneric\nAffordable Add-On Tests\nAnytime\nLimited\nIntegrate Past\nMedical Records\nSeamless\nNot Offered\n1:1 MD Consult\nIncluded\nPay Extra\nNationwide Lab Access\n2,000+ Labs\nAcross All 50\nStates\nRestricted\nGET STARTED FOR $359\nHSA/FSA\nEligible",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "O título grande e a tabela comparativa centralizada com preços e benefícios visíveis chamam a atenção imediatamente.",
+      "prompt": "A minimalist digital infographic featuring a clean comparison table centered against a deep blue-gray gradient background. A large, bold white sans-serif headline is positioned above the table. The table includes light gray cells, crisp white text for content, and prominent dark gray column headers. A vibrant green call-to-action button, with white text and a subtle checkmark icon, is located at the bottom. The overall aesthetic is professional, high-contrast, and modern UI/UX design, emphasizing clarity and information hierarchy."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:03.141Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DKAVEK7R8Qx/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Because feeling better starts with knowing more.\n\nThis weekend only: $40 off Mito Core.\n\nOur Core test analyzes 100+ clinically relevant biomarkers—\npaired with a 1:1 doctor consult and unlimited health coaching.\n\nNow $359 through Memorial Day.",
+    "hookLine": "Because feeling better starts with knowing more.",
+    "primary": {
+      "composition": "tipografia centralizada e minimalista sobre um fundo de cor sólida.",
+      "palette": [
+        "#A0674B",
+        "#FFFFFF"
+      ],
+      "subject": "tipografia pura",
+      "textOverlay": "Mito\nThis weekend only:\n$40 off Mito Core\n100+ biomarkers.\nA doctor consult.\nUnlimited health coaching.\nYour personalized action plan.\nNow $359 through Memorial Day.",
+      "mood": "urgente",
+      "style": "tipografia minimalista",
+      "hookSignal": "O texto em destaque \"$40 off Mito Core\" imediatamente chama a atenção para a oferta.",
+      "prompt": "Minimalist ad design, centered white sans-serif typography on a solid, muted terracotta background. Bold headlines announcing a limited-time offer, with smaller bullet points detailing features below. Clean, modern aesthetic with ample negative space. Studio lighting, digital art, ultra-clear text readability."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:11.339Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DIthE9SMCNP/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "🚨 ŌURA RING GIVEAWAY 🚨\n We're gifting one lucky winner the ultimate health upgrade — a brand new @ouraring 4 (valued at $400)!\n\nHere’s how to enter: \n1. Follow us @mitohealthapp  2. Like this post  3. Tag a friend who loves wellness (1 friend = 1 entry)  4. Share this post to your story for a bonus entry\n\nGiveaway ends on 4/25 at 11:59 PM EST. Winner will be notified via DM. ✨",
+    "hookLine": "🚨 ŌURA RING GIVEAWAY 🚨",
+    "primary": {
+      "composition": "Tipografia grande no topo e logos na parte inferior em fundo claro, emoldurando uma foto de mãos interagindo com um anel.",
+      "palette": [
+        "#F8F8F8",
+        "#3C3C3C",
+        "#2D58A0"
+      ],
+      "subject": "mãos humanas com anel de produto",
+      "textOverlay": "GIVEAWAY\nMito x ŌURA",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A palavra 'GIVEAWAY' em letras grandes e a imagem central das mãos com o anel chamam a atenção.",
+      "prompt": "An overhead close-up shot of hands, one wearing a sleek, modern white smart ring, while the other hand gently adjusts it on a light wooden table. A white sizing kit with various ring options is subtly blurred in the background. Soft, even, natural light illuminates the scene, highlighting clean lines and textures. The color palette is minimal, focusing on light greys, natural skin tones, and the product's finish. A clean, modern editorial product photograph with a sharp focus. --ar 4:5"
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:25.603Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/DD7iyejS42P/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "This holiday season, give the ultimate gift – the gift of health. 🎁\n\n“I’ve bought this for my mum, who just turned 60, and it helped her understand what vitamins she was deficient in and have a more targeted supplement regime for the next year.” - Our client, aged 31. \n\nAt Mito Health, we empower your loved ones with tools and insights to live their healthiest lives through advanced blood work analysis.\n\n💡 Whether it’s staying ahead of health concerns or optimizing longevity, our gift cards provide the knowledge to make meaningful lifestyle changes.\n\nShow them how much you care.\n\nExplore the perfect gift today!",
+    "hookLine": "This holiday season, give the ultimate gift – the gift of health. 🎁",
+    "primary": {
+      "composition": "Tipografia limpa na parte superior com dois mockups de cartões presente inclinados na parte inferior.",
+      "palette": [
+        "#F8F8F8",
+        "#212121",
+        "#404040"
+      ],
+      "subject": "mockup de produto",
+      "textOverlay": "Gift Healthy Years\nEmpower your loved ones with the tools and insights they need to live their healthiest lives.\nBuy Gift Card\nMito\nThe gift of good health\nBetter insights through blood work\nmitohealth.com",
+      "mood": "editorial",
+      "style": "tipografia minimalista",
+      "hookSignal": "O título 'Gift Healthy Years' e o contraste dos cartões presente atraem o olhar imediatamente.",
+      "prompt": "A minimalist and clean product photography setup featuring two slightly angled, rectangular gift cards floating over a bright, off-white background. The upper part of the image contains a bold, dark sans-serif headline, a lighter descriptive subtitle, and a black rectangular call-to-action button. One gift card is dark gray with white text, the other is white with dark gray text. Both cards subtly display a wireframe human figure. Soft, diffused studio lighting creates gentle shadows beneath the cards, emphasizing depth. Predominant colors are off-white, dark gray, and black."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:37.052Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C-Jnt0Rv5Wc/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "🚀 We’re Live on Product Hunt! \n\nExcited to share that we are now on @producthunt as we continue to grow our waitlist, with support from Michael Seibel from @ycombinator who hunted us! 👋 \n\n🩺 Our Mission: Transform healthcare from reactive to proactive, helping you stay away from diseases and live your best life.\n\nWhy Mito Health?\n\n1. Personalized insights based on your bloodwork\n2. Early detection of potential health issues\n3. Mito Biological Age to track how you’re aging\n\nDo drop an upvote at the link in bio!",
+    "hookLine": "🚀 We’re Live on Product Hunt! ",
+    "primary": {
+      "composition": "Layout minimalista com tipografia proeminente no topo e um mockup de tela de aplicativo centralizado abaixo, sobre um fundo escuro.",
+      "palette": [
+        "#1D1D1D",
+        "#FFFFFF",
+        "#64B53E"
+      ],
+      "subject": "mockup de produto",
+      "textOverlay": "Mito\nPrevent disease and achieve peak health\nWith better insights from bloodwork\nProduct of the day Top 5\nMichael Seibel Y Combinator\nMito Health\nBetter insights from bloodwork\nFEATURED ON Product Hunt 157\nPayment Required\nMito Health uses blood work at regular labs to help craft personalized plans using AI with a doctor in the loop. The insights are highly individualized to help you make positive steps to better your health.\nLaunched in Health & Fitness Artificial Intelligence Lifestyle by Mito Health\nDiscuss Collect Share Stats\nMito\nHome\nAppointments\nAnalysis\nHealth plan\nBiomarkers\nLab reports\nSettings\nAnalysis\nBiological age\nYour overall health\n21 Years\nGood news! Your biological age is 10 years younger than your chronological age at the time of testing. A lower blood age will help you live healthier, longer.\nLearn more →\nHealth insights\nKey takeaways from your health report\nDr. Ryan Ware\nChief Medical Officer\nNEEDS ATTENTION\nYou are insulin resistant. While not currently pre-diabetic, future risk of progression is increased.\n1 Feb 2024\nRead more →\nOPTIMAL\nYou maintain a very high muscle mass in the top 10% for age and gender.\n1 Feb 2024\nRead more →\nOPTIMAL\nYou improved for...\n1 Feb 2024\nRead more →",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "A manchete ousada 'Prevent disease and achieve peak health' comunica valor e propósito, atraindo o olhar imediatamente.",
+      "prompt": "A high-angle shot of a minimalist smartphone screen displaying a health tracking application UI, showcasing detailed data visualizations like biological age and personalized health insights, against a deep charcoal gray background. The composition features clean, modern typography and subtle graphical elements. The lighting is soft and ambient, highlighting the screen without harsh reflections. The overall aesthetic is professional and clinical, emphasizing data clarity and user experience."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:49.788Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C_4KOLmy2bz/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Exciting News! 🚨\n\nMito Health (YC S24) is the official bloodwork & diagnostics partner for @bryanjohnson_ Don’t Die Summit in Singapore on 19 Sept! 🌍\n\nJoin us to explore cutting-edge health and longevity insights with a curated 80+ biomarker panel, featuring our partners from Lucence Liquid Biopsy, AMILI Gut Microbiome Kits, OmegaQuant Omega-3 Tests\n\nDon’t miss out—over 1,000 attendees are already signed up!",
+    "hookLine": "Exciting News! 🚨",
+    "primary": {
+      "composition": "retrato em close de perfil de um homem com os olhos fechados, iluminado por luz vermelha lateral, sobre um fundo escuro com tipografia branca",
+      "palette": [
+        "#160000",
+        "#DC0000",
+        "#FFFFFF"
+      ],
+      "subject": "rosto humano",
+      "textOverlay": "Mito | DON'T DIE\nOfficial Diagnostics Partner of\nBryan Johnson's Don't Die Summit\n19 September\nSingapore",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "a iluminação dramática em vermelho e a tipografia impactante 'DON'T DIE' prendem o olhar",
+      "prompt": "Cinematic profile portrait of a man with eyes closed, against a dark, minimalist background. Dramatic, strong red side lighting sculpts his features and creates deep shadows. The composition is clean and high-contrast, with a focus on the subject's contemplative expression. The overall aesthetic is dark, sleek, and intense, with a palette dominated by deep reds and blacks, accented by sharp white typography."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:04:56.501Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C8HYTDGN-_Z/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "😓 An unhealthy diet can have profound, far-reaching consequences on your overall health and longevity. \n\nConsistently consuming a diet lacking essential nutrients or full of harmful substances (as listed above) can weaken your immune system, making you more vulnerable to infections and illnesses. \n\nOver time, poor dietary habits can lead to chronic diseases such as heart disease, diabetes, hypertension, and obesity, each of which can severely impact your quality of life in the long run.\n\nMoreover, the effects of poor nutrition extend to mental health, often exacerbating conditions like depression, anxiety, and cognitive decline. \n\nWithout the right balance of vitamins, minerals, and other nutrients, your body and mind cannot function at their best.\n\nRemember, nutrition is a cornerstone of preventive health. By prioritising a balanced diet rich in fruits, vegetables, lean proteins, and whole grains, you are investing in your long-term health and well-being. \n\nSmall, mindful changes in your eating habits today can lead to significant improvements in your health tomorrow. \n\nMake the choice to nourish your body with the nutrients it needs and deserve. \n\nStay tuned for our next post, where we explore a key strategy used for eating right - the Mediterranean diet!\n\n–\n🌴 Screen your health now at our new oasis: Trapeze Rec. Club. Reserve your slots by clicking the link in bio.\n–\n☎️ Link in bio to book a free consultation call with Mito’s longevity doctors.\n–\n#healthspan #longevity #biohacking #nutrition",
+    "hookLine": "😓 An unhealthy diet can have profound, far-reaching consequences on your overall health and longevity. ",
+    "primary": {
+      "composition": "Um gráfico de barras ascendente centrado em um fundo cinza claro, com texto acima e abaixo.",
+      "palette": [
+        "#D9D9D9",
+        "#595959",
+        "#000000"
+      ],
+      "subject": "gráfico de dados",
+      "textOverlay": "Mito\nConsequences of an unhealthy\ndiet build up over time\nwww.mitohealth.com",
+      "mood": "editorial",
+      "style": "infográfico",
+      "hookSignal": "A representação visual do aumento gradual das barras que ilustra a acumulação de consequências atrai o olhar.",
+      "prompt": "A minimalist infographic featuring a bar chart centered on a clean light grey background. The bars progressively grow taller from left to right, filled with a subtle dark grey dotted texture, symbolizing gradual accumulation. Black, sans-serif text appears above the chart as a title and below as a descriptive caption. The lighting is uniform and soft, creating a factual and editorial mood. The overall style is modern and data-driven."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:05:06.171Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C8PE28ctx1a/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Your dad gave you life - and this Father’s Day, let him know how much you care.\n\nAs we age, our bodies become more and more susceptible to many illnesses and chronic diseases. It’s hard to predict or prevent them too - after all, so many of them barely manifest any clinical symptoms. \n\nWhat better way to proactively prevent such silent killers from taking root, than by screening your dad’s health with Mito?\n\nMito’s innovative at-home Flagship Package measures heart health, hormone levels, nutrient deficiencies and more - all with a few drops of blood. It provides comprehensive insights into his wellbeing, allowing him to take proactive steps towards living healthier and happier!\n\nThis one’s for dad - it’s your turn to give him the power to create a healthier life for himself.\n\n–\n🌴 Screen your health now at our new oasis: Trapeze Rec. Club. Reserve your slots by clicking the link in bio.\n–\n☎️ Link in bio to book a free consultation call with Mito’s longevity doctors.\n–\n#healthspan #longevity #biohacking #fathersday",
+    "hookLine": "Your dad gave you life - and this Father’s Day, let him know how much you care.",
+    "primary": {
+      "composition": "Um homem e uma criança sentados de costas em um rochedo, observando uma vasta paisagem montanhosa com texto sobreposto.",
+      "palette": [
+        "#a9b6b7",
+        "#d4c9bc",
+        "#475e5a"
+      ],
+      "subject": "cena de natureza",
+      "textOverlay": "Mito\nThis One's\nfor Dad\nGive the gift of good health\nwww.mitohealth.com/gift",
+      "mood": "contemplativo",
+      "style": "fotografia editorial",
+      "hookSignal": "O texto 'This One's for Dad' no centro superior, por seu tamanho e posição, combinado com a imagem tocante de pai e filho, atrai a atenção.",
+      "prompt": "A heartwarming editorial photograph of a father and child sitting on a stone ledge, viewed from behind, gazing out at a vast, hazy mountain range covered in dense forest under natural, soft daylight. The composition emphasizes connection and contemplation amidst a grand natural backdrop. Muted, earthy color palette featuring soft blues, deep greens, greys, and light beige. Shot with a prime lens, capturing a calm, reflective mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:05:14.819Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C6tDotGyP8O/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "This Mother’s Day, why not give your mom the gift of longevity?\n\nIt’s no secret - as we age, our bodies become susceptible to many illnesses and chronic diseases, many of which barely manifest any clinical symptoms. \n\nWhat better way to proactively prevent such silent killers from taking root in her body, than by screening her health with Mito?\n\nMito’s innovative at-home Flagship Package measures heart health, hormone levels, nutrient deficiencies and more - all with a few drops of blood. It provides comprehensive insights into her wellbeing, allowing her to take proactive steps towards living healthier and happier!\n\nYour mom gave you life; now it’s your turn to give her the power to create a healthier one for herself. \n\n–\n🌴 Screen her health at our new oasis: Trapeze Rec. Club. Reserve your slots now by clicking the link in bio.\n–\n📬 Link in bio to join 1000+ members for weekly health optimisation hacks.\n–\n#healthspan #longevity #biohacking #mothersday",
+    "hookLine": "This Mother’s Day, why not give your mom the gift of longevity?",
+    "primary": {
+      "composition": "Retrato caloroso de duas mulheres com tipografia minimalista sobre fundo cinza-escuro.",
+      "palette": [
+        "#5F5E5C",
+        "#FFFFFF",
+        "#E1BBA2"
+      ],
+      "subject": "Retrato de duas mulheres",
+      "textOverlay": "Mito\nThis Mother’s Day\nGive the gift\nof Longevity\nMito Flagship Health Screening\n$499\nLongevity-focused biomarkers,\nincluding in-depth personalised\ninsights & solution.\nOTHER RECOMMENDED ADD-ONS:\nDEXA Scan\nEarly Cancer Liquid Biopsy\n(LUCENCEInsight™)\nFind out more at mitohealth.com",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "O título em destaque 'Give the gift of Longevity' e o retrato caloroso das mulheres prendem a atenção.",
+      "prompt": "Editorial photograph featuring a close-up portrait of two women, possibly mother and daughter, embracing warmly. One woman gently rests her head on the other's shoulder. Soft, natural, warm lighting. Muted, desaturated warm gray background with clean white typography. The overall mood is gentle, caring, and contemplative, emphasizing connection and wellness. Shot with a prime lens, shallow depth of field."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:05:26.019Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4axtrlsEpI/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Hear it from our clients - taking control of your health has never been so seamless. \n\nUnderstanding your health is half the battle won. The other half? Implementation.\n\nIt all starts with a comprehensive risk assessment to understand your preferences, lifestyle, and habits. \n\nYour risk profile is combined with your unique biomarkers to know exactly which levers to pull - across exercise, nutrition, supplements, sleep, and mental well being -  to slow aging, reduce disease risk, and promote longevity.\n\nAt Mito Health, we curate a personalised, evidence-based, and comprehensive action plan to help you take control of your health.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🌴Screen your health at our new oasis: Trapeze Rec Club. Book to reserve your slots with the link in bio.\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Hear it from our clients - taking control of your health has never been so seamless. ",
+    "primary": {
+      "composition": "tipografia minimalista em destaque sobre um fundo verde-escuro abstrato e desfocado",
+      "palette": [
+        "#FFFFFF",
+        "#334E32",
+        "#5E7A5C"
+      ],
+      "subject": "tipografia pura",
+      "textOverlay": "Mito\n“Very comprehensive\nnutrition and exercise\nplan that helped me\nwork towards the\ntargets we jointly\nset together.”\nYue Jing Heng, Mito client\nwww.mitohealth.com",
+      "mood": "editorial",
+      "style": "tipografia minimalista",
+      "hookSignal": "O grande texto branco da citação se destaca imediatamente contra o fundo escuro, convidando à leitura.",
+      "prompt": "Minimalist graphic design featuring large, clear white sans-serif typography against a softly blurred abstract background of deep and medium green hues, subtly streaked. A thin white horizontal line anchors smaller white text at the bottom. The composition is clean and modern, with soft, even lighting, conveying a professional and trustworthy mood. Designed for a health or wellness brand."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:05:35.660Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4sDdJKMS8E/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "What makes Mito Screenings different?\n\nOur goal is simple - comprehensive, longevity-focused biomarker testing at the most accessible price point. Our flagship package includes curated biomarkers like ApoB, Lp(a), insulin, homocysteine, and Cystatin-C, uncovering layers of your health that standard screenings may not cover.\n\nNot only advanced biomarkers - we also revolutionise your health journey to be seamless, simple, and sustainable. Experience seamless home-based screenings or visit Trapeze Rec Club in Tanjong Pagar for unparalleled convenience (done within 15 minutes). Navigate your health data effortlessly with our AI-powered Health Dashboard, vetted by our Chief Medical Officer, Dr. Ryan, ensuring you’re always aligned with the latest in longevity science. Track progress, adjust your personalised health plan, and unlock member-exclusive benefits and longevity events.\n\nDon’t settle. Join Mito Health, and let’s embark on a journey to optimal health, informed by the latest science, and tailored just for you.\n\n–\n📝 Read the full article to learn how Mito differs from other screenings. \n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🌴 Screen your health at our new oasis: Trapeze Rec Club. Book to reserve your slots with the link in bio.\n–\n#healthspan #longevity #biohacking #healthscreening #sghealthyliving",
+    "hookLine": "What makes Mito Screenings different?",
+    "primary": {
+      "composition": "Uma tabela de comparação profissional e minimalista, com bordas brancas sobre um fundo escuro monocromático.",
+      "palette": [
+        "#1A1A1A",
+        "#FFFFFF",
+        "#F2A900",
+        "#4CAF50"
+      ],
+      "subject": "gráfico de dados",
+      "textOverlay": "Mito\nBenefits\n*\nMito\nTelemedicine Screening\nCBD Health Screening\nHeartland Health Screening\nLongevity Cardiac Biomarkers:\nAPOB, LP(A)\nUltra-preventive Diabetes\nBiomarker: INSULIN\nMetabolic Biomarker:\nHOMOCYSTEINE\nVITAMIN D, VITAMIN B, FOLATE, IRON\nLatest Kidney Health\nBiomarker: CYSTATIN C\nHome-Based Screening\nHealth Dashboard\nPersonalised Health Plan\nMember-exclusive Discounts\nand Events\nwww.mitohealth.com",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "A tabela de comparação em grade com checkmarks verdes e Xs brancos, que destaca rapidamente as diferenças entre as opções.",
+      "prompt": "A minimalist and modern comparison table on a dark charcoal background. The table features white grid lines, clean white sans-serif typography, and a distinct header with a light accent. Checkmarks are vibrant green, and 'x' marks are white on a dark square. The overall aesthetic is high-contrast, professional, and informative, resembling a data visualization for health services."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:05:45.636Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4hvo14xjq1/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "We are proud to announce Mito Health as the official health assessment partner for Metasprint Duathlon.\n\nThis collaboration is built on a shared belief in the transformative power of sport and health.\n\nTogether, MetaSport and Mito Health are not just crossing a finish line; we are embarking on a journey to define what it means to live a healthy, active life \n\nVisit our Mito booth on March 17th, at the F1 Village to find out more.",
+    "hookLine": "We are proud to announce Mito Health as the official health assessment partner for Metasprint Duathlon.",
+    "primary": {
+      "composition": "Close-up de um ciclista em perfil com tipografia principal à esquerda e detalhes de evento abaixo.",
+      "palette": [
+        "#FFFFFF",
+        "#2C3F3C",
+        "#3C4234",
+        "#0A0A0A",
+        "#F4A261"
+      ],
+      "subject": "rosto humano",
+      "textOverlay": "Mito\nMETASPRINT\nSERIES SINGAPORE\nOfficial Health Assessment Partner\n17 March 2024, F1 Village\nwww.mitohealth.com",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A tipografia branca proeminente 'Mito' e a imagem dinâmica do ciclista.",
+      "prompt": "An editorial sports photograph capturing a male cyclist in profile, wearing a sleek dark helmet and sunglasses, intensely focused on the ride. Natural, slightly diffused outdoor light illuminates his face and dark athletic wear. The background features blurred, dark green foliage, creating a shallow depth of field. Overlayed white typography dominates the left, with smaller lines of text and a vibrant, multi-colored geometric logo on the right. Professional, clean aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:00.302Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4HYBlVyk-5/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Dear friends of Mito Health! We have officially ended the contest as of 5 March due to a overwhelming response.\n\nWe had a total of over thousands of entries from the last two posts and we have used a random picker to choose a valid entry. Please refer to our ig story for the  draw mechanics we used.\n\nAnd.. the lucky winner is @sharonk2308 Huge congratulations to you and do look out for a DM directly from this account. We’ll see you on Thursday directly! 🎉\n\nWe’ll be removing this post shortly after we’ve verified the person!",
+    "hookLine": "Dear friends of Mito Health! We have officially ended the contest as of 5 March due to a overwhelming response.",
+    "primary": {
+      "composition": "Tipografia centralizada sobre fundo escuro com formas abstratas iluminadas.",
+      "palette": [
+        "#0A0A0B",
+        "#FFFFFF",
+        "#3B627E"
+      ],
+      "subject": "Tipografia pura",
+      "textOverlay": "Mito\nEntries\nOfficially\nClosed\nRead caption for more details!\n@mitohealthapp | mitohealth.com | Your Longevity Expert",
+      "mood": "editorial",
+      "style": "tipografia minimalista",
+      "hookSignal": "O texto grande e branco 'Entries Officially Closed' no centro escuro.",
+      "prompt": "A minimalist digital graphic with prominent, bold white sans-serif text centered on a dark, almost black background. Soft, diffused ambient lighting highlights subtle, curving translucent forms with a blue-grey glow, emerging from the top and bottom edges. The overall aesthetic is clean, modern, and high-tech, conveying an editorial and definitive mood, rendered with crisp, sharp details."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:09.448Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4K6VEyM97j/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Take control of your health - it's your most valuable asset.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🌴Screen your health at our new oasis: Trapeze Rec Club. Book to reserve your slots with the link in bio.\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Take control of your health - it's your most valuable asset.",
+    "primary": {
+      "composition": "Tipografia centralizada e números grandes sobre fundo escuro.",
+      "palette": [
+        "#1A1A1A",
+        "#F0F0F0",
+        "#F0A638",
+        "#8C8C8C"
+      ],
+      "subject": "Tipografia pura e números como metáfora",
+      "textOverlay": "Mito\nWithout 1,\neverything else is 0\n10000\nHealth\nWork\nFamily\nMoney\nDreams\nwww.mitohealth.com",
+      "mood": "contemplativo",
+      "style": "tipografia minimalista",
+      "hookSignal": "O grande número '1' em destaque e a frase 'Without 1, everything else is 0' prendem o olhar.",
+      "prompt": "A minimalist graphic design, centered composition on a dark charcoal background. Features large numbers, where the first digit is a vibrant orange-gold and the subsequent digits are soft grey. Above the numbers, a bold statement in light grey explains their significance. Below, subtle grey text labels each digit. Clean modern typography, flat lighting, thought-provoking mood. --ar 9:16"
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:18.614Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C3nAkpFs5TL/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Comprehensive longevity health screening, made seamless.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🌴 Screen your health at our new oasis: Trapeze Rec Club. Reserve your slots with the link in bio.\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Comprehensive longevity health screening, made seamless.",
+    "primary": {
+      "composition": "Layout de testimonial com tipografia grande e foto de pessoas com animais de estimação, em fundo neutro.",
+      "palette": [
+        "#f0ede7",
+        "#262626",
+        "#ac723d"
+      ],
+      "subject": "Tipografia de citação e uma fotografia de duas pessoas com dois cães.",
+      "textOverlay": "Mito\n“Honestly, really impressed at how easy it is and how detailed the test is.”\nKenneth & Lovage, Mito client",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "A grande citação em negrito prende a atenção, incentivando a leitura do depoimento.",
+      "prompt": "A clean and modern testimonial graphic featuring a prominent, bold sans-serif quote on the left side of a warm off-white background. On the right, a vibrant, well-lit photograph of a smiling couple holding two dogs in an outdoor, natural setting with lush greenery. The overall aesthetic is friendly and positive, with a clear, sharp focus, combining dark grey text with natural, lively colors from the photo."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:30.585Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C3RwkJvN1E_/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "What’s better than living healthier, for longer?\n\nA lifetime of health, together ❤️ \n\nThis Valentine’s Day, give your loved one:\n- Enhanced vitality and peak performance\n- Boundless energy to enjoy every moment\n- Vibrant health to create lasting memories (with your great-grandkids)\n- Peace of mind, knowing you're prioritizing wellness together.\n\nGift Mito today - with the link in bio.",
+    "hookLine": "What’s better than living healthier, for longer?",
+    "primary": {
+      "composition": "Retrato de um casal, com a mulher abraçando o homem por trás, ambos olhando para o lado, com tipografia sobreposta no primeiro plano.",
+      "palette": [
+        "#7A4B2F",
+        "#EAE0D7",
+        "#BBA08F"
+      ],
+      "subject": "rosto humano",
+      "textOverlay": "Mito\nA lifetime of\nhealth, together.\nGive the gift of health\nwww.mitohealth.com/gift",
+      "mood": "caloroso",
+      "style": "fotografia editorial",
+      "hookSignal": "A imagem de um casal se abraçando com o texto 'A lifetime of health, together' cria uma sensação de carinho e bem-estar, capturando a atenção.",
+      "prompt": "Intimate editorial portrait of a loving couple, featuring an Asian man in the foreground with a woman embracing him from behind, both looking thoughtfully into the distance. The scene is bathed in soft, warm natural light, highlighting their cozy beige and cream knit sweaters against a rich, earthy brown background. The composition exudes a feeling of shared well-being and deep connection, captured with a natural, medium shot lens."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:41.420Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C3H5pLwN-X_/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "The sign you need to kick off your health optimisation journey. \n\n—\nRSVP to Mito Wellness Day to receive $150 worth of goodies!*\n\n🎉 Here’s how:\nSchedule your Mito health screening at Trapeze on 17th/18th Feb, between 8.30am - 11.30am. Note: Blood draw will be performed onsite.\n\n🎁 $150 worth of goodies include:\n\n~ Trapeze Open Day pass (until 3pm); AG1 smoothie and TCM cupping included\n~ 1x Cold Plunge & Sauna (worth $75)\n~ Mito Flagship Health Assessment @ $449 (U.P. $499)\n\n👉 RSVP with the link in bio \n—\n*Promo only valid for Trapeze screening on 17/18 Feb.\n–\n#healthspan #longevity #biohacking #cny #yearofdragon #lunarnewyear #sglocal",
+    "hookLine": "The sign you need to kick off your health optimisation journey. ",
+    "primary": {
+      "composition": "Tipografia centrada na parte superior e ilustração de um dragão estilizado na parte inferior, sobre um fundo vermelho vibrante.",
+      "palette": [
+        "#D82136",
+        "#FFFFFF",
+        "#F5D6C5",
+        "#EB7C62",
+        "#C44E3D"
+      ],
+      "subject": "Ilustração de dragão chinês e texto temático",
+      "textOverlay": "Mito\nLUNAR NEW YEAR 2024\nThe year of\n龙-gevity\nLóng\nwww.mitohealth.com",
+      "mood": "energético",
+      "style": "ilustração",
+      "hookSignal": "O trocadilho textual 'The year of 龙-gevity' e a ilustração chamativa do dragão em vermelho vibrante prendem o olhar imediatamente.",
+      "prompt": "Flat vector illustration in a modern, minimalist style. A vibrant deep red background dominates. Centered white typography at the top half reads 'The year of [Chinese character] -gevity' with a smaller phonetic transcription 'Long' below it. A large, stylized dragon illustration in soft peach and orange-salmon hues fills the bottom half, with its head facing left. The overall mood is celebratory and energetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:06:51.918Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C3zn6AZs4D8/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Unveiling our new home away from home. \n\nMito Flagship Health Assessment is now available at Trapeze. Link in bio to schedule your appointment today. \n\n--\n\n#healthspan #wellness #longevity #biohacking",
+    "hookLine": "Unveiling our new home away from home. ",
+    "primary": {
+      "composition": "mulher centralizada em banheira moderna com texto sobreposto em ambiente sereno e natural",
+      "palette": [
+        "#F5F5F5",
+        "#5F4A39",
+        "#B5A599"
+      ],
+      "subject": "mulher em banheira",
+      "textOverlay": "Mito TRAPEZE REC. CLUB Screen your health in our new oasis Book to reserve your slot.",
+      "mood": "contemplativo",
+      "style": "fotografia editorial",
+      "hookSignal": "A frase em destaque 'Screen your health in our new oasis' atrai o olhar imediatamente, junto à imagem convidativa da mulher relaxando.",
+      "prompt": "An editorial photograph depicting a young woman relaxing in a minimalist white bathtub within a bright, spa-like environment. She wears a dark top and cap, with a sculptural wooden stool nearby. The setting features soft, natural light, light-colored walls, and hints of lush green and dried natural foliage in the background, creating a serene and contemplative wellness atmosphere. Shot with a prime lens, soft focus, and naturalistic tones, emphasizing a calm and inviting mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:07:03.854Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C2_4UhFNJeM/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "RSVP to Mito Wellness Day to receive $150 worth of goodies!* \n\n🎉 Here's how:\n\n- Schedule your Mito health screening at Trapeze on 17th / 18th Feb, between 8.30am - 11.30am. Select Trapeze as your screening location. Note: Blood draw will be performed onsite. \n\n🎁 $150 worth goodies include:\n\n~ Trapeze Open Day Pass (until 3pm):\nAG1 Smoothie\nTCM cupping by Oriental Remedies\n~ 1x single session Cold Plunge & Sauna (worth $75)\n~ Mito Flagship Health Assessment @ $449 (U.P. $499)\n\nLink in bio to RSVP!\n\n--\n\n*This promo is only valid for health screening at Trapeze on 17 / 18 Feb.\n#sglocal #sginsta #wellness #healthspan #longevity",
+    "hookLine": "RSVP to Mito Wellness Day to receive $150 worth of goodies!* ",
+    "primary": {
+      "composition": "Vista de um terraço com arquitetura branca moderna e plantas, com texto sobreposto centralmente.",
+      "palette": [
+        "#FFFFFF",
+        "#4D5C45",
+        "#8CA1B6"
+      ],
+      "subject": "Arquitetura branca com escada em caracol e folhagem exuberante, com tipografia de convite.",
+      "textOverlay": "Mito\nTRAPEZE\nREC. CLUB\nYou're invited to\nMito Wellness Day!\n17th & 18th Feb,\nTrapeze Rec Club\nBook to reserve your slot.",
+      "mood": "casual",
+      "style": "fotografia editorial",
+      "hookSignal": "O texto grande e convidativo 'You're invited to Mito Wellness Day!' prende o olho imediatamente.",
+      "prompt": "An outdoor lifestyle photograph showcasing clean white modern architecture with a spiral staircase, framed by lush green foliage in the foreground. Blurred contemporary city buildings appear in the background under bright, natural daylight. The composition is airy and elegant, conveying an inviting and serene mood. Dominant colors are crisp whites, verdant greens, and soft blue-greys. Shot with a wide-angle lens from a slightly elevated perspective."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:07:15.454Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C29i-8IMLRr/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "You get more, for less.\n\n67 Biomarkers, now at only $499.\n\nIt’s time to take control of your health and future.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🔥🧊Scan with Mito by 29 Feb’24 for a cold bath & sauna session (worth $75) included in your health screening. Sign up link in bio\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "You get more, for less.",
+    "primary": {
+      "composition": "Tubo de ensaio centralizado com tampão vermelho e conteúdo avermelhado, cercado por texto informativo e linhas conectando marcadores específicos.",
+      "palette": [
+        "#1A1A1A",
+        "#FFFFFF",
+        "#E55F37",
+        "#A00000"
+      ],
+      "subject": "mockup de produto",
+      "textOverlay": "Mito\nUpgraded\nFlagship Package\n(+4 new biomarkers)\nCystatin-C\nSuperior metric for kidney\nand heart function\nRF\nRheumatoid Factor: Detect\nautoimmune diseases\nCA-125\nCancer Antigen 125:\nOvarian cancer marker\nPSA\nProstate Specific\nAntigen: Prostate\nhealth and cancer\nwww.mitohealth.com",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "O título em destaque 'Upgraded Flagship Package' e o tubo de ensaio vermelho no centro atraem o olhar imediatamente.",
+      "prompt": "A minimalist medical infographic on a dark, almost black background. A clear glass test tube with a vibrant reddish-orange cap and a red liquid content is centrally featured. White text boxes with thin, elegant connecting lines extend from the tube, detailing various biomarkers and their functions. Clean, bold white typography for headlines and body text. High contrast, sharp focus, informational, professional aesthetic."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:07:33.616Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C2uGNDiMFOS/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Don’t be at the mercy of ageing. \n\nIt is time to take control of your health and future. \n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🔥🧊 Scan with Mito by 9 Feb’24 for a cold bath & sauna session (worth $75) included in your health screening. Sign up link in bio\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Don’t be at the mercy of ageing. ",
+    "primary": {
+      "composition": "Uma caixa de texto branca semelhante a um tweet é centralizada em um fundo cinza claro sólido, com texto adicional no topo e na parte inferior.",
+      "palette": [
+        "#e5e8ea",
+        "#ffffff",
+        "#000000"
+      ],
+      "subject": "Uma citação de David Sinclair apresentada em um formato de tweet dentro de um design gráfico minimalista.",
+      "textOverlay": "Mito\nDavid Sinclair\n@davidasinclair\nI believe that aging is a disease. I believe it is treatable. I believe we can treat it within our lifetimes.\nwww.mitohealth.com",
+      "mood": "clínico",
+      "style": "tipografia minimalista",
+      "hookSignal": "O formato familiar de um tweet com a imagem de perfil e a citação em destaque prende o olhar.",
+      "prompt": "A clean, minimalist graphic design featuring a white social media quote card, like a tweet, centered on a soft, light gray background. The card contains crisp black typography with an impactful quote and a small circular profile picture of a smiling man. The overall aesthetic is modern, clinical, and informative, utilizing flat, even lighting and a simple, highly readable layout."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:07:45.163Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C27QY3-MRK3/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "What are Biomarkers?\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🔥🧊Scan with Mito by 29 Feb’24 for a cold bath & sauna session (worth $75) included in your health screening. Sign up link in bio\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "What are Biomarkers?",
+    "primary": {
+      "composition": "Tipografia limpa em um card retangular centralizado sobre um fundo desfocado de gradiente verde-azulado.",
+      "palette": [
+        "#7DD0C7",
+        "#F8F8F8",
+        "#2B2B2B"
+      ],
+      "subject": "tipografia pura",
+      "textOverlay": "Biomarker:\n/'baiə(ʊ)ˌmɑːkə/\n\n① Measurable indicators in biological samples\n(blood, urine, tissues).\n\n② Used to assess your body's processes,\npresence of disease, illness progression, or\nresponse to treatments.",
+      "mood": "clínico",
+      "style": "infográfico",
+      "hookSignal": "A palavra 'Biomarker:' em negrito e tamanho grande é o primeiro elemento que prende o olho.",
+      "prompt": "A minimalist informational card is centered on a subtly blurred teal to light green gradient background. The card displays the word 'Biomarker' in bold, its phonetic pronunciation, and two numbered points defining it. The overall style is clean and modern, with soft, even lighting, conveying a clinical and educational mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:07:57.503Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C2W7GRyul_0/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Healthcare's new mantra: Prevention over cure. \n\nMito Health's Flagship Package is your tool for a proactive, biohacked life.\n\nIt’s time to invest in your health and future.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🔥🧊 Scan with Mito by 9 Feb’24 for a cold bath & sauna session (worth $75) included in your health screening. Sign up link in bio\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Healthcare's new mantra: Prevention over cure. ",
+    "primary": {
+      "composition": "Layout minimalista com um card de texto central e tipografia adicional.",
+      "palette": [
+        "#DADDE0",
+        "#FFFFFF",
+        "#212121"
+      ],
+      "subject": "Citação de texto dentro de um card de rede social.",
+      "textOverlay": "Mito\nPeter Attia\n@PeterAttiaMD\nWe need to move away from the disease-centric model of healthcare and focus on promoting health and preventing disease. This means taking a proactive approach.\nwww.mitohealth.com",
+      "mood": "editorial",
+      "style": "tipografia minimalista",
+      "hookSignal": "O proeminente card branco de rede social com texto em negrito, contrastando com um fundo em tom suave.",
+      "prompt": "Minimalist design, a clean white quote card centered on a light grey background. The card features a prominent sans-serif text message in black, with a small grayscale profile image and name/handle above it. Professional, editorial style, high key lighting, crisp typography, clean lines, shot with a wide-angle lens, conveying a thoughtful and insightful mood."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:08:11.193Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C1vp_awt7iz/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Speak to our Longevity Doctor today. \n\n#Healthspan #Biohacking #LongerHealthierLife",
+    "hookLine": "Speak to our Longevity Doctor today. ",
+    "primary": {
+      "composition": "tipografia centrada sobre um fundo abstrato com formas orgânicas suaves",
+      "palette": [
+        "#2C4151",
+        "#8C9CA8",
+        "#FFFFFF"
+      ],
+      "subject": "tipografia pura",
+      "textOverlay": "Mito\nPrevention\nis the best\nintervention.\n\nConsult our Doctor today.",
+      "mood": "clínico",
+      "style": "tipografia minimalista",
+      "hookSignal": "A mensagem central e em destaque 'Prevention is the best intervention.'",
+      "prompt": "Minimalist typography on a dark, ethereal background. Large, bold white sans-serif text is centered on the image, delivering a direct message. The background showcases soft-focus, abstract, organic shapes in muted grey and dark blue tones, suggesting fluid, gentle forms. The overall aesthetic is clean and sophisticated, with subtle gradients providing depth. Studio lighting is soft and even, creating a serene and calm atmosphere."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:08:19.617Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C2UWUuexq-D/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Don’t settle for the ordinary.\n\nUpgrade your health screening to extraordinary with Mito Health.\n\n–\n📝 Read the full article in bio on how Mito compares to the standard GP health screening.\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🔥🧊Scan with Mito by 9 Feb’24 for a cold bath & sauna session (worth $75) included in your health screening. Sign up link in bio\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "Don’t settle for the ordinary.",
+    "primary": {
+      "composition": "Um cabeçalho principal seguido por uma tabela comparativa de duas colunas e várias linhas, com tipografia limpa sobre um fundo cinza claro.",
+      "palette": [
+        "#F5F5F5",
+        "#222222",
+        "#D9D9D9",
+        "#FFFFFF"
+      ],
+      "subject": "tabela de comparação de serviços de saúde",
+      "textOverlay": "Mito\nWant to live healthier and longer?\nChoose Mito Health:\nGeneric GP\nScreenings\nMito\n*\nTraditional biomarkers\nAdvanced biomarkers\nsupported by latest preventative\nand longevity research\nGeneral GP\nSpecialised longevity doctor\nTraditional PDF lab report,\ndifficult to understand\nPersonalised health dashboard,\nsimple and seamless\nGeneric advice\nPersonalised 5 part strategy\nincorporating nutrition, sleep,\nexercise, supplements and\nmental health\nRead the full article - Link in bio.",
+      "mood": "editorial",
+      "style": "infográfico",
+      "hookSignal": "A pergunta no topo da imagem 'Want to live healthier and longer?' e a comparação direta de duas colunas chamam imediatamente a atenção.",
+      "prompt": "A clean, modern two-column comparison table infographic with a prominent title asking a health-related question. Features a light grey background and dark text. One column header is light grey with dark text, the other is black with bold white text and an asterisk. The table details differences in services, using minimalist typography. The overall aesthetic is professional and structured, designed for clear information delivery, presented in an editorial style."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:08:29.497Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C4AiRnLuTQk/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "No more PDF results - say hello to your seamless health dashboard.\n\n–\n📬 Join 1000+ others for weekly health optimisation hacks with the link in bio.\n–\n🌴 Screen your health at our new oasis: Trapeze Rec Club. Book to reserve your slots with the link in bio.\n–\n#healthspan #longevity #biohacking",
+    "hookLine": "No more PDF results - say hello to your seamless health dashboard.",
+    "primary": {
+      "composition": "Texto de citação alinhado à esquerda e retrato de um homem sorrindo à direita, com um divisor e assinatura abaixo.",
+      "palette": [
+        "#E7E7E8",
+        "#000000",
+        "#A7BFC0"
+      ],
+      "subject": "Citação de depoimento e retrato de um homem sorrindo",
+      "textOverlay": "Mito\n“The Mito interpretation and biomarker breakdown were presented in a way that was easy to understand, even for complex health indicators.”\nOswald (Glints Co-founder), Mito client",
+      "mood": "editorial",
+      "style": "fotografia editorial",
+      "hookSignal": "A grande citação em destaque prende o olhar.",
+      "prompt": "A clean, minimalist editorial image featuring a light grey background. A large, bold black testimonial quote is prominently displayed on the left side, while a professional, well-lit portrait of a smiling Asian man in a light polo shirt is positioned on the right. A subtle horizontal divider line is below the portrait, with smaller black text providing the name and title. Soft, even studio lighting. High resolution, clear typography."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:08:39.958Z",
+      "model": "gemini-2.5-flash"
+    }
+  },
+  {
+    "url": "https://www.instagram.com/p/C1n9X9wgwID/",
+    "brand": "Mito Health",
+    "format": "image",
+    "vsMedian": 0,
+    "caption": "Our brand name 'Mito' is short for Mitochondria which are the powerhouses of your cells!\n\nThey play a vital role in cellular respiration; which is to use oxygen to break down food molecules into energy for cell functions.\n\nParadoxically, there is evidence that mild mitochondria stress (such as through exercising) triggers a series of response that protects the organism from pathogens, so that it lives longer.\n\nJust like the Mitochondria's fascinating link with life expectancy, Mito's here to help you achieve peak health by screening a panel of 63 advanced biomarkers in you, each curated with longevity in mind.\n\n--\n\nStart 2024 with a splash! Get a cold bath & sauna at Trapeze*, when you book a Mito health scan by 9th Feb'24. \n\n#LongerHealthierLife #LiveBetterwithMito #Helathspan *T&Cs apply.",
+    "hookLine": "Our brand name 'Mito' is short for Mitochondria which are the powerhouses of your cells!",
+    "primary": {
+      "composition": "tipografia estruturada em um painel retangular de cantos arredondados sobre um fundo escuro com formas orgânicas e desfocadas",
+      "palette": [
+        "#1B222A",
+        "#FFFFFF",
+        "#B4B4B4",
+        "#E8E8E8"
+      ],
+      "subject": "tipografia pura",
+      "textOverlay": "Mito:\n[mai-toe] The Secret to Longevity\n① Short for 'Mitochondria'\n② Mitochondria are membrane-bound cell organelles (mitochondrion, singular) that generate most of the chemical energy needed to power the cell's biochemical reactions.\nChemical energy produced by the mitochondria is stored in a small molecule called adenosine triphosphate (ATP).\nSource: National Human Genome Institute",
+      "mood": "editorial",
+      "style": "infográfico",
+      "hookSignal": "O título grande e a frase intrigante 'The Secret to Longevity' capturam a atenção.",
+      "prompt": "Modern minimalist infographic design, featuring a central rounded rectangle card with structured textual information, bold sans-serif typography. The main title is large and prominent. Text is crisp white on a dark charcoal-blue background, with subtle light grey separator lines. The background behind the card is a blurred, dark gradient with abstract, organic shapes. Clean, professional lighting, editorial style."
+    },
+    "meta": {
+      "isReelCover": false,
+      "analyzedAt": "2026-05-08T21:08:50.335Z",
+      "model": "gemini-2.5-flash"
+    }
+  }
+]

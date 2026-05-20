@@ -1,0 +1,115 @@
+{
+  "id": "reference-table",
+  "name": "Reference Table (Thorne-inspired, carrossel 4)",
+  "description": "Tabela editorial saveable: lista + colunas alinhadas. Modelado em @thornehealth supplement timetable + pros/cons. Adaptado pra paleta Longevify forest+gold, ICP BR, território biomarcador/protocolo.",
+  "pillar": 2,
+  "format": "carousel",
+  "slide_count": 4,
+  "performance_target": { "vsMedian_min": 1.4, "save_rate_min": 0.10, "save_rate_target_note": "save_rate alto é objetivo central — tabelas viralizam menos mas têm save_rate 2-3x" },
+  "structure": [
+    {
+      "slide": 1,
+      "role": "cover_hook",
+      "elements": ["headline_editorial_curto", "subhead_descritiva", "pin_icon_indicando_save"],
+      "constraints": [
+        "headline_max_6_palavras",
+        "subhead_max_15_palavras",
+        "tipografia_DM_Sans_Light_300",
+        "cover_em_forest_solido_ou_microscopy_sutil"
+      ],
+      "examples_thorne": ["Your supplement timetable / AM, PM, or mealtime?"]
+    },
+    {
+      "slide": 2,
+      "role": "table_principal",
+      "elements": [
+        "pill_tags_categorias_em_gold_no_left_column",
+        "valor_descricao_em_off_white_no_right_column",
+        "linhas_separadas_por_padding_generoso_nao_borders"
+      ],
+      "constraints": [
+        "max_6_linhas_na_tabela",
+        "alinhamento_vertical_top",
+        "pill_tags_arredondado_borda_emerald",
+        "background_forest_000F08_sem_card_branco"
+      ],
+      "examples_thorne": [
+        "Berberine → Take with food, anytime",
+        "Magnesium Glycinate → 1-2 hours before bedtime"
+      ]
+    },
+    {
+      "slide": 3,
+      "role": "table_continuacao_ou_pros_cons",
+      "elements": [
+        "se_continuação: mais 4-6 linhas da mesma tabela",
+        "se_comparison: 3 colunas (categoria, prós, contras) tipo Thorne sunscreen"
+      ],
+      "constraints": ["mantém mesma diagramação do slide 2", "transição visual smooth"]
+    },
+    {
+      "slide": 4,
+      "role": "cta_save",
+      "elements": [
+        "1_frase_editorial_que_resume_o_takeaway",
+        "instrucao_save_implicita_visual",
+        "logo_longevify_horizontal_bottom"
+      ],
+      "constraints": [
+        "cta_NUNCA_'salve este post'_(banned)",
+        "cta_pode_ser_'pra próxima manhã'_ou_'na próxima consulta'",
+        "logo_centralizado"
+      ]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão técnica) + Aesop (restrição editorial) + Thorne (clareza didática)",
+    "forbidden": ["fear", "self-help", "promessa", "corporativês", "buzzwords", "salve este post"],
+    "italic_rule": "Italic só na palavra-pivô do CTA (1 palavra max)",
+    "table_rule": "Sem verbos no imperativo nas células — usa nominalização ('com comida' em vez de 'tome com comida')"
+  },
+  "visual": {
+    "palette": {
+      "bg": "#000F08",
+      "text": "#f8fffc",
+      "accent_gold": "#C89136",
+      "pill_border": "#2D7A5C",
+      "pill_text_inside": "#C89136"
+    },
+    "typography": {
+      "headline": "DM Sans Light 300, kerning -0.02em, gold ou off-white",
+      "pill_tag": "DM Sans Regular 400, all-caps OR title-case, gold",
+      "body_celula": "DM Sans Light 300, off-white"
+    },
+    "layout_hints": [
+      "left_column_300px_pills_centralizadas",
+      "right_column_resto_descricao_text-align_left",
+      "spacing_vertical_entre_linhas_24px",
+      "sem_horizontal_dividers_dentro_do_card",
+      "sem_card_branco_atrás_da_tabela_(background_forest_direto)"
+    ],
+    "anti": [
+      "pure_white_card",
+      "borders_visiveis_em_celulas",
+      "icones_decorativos",
+      "drop_shadows",
+      "neon",
+      "mais_de_2_pesos_de_fonte"
+    ]
+  },
+  "caption_template": "1 frase editorial poética que contextualiza a tabela. 1-2 frases explicando POR QUE essa info é importante (ICP relate). CTA implícito ('pra próxima manhã' ou 'pra próxima consulta com seu médico'). Sem hashtags decorativos.",
+  "anti_patterns": [
+    "tabela_genérica_que_qualquer_um_pode_googar",
+    "comparison_sem_takeaway_claro_(slide_4_resolve)",
+    "pill_tags_em_cores_random_(mantém_gold)",
+    "linhas_com_muito_texto_(>15_palavras_por_célula)"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 3.5,
+  "estimated_time_min": 8,
+  "save_potential": "HIGH — tabela é o formato com maior save_rate orgânico segundo análise dos virais (vsMedian benchmark mostra tabelas Thorne com save_rate 3x média)",
+  "reference_posts": [
+    "@thornehealth supplement timetable",
+    "@thornehealth sunscreen pros/cons"
+  ]
+}

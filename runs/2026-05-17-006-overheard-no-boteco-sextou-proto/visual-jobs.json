@@ -1,0 +1,50 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel cover slide, 4:5 vertical format (1080x1350). Solid deep forest background color exactly #000F08, dominant negative space. Composition: top-left small italic Georgia label in sage green #91B69D reading '*Overheard no boteco, 23h47:*' at 32pt. Center-left large display text in DM Sans Light 300, color #f8fffc, letter-spacing -0.02em, line-height 1.0, reading on three lines: 'Sextou,' / 'última cerveja,' / 'prometo.' — text size approximately 72pt, generously breathing. Below, after a wide vertical gap, smaller body text in DM Sans Light 300 #f8fffc at 28pt reading on two lines: 'ALT e AST registraram a frase.' / 'E todas as outras desde 2019.' The acronyms 'ALT' and 'AST' rendered in accent gold #C89136. Small slide number '01' in gold #C89136 top-right corner. RESERVE empty space at bottom-center (bottom 120px clear) for logo overlay — do not draw any logo. Aesthetic: editorial magazine, Aesop/Mito reference, premium minimalism, pure typography on dark forest. ABSOLUTELY NO beer glass, NO liver illustration, NO lab coat, NO bar chart, NO icons, NO photographs, NO gradient, NO decorative elements. Pure typography only.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Hook cover with italic overheard label and big editorial typography"
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, 4:5 vertical format (1080x1350). Solid deep forest background #000F08. Two-column data layout with abundant negative space. Top of slide: 'ALT' in DM Sans Light 300 at 88pt color accent gold #C89136, letter-spacing -0.02em. Below it small label in DM Sans Light 300 26pt #f8fffc reading '(alanina aminotransferase)'. Below: two aligned rows of micro-labels and values. Row 1 left: micro-label sage green #91B69D 22pt 'Range do laboratório' with value below in #f8fffc 36pt 'até 41 U/L'. Row 1 right (same vertical line): micro-label sage green #91B69D 22pt 'Faixa funcional Longevify' with value below in accent gold #C89136 36pt '10–25 U/L'. Vertical breathing gap. Then 'AST' in accent gold #C89136 88pt, label '(aspartato aminotransferase)' #f8fffc 26pt. Same two-column structure: left 'Range do laboratório' / 'até 40 U/L' (#f8fffc), right 'Faixa funcional Longevify' / '10–25 U/L' (gold #C89136). Bottom area, before logo space: editorial italic Georgia 30pt #f8fffc reading 'Você está \"dentro\" e ainda assim longe.' Small '02' slide number top-right in gold. RESERVE bottom 120px clear for logo overlay. Two columns precisely aligned. ABSOLUTELY NO test tubes, NO molecule illustrations, NO icons, NO bar charts, NO color blocks, NO gradient. Editorial typography only.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Data reveal slide — two-column biomarker table"
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, 4:5 vertical format (1080x1350). Solid deep forest background #000F08. Top: small slide number '03' in accent gold #C89136 top-right at 24pt. Centered editorial body text composition, DM Sans Light 300, color #f8fffc, letter-spacing -0.02em, line-height 1.35, paragraph size 32pt with generous spacing between paragraphs. Three paragraphs stacked vertically with breathing space. Paragraph 1: 'ALT e AST são enzimas que vivem dentro das células do fígado.' — with 'ALT e AST' in accent gold #C89136. Paragraph 2: 'Quando o hepatócito se rompe — por álcool, por excesso de fructose, por gordura acumulada, por treino sem recuperação — elas vazam pra corrente sanguínea.' Paragraph 3, slightly emphasized: 'Mais enzima no sangue = mais célula machucada lá dentro.' Below, a wider gap, then a two-line aesop-style closing in DM Sans Light 300 36pt #f8fffc: 'O exame não mede o fígado.' / 'Mede o que escapou dele.' RESERVE bottom 120px clear for logo overlay. ABSOLUTELY NO liver illustration, NO cell illustration, NO molecule, NO diagram, NO icons, NO photographs. Pure editorial typography on dark forest.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Mechanism slide — editorial body copy with aesop closing"
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, 4:5 vertical format (1080x1350). Solid deep forest background #000F08. Slide number '04' in accent gold #C89136 top-right 24pt. Centered text composition, DM Sans Light 300, letter-spacing -0.02em, line-height 1.35, color #f8fffc. Paragraph 1 at 32pt: 'O laboratório define \"normal\" pela média da população.' Gap. Paragraph 2 at 32pt: 'A média da população bebe na sexta, come ultraprocessado, dorme mal e treina pouco.' Gap. Paragraph 3 at 30pt: 'Faixa funcional Longevify (10–25 U/L) é definida pelo que a literatura associa a menor risco metabólico de longo prazo — não pela média do brasileiro médio.' — with '10–25 U/L' rendered in accent gold #C89136 and 'Longevify' subtly emphasized in sage green #91B69D. Wider gap. Closing two-liner in DM Sans Light 300 36pt #f8fffc: 'Estar \"normal\" é estar como todo mundo.' / 'Estar funcional é outra coisa.' RESERVE bottom 120px clear for logo overlay. ABSOLUTELY NO charts, NO graphs, NO bell curves, NO icons, NO illustrations. Editorial typography only on deep forest.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Longevify functional range slide — differentiation"
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel slide, 4:5 vertical format (1080x1350). Solid deep forest background #000F08. Slide number '05' in accent gold #C89136 top-right 24pt. Stacked short sentences left-aligned with generous line breaks, DM Sans Light 300, color #f8fffc, letter-spacing -0.02em, line-height 1.4, size 30pt. Lines in order with breathing gaps: 'Você treina cinco vezes na semana.' / 'Bebe socialmente — três, quatro doses, sexta e sábado.' / 'Os longos do domingo estão pesando mais do que deveriam.' / 'A recuperação demora 72h onde antes demorava 36h.' Wider gap. Three short lines: 'Pode ser carga.' / 'Pode ser sono.' / 'Pode ser ferritina.' Wider gap. Then in DM Sans Light 300 32pt #f8fffc: 'E pode ser que ALT esteja em 38.' — with 'ALT' and '38' in accent gold #C89136. Below, Georgia italic 28pt #f8fffc on one line: '*Dentro do range. Fora da faixa.*' RESERVE bottom 120px clear for logo overlay. ABSOLUTELY NO photographs of runner/athlete, NO illustrations, NO icons, NO charts. Pure editorial typography on deep forest.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Context slide — ICP scenario with italic aesop closer"
+  },
+  {
+    "slot": "slide-6",
+    "model": "nano_banana_2",
+    "prompt": "Editorial Instagram carousel CTA slide, 4:5 vertical format (1080x1350). Solid deep forest background #000F08. Slide number '06' in accent gold #C89136 top-right 24pt. Centered vertical composition with two questions, generous negative space dominating. Question 1, DM Sans Light 300 36pt color #f8fffc, letter-spacing -0.02em, line-height 1.25, on two lines centered: 'Quando foi a última vez que você' / 'olhou pra ALT e AST do seu exame?' — with 'ALT e AST' in accent gold #C89136. Wide breathing gap (200px+). Question 2, DM Sans Light 300 36pt #f8fffc, on three lines centered: 'E quando foi a última vez que alguém' / 'te explicou o que aqueles números' / 'significam pro próximo treino?' Strong vertical white space below. RESERVE bottom 160px clear for larger logo overlay (28% width). ABSOLUTELY NO call-to-action button, NO arrow, NO icon, NO illustration, NO photograph, NO QR code. Pure editorial questions on deep forest, aesop-style minimalism.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "CTA slide — two open questions, larger logo space at bottom"
+  }
+]

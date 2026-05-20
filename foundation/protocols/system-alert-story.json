@@ -1,0 +1,90 @@
+{
+  "id": "system-alert-story",
+  "name": "System Alert Story (sci-fi HUD overlay)",
+  "description": "Story 9:16 com editorial photography de pessoa + warnings tipo OS/jogo (CORTISOL ELEVADO, etc.) multiplicando sobre a imagem. Pattern aprovado por Matheus em 17/mai (referência: cortisol-alert WhatsApp video).",
+  "pillar": 3,
+  "format": "story",
+  "duration_sec": 8,
+  "aspect": "9:16",
+  "resolution": "1080x1920",
+  "performance_target": { "save_rate_min": 0.08, "swipe_rate_min": 0.6 },
+  "structure": [
+    {
+      "timing": "0-1s",
+      "role": "establish",
+      "content": "Editorial photo of person (close-up, eyes/hair visible) static frame. Tom warm cream/beige."
+    },
+    {
+      "timing": "1-3s",
+      "role": "first_alert",
+      "content": "1 grande HUD warning box aparece centralizado com fade-in 0.3s. Texto monospace:\nAVISO DO SISTEMA\nALERTA ID: B-017\n<BIOMARCADOR> ELEVADO\n<SINTOMA RELACIONADO>\nNÃO CONTINUE OPERANDO"
+    },
+    {
+      "timing": "3-6s",
+      "role": "multiplication",
+      "content": "HUD warnings começam a multiplicar: cópias menores aparecem aleatoriamente pela canvas inteira, criando efeito 'bombardeio do sistema'. Cada cópia tem ~50-70% opacity. 8-15 cópias finais."
+    },
+    {
+      "timing": "6-8s",
+      "role": "cta_reveal",
+      "content": "CTA aparece bottom: 'DESLIZE PARA DESCOBRIR' (monospace, com cursor piscante). Logo Longevify horizontal abaixo do CTA."
+    }
+  ],
+  "visual": {
+    "photography_style": "Editorial premium, single subject (mulher OU homem ICP 30-55), tom warm cream #F5EDE0 / pele bronzeada / cabelo despenteado natural. Eyes visible. Self-care, vulnerability, introspective. NUNCA estoque genérico, sempre photoshoot quality.",
+    "hud_overlay": {
+      "font": "Monospace (Courier New OR JetBrains Mono OR DM Mono)",
+      "warning_box": {
+        "border": "1px solid rgba(255, 255, 255, 0.4)",
+        "background": "rgba(0, 0, 0, 0.08)",
+        "padding": "12px 16px",
+        "border_radius": "4px (subtle)",
+        "color": "#FFFFFF OR #f8fffc"
+      },
+      "structure_lines": [
+        "AVISO DO SISTEMA",
+        "ALERTA ID: <CODE>",
+        "<BIOMARCADOR> <ESTADO>",
+        "<SINTOMA OU CONSEQUÊNCIA>",
+        "NÃO CONTINUE OPERANDO"
+      ]
+    },
+    "logo": {
+      "position": "bottom-center",
+      "padding_bottom": "5%",
+      "width": "30% canvas"
+    },
+    "cta_final_frame": "DESLIZE PARA DESCOBRIR| (com cursor piscante monospace)",
+    "anti": [
+      "pessoa_sorrindo_lifestyle_genérico",
+      "stock_photography_obvious",
+      "HUD_em_color_neon_chamativo",
+      "drop_shadows_em_warning_boxes",
+      "Glitch_efeitos_overdone"
+    ]
+  },
+  "voice": {
+    "tone": "Sistema operacional + corpo humano metáfora — cold/clinical no warning, warm no visual",
+    "language": "Monospace text simulating OS alerts. Frases curtas, técnicas.",
+    "forbidden": ["emoji", "exclamação_excessiva", "linguagem_emocional_no_warning"]
+  },
+  "caption_template": "Caption 2-3 frases editorial conectando o sintoma ao biomarcador. Convite implícito pro próximo passo (link bio OU DM 'painel'). ~300 chars.",
+  "variations": [
+    { "biomarcador": "CORTISOL", "estado": "ELEVADO", "sintoma": "DÉBITO DE SONO ACUMULANDO", "consequencia": "INFLAMAÇÃO SISTÊMICA EM ALTA" },
+    { "biomarcador": "FERRITINA", "estado": "BAIXA", "sintoma": "RECUPERAÇÃO COMPROMETIDA", "consequencia": "QUEDA DE OXIGENAÇÃO MUSCULAR" },
+    { "biomarcador": "INSULINA", "estado": "ELEVADA", "sintoma": "SINAL DE FOME PERSISTENTE", "consequencia": "JANELA METABÓLICA FECHANDO" },
+    { "biomarcador": "ApoB", "estado": "ACIMA DA FAIXA FUNCIONAL", "sintoma": "PARTÍCULAS ATEROGÊNICAS CIRCULANDO", "consequencia": "RISCO CARDIOVASCULAR ELEVADO" },
+    { "biomarcador": "VITAMINA D", "estado": "BAIXA", "sintoma": "IMUNIDADE COMPROMETIDA", "consequencia": "FADIGA SEM CAUSA APARENTE" }
+  ],
+  "production_workflow": [
+    "1. Higgsfield nano_banana_2 gera editorial photo 9:16 do ICP (mulher OU homem 30-55, premium photoshoot)",
+    "2. Render HUD warnings em SVG via Sharp (monospace, 1 grande no centro frame 1-3s)",
+    "3. ffmpeg compõe sequência: photo static 1s + warning fade-in + multiplication frames + CTA reveal",
+    "4. Output mp4 9:16 8s 30fps H264",
+    "5. Logo overlay bottom-center sempre presente"
+  ],
+  "estimated_cost_per_story": 1.5,
+  "estimated_time_min": 8,
+  "reference_video": "foundation/inspirations/system-alert-cortisol/reference.mp4",
+  "frequency_recommendation": "1x/semana — story format ideal pra audiência alta freq, baixa fricção"
+}

@@ -1,0 +1,25 @@
+{
+  "frames": [
+    {
+      "type": "pergunta",
+      "text": "Sempre cansado,\nserá que é normal?",
+      "duration": 4
+    },
+    {
+      "type": "resposta",
+      "text": "Cortisol: Detectado.\nTratado.",
+      "duration": 3
+    },
+    {
+      "type": "pergunta",
+      "text": "Névoa mental\né só cansaço?",
+      "duration": 4
+    },
+    {
+      "type": "resposta",
+      "text": "B12 e Ômega-3:\nAnalisados.",
+      "duration": 3
+    }
+  ],
+  "style": "dark forest background #000F08, subtle teal radial glow #5BAE9E from center, cinematic, premium wellness brand, no faces, no text in background"
+}

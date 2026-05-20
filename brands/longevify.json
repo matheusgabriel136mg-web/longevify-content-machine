@@ -1,0 +1,79 @@
+{
+  "$schema": "./brand-schema.json",
+  "id": "longevify",
+  "name": "Longevify",
+  "domain": "longevify.com.br",
+  "language": "pt-BR",
+  "icp": {
+    "description": "Profissional brasileiro 30-55, alta renda, urbano. Frequenta Equinox, check-up anual, lê Atlas/Huberman. Frustrado com 'tudo dentro da faixa'.",
+    "age_range": [30, 55],
+    "geo": "BR-urban"
+  },
+  "palette": {
+    "bg_primary": "#1C3F3A",
+    "bg_ultra_dark": "#000F08",
+    "text_primary": "#f8fffc",
+    "accent_gold": "#C89136",
+    "greens": ["#2D7A5C", "#557D6D", "#91B69D"],
+    "forbidden": ["red", "amber", "orange", "#FFFFFF"],
+    "_note": "bg_primary atualizado em 17/mai de #000F08 para #1C3F3A — Matheus achou o anterior muito escuro. Mantemos #000F08 como bg_ultra_dark pra usos cinematográficos (stories, microscopy)."
+  },
+  "typography": {
+    "primary": "DM Sans",
+    "weights": { "display": 300, "label": 400 },
+    "italic_only_for": "Georgia editorial paragraphs"
+  },
+  "logo": {
+    "file": "attached_assets/logo_horizontal_white_1773668692240.png",
+    "cover_width_pct": 28,
+    "internal_width_pct": 25,
+    "position": "bottom-center",
+    "padding_pct": 5
+  },
+  "pillars": [
+    { "n": 1, "name": "Terroir Biológico Brasileiro", "quota_per_month": 3 },
+    { "n": 2, "name": "Biomarcador Escondido", "quota_per_month": 4 },
+    { "n": 3, "name": "Falha do Check-up Convencional", "quota_per_month": 3 },
+    { "n": 4, "name": "Da Sensação ao Dado", "quota_per_month": 3 }
+  ],
+  "voice": {
+    "primary": "Mito (precisão técnica)",
+    "secondary": "Aesop (restrição editorial)",
+    "forbidden": ["self-help", "fear", "corporativês", "buzzwords"]
+  },
+  "publish": {
+    "platforms": ["instagram", "tiktok"],
+    "_strategy_note": "Function Health-inspired cadence: 6 posts/sem, carousel-dominant (66%), weekend minimo, quinta = day premium (Function concentra 25% das quintas).",
+    "schedule_brt": {
+      "monday": { "type": "carousel", "time": "11:00", "format": "carousel", "series_hint": "rotação_pilar_1_a_4" },
+      "tuesday": { "type": "carousel", "time": "19:00", "format": "carousel", "series_hint": "DADO_stat_driven" },
+      "wednesday": { "type": "reel", "time": "13:00", "format": "reel", "series_hint": "CASO_REAL_OR_reel_pull_out" },
+      "thursday": { "type": "premium_carousel", "time": "19:00", "format": "carousel", "series_hint": "deep_dive_pilar" },
+      "friday": { "type": "single_or_carousel", "time": "19:00", "format": "post", "series_hint": "FAIXA_FUNCIONAL" },
+      "saturday": { "type": "stories_only", "time": null, "format": "story" },
+      "sunday": { "type": "premium_carousel", "time": "10:00", "format": "carousel", "series_hint": "OVERHEARD_NO_BR" }
+    },
+    "ideal_times_brt": ["mon-11", "tue-19", "wed-13", "thu-19", "fri-19", "sun-10"],
+    "cadence_per_week": { "feed_carousel": 4, "feed_single": 1, "reel": 1, "stories": 10 },
+    "quality_gates": {
+      "visual_qa_min": 8,
+      "verifier_min": 10,
+      "viral_predictor_min": 60,
+      "fact_check_required_for_pillars": [2, 3],
+      "skip_slot_if_gates_fail": true
+    }
+  },
+  "budget": {
+    "daily_usd": 10,
+    "monthly_usd": 200,
+    "per_run_usd": 5
+  },
+  "competitors": [
+    { "name": "Superpower", "handle": "superpower", "tier": 1 },
+    { "name": "Mito Health", "handle": "mitohealthapp", "tier": 1 },
+    { "name": "Function Health", "handle": "function", "tier": 2 },
+    { "name": "Better Be Health", "handle": "betterbe.health", "tier": 1 },
+    { "name": "Huberman Lab", "handle": "hubermanlab", "tier": 2 },
+    { "name": "Bryan Johnson", "handle": "bryanjohnson_", "tier": 1 }
+  ]
+}

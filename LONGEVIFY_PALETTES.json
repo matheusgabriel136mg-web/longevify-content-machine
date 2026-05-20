@@ -1,0 +1,230 @@
+{
+  "extractedAt": "2026-05-08T21:39:11.023Z",
+  "source": "/Users/mathe/Documents/Longev/Brand/_degrades/_png",
+  "totalPalettes": 18,
+  "samplePositions": [
+    "5%",
+    "25%",
+    "50%",
+    "75%",
+    "95%"
+  ],
+  "palettes": [
+    {
+      "id": "02",
+      "file": "_degrades-02.png",
+      "hex": [
+        "#91B69D",
+        "#83AC96",
+        "#689988",
+        "#4D867B",
+        "#377770"
+      ],
+      "gradient": "#91B69D → #83AC96 → #689988 → #4D867B → #377770"
+    },
+    {
+      "id": "03",
+      "file": "_degrades-03.png",
+      "hex": [
+        "#9EC4AB",
+        "#537059",
+        "#021502",
+        "#54715B",
+        "#9EC4AB"
+      ],
+      "gradient": "#9EC4AB → #537059 → #021502 → #54715B → #9EC4AB"
+    },
+    {
+      "id": "04",
+      "file": "_degrades-04.png",
+      "hex": [
+        "#9EC4AB",
+        "#89B09A",
+        "#69907F",
+        "#487064",
+        "#2D564E"
+      ],
+      "gradient": "#9EC4AB → #89B09A → #69907F → #487064 → #2D564E"
+    },
+    {
+      "id": "05",
+      "file": "_degrades-05.png",
+      "hex": [
+        "#104F56",
+        "#256062",
+        "#4D817A",
+        "#76A393",
+        "#96BEA6"
+      ],
+      "gradient": "#104F56 → #256062 → #4D817A → #76A393 → #96BEA6"
+    },
+    {
+      "id": "06",
+      "file": "_degrades-06.png",
+      "hex": [
+        "#577C6F",
+        "#64887B",
+        "#84A198",
+        "#A2BAB3",
+        "#ACC2BC"
+      ],
+      "gradient": "#577C6F → #64887B → #84A198 → #A2BAB3 → #ACC2BC"
+    },
+    {
+      "id": "07",
+      "file": "_degrades-07.png",
+      "hex": [
+        "#95B3AD",
+        "#90AEA6",
+        "#48746E",
+        "#0D3430",
+        "#0D3430"
+      ],
+      "gradient": "#95B3AD → #90AEA6 → #48746E → #0D3430 → #0D3430"
+    },
+    {
+      "id": "08",
+      "file": "_degrades-08.png",
+      "hex": [
+        "#ABCFC6",
+        "#79BEAF",
+        "#96C8BC",
+        "#D8D8D9",
+        "#D8D9D9"
+      ],
+      "gradient": "#ABCFC6 → #79BEAF → #96C8BC → #D8D8D9 → #D8D9D9"
+    },
+    {
+      "id": "09",
+      "file": "_degrades-09.png",
+      "hex": [
+        "#1F4842",
+        "#557D6D",
+        "#91B69D",
+        "#557D6D",
+        "#1F4842"
+      ],
+      "gradient": "#1F4842 → #557D6D → #91B69D → #557D6D → #1F4842"
+    },
+    {
+      "id": "10",
+      "file": "_degrades-10.png",
+      "hex": [
+        "#91B69D",
+        "#83AC96",
+        "#689988",
+        "#4D867B",
+        "#377770"
+      ],
+      "gradient": "#91B69D → #83AC96 → #689988 → #4D867B → #377770"
+    },
+    {
+      "id": "11",
+      "file": "_degrades-11.png",
+      "hex": [
+        "#1F4842",
+        "#557D6D",
+        "#91B69D",
+        "#557D6D",
+        "#1F4842"
+      ],
+      "gradient": "#1F4842 → #557D6D → #91B69D → #557D6D → #1F4842"
+    },
+    {
+      "id": "12",
+      "file": "_degrades-12.png",
+      "hex": [
+        "#91B69D",
+        "#83AC96",
+        "#689988",
+        "#4D867B",
+        "#377770"
+      ],
+      "gradient": "#91B69D → #83AC96 → #689988 → #4D867B → #377770"
+    },
+    {
+      "id": "13",
+      "file": "_degrades-13.png",
+      "hex": [
+        "#9EC4AB",
+        "#537059",
+        "#021502",
+        "#54715B",
+        "#9EC4AB"
+      ],
+      "gradient": "#9EC4AB → #537059 → #021502 → #54715B → #9EC4AB"
+    },
+    {
+      "id": "14",
+      "file": "_degrades-14.png",
+      "hex": [
+        "#9EC4AB",
+        "#89B09A",
+        "#69907F",
+        "#487064",
+        "#2D564E"
+      ],
+      "gradient": "#9EC4AB → #89B09A → #69907F → #487064 → #2D564E"
+    },
+    {
+      "id": "15",
+      "file": "_degrades-15.png",
+      "hex": [
+        "#104F56",
+        "#256062",
+        "#4D817A",
+        "#76A393",
+        "#96BEA6"
+      ],
+      "gradient": "#104F56 → #256062 → #4D817A → #76A393 → #96BEA6"
+    },
+    {
+      "id": "16",
+      "file": "_degrades-16.png",
+      "hex": [
+        "#577C6F",
+        "#64887B",
+        "#84A198",
+        "#A2BAB3",
+        "#ACC2BC"
+      ],
+      "gradient": "#577C6F → #64887B → #84A198 → #A2BAB3 → #ACC2BC"
+    },
+    {
+      "id": "17",
+      "file": "_degrades-17.png",
+      "hex": [
+        "#95B3AD",
+        "#90AEA6",
+        "#48746E",
+        "#0D3430",
+        "#0D3430"
+      ],
+      "gradient": "#95B3AD → #90AEA6 → #48746E → #0D3430 → #0D3430"
+    },
+    {
+      "id": "18",
+      "file": "_degrades-18.png",
+      "hex": [
+        "#ABCFC6",
+        "#79BEAF",
+        "#96C8BC",
+        "#D8D8D9",
+        "#D8D9D9"
+      ],
+      "gradient": "#ABCFC6 → #79BEAF → #96C8BC → #D8D8D9 → #D8D9D9"
+    },
+    {
+      "id": "main",
+      "file": "_degrades_Prancheta 1.png",
+      "hex": [
+        "#1F4842",
+        "#557D6D",
+        "#91B69D",
+        "#557D6D",
+        "#1F4842"
+      ],
+      "gradient": "#1F4842 → #557D6D → #91B69D → #557D6D → #1F4842"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "id": "stat-driven",
+  "name": "STAT-DRIVEN curiosity (Function-inspired, single image)",
+  "description": "1 estatística contraintuitiva + contexto editorial breve. Modelado em @functionhealth '~41% of Americans low in Vitamin D' e 'Your body produces 2 million red blood cells every second'.",
+  "pillar": 2,
+  "format": "post",
+  "slide_count": 1,
+  "performance_target": { "vsMedian_min": 1.4, "save_rate_min": 0.06, "share_rate_min": 0.04 },
+  "series_badge": "DADO",
+  "structure": [
+    {
+      "slide": 1,
+      "role": "stat_hook",
+      "elements": [
+        "número_grande_centralizado_(stat)",
+        "label_subline_curto_descrevendo_o_que_é_o_número",
+        "fonte_micro_no_rodapé_(estudo_OU_guideline_BR_se_possível)",
+        "ilustração_de_fundo_sutil_relacionada_(opcional)",
+        "logo_longevify_bottom"
+      ],
+      "constraints": [
+        "stat_em_DM_Sans_Light_300_OU_serif_italic_display_(96-160px)",
+        "stat_pode_ter_~_OR_aproximação_explícita",
+        "label_max_20_palavras",
+        "fonte_obrigatória_(no_canvas_OU_caption)",
+        "sem_pessoa_no_post"
+      ],
+      "examples_function": [
+        "~41% of Americans are low in Vitamin D.",
+        "Your body produces 2 million red blood cells every second."
+      ],
+      "examples_longevify_BR": [
+        "47% dos brasileiros têm deficiência de vitamina D — mesmo no trópico.",
+        "ApoB prevê 70% dos infartos. Colesterol total prevê 50%.",
+        "30% da população BR tem hs-CRP acima de 1.0 — risco cardiovascular silencioso.",
+        "Brasileiro consome 4x mais café que sueco. Mas tem 2x menos magnésio."
+      ]
+    }
+  ],
+  "voice": {
+    "tone": "Mito (precisão) + Aesop (concisão) + Function (curiosity hook)",
+    "forbidden": ["fear", "alarmismo", "estatísticas_sem_fonte", "stats_americanas_não_adaptadas_pro_BR_(quando_há_dado_BR_disponível)"],
+    "italic_rule": "Italic em palavra-pivô da label (uma palavra max)",
+    "data_rule": "PREFERIR dado brasileiro (SBC, AHA-BR, IBGE-saúde, estudos UFSP/USP) sobre dado americano. Quando usar americano, declarar 'EUA' no canvas."
+  },
+  "visual": {
+    "palette": {
+      "bg": "#000F08",
+      "stat_number": "#C89136",
+      "label": "#f8fffc",
+      "source": "#f8fffc 50% opacity",
+      "illustration_bg": "#2D7A5C low opacity"
+    },
+    "typography": {
+      "stat": "DM Sans Light 300 OR Source Serif Italic, 120-160px, gold, kerning -0.04em",
+      "label": "DM Sans Light 300, 20-24px, off-white, line-height 1.4",
+      "source": "DM Sans Regular 400, 11px, uppercase, off-white 50%, letter-spacing +0.08em"
+    },
+    "anti": [
+      "stat_em_pure_white_card",
+      "ícones_decorativos_grandes",
+      "barras_de_gráfico_que_competem_com_o_número",
+      "drop_shadows",
+      "pessoa_na_imagem"
+    ]
+  },
+  "caption_template": "1 frase recontextualizando o stat. 2-3 frases sobre por que isso importa pro ICP brasileiro (pessoal, prático). 1 frase de fechamento que convida reflexão. Citar fonte no final. ~250-400 chars.",
+  "anti_patterns": [
+    "stat_americana_apresentada_como_BR",
+    "stat_sem_fonte",
+    "stat_genérica_(50%_das_pessoas...)",
+    "stat_que_implica_fear_('1_em_3_terá_câncer')"
+  ],
+  "fact_check_required": true,
+  "estimated_cost_usd": 1.5,
+  "estimated_time_min": 5,
+  "frequency_recommendation": "1-2x/semana (idealmente quarta noite OU domingo)",
+  "reference_posts": [
+    "@functionhealth '~41% of Americans low in Vitamin D'",
+    "@functionhealth 'Your body produces 2 million red blood cells every second'"
+  ]
+}

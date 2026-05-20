@@ -1,0 +1,22 @@
+{
+  "id": "p1-terroir-brasileiro",
+  "name": "Terroir Biológico Brasileiro (carrossel 5)",
+  "description": "Adaptação cultural: por que a biologia brasileira é diferente. Sol tropical, dieta BR, ritmo familiar.",
+  "pillar": 1,
+  "format": "carousel",
+  "slide_count": 5,
+  "performance_target": { "vsMedian_min": 1.3, "save_rate_min": 0.06 },
+  "structure": [
+    { "slide": 1, "role": "cover_pivô_cultural", "elements": ["frase_que_quebra_padrao_americano"] },
+    { "slide": 2, "role": "contexto_BR", "elements": ["latitude", "alimentacao_local", "ritmo_familiar"] },
+    { "slide": 3, "role": "dado_biologico", "elements": ["biomarcador_afetado", "diferenca_quantitativa_vs_EUA"] },
+    { "slide": 4, "role": "implicacao_protocolo", "elements": ["como_isso_muda_o_que_voce_otimiza"] },
+    { "slide": 5, "role": "cta", "elements": ["convite_curiosidade", "logo"] }
+  ],
+  "voice": { "tone": "Mito + Aesop com sotaque brasileiro", "forbidden": ["traducao_literal_de_hook_americano", "biohacker_vibe_frio", "tomar_acai_sem_explicar_porque"] },
+  "visual": { "palette": { "bg": "#000F08", "text": "#f8fffc", "accent_gold": "#C89136" } },
+  "caption_template": "Reframe cultural. Dado bio que justifica. Pergunta retórica.",
+  "anti_patterns": ["traducao_seca_de_post_americano", "romantizar_dieta_sem_dado"],
+  "fact_check_required": true,
+  "estimated_cost_usd": 4.5
+}

@@ -1,0 +1,11 @@
+{
+  "url": "https://longevify.com.br",
+  "viewport": { "width": 1440, "height": 900 },
+  "device_scale": 3,
+  "selectors": [
+    { "name": "como-funciona-card-1", "selector": "[data-section='howitworks'] > div:nth-child(1)", "wait_for": "[data-section='howitworks']" },
+    { "name": "como-funciona-card-2", "selector": "[data-section='howitworks'] > div:nth-child(2)", "wait_for": "[data-section='howitworks']" },
+    { "name": "como-funciona-card-3", "selector": "[data-section='howitworks'] > div:nth-child(3)", "wait_for": "[data-section='howitworks']" },
+    { "name": "como-funciona-card-4", "selector": "[data-section='howitworks'] > div:nth-child(4)", "wait_for": "[data-section='howitworks']" }
+  ]
+}
