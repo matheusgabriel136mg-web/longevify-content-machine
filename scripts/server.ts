@@ -838,6 +838,198 @@ app.get("/api/ops", (_req, res) => {
   });
 });
 
+// ─── Engagement Opportunities (crescer orgânico via comentários manuais) ─────
+// Surfaces posts virais recentes de competidores + gera sugestões de comentário
+// pra Matheus/Valle comentarem MANUALMENTE no IG (sem violar ToS).
+const ENG_SUGGESTIONS_PATH = path.join(ROOT, "output", "engagement-suggestions.json");
+
+interface EngSuggestion {
+  postId: string;
+  brand: string;
+  caption_excerpt: string;
+  url: string;
+  vsMedian: number;
+  format: string;
+  generated_at: string;
+  suggestions: Array<{
+    angle: string;       // "elogio" | "tecnico" | "pergunta"
+    text: string;        // o comentário em si
+  }>;
+}
+
+function loadEngSuggestions(): Record<string, EngSuggestion> {
+  if (!fs.existsSync(ENG_SUGGESTIONS_PATH)) return {};
+  try {
+    return JSON.parse(fs.readFileSync(ENG_SUGGESTIONS_PATH, "utf-8"));
+  } catch { return {}; }
+}
+
+function saveEngSuggestions(map: Record<string, EngSuggestion>): void {
+  fs.mkdirSync(path.dirname(ENG_SUGGESTIONS_PATH), { recursive: true });
+  fs.writeFileSync(ENG_SUGGESTIONS_PATH, JSON.stringify(map, null, 2));
+}
+
+// GET /api/engagement-opportunities — top N posts virais recentes pra comentar
+app.get("/api/engagement-opportunities", (_req, res) => {
+  const posts = loadAllInstagramPosts() as Array<{
+    id: string;
+    shortCode?: string;
+    url?: string;
+    caption?: string;
+    timestamp?: string;
+    brand?: string;
+    vsMedian?: number;
+    isViral?: boolean;
+    format?: string;
+    likesCount?: number;
+    commentsCount?: number;
+  }>;
+
+  const allowedBrands = [
+    "Superpower", "Mito Health", "Function Health", "Bryan Johnson",
+    "Thorne Health", "Rerise Health", "Timeline Longevity",
+    "Lifeforce", "InsideTracker", "Everlywell", "OneSkin", "Forward",
+    "Huberman Lab", "Peter Attia MD", "Dr Mark Hyman", "Rhonda Patrick",
+    "Better Be Health", "Everlab Health",
+  ];
+
+  // Filtra posts dos últimos 7 dias com vsMedian >= 1.5 (viral threshold)
+  const now = Date.now();
+  const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+  const cache = loadEngSuggestions();
+
+  const opportunities = posts
+    .filter((p) => p.brand && allowedBrands.includes(p.brand))
+    .filter((p) => (p.vsMedian ?? 0) >= 1.5)
+    .filter((p) => {
+      if (!p.timestamp) return true;
+      const age = now - new Date(p.timestamp).getTime();
+      return age < SEVEN_DAYS;
+    })
+    .sort((a, b) => (b.vsMedian ?? 0) - (a.vsMedian ?? 0))
+    .slice(0, 40)
+    .map((p) => ({
+      postId: p.id,
+      shortCode: p.shortCode,
+      url: p.url ?? `https://instagram.com/p/${p.shortCode ?? ""}`,
+      brand: p.brand!,
+      caption_excerpt: (p.caption ?? "").slice(0, 200),
+      timestamp: p.timestamp ?? "",
+      vsMedian: p.vsMedian ?? 0,
+      isViral: p.isViral ?? false,
+      format: p.format ?? "image",
+      likes: p.likesCount ?? 0,
+      comments: p.commentsCount ?? 0,
+      hasSuggestions: !!cache[p.id],
+      suggestions: cache[p.id]?.suggestions ?? null,
+    }));
+
+  res.json({ opportunities, total: opportunities.length });
+});
+
+// POST /api/engagement-suggest/:postId — gera 3 sugestões de comentário via Claude
+app.post("/api/engagement-suggest/:postId", async (req, res) => {
+  const postId = req.params.postId;
+  const cache = loadEngSuggestions();
+
+  // Cache hit?
+  if (cache[postId] && !(req.query.force === "true")) {
+    return res.json({ ok: true, cached: true, ...cache[postId] });
+  }
+
+  // Acha o post no merge global
+  const posts = loadAllInstagramPosts() as Array<{
+    id: string;
+    shortCode?: string;
+    url?: string;
+    caption?: string;
+    brand?: string;
+    vsMedian?: number;
+    format?: string;
+  }>;
+  const post = posts.find((p) => p.id === postId);
+  if (!post) return res.status(404).json({ error: "post não encontrado no snapshot" });
+
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return res.status(500).json({ error: "ANTHROPIC_API_KEY not set on server" });
+  }
+
+  // System prompt curto: voz Longevify, sem promo, 3 ângulos
+  const system = `Você é o community manager do @longevify_, marca brasileira de medicina de longevidade. Sua tarefa: sugerir 3 comentários CURTOS (max 90 chars cada) pra deixar em post viral de marca de saúde concorrente/adjacente, com objetivos de:
+1. Brand awareness (alguém vê o @longevify_ comentando inteligente)
+2. Trazer audiência orgânica pro perfil
+
+VOZ OBRIGATÓRIA: Mito (precisão técnica) + Aesop (restrição editorial). pt-BR puro.
+
+PROIBIDO:
+- Self-promo direto ("conheça nossa empresa", "veja no nosso site")
+- Self-help ("você consegue!")
+- Emojis decorativos (raro 🇧🇷 ou ❄️ ok)
+- "Top!", "Show!", "Massa!" — clichê de creator BR
+- Promessa de cura
+- Fear language
+
+OS 3 COMENTÁRIOS devem ter ângulos DIFERENTES:
+- 1: ELOGIO editorial (Aesop poster) — celebra ângulo do post com 1 frase técnica precisa
+- 2: ACRÉSCIMO TÉCNICO — agrega um dado/nuance científica complementar (cita fonte se possível)
+- 3: PERGUNTA ABERTA — gera engajamento adicional, pergunta inteligente sobre o tópico
+
+Retorne JSON ESTRITO: {"suggestions":[{"angle":"elogio","text":"..."},{"angle":"tecnico","text":"..."},{"angle":"pergunta","text":"..."}]}`;
+
+  const user = `POST VIRAL DE: ${post.brand}
+Caption: ${(post.caption ?? "").slice(0, 600)}
+Formato: ${post.format ?? "image"}
+Engajamento: ${post.vsMedian?.toFixed(1)}x mediana
+
+Gere 3 comentários conforme system.`;
+
+  try {
+    const ack = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-7",
+        max_tokens: 1000,
+        system,
+        messages: [{ role: "user", content: user }],
+      }),
+    });
+
+    if (!ack.ok) {
+      const err = await ack.text();
+      return res.status(500).json({ error: `Claude API: ${err.slice(0, 200)}` });
+    }
+    const data = (await ack.json()) as { content: Array<{ text: string }> };
+    const raw = data.content[0]?.text ?? "";
+    // Extrai JSON (tolerante a markdown blocks)
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return res.status(500).json({ error: "Claude não retornou JSON válido", raw });
+    const parsed = JSON.parse(jsonMatch[0]) as { suggestions: Array<{ angle: string; text: string }> };
+
+    // Salva cache
+    const entry: EngSuggestion = {
+      postId,
+      brand: post.brand ?? "?",
+      caption_excerpt: (post.caption ?? "").slice(0, 200),
+      url: post.url ?? `https://instagram.com/p/${post.shortCode ?? ""}`,
+      vsMedian: post.vsMedian ?? 0,
+      format: post.format ?? "image",
+      generated_at: new Date().toISOString(),
+      suggestions: parsed.suggestions,
+    };
+    cache[postId] = entry;
+    saveEngSuggestions(cache);
+
+    res.json({ ok: true, cached: false, ...entry });
+  } catch (e) {
+    res.status(500).json({ error: (e as Error).message });
+  }
+});
+
 // ─── Static files ─────────────────────────────────────────────────────────────
 app.use("/runs", express.static(path.join(ROOT, "runs")));
 app.use(express.static(path.join(ROOT, "dashboard")));

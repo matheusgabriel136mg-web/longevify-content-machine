@@ -426,6 +426,33 @@
     .card .card-actions-overlay .icon-btn.feedback:hover {
       color: var(--gold); background: rgba(200,145,54,0.15);
     }
+    /* Engaja tab cards */
+    .engaja-item {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+    }
+    .engaja-item .e-head { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; font-size: 11px; }
+    .engaja-item .e-caption { font-size: 13px; line-height: 1.55; color: var(--text-soft); margin-bottom: 12px; word-break: break-word; }
+    .engaja-item .e-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .engaja-suggestions { margin-top: 12px; border-top: 1px dashed var(--border); padding-top: 12px; display: grid; gap: 10px; }
+    .engaja-suggestion {
+      background: rgba(200,145,54,0.06);
+      border: 1px solid rgba(200,145,54,0.18);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .engaja-suggestion .es-angle { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; margin-bottom: 4px; }
+    .engaja-suggestion .es-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+    .engaja-suggestion .es-copy { background: var(--gold); color: var(--bg-deeper); border: none; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .engaja-suggestion .es-copy:hover { opacity: 0.85; }
+    .engaja-suggestion .es-copy.copied { background: var(--success); color: white; }
     .card.idea-card {
       background: linear-gradient(180deg, var(--panel-hover) 0%, var(--panel) 100%);
       border-color: var(--gold);
@@ -866,6 +893,11 @@
     Feedback
     <span class="count" id="tabCountFeedback">—</span>
   </button>
+  <button class="tab" data-tab="engaja">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="4"/><path d="M5 21v-2a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v2"/><circle cx="17" cy="6" r="2"/><path d="M19 12l-2-2"/></svg>
+    Engaja
+    <span class="count" id="tabCountEngaja">—</span>
+  </button>
   <button class="tab" data-tab="ops">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
     Ops
@@ -930,6 +962,14 @@
     </div>
     <div class="meta-line" id="feedbackMeta">Carregando feedback…</div>
     <div id="feedbackList"></div>
+  </section>
+
+  <section id="tab-engaja" style="display:none">
+    <div class="meta-line" id="engajaMeta">Carregando oportunidades de engajamento…</div>
+    <div style="margin: 12px 0 20px; padding: 14px 18px; background: rgba(200,145,54,0.08); border-left: 3px solid var(--gold); border-radius: 6px; font-size: 13px; color: var(--text-soft); line-height: 1.55;">
+      <b style="color: var(--gold);">Como usar:</b> aqui aparecem posts virais recentes dos competidores. Clica <b>"💬 Sugerir comentários"</b> → IA gera 3 ângulos (elogio editorial, acréscimo técnico, pergunta aberta). Clica <b>"↗ Abrir no IG"</b> → comenta MANUALMENTE no app do Instagram com a sugestão. Brand awareness orgânico, sem risco de ban.
+    </div>
+    <div id="engajaList"></div>
   </section>
 
   <section id="tab-ops" style="display:none">
@@ -1890,17 +1930,101 @@
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.closeFeedbackModal(); });
 
+  // ─── Engaja (oportunidades de comentar manualmente em posts virais) ───
+  async function loadEngaja() {
+    try {
+      const r = await fetch('/api/engagement-opportunities');
+      const d = await r.json();
+      const list = document.getElementById('engajaList');
+      const meta = document.getElementById('engajaMeta');
+      document.getElementById('tabCountEngaja').textContent = String(d.total ?? 0);
+      meta.innerHTML = `<span>${d.total} oportunidades · viral ≥1.5x · últimos 7 dias</span>`;
+      if (!d.opportunities?.length) {
+        list.innerHTML = '<div class="empty"><div class="icon">💬</div><div class="title">Sem oportunidades</div><div class="hint">Snapshot vazio ou sem virais recentes</div></div>';
+        return;
+      }
+      list.innerHTML = d.opportunities.map(op => renderEngajaCard(op)).join('');
+    } catch (e) { console.error(e); }
+  }
+
+  function renderEngajaCard(op) {
+    const sugHtml = op.hasSuggestions && op.suggestions
+      ? renderSuggestions(op.postId, op.suggestions)
+      : `<button class="btn gold" onclick="window.generateEngajaSuggestions('${op.postId}')" style="margin-top:8px;">💬 Sugerir 3 comentários</button>`;
+    const cap = (op.caption_excerpt || '').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+    return `
+      <div class="engaja-item" data-engaja-id="${op.postId}">
+        <div class="e-head">
+          <span class="badge ${(op.isViral ? 'viral' : '')}">${op.brand}</span>
+          <span class="badge viral">${op.vsMedian.toFixed(1)}x</span>
+          <span class="meta">${op.format} · ${op.likes.toLocaleString()} ❤ · ${op.comments.toLocaleString()} 💬</span>
+        </div>
+        <div class="e-caption">${cap}${cap.length === 200 ? '…' : ''}</div>
+        <div class="e-actions">
+          <button class="btn secondary" onclick="window.open('${op.url}','_blank')" title="Abrir post no Instagram">↗ Abrir no IG</button>
+          ${!op.hasSuggestions ? `<button class="btn gold" onclick="window.generateEngajaSuggestions('${op.postId}')">💬 Sugerir 3 comentários</button>` : `<button class="btn secondary" onclick="window.generateEngajaSuggestions('${op.postId}', true)">🔄 Regerar</button>`}
+        </div>
+        <div class="engaja-suggestions-slot">${op.hasSuggestions && op.suggestions ? renderSuggestions(op.postId, op.suggestions) : ''}</div>
+      </div>
+    `;
+  }
+
+  function renderSuggestions(postId, suggestions) {
+    if (!suggestions || !suggestions.length) return '';
+    return `<div class="engaja-suggestions">` + suggestions.map((s, i) => {
+      const angle = (s.angle || '').toLowerCase();
+      const icon = angle.includes('elog') ? '💎' : angle.includes('tec') ? '🔬' : '🤔';
+      const safe = (s.text || '').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+      return `
+        <div class="engaja-suggestion">
+          <div>
+            <div class="es-angle">${icon} ${s.angle}</div>
+            <div class="es-text">${safe}</div>
+          </div>
+          <button class="es-copy" data-text="${safe}" onclick="window.copyEngajaSuggestion(this)">Copiar</button>
+        </div>`;
+    }).join('') + `</div>`;
+  }
+
+  window.generateEngajaSuggestions = async function(postId, force = false) {
+    const card = document.querySelector(`.engaja-item[data-engaja-id="${postId}"]`);
+    const slot = card?.querySelector('.engaja-suggestions-slot');
+    if (slot) slot.innerHTML = '<div class="meta" style="padding:10px 0;">💭 Gerando 3 sugestões via Claude…</div>';
+    try {
+      const url = '/api/engagement-suggest/' + encodeURIComponent(postId) + (force ? '?force=true' : '');
+      const r = await fetch(url, { method: 'POST' });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || 'HTTP ' + r.status);
+      if (slot) slot.innerHTML = renderSuggestions(postId, d.suggestions);
+      toast('💬 3 sugestões geradas', 'success');
+    } catch (e) {
+      if (slot) slot.innerHTML = '';
+      toast('Erro: ' + e.message, 'error');
+    }
+  };
+
+  window.copyEngajaSuggestion = function(btn) {
+    const text = btn.getAttribute('data-text');
+    navigator.clipboard.writeText(text.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/&quot;/g,'"')).then(() => {
+      btn.textContent = '✓ Copiado';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 1800);
+    });
+  };
+
   // ─── Refresh loop ─────────────────────────────────────
   function refresh() {
     if (state.activeTab === 'inspire') loadInspire();
     if (state.activeTab === 'cronograma') loadCronograma();
     if (state.activeTab === 'feedback') loadFeedback();
+    if (state.activeTab === 'engaja') loadEngaja();
     loadReview();
     loadOps();
   }
   // Initial load cronograma on first render (for tab counter)
   loadCronograma();
   loadFeedback();
+  loadEngaja();
   refresh();
   setInterval(refresh, 15000);
 </script>
