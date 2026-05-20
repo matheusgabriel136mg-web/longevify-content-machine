@@ -1,0 +1,42 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel slide, 1080x1350 (4:5 aspect ratio). FLAT SOLID BACKGROUND color hex #1C3F3A (deep forest green), absolutely no gradient, no texture, no noise. Top-left corner, aligned to 96px left margin and 120px top margin: editorial numbering '01 / 05' in DM Sans Regular 400, 28px, color gold hex #C89136. Centered vertically and horizontally in the canvas: two lines of display typography reading exactly 'Duas idades.' on the first line and 'Uma conta.' on the second line, in DM Sans Light 300, 104px, color off-white hex #f8fffc, leading 1.15, tracking -1%, perfectly kerned, no typos, Portuguese punctuation preserved with periods. Bottom-center area RESERVED EMPTY (clean negative space, 270px wide x 80px tall, padding 54px from bottom edge) for logo overlay to be composited later — do NOT draw any logo, glyph, wordmark, or text in this reserved zone. Composition: minimal, museum-grade editorial, generous breathing room, perfectly centered axis. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO molecules, NO mitochondria graphics, NO gradients, NO textures, NO decorative elements, NO emoji, NO hashtags, NO extra text beyond what is specified.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Hook slide. Pure typographic minimalism. Logo composited post-process."
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel slide, 1080x1350 (4:5 aspect ratio). FLAT SOLID BACKGROUND color hex #1C3F3A (deep forest green), absolutely no gradient, no texture. Top-left corner at 96px left / 120px top: editorial numbering '02 / 05' in DM Sans Regular 400, 28px, color gold hex #C89136. Centered vertically: three lines of display type reading exactly 'A função mitocondrial cai' / 'entre 7% e 10%' / 'por década depois dos 30.' in DM Sans Light 300, 92px, color off-white hex #f8fffc, leading 1.15, tracking -1%, perfectly centered, no typos. Bottom area, above the reserved logo zone, single line of micro support text in DM Sans Light 300, 24px, color sage hex #557D6D: 'Short et al., PNAS 2005 — declínio de ATP em músculo esquelético com a idade.' Bottom-center area RESERVED EMPTY (270x80px, 54px from bottom) for logo overlay — do NOT generate any logo. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO molecules, NO charts, NO graphs, NO mitochondria graphics, NO gradients, NO emoji.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Proof point slide with scientific citation."
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel slide, 1080x1350 (4:5 aspect ratio). FLAT SOLID BACKGROUND color hex #1C3F3A (deep forest green), no gradient, no texture. Top-left at 96px/120px: numbering '03 / 05' in DM Sans Regular 400, 28px, gold hex #C89136. Centered vertically: six lines of display type, in three pairs, reading exactly 'Mitocôndria saudável' / 'produz energia celular.' / 'Energia celular' / 'sustenta o tecido.' / 'Tecido sustentado' / 'sustenta o corpo.' in DM Sans Light 300, 84px, off-white hex #f8fffc, leading 1.15, tracking -1%, perfectly centered. ONLY GRAPHIC ELEMENT ALLOWED: a vertical typographic chain on the left margin connecting the three pairs — three small sage hex #557D6D circular dots (6px diameter) aligned vertically beside each pair, connected by a single thin sage 1px vertical line. Bottom area, above logo zone, micro support line in DM Sans Light 300, 24px, sage #557D6D: 'A idade biológica começa na escala da célula, não no espelho.' Bottom-center RESERVED EMPTY (270x80px, 54px from bottom) for logo overlay. ABSOLUTELY NO photography, NO icons, NO illustrations of mitochondria or cells, NO test tubes, NO molecules, NO diagrams beyond the 3-dot chain described.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Mechanism slide. The only graphic element of the carousel: 3-dot sage chain."
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel slide, 1080x1350 (4:5 aspect ratio). FLAT SOLID BACKGROUND color hex #1C3F3A (deep forest green), no gradient, no texture. Top-left at 96px/120px: numbering '04 / 05' in DM Sans Regular 400, 28px, gold hex #C89136. Centered vertically: four lines of display type reading exactly 'O check-up de rotina entrega' / 'idade cronológica de graça.' / 'Idade biológica continua' / 'fora do exame padrão.' in DM Sans Light 300, 88px, off-white hex #f8fffc, leading 1.15, tracking -1%, perfectly centered. Bottom area, above logo zone, two lines of micro support text in DM Sans Light 300, 22px, sage hex #557D6D, leading 1.4: 'No Brasil, marcadores como HOMA-IR, lactato em esforço e VO2 máx já dialogam com função mitocondrial. Painéis epigenéticos chegaram às clínicas longevity privadas — ainda fora do plano de saúde.' Bottom-center RESERVED EMPTY (270x80px, 54px from bottom) for logo overlay. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO molecules, NO medical imagery, NO charts, NO Brazilian flag, NO emoji.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "BR context slide. Dense micro-support text."
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel slide, 1080x1350 (4:5 aspect ratio). FLAT SOLID BACKGROUND color hex #1C3F3A (deep forest green), no gradient, no texture. Top-left at 96px/120px: numbering '05 / 05' in DM Sans Regular 400, 28px, gold hex #C89136. Centered vertically: four lines of display type reading exactly 'A pergunta deixou' / 'de ser parecer mais novo.' / 'Passou a ser' / 'ter energia mais nova.' in DM Sans Light 300, 88px, off-white hex #f8fffc, leading 1.15, tracking -1%, perfectly centered. Bottom area, above logo zone, single micro line in DM Sans Regular 400 (note: regular weight, not light), 24px, color GOLD hex #C89136: 'A leitura completa está no link da bio.' Bottom-center RESERVED EMPTY (270x80px, 54px from bottom) for logo overlay. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO arrows, NO link icons, NO emoji, NO hashtags.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Editorial CTA slide. Gold support line signals call-to-action without imperative."
+  }
+]

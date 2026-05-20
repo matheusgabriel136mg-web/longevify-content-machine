@@ -1,0 +1,47 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial Instagram carousel cover slide, 4:5 aspect ratio. Dark sophisticated background in deep charcoal (#0E0E10) with subtle warm gradient toward bottom. Centered headline text in DM Sans Bold, color warm off-white (#F5F1EA): 'Envelhece 2.' on first line, 'Rejuvenesce 8.' on second line, large scale ~120pt, tight leading. Below in DM Sans Regular smaller (~32pt), muted gold (#C9A961): 'Yale School of Medicine'. Subtle abstract element: two soft luminous orbs or arcs in the negative space — one slightly aged warm amber tone, one fresh cool pearl tone — suggesting biological transformation without being literal. Editorial science aesthetic, glassmorphism subtle, generous negative space. RESERVE clean empty space at bottom-center (~80px from edge, ~25% width) for logo overlay — do NOT generate any logo or wordmark there. Typography must be crisp, legible PT-BR text rendering. ABSOLUTELY NO: pregnant belly imagery, baby imagery, pink/pastel colors, motherhood clichés, test tubes, DNA helix illustration, stock medical imagery, smiling women, hospital imagery, generic wellness stock.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Cover slide — numeric contrast hook"
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial carousel slide, 4:5 aspect ratio. Dark charcoal background (#0E0E10) with very subtle vignette. Top-left small label in DM Sans Medium ~24pt, muted gold (#C9A961): '02 / O CUSTO METABÓLICO'. Main body text centered-left in DM Sans Regular ~42pt, warm off-white (#F5F1EA), tight editorial leading: 'Gerar um humano impõe demanda celular intensa. Ao final da gestação, marcadores epigenéticos indicam aceleração média de ~2 anos na idade biológica.' Key phrase '~2 anos' highlighted in DM Sans Bold same gold (#C9A961). Right side: abstract minimal data visualization — a single ascending line graph rendered in thin gold stroke on dark, suggesting epigenetic acceleration, very minimal, no labels or numbers cluttering. Generous negative space. RESERVE clean empty bottom-center space (~80px from edge, ~25% width) for logo overlay — do NOT generate any logo. ABSOLUTELY NO: pregnant belly, baby imagery, pink/pastel, test tubes, DNA helix cartoon, stock medical imagery, hospital, generic wellness.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k"
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial carousel slide, 4:5 aspect ratio. Dark charcoal background (#0E0E10). Top-left label DM Sans Medium ~24pt muted gold (#C9A961): '03 / TRÊS MESES DEPOIS'. Centered text DM Sans Regular ~42pt warm off-white (#F5F1EA): 'Aos 3 meses pós-parto, a idade biológica não apenas estabiliza — ela cai. Em alguns casos, até' followed by very large DM Sans Bold ~140pt gold (#C9A961): '−8 anos' then DM Sans Regular smaller below: 'abaixo do pico da gestação.' Editorial composition with strong typographic hierarchy. Subtle abstract descending curve in gold thin stroke as background element. Generous negative space. RESERVE clean empty bottom-center space (~80px from edge, ~25% width) for logo — do NOT generate any logo. ABSOLUTELY NO: pregnant belly, baby imagery, pink/pastel, test tubes, DNA helix, mother-baby photos, stock wellness imagery.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Payoff slide — numeric reveal"
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial carousel slide, 4:5 aspect ratio. Dark charcoal background (#0E0E10). Top-left label DM Sans Medium ~24pt muted gold (#C9A961): '04 / DOIS FATORES DECISIVOS'. Two-column layout, equal weight. Left column: DM Sans Bold ~36pt warm off-white (#F5F1EA): 'IMC pré-gestacional' then DM Sans Regular ~28pt slightly dimmer: 'mais elevado dificulta a recuperação celular.' Right column: DM Sans Bold ~36pt: 'Amamentação exclusiva' then DM Sans Regular ~28pt: 'acelera o retorno biológico.' Thin vertical gold (#C9A961) divider between columns. Clean editorial grid, generous negative space. RESERVE clean empty bottom-center space (~80px from edge, ~25% width) for logo — do NOT generate any logo. ABSOLUTELY NO: pregnant belly, baby imagery, breastfeeding imagery, pink/pastel, test tubes, DNA helix, stock medical illustrations.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k"
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial carousel slide, 4:5 aspect ratio. Dark charcoal background (#0E0E10). Top-left label DM Sans Medium ~24pt muted gold (#C9A961): '05 / A PERGUNTA EM ABERTO'. Centered text block, DM Sans Regular ~40pt warm off-white (#F5F1EA), italic optional for question: 'O corpo retorna à linha de base — ou a gravidez deixa a mulher biologicamente mais jovem do que antes?' Below in smaller DM Sans Regular ~24pt, dimmer tone: '— Kieran O'Donnell, Yale School of Medicine'. Strong editorial silence, lots of negative space, the question stands alone. RESERVE clean empty bottom-center space (~80px from edge, ~25% width) for logo — do NOT generate any logo. ABSOLUTELY NO: portrait of researcher, lab imagery, test tubes, DNA helix, pregnancy imagery, baby imagery, stock science clichés.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k"
+  },
+  {
+    "slot": "slide-6",
+    "model": "nano_banana_2",
+    "prompt": "Premium editorial carousel closing slide, 4:5 aspect ratio. Dark charcoal background (#0E0E10) with subtle warm gradient. Top-left label DM Sans Medium ~24pt muted gold (#C9A961): '06 / SUA IDADE BIOLÓGICA SE MOVE'. Main text DM Sans Regular ~38pt warm off-white (#F5F1EA): 'Idade cronológica é fixa. Idade biológica responde a sono, dieta, treino, gestação, lactação.' Below, DM Sans Bold ~44pt gold (#C9A961): 'Mapeá-la é o primeiro passo.' At bottom area (above logo reserved space), CTA in DM Sans Medium ~28pt warm off-white: 'Mapeie a sua idade biológica — link na bio.' Sophisticated editorial closure, generous negative space. RESERVE clean empty bottom-center space (~80px from edge, ~25% width) for logo overlay — do NOT generate any logo. ABSOLUTELY NO: pregnant belly, baby imagery, pink/pastel, test tubes, DNA helix, stock wellness imagery, generic CTA button design.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Closing CTA slide"
+  }
+]

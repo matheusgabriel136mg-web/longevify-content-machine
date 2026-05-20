@@ -1,0 +1,42 @@
+[
+  {
+    "slot": "slide-1",
+    "model": "nano_banana_2",
+    "prompt": "Editorial poster design, Aesop-inspired typographic composition. Solid background color #1C3F3A (deep forest green) filling entire frame. Top-left corner: small text '01 / 05' in DM Sans Regular 400, 24pt, color #C89136 (gold), positioned 96px from left and top edges. Centered composition: large decorative opening quotation mark in Georgia Italic, approximately 320pt, color #C89136 (gold), positioned at upper-left of text block. Below and centered: the quote 'Meu colesterol tá bom, doutor.' rendered in Georgia Italic, 88pt, color #f8fffc (off-white), tight leading 1.05, centered alignment, perfect Portuguese text rendering with correct accents. Closing decorative quotation mark in gold #C89136 at end of quote. Below the quote: a small horizontal dash in gold #C89136, then attribution text '— paciente, 42 anos, São Paulo' in DM Sans Regular 400, 22pt, off-white #f8fffc at 70% opacity. Reserve clean empty space at bottom-center, approximately 120px from bottom edge, for logo placement (do not generate any logo or wordmark). Generous margins: 96px sides, 120px top/bottom. Minimalist editorial poster aesthetic, Aesop brand sensibility, premium typography only. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO medical imagery, NO emoji, NO hashtags, NO stock graphics, NO decorative borders, NO gradients, NO shadows on text.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Hook slide — patient quote, Georgia Italic, decorative quotes in gold"
+  },
+  {
+    "slot": "slide-2",
+    "model": "nano_banana_2",
+    "prompt": "Editorial poster design, Aesop-inspired typographic composition. Solid background color #1C3F3A (deep forest green) filling entire frame. Top-left corner: small text '02 / 05' in DM Sans Regular 400, 24pt, color #C89136 (gold), positioned 96px from left and top edges. Below the slide number, kicker text 'O EXAME, LADO A LADO' in DM Sans Regular 400, 20pt, color #f8fffc (off-white) at 60% opacity, letter-tracking +80, all uppercase. Main content: three stacked rows, left-aligned, with generous vertical leading. Each row has a label on the left in DM Sans Regular 400, 28pt, off-white #f8fffc, and a large number on the right in Georgia Regular. Row 1: label 'Colesterol total' with number '180' in Georgia Regular 144pt color #C89136 gold. Row 2: label 'LDL' with number '95' in Georgia Regular 144pt color #C89136 gold. Row 3: label 'ApoB' with number '132' in Georgia Regular approximately 150pt (slightly larger, 4-8pt more than others), color #C89136 gold; this row has a thin vertical gold line marker (#C89136) on its left edge as a subtle editorial accent. Perfect text rendering, accurate Portuguese, no typos. Reserve clean empty space at bottom-center, approximately 120px from bottom edge, for logo placement (do not generate any logo or wordmark). Margins: 96px sides. Minimalist editorial poster, premium typography only. ABSOLUTELY NO photography, NO icons, NO charts, NO graphs, NO test tubes, NO medical imagery, NO arrows, NO emoji, NO decorative elements beyond the thin gold accent line.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Three numbers slide — ApoB 132 is focal, slightly larger"
+  },
+  {
+    "slot": "slide-3",
+    "model": "nano_banana_2",
+    "prompt": "Editorial poster design, Aesop-inspired typographic composition. Solid background color #1C3F3A (deep forest green) filling entire frame. Top-left corner: small text '03 / 05' in DM Sans Regular 400, 24pt, color #C89136 (gold), positioned 96px from left and top edges. Composition is two stanzas of text, left-aligned, separated by a small typographic glyph. First stanza in Georgia Regular, 54pt, color #f8fffc (off-white), leading 1.2, two lines: 'LDL conta o colesterol dentro das partículas.' on first line, 'ApoB conta as partículas.' on second line. Middle separator: a single small minimal glyph in gold #C89136 — a tiny dot followed by a short horizontal line, centered between the stanzas, very subtle, typographic in nature. Second stanza in DM Sans Regular 400, 26pt, color #f8fffc off-white at 80% opacity, leading 1.4: 'Cada partícula que carrega ApoB pode atravessar a parede da artéria. Duas pessoas com o mesmo LDL podem ter risco diferente — porque podem ter números diferentes de partículas.' Perfect Portuguese text rendering with all accents correct. Reserve clean empty space at bottom-center, approximately 120px from bottom edge, for logo placement (do not generate any logo or wordmark). Margins: 96px sides, 120px top/bottom. Minimalist editorial poster, Aesop brand sensibility. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO medical imagery, NO particle diagrams, NO molecule drawings, NO arrows, NO emoji.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Mechanism slide — two stanzas, typographic glyph separator"
+  },
+  {
+    "slot": "slide-4",
+    "model": "nano_banana_2",
+    "prompt": "Editorial poster design, Aesop-inspired typographic composition. Solid background color #1C3F3A (deep forest green) filling entire frame. Top-left corner: small text '04 / 05' in DM Sans Regular 400, 24pt, color #C89136 (gold), positioned 96px from left and top edges. Main composition: two vertical blocks side by side, separated by a thin vertical line in off-white #f8fffc at 20% opacity running through the middle of the canvas. LEFT BLOCK: small label 'FAIXA DO LABORATÓRIO' in DM Sans Regular 400, 22pt, off-white #f8fffc at 70% opacity, letter-tracking +60, uppercase. Below: large number 'até 130' in Georgia Regular, 120pt, color #f8fffc (off-white). Below: small text 'mg/dL' in DM Sans Regular 400, 22pt, off-white 70%. Below: small label 'populacional' in DM Sans Regular 400, 22pt, off-white 70%. RIGHT BLOCK: small label 'PREVENÇÃO PRIMÁRIA' in DM Sans Regular 400, 22pt, off-white #f8fffc at 70% opacity, letter-tracking +60, uppercase. Below: large number 'abaixo de 90' in Georgia Regular, 120pt, color #C89136 (gold). Below: small text 'mg/dL' in DM Sans Regular 400, 22pt, off-white 70%. Below: small label 'funcional' in DM Sans Regular 400, 22pt, off-white 70%. Below both blocks, centered footer text in DM Sans Regular 400, 22pt, off-white #f8fffc at 80% opacity, max 40 characters per line, two lines: 'A faixa do laboratório foi calibrada para a média da população. A faixa funcional foi calibrada para quem quer evitar o evento.' Perfect Portuguese rendering. Reserve clean empty space at bottom-center, approximately 120px from bottom edge, for logo placement (do not generate any logo or wordmark). Margins: 96px sides. ABSOLUTELY NO arrows, NO 'vs' text, NO photography, NO icons, NO test tubes, NO medical imagery, NO charts, NO emoji, NO decorative elements beyond the thin vertical divider.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Two-column comparison — lab range (white) vs functional range (gold)"
+  },
+  {
+    "slot": "slide-5",
+    "model": "nano_banana_2",
+    "prompt": "Editorial poster design, Aesop-inspired typographic composition. Solid background color #1C3F3A (deep forest green) filling entire frame. Top-left corner: small text '05 / 05' in DM Sans Regular 400, 24pt, color #C89136 (gold), positioned 96px from left and top edges. Centered composition with breathing space: two short sentences in Georgia Regular, 64pt, color #f8fffc (off-white), leading 1.1, centered alignment, perfect Portuguese rendering. Line 1: 'O exame entregou o número.' Line 2: 'Não entregou a leitura.' Generous empty space below the two sentences. Then a small editorial signature block, centered: a short horizontal dash separator in gold #C89136, followed below by the text 'Longevify · link na bio' in DM Sans Regular 400, 24pt, color #f8fffc (off-white). Reserve clean empty space at bottom-center, approximately 110px from bottom edge, slightly larger area for logo placement (do not generate any logo or wordmark). Margins: 96px sides, 120px top. Minimalist editorial closing poster, Aesop brand sensibility, premium typography only. ABSOLUTELY NO photography, NO icons, NO illustrations, NO test tubes, NO medical imagery, NO emoji, NO hashtags, NO call-to-action buttons, NO decorative borders.",
+    "aspect_ratio": "4:5",
+    "resolution": "2k",
+    "notes": "Resolution + CTA — two Georgia sentences, signature block, larger logo area"
+  }
+]
