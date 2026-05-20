@@ -67,7 +67,8 @@
     "publish": "node --env-file=.env --import tsx/esm scripts/publish.ts",
     "feedback": "node --env-file=.env --import tsx/esm scripts/feedback.ts",
     "knowledge-ingest": "node --env-file=.env --import tsx/esm scripts/knowledge-ingest.ts",
-    "overnight-gen": "node --env-file=.env --import tsx/esm scripts/overnight-generator.ts"
+    "overnight-gen": "node --env-file=.env --import tsx/esm scripts/overnight-generator.ts",
+    "render-carousel-sharp": "node --import tsx/esm scripts/render-carousel-sharp.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.52.0",
