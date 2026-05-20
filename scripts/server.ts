@@ -546,6 +546,8 @@ app.get("/api/feed", (_req, res) => {
     "Huberman Lab", "Peter Attia MD", "Dr Mark Hyman", "Rhonda Patrick",
     // Tier 2 BR
     "Better Be Health",
+    // Tier 2 AU
+    "Everlab Health",
   ];
   const mapped = posts
     .filter((p) => p.brand && allowedBrands.includes(p.brand) && !dismissed.has(p.id))

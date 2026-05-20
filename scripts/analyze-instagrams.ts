@@ -55,6 +55,7 @@ const COMPETITORS = [
   { name: "Rhonda Patrick", handle: "foundmyfitness" },       // ✓ 122 posts
   // Tier 2 — BR
   { name: "Better Be Health", handle: "betterbehealth" },     // ⚠️ 0 last scrape — era betterbe.health (com ponto)
+  { name: "Everlab Health", handle: "everlab_health" },       // 🆕 20/mai/2026 — referência AU, posts alta qualidade (Matheus)
 ];
 
 const POSTS_PER_ACCOUNT = 200;
