@@ -79,3 +79,5 @@ npm run analyze-instagrams
 # Scrape competidores TikTok
 npm run analyze-tiktoks
 ```
+
+<!-- redeploy trigger: Thu May 21 13:06:58 -03 2026 -->
