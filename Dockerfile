@@ -23,11 +23,16 @@ COPY scripts ./scripts
 COPY dashboard ./dashboard
 COPY brands ./brands
 COPY foundation ./foundation
+COPY assets ./assets
 COPY BRAND_DEFAULTS.md LONGEVIFY_BRAND.md CLAUDE.md ./
 COPY tsconfig.json* ./
 
-# Pasta de dados — montar volume em produção pra persistir
-# Ou usar S3/Cloudflare R2 pra dados realmente persistentes.
+# Dados — JSONs leves de snapshots + metadata de runs.
+# .gitignore já excluiu binários pesados (assets PNG/MP4 dos runs).
+COPY output ./output
+COPY runs ./runs
+
+# Garante que pastas existam mesmo sem files (free tier ephemeral fs).
 RUN mkdir -p output runs
 
 ENV NODE_ENV=production
