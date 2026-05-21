@@ -175,14 +175,23 @@ async function renderSlide(slide: Slide, outPath: string): Promise<void> {
   // Composite: bg + svg overlay + logo bottom-center
   let img = sharp(svgBuffer).resize(W, H);
 
-  // Logo overlay
+  // Logo overlay — trim + crop pra remover a linha decorativa do design original
   if (fs.existsSync(LOGO)) {
-    const logoW = Math.round(W * 0.25); // 25% width
-    const logoBuf = await sharp(LOGO).resize(logoW).toBuffer();
+    // 1. Trim transparência → bbox real (2000x1148)
+    // 2. Extract só os top 78% (corta a linha horizontal decorativa que mora no bottom)
+    const trimmed = await sharp(LOGO).trim().toBuffer({ resolveWithObject: true });
+    const tw = trimmed.info.width;
+    const th = trimmed.info.height;
+    const cropH = Math.round(th * 0.78); // mantém só wordmark, descarta underline
+    const wordmarkBuf = await sharp(trimmed.data).extract({ left: 0, top: 0, width: tw, height: cropH }).toBuffer();
+
+    // Redimensiona pra ~24% da largura do canvas
+    const logoW = Math.round(W * 0.24);
+    const logoBuf = await sharp(wordmarkBuf).resize(logoW).toBuffer();
     const meta = await sharp(logoBuf).metadata();
     const logoX = Math.round((W - logoW) / 2);
-    const logoY = Math.round(H - (meta.height ?? 80) - 80);
-    // Renderiza SVG primeiro, depois logo
+    const logoY = Math.round(H - (meta.height ?? 80) - 100);
+
     const baseBuf = await img.png().toBuffer();
     img = sharp(baseBuf).composite([{ input: logoBuf, left: logoX, top: logoY }]);
   }
