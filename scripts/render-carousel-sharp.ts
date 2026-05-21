@@ -47,8 +47,15 @@ interface Slide {
   headline: string;  // body text central
   emphasis?: string; // string a destacar em gold dentro do headline
   micro?: string;    // texto pequeno bottom (proof / source)
-  layout?: "default" | "hero" | "two-column";
+  layout?: "default" | "hero" | "two-column" | "faixa-funcional";
   twoCol?: { left: { heading: string; body: string }; right: { heading: string; body: string } };
+  faixa?: {
+    biomarker: string;          // "GLICOSE PÓS-PRANDIAL"
+    subBiomarker?: string;      // "medida 2 horas após a refeição"
+    left: { label: string; number: string; unit: string; sub: string };  // {label: "FAIXA LABORATÓRIO", number: "< 140", unit: "mg/dL", sub: "referência ADA"}
+    right: { label: string; number: string; unit: string; sub: string };
+    footerLines?: string[];     // 2 linhas Georgia italic editorial
+  };
 }
 
 interface CarouselSpec {
@@ -100,7 +107,47 @@ function buildSlideSvg(slide: Slide): string {
     fill="${PALETTE.gold}" letter-spacing="2.2">${escapeXml(numText.toUpperCase())}</text>`;
   }
 
-  if (slide.layout === "two-column" && slide.twoCol) {
+  if (slide.layout === "faixa-funcional" && slide.faixa) {
+    const f = slide.faixa;
+    const centerX = W / 2;
+
+    // BIOMARCADOR NAME (centro-topo)
+    body += `<text x="${centerX}" y="280" font-family="DM Sans" font-size="42" font-weight="500" fill="${PALETTE.text}" text-anchor="middle" letter-spacing="2.4">${escapeXml(f.biomarker.toUpperCase())}</text>`;
+    if (f.subBiomarker) {
+      body += `<text x="${centerX}" y="325" font-family="DM Sans" font-size="20" font-weight="300" fill="${PALETTE.sage}" text-anchor="middle" font-style="italic">${escapeXml(f.subBiomarker)}</text>`;
+    }
+
+    // Two cols: laboratório (left, off-white) vs funcional (right, gold)
+    const gap = 80;
+    const colW = (W - padX * 2 - gap) / 2;
+    const colLeftCenter = padX + colW / 2;
+    const colRightCenter = padX + colW + gap + colW / 2;
+    const dividerX = W / 2;
+    const numberY = 620;
+
+    // Divider
+    body += `<line x1="${dividerX}" y1="430" x2="${dividerX}" y2="900" stroke="${PALETTE.gold}" stroke-width="1" opacity="0.5"/>`;
+
+    // LEFT — laboratório (cream/off-white, mais discreto)
+    body += `<text x="${colLeftCenter}" y="450" font-family="DM Sans" font-size="18" font-weight="500" fill="${PALETTE.text}" text-anchor="middle" letter-spacing="2.0" opacity="0.75">${escapeXml(f.left.label.toUpperCase())}</text>`;
+    body += `<text x="${colLeftCenter}" y="${numberY}" font-family="DM Sans" font-size="148" font-weight="300" fill="${PALETTE.text}" text-anchor="middle" letter-spacing="-3">${escapeXml(f.left.number)}</text>`;
+    body += `<text x="${colLeftCenter}" y="${numberY + 56}" font-family="DM Sans" font-size="26" font-weight="300" fill="${PALETTE.text}" text-anchor="middle" opacity="0.85">${escapeXml(f.left.unit)}</text>`;
+    body += `<text x="${colLeftCenter}" y="${numberY + 130}" font-family="Georgia" font-size="18" font-style="italic" fill="${PALETTE.sage}" text-anchor="middle">${escapeXml(f.left.sub)}</text>`;
+
+    // RIGHT — funcional (gold, destaque)
+    body += `<text x="${colRightCenter}" y="450" font-family="DM Sans" font-size="18" font-weight="500" fill="${PALETTE.gold}" text-anchor="middle" letter-spacing="2.0">${escapeXml(f.right.label.toUpperCase())}</text>`;
+    body += `<text x="${colRightCenter}" y="${numberY}" font-family="DM Sans" font-size="148" font-weight="300" fill="${PALETTE.gold}" text-anchor="middle" letter-spacing="-3">${escapeXml(f.right.number)}</text>`;
+    body += `<text x="${colRightCenter}" y="${numberY + 56}" font-family="DM Sans" font-size="26" font-weight="300" fill="${PALETTE.gold}" text-anchor="middle" opacity="0.85">${escapeXml(f.right.unit)}</text>`;
+    body += `<text x="${colRightCenter}" y="${numberY + 130}" font-family="Georgia" font-size="18" font-style="italic" fill="${PALETTE.gold}" text-anchor="middle" opacity="0.75">${escapeXml(f.right.sub)}</text>`;
+
+    // Footer editorial 2 linhas
+    if (f.footerLines) {
+      const footY = 1010;
+      f.footerLines.forEach((ln, i) => {
+        body += `<text x="${centerX}" y="${footY + i * 30}" font-family="Georgia" font-size="22" font-style="italic" fill="${PALETTE.text}" text-anchor="middle" opacity="0.85">${escapeXml(ln)}</text>`;
+      });
+    }
+  } else if (slide.layout === "two-column" && slide.twoCol) {
     // Reserva mais espaço: colunas mais estreitas, font menor, headings com wrap manual
     const gap = 60;
     const colW = (W - padX * 2 - gap) / 2;
@@ -221,7 +268,20 @@ function parseRunSlides(runId: string): Slide[] {
       { n: 5, total: 5, kicker: "A PERGUNTA MUDOU", headline: "Não é parecer mais novo.\nÉ ter energia mais nova.", layout: "hero", micro: "link na bio" },
     ],
     "2026-05-22-001-faixa-funcional-glicose": [
-      { n: 1, total: 1, kicker: "FAIXA FUNCIONAL · 03", headline: "", layout: "two-column", twoCol: { left: { heading: "FAIXA LABORATÓRIO\n< 140 mg/dL", body: "referência ADA · padrão populacional" }, right: { heading: "FAIXA FUNCIONAL\n< 120 mg/dL", body: "Longevify · padrão preventivo" } } },
+      {
+        n: 1, total: 1, kicker: "FAIXA FUNCIONAL · 03", headline: "",
+        layout: "faixa-funcional",
+        faixa: {
+          biomarker: "Glicose pós-prandial",
+          subBiomarker: "medida 2 horas após a refeição",
+          left: { label: "Faixa laboratório", number: "< 140", unit: "mg/dL", sub: "referência ADA · padrão populacional" },
+          right: { label: "Faixa funcional", number: "< 120", unit: "mg/dL", sub: "Longevify · padrão preventivo" },
+          footerLines: [
+            "A diferença entre as faixas não é estatística.",
+            "É o intervalo silencioso onde a glicação acontece.",
+          ],
+        },
+      },
     ],
     "2026-05-24-001-overheard-apob-colesterol-bom": [
       { n: 1, total: 5, headline: '"Meu colesterol tá bom, doutor."', layout: "hero", micro: "— paciente, 42 anos, São Paulo" },
