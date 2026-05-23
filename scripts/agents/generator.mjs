@@ -64,12 +64,24 @@ function routeToRenderer(meta) {
   // 6. fallback: error — pode existir brief mas sem renderer matching
 
   if (meta.pattern === "persona-bio-case-study" || meta.slot_type === "persona-bio") {
-    // persona-carousel needs personas/<persona>.json
-    const personaJson = path.join(ROOT, "personas", `${meta.persona}.json`);
-    if (!fs.existsSync(personaJson)) {
-      return { ok: false, reason: `persona JSON missing: ${personaJson}. Create it first.` };
+    // persona-carousel needs personas/<persona>-<runId>.json (run-specific) OR personas/<persona>.json (base)
+    // 1) Check content-object for explicit persona_data_file pointer
+    const coPath = path.join(ROOT, "runs", meta.runId, "content-object.md");
+    let personaDataFile = null;
+    if (fs.existsSync(coPath)) {
+      const co = fs.readFileSync(coPath, "utf-8");
+      const m = co.match(/^persona_data_file:\s*(\S+)/m);
+      if (m) personaDataFile = m[1];
     }
-    return { ok: true, script: "scripts/render-persona-carousel.mjs", args: ["--persona", meta.persona, "--run", meta.runId] };
+    // 2) Fallback to persona base file
+    const personaIdToUse = personaDataFile ? path.basename(personaDataFile, ".json") : meta.persona;
+    const personaJsonPath = path.join(ROOT, personaDataFile || `personas/${meta.persona}.json`);
+
+    if (!fs.existsSync(personaJsonPath)) {
+      // ── AUTO-INVOKE content-generator ─────────────────────────────────
+      return { ok: true, script: "scripts/agents/content-generator.mjs", args: ["--run", meta.runId], next_after: "self_retry" };
+    }
+    return { ok: true, script: "scripts/render-persona-carousel.mjs", args: ["--persona", personaIdToUse, "--run", meta.runId] };
   }
 
   if (meta.format === "reel") {
@@ -114,8 +126,27 @@ if (args.dryRun) {
 
 try {
   execSync(`node ${path.join(ROOT, route.script)} ${route.args.join(" ")}`, { cwd: ROOT, stdio: "inherit" });
-  console.log(`\n✓ Render complete.\n`);
+  console.log(`\n✓ Step complete.\n`);
+
+  // Auto-retry self if route requested it (e.g. content-generator → render)
+  if (route.next_after === "self_retry") {
+    console.log(`  ↻ Auto-retrying generator after content-generator finished...\n`);
+    const meta2 = readMeta(args.run);
+    meta2.runId = args.run;
+    const route2 = routeToRenderer(meta2);
+    if (route2.ok && route2.next_after !== "self_retry") {
+      console.log(`  → ${route2.script} ${route2.args.join(" ")}`);
+      execSync(`node ${path.join(ROOT, route2.script)} ${route2.args.join(" ")}`, { cwd: ROOT, stdio: "inherit" });
+      console.log(`\n✓ Render complete.\n`);
+    } else if (route2.next_after === "self_retry") {
+      console.error(`\n✗ Infinite self-retry detected. Aborting.\n`);
+      process.exit(1);
+    } else {
+      console.error(`\n✗ Cannot route on retry: ${route2.reason}\n`);
+      process.exit(1);
+    }
+  }
 } catch (e) {
-  console.error(`\n✗ Render failed: ${e.message}\n`);
+  console.error(`\n✗ Step failed: ${e.message}\n`);
   process.exit(1);
 }
