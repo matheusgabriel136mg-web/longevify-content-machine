@@ -1,0 +1,75 @@
+{
+  "id": "ana",
+  "name": "Ana",
+  "age": 38,
+  "biological_age": 32,
+  "location": "Equinox Faria Lima",
+  "city": "São Paulo",
+  "occupation": "Sócia, escritório de advocacia",
+  "cover_external": true,
+  "cover_filename": "cover-raw.png",
+  "_status": "TEMPLATE — biomarkers e copy precisam validação Matheus",
+
+  "sintomas": [
+    { "n": "01", "text": "Foco fragmentado nas reuniões da tarde, mesmo com 7h de sono." },
+    { "n": "02", "text": "Disposição despenca às 15h. Não é mais resistência — é padrão." },
+    { "n": "03", "text": "Sono que não restaura. Acorda como se tivesse trabalhado a noite toda." },
+    { "n": "04", "text": "Cansaço pós-almoço que o cafezinho mascara — não resolve." }
+  ],
+
+  "biomarkers_before": [
+    { "name": "ApoB",        "unit": "mg/dL", "value": "108", "status": "LIMITE", "pct": 0.68, "optStart": 0.00, "optEnd": 0.50 },
+    { "name": "Lp(a)",       "unit": "nmol/L","value": "85",  "status": "ALTO",   "pct": 0.71, "optStart": 0.00, "optEnd": 0.30 },
+    { "name": "Cortisol AM", "unit": "µg/dL", "value": "23.4","status": "ALTO",   "pct": 0.78, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "HOMA-IR",     "unit": "—",     "value": "2.4", "status": "LIMITE", "pct": 0.60, "optStart": 0.00, "optEnd": 0.40 },
+    { "name": "HRV (rMSSD)", "unit": "ms",    "value": "28",  "status": "BAIXO",  "pct": 0.28, "optStart": 0.40, "optEnd": 0.80 }
+  ],
+
+  "biomarkers_after": [
+    { "name": "ApoB",        "unit": "mg/dL", "before": "108", "after": "78",  "bPct": 0.68, "aPct": 0.49, "optStart": 0.00, "optEnd": 0.50 },
+    { "name": "Lp(a)",       "unit": "nmol/L","before": "85",  "after": "62",  "bPct": 0.71, "aPct": 0.52, "optStart": 0.00, "optEnd": 0.30 },
+    { "name": "Cortisol AM", "unit": "µg/dL", "before": "23.4","after": "16.8","bPct": 0.78, "aPct": 0.56, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "HOMA-IR",     "unit": "—",     "before": "2.4", "after": "1.4", "bPct": 0.60, "aPct": 0.35, "optStart": 0.00, "optEnd": 0.40 }
+  ],
+
+  "headliner_stat": {
+    "label": "IDADE BIOLÓGICA",
+    "before": "38",
+    "after": "32"
+  },
+
+  "protocolo": [
+    { "n": "01", "t": "Ômega-3 EPA/DHA 3g",       "b": "Anti-inflam direto na cascata ApoB. Manhã, com gordura.",          "icon": "icon-omega.png" },
+    { "n": "02", "t": "Berberina 1500mg",          "b": "Substitui metformina low-dose pra resistência insulínica leve.",  "icon": "icon-berberina.png" },
+    { "n": "03", "t": "Magnésio glicinato 600mg",  "b": "Cortisol noturno + qualidade REM. 2h antes do sono.",             "icon": "icon-magnesio.png" },
+    { "n": "04", "t": "Força 3× por semana",       "b": "Massa magra protege HOMA-IR. Composto > isolado.",                "icon": "icon-forca.png" },
+    { "n": "05", "t": "Z2 cardio 3× por semana",   "b": "Mitocôndria + VO2max. 30min frequência conversacional.",          "icon": "icon-z2.png" },
+    { "n": "06", "t": "Janela 22h–6h sem tela",    "b": "Latência REM responde primeiro. Recuperação cresce em 2 semanas.","icon": "icon-sono.png" }
+  ],
+
+  "copy": {
+    "s2_headline_1": "Sensações que",
+    "s2_headline_2_italic": "ninguém nomeia.",
+    "s2_sub": "Não é exagero. É sinal sem painel para ser lido.",
+    "s2_closing_italic": "O exame veio normal. O corpo não.",
+
+    "s3_headline_1": "O que o painel",
+    "s3_headline_2_italic": "completo mostrou.",
+    "s3_sub": "Cinco marcadores fora da faixa funcional.",
+
+    "s4_headline_1": "Protocolo ajustado",
+    "s4_headline_2_italic": "aos dados da Ana.",
+    "s4_sub": "Seis alavancas. Calibradas ao perfil dela, não à média.",
+
+    "s5_headline_1": "Doze semanas.",
+    "s5_headline_2_italic": "Outra Ana.",
+    "s5_sub": "Mesmos exames. Faixa funcional alcançada.",
+
+    "s6_headline_1": "Você não estava",
+    "s6_headline_2_italic": "exagerando.",
+    "s6_body": "Você estava sem o painel certo.\nA medicina convencional pergunta se você está doente.\nLongevify pergunta se você está otimizada.",
+    "s6_closing_italic": "Sua biologia merece o mesmo painel."
+  },
+
+  "palette_internal": "dark_cedar"
+}

@@ -5,7 +5,13 @@
 
 ---
 
-## 🔴 BLOCKER #1 — Brand CC desatualizada (pre-v2.0)
+## ✅ ~~BLOCKER #1~~ — RESOLVED (CEO project commit 2026-05-23 noite)
+
+Matheus patcheou Brand CC manualmente. LONGEVIFY_BRAND.md agora v2.0 alinhado.
+
+---
+
+## 🔴 (ORIGINAL) BLOCKER #1 — Brand CC desatualizada (pre-v2.0)
 
 **Arquivo:** `/Users/mathe/Documents/Longev/Brand CC/LONGEVIFY_BRAND.md`
 

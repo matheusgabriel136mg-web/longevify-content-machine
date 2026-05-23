@@ -33,6 +33,13 @@ const ROOT = path.resolve(__dirname, "..");
 const DB_PATH = path.join(ROOT, "runs", "_pipeline.db");
 const AUDIT_LOG = path.join(ROOT, "runs", "_audit-log.jsonl");
 const CIRCUIT_PATH = path.join(ROOT, "runs", "_circuit-state.json");
+const SAFETY_THRESHOLDS_PATH = path.join(ROOT, "foundation", "safety-thresholds.yaml");
+
+// Load safety thresholds from YAML (founder-approved values)
+import YAML from "yaml";
+const THRESHOLDS = fs.existsSync(SAFETY_THRESHOLDS_PATH)
+  ? YAML.parse(fs.readFileSync(SAFETY_THRESHOLDS_PATH, "utf-8"))
+  : { cost_circuit_breaker: { daily_limit_usd: 40 }, quality_circuit_breaker: { consecutive_rejects_threshold: 5 } };
 
 // ─── DB setup ─────────────────────────────────────────────────────────────────
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
@@ -82,6 +89,21 @@ function checkCircuit() {
   const s = JSON.parse(fs.readFileSync(CIRCUIT_PATH, "utf-8"));
   if (s.state === "OPEN") {
     throw new Error(`Circuit OPEN: ${s.reason || "unknown"}. Manually close after fix.`);
+  }
+  // Apply founder-approved thresholds from safety-thresholds.yaml
+  const costLimit = THRESHOLDS?.cost_circuit_breaker?.daily_limit_usd ?? 40;
+  if ((s.cost_today ?? 0) > costLimit) {
+    s.state = "OPEN";
+    s.reason = `cost circuit breaker: $${(s.cost_today).toFixed(2)} > $${costLimit}/day (limit from safety-thresholds.yaml)`;
+    fs.writeFileSync(CIRCUIT_PATH, JSON.stringify(s, null, 2));
+    throw new Error(s.reason);
+  }
+  const rejectLimit = THRESHOLDS?.quality_circuit_breaker?.consecutive_rejects_threshold ?? 5;
+  if ((s.reject_streak ?? 0) >= rejectLimit) {
+    s.state = "OPEN";
+    s.reason = `quality circuit breaker: ${s.reject_streak} consecutive REJECTs >= ${rejectLimit} (limit from safety-thresholds.yaml)`;
+    fs.writeFileSync(CIRCUIT_PATH, JSON.stringify(s, null, 2));
+    throw new Error(s.reason);
   }
   return s;
 }
