@@ -28,8 +28,6 @@ const STATUS_EMOJI = {
   failed:     "❌",
 };
 
-const DOW_PT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-
 export function formatStatusBadge(state) {
   return STATUS_LABEL[state] || `❓ ${state}`;
 }
@@ -55,16 +53,24 @@ export function humanizeRunId(runId) {
   return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
-// "2026-05-26T19:00-03:00" → "Qua 26/05 19h"
+// "2026-05-26T19:00-03:00" → "Qua 26/05 19h" (always BRT, regardless of host TZ)
 // null/invalid → "📌 Backlog"
+const BRT_PARTS = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/Sao_Paulo",
+  weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", hour12: false,
+});
+const DOW_EN_TO_PT = { Sun: "Dom", Mon: "Seg", Tue: "Ter", Wed: "Qua", Thu: "Qui", Fri: "Sex", Sat: "Sáb" };
+
 export function formatRelativeDate(iso) {
   if (!iso || iso === "null") return "📌 Backlog";
   const d = new Date(iso);
   if (isNaN(d.getTime())) return "📌 Backlog";
-  const dow = DOW_PT[d.getDay()];
-  const dd = String(d.getDate()).padStart(2, "0");
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const hh = d.getHours();
+  const parts = Object.fromEntries(BRT_PARTS.formatToParts(d).map(p => [p.type, p.value]));
+  const dow = DOW_EN_TO_PT[parts.weekday] || parts.weekday;
+  const dd = parts.day;
+  const mm = parts.month;
+  // hour="2-digit" in en-US gives "00".."23" with hour12:false
+  const hh = String(parseInt(parts.hour, 10));
   return `${dow} ${dd}/${mm} ${hh}h`;
 }
 
