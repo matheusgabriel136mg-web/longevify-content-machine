@@ -392,7 +392,7 @@ WantedBy=timers.target
 EOF
 
 # Telegram bot (long-poll daemon — service, not timer)
-cat > $SERVICES_DIR/longevify-bot.service <<EOF
+cat > $SERVICES_DIR/longevify-telegram-bot.service <<EOF
 [Unit]
 Description=Longevify Telegram Bot (long-poll)
 After=network.target
@@ -404,8 +404,8 @@ ExecStart=/usr/bin/node scripts/agents/telegram-bot.mjs
 EnvironmentFile=$INSTALL_DIR/.env
 Restart=always
 RestartSec=10
-StandardOutput=append:/var/log/longevify-bot.log
-StandardError=append:/var/log/longevify-bot.log
+StandardOutput=append:/var/log/longevify-telegram-bot.log
+StandardError=append:/var/log/longevify-telegram-bot.log
 
 [Install]
 WantedBy=multi-user.target
@@ -416,9 +416,9 @@ for timer in daily-brief insights auto-updater cross-version idea-picker pipelin
   systemctl enable longevify-${timer}.timer
   systemctl start longevify-${timer}.timer
 done
-systemctl enable longevify-bot.service
-systemctl start longevify-bot.service
-echo "  ✓ 11 systemd timers + 1 daemon (telegram-bot) configured + enabled + started"
+systemctl enable longevify-telegram-bot.service
+systemctl start longevify-telegram-bot.service
+echo "  ✓ 11 systemd timers + 1 daemon (longevify-telegram-bot.service) configured + enabled + started"
 
 echo ""
 echo "════════════════════════════════════════════════════"
