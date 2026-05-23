@@ -32,7 +32,12 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
   build-essential python3 \
   sqlite3 \
   ffmpeg imagemagick \
-  rsync cron
+  rsync cron \
+  fonts-inter fonts-liberation
+# 2026-05-23: Inter + Liberation Serif MANDATORY. Templates use Inter + Georgia;
+# without Inter, libvips falls back to DejaVu/Noto/Nimbus with different metrics,
+# causing letter-spacing="-2" headlines to collapse glyphs into each other.
+# Liberation Serif provides Georgia-metric-compatible serif fallback.
 
 # ─── 2. Node.js 22 ────────────────────────────────────────────────────────────
 echo ""
@@ -551,12 +556,24 @@ echo "  ✓ 15 systemd timers + 2 daemons (longevify-telegram-bot, longevify-das
 
 # ─── 10. Visual-smoke regression check ────────────────────────────────────────
 echo ""
-echo "[10/10] visual-smoke..."
+echo "[10/11] visual-smoke (size/dim/lum)..."
 if node $INSTALL_DIR/scripts/agents/visual-smoke.mjs 2>&1 | tail -5; then
   echo "  ✓ visual-smoke PASS — all reference slides intact"
 else
-  echo "  ⚠ visual-smoke FAILED — check /var/log/longevify-visual-smoke.log"
-  # Non-fatal during bootstrap; ops decides whether to roll back.
+  echo "  ⚠ visual-smoke FAILED"
+fi
+
+# ─── 11. Visual regression suite (pixel-diff vs baselines) ────────────────────
+echo ""
+echo "[11/11] visual-regression (pixel-diff vs baselines)..."
+if [ -d "$INSTALL_DIR/tests/visual-snapshots/baselines" ]; then
+  if node $INSTALL_DIR/scripts/agents/visual-regression.mjs --check 2>&1 | tail -8; then
+    echo "  ✓ visual-regression PASS — no regression vs baselines"
+  else
+    echo "  ⚠ visual-regression FAILED — check pixel-diff output above"
+  fi
+else
+  echo "  · No baselines on this host yet (run --baseline manually)"
 fi
 
 # ─── 9. Cloudflared install (binary only; auth + tunnel create manual) ────────
