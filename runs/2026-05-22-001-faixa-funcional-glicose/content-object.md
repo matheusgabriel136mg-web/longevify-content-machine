@@ -18,6 +18,7 @@ channel: instagram
 aspect_ratio: "4:5"
 dimensions: "1080x1350"
 slide_count: 1
+cover_variant: br-executive-lunch-cgm-B
 language: pt-BR
 voice: mito_aesop
 restrictions:

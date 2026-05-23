@@ -18,6 +18,7 @@ aspect_ratio: "4:5"
 dimensions: "1080x1350"
 slide_count: 5
 language: pt-BR
+cover_variant: sp-restaurant-still-life-A
 voice: mito_aesop
 restrictions:
   - no_self_help

@@ -11,6 +11,7 @@ scheduled_for: 2026-05-26T19:00-03:00
 next_action: publish_on_trigger
 pattern: dado-punch-bryan-style
 target_persona: maria-ana
+cover_variant: copacabana-woman-A
 ---
 
 # Vitamina D · Brasil · 73% abaixo da faixa funcional
