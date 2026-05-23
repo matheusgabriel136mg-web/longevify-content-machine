@@ -100,6 +100,40 @@ export function scanAvoidSlop(text) {
     });
   }
 
+  // 5a. em-dash overuse (Padrão #1 capturado 2026-05-23: AI tell em quase todos drafts)
+  // Counts U+2014 em-dash + U+2013 en-dash + " - " ASCII used-as-travessão.
+  // Thresholds (calibrated from 21-draft sample, distribution mean 1.6 / median 2 / p90 3 / max 4):
+  //   ≤1: pass · 2-3: medio (REVISE) · 4+: grave (REJECT auto)
+  // See decisoes/2026-05-23-editor-calibration.md
+  {
+    const em = (text.match(/—/g) || []).length;
+    const en = (text.match(/–/g) || []).length;
+    const ascii = (text.match(/(^|\s)-(\s)/g) || []).length;
+    const total = em + en + ascii;
+    const REGEN_HINT = "Reduza travessões pra ≤1 por caption. Substitua por: (1) ponto final + frase nova; (2) dois pontos quando o que vem depois é definição ou expansão; (3) vírgula quando é aposição curta; (4) reescreva a frase pra eliminar a necessidade.";
+    if (total >= 4) {
+      violations.push({
+        type: "em-dash-overuse",
+        count: total,
+        breakdown: { em, en, ascii },
+        severity: "grave",
+        category: "ai-tell",
+        description: `Em-dash overuse (${total}) is a strong AI-writing tell. ${REGEN_HINT}`,
+        regen_hint: REGEN_HINT,
+      });
+    } else if (total >= 2) {
+      violations.push({
+        type: "em-dash-overuse",
+        count: total,
+        breakdown: { em, en, ascii },
+        severity: "medio",
+        category: "ai-tell",
+        description: `Em-dash overuse (${total}). ${REGEN_HINT}`,
+        regen_hint: REGEN_HINT,
+      });
+    }
+  }
+
   // 5. forbidden tom patterns
   for (const f of rules.forbidden_tom_patterns ?? []) {
     try {
