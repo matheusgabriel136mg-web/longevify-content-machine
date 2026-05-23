@@ -333,7 +333,7 @@ ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl start 'longevify-*.time
 
 ### Stop Telegram bot daemon
 ```bash
-ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-bot.service"
+ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-telegram-bot.service"
 ```
 
 ### Force circuit OPEN (parar processamento sem desligar timers)

@@ -20,6 +20,8 @@ import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import Anthropic from "@anthropic-ai/sdk";
+import { composeDailyBriefTelegram } from "./formatTelegram.mjs";
+import { sendTelegram } from "./telegram-notify.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -268,11 +270,24 @@ const briefPath = path.join(BRIEFS_DIR, `morning-${today}.md`);
 fs.writeFileSync(briefPath, md);
 console.log(`\n✅ Brief salvo: ${path.relative(ROOT, briefPath)}\n`);
 
-// Tentativa de push Telegram (silent fail se não configurado)
+// Telegram push uses mobile-first composer (NOT the raw .md — that file is for the queryable archive).
 if (process.env.TELEGRAM_BOT_TOKEN && process.env.TELEGRAM_CHAT_ID) {
   try {
-    execSync(`node ${path.join(__dirname, "telegram-notify.mjs")} --brief ${briefPath}`, { cwd: ROOT, encoding: "utf-8" });
-    console.log("  ✓ Telegram push sent");
+    const tgText = composeDailyBriefTelegram({
+      today,
+      counts: pipelineCounts?.counts || [],
+      upcoming: pipelineCounts?.upcoming || [],
+      decisions,
+      insights,
+      circuit,
+      costToday,
+      flags,
+      synthesis,
+      hoursWindow: 16,
+    });
+    const r = await sendTelegram(tgText, { silent: false });
+    if (r.ok) console.log("  ✓ Telegram push sent (mobile-first)");
+    else console.log(`  ⚠ Telegram push not ok: ${JSON.stringify(r).slice(0, 200)}`);
   } catch (e) {
     console.log(`  ⚠ Telegram push failed: ${e.message.slice(0, 100)}`);
   }

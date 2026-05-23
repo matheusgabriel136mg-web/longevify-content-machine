@@ -20,10 +20,13 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { execSync, spawn } from "child_process";
+import Database from "better-sqlite3";
+import { composeStatus } from "./formatTelegram.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..", "..");
+const PIPELINE_DB = path.join(ROOT, "runs", "_pipeline.db");
 
 // .env loader
 const ENV_PATH = path.join(ROOT, ".env");
@@ -109,8 +112,20 @@ const commands = {
 
   async status() {
     try {
-      const out = execSync(`node ${path.join(ROOT, "scripts", "pipeline.mjs")} status`, { encoding: "utf-8", timeout: 30000 });
-      return "📊 *Pipeline status*\n```\n" + out.trim() + "\n```";
+      if (!fs.existsSync(PIPELINE_DB)) return "📊 *Pipeline*\n_(banco vazio — rode `pipeline.mjs tick` 1x)_";
+      const db = new Database(PIPELINE_DB, { readonly: true });
+      const counts = db.prepare(`SELECT state, COUNT(*) as n FROM runs GROUP BY state ORDER BY n DESC`).all();
+      const upcoming = db.prepare(`SELECT * FROM runs WHERE state NOT IN ('published','failed') ORDER BY scheduled_for IS NULL, scheduled_for ASC LIMIT 5`).all();
+      db.close();
+      // Editor decisions last 16h
+      const cutoff = Date.now() - 16 * 3600 * 1000;
+      let decisions = [];
+      if (fs.existsSync(AUDIT_LOG)) {
+        decisions = fs.readFileSync(AUDIT_LOG, "utf-8").split("\n").filter(Boolean)
+          .map(l => { try { return JSON.parse(l); } catch { return null; } })
+          .filter(e => e && e.event === "editor_decision" && new Date(e.ts).getTime() > cutoff);
+      }
+      return composeStatus({ counts, upcoming, decisions, hoursWindow: 16 });
     } catch (e) { return "❌ status falhou: " + e.message.slice(0, 200); }
   },
 

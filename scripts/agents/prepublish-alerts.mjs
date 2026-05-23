@@ -15,6 +15,7 @@ import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import { sendWithApproveButtons, sendPhotoAlbum } from "./telegram-notify.mjs";
+import { composePrepublishAlert } from "./formatTelegram.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -80,12 +81,7 @@ for (const r of upcoming) {
   if (alerted[key]) continue; // já alertado
 
   const minutesAway = Math.round((new Date(slotIso).getTime() - now) / 60000);
-  const msg = `🔔 *Pre-publish · T-${minutesAway}min · ${r.run_id}*
-
-Slot: ${slotIso}
-Pillar: P${r.pillar || "?"} · Persona: ${r.persona || "?"} · ${r.format || "?"}
-
-Botões abaixo OU "posta ${r.run_id}" OR /cancel ${r.run_id}`;
+  const msg = composePrepublishAlert(r, minutesAway);
 
   try {
     // First: tenta enviar preview com slides PNG (até 10)
