@@ -367,6 +367,58 @@ Persistent=true
 WantedBy=timers.target
 EOF
 
+# Big 3 watcher — daily 6am BRT (9 UTC), scrapes Function/Mito/Superpower
+cat > $SERVICES_DIR/longevify-big3-watch.service <<EOF
+[Unit]
+Description=Longevify Big 3 watcher (auto-ingest Function/Mito/Superpower)
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/big3-watcher.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-big3-watch.log
+StandardError=append:/var/log/longevify-big3-watch.log
+EOF
+
+cat > $SERVICES_DIR/longevify-big3-watch.timer <<EOF
+[Unit]
+Description=Big 3 auto-scrape daily 6am BRT
+
+[Timer]
+OnCalendar=*-*-* 09:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# Daily digest — 6:30am BRT (9:30 UTC), ranks top 3 from big3-watcher new ingests
+cat > $SERVICES_DIR/longevify-daily-digest.service <<EOF
+[Unit]
+Description=Longevify Daily Digest (Big 3 top 3 to Telegram)
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/daily-digest.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-daily-digest.log
+StandardError=append:/var/log/longevify-daily-digest.log
+EOF
+
+cat > $SERVICES_DIR/longevify-daily-digest.timer <<EOF
+[Unit]
+Description=Daily digest 6:30am BRT (after big3-watch)
+
+[Timer]
+OnCalendar=*-*-* 09:30:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
 # Publisher tick — every 5min, publishes state='approved' runs whose slot arrived
 cat > $SERVICES_DIR/longevify-publisher.service <<EOF
 [Unit]
@@ -487,7 +539,7 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor brand-drift r2-backup approval-reminder publisher; do
+for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor brand-drift r2-backup approval-reminder publisher big3-watch daily-digest; do
   systemctl enable longevify-${timer}.timer
   systemctl start longevify-${timer}.timer
 done
@@ -495,7 +547,7 @@ systemctl enable longevify-telegram-bot.service
 systemctl start longevify-telegram-bot.service
 systemctl enable longevify-dashboard.service
 systemctl restart longevify-dashboard.service
-echo "  ✓ 13 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
+echo "  ✓ 15 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
 
 # ─── 9. Cloudflared install (binary only; auth + tunnel create manual) ────────
 echo ""

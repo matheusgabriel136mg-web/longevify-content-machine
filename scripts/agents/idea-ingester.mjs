@@ -197,12 +197,53 @@ function ensureTable(db) {
   `);
   db.exec(`CREATE INDEX IF NOT EXISTS idx_ideas_status ON ideas_backlog(status);`);
   db.exec(`CREATE INDEX IF NOT EXISTS idx_ideas_brand ON ideas_backlog(source_brand);`);
-  // Idempotent ALTER for pre-existing tables (production VPS).
-  try { db.exec(`ALTER TABLE ideas_backlog ADD COLUMN use_mode TEXT;`); } catch { /* already exists */ }
+  // Idempotent ALTERs for pre-existing tables (production VPS).
+  for (const ddl of [
+    "ALTER TABLE ideas_backlog ADD COLUMN use_mode TEXT",
+    "ALTER TABLE ideas_backlog ADD COLUMN engagement_score REAL",
+    "ALTER TABLE ideas_backlog ADD COLUMN auto_ingested INTEGER DEFAULT 0",
+    "ALTER TABLE ideas_backlog ADD COLUMN brand_weight REAL DEFAULT 1.0",
+    "ALTER TABLE ideas_backlog ADD COLUMN scraped_engagement TEXT",
+  ]) {
+    try { db.exec(ddl); } catch { /* already exists */ }
+  }
+}
+
+// Brand normalization weights (higher = founder values this brand more).
+export const BRAND_WEIGHTS = {
+  function:   1.0,
+  mito:       1.0,
+  superpower: 0.8,
+  thorne:     0.7,
+  rerise:     0.7,
+  timeline:   0.7,
+  betterbe:   0.6,
+  bryan:      0.6,
+  other:      0.5,
+};
+
+// Normalize engagement: per-channel followers, fall back to a sane default.
+// engagement.likes / followers gives a rate; multiplied by brand_weight + magnitude bonus.
+function normalizeEngagementScore({ engagement = {}, brand = "other", followers = null }) {
+  const likes = Number(engagement.likes || 0);
+  const comments = Number(engagement.comments || 0);
+  const saves = Number(engagement.saves || engagement.saves_estimated || 0);
+  if (likes + comments + saves === 0) return 0;
+  const followersGuess = followers || ({
+    function: 60000, mito: 35000, superpower: 25000, thorne: 200000,
+    rerise: 8000, timeline: 30000, betterbe: 5000, bryan: 800000, other: 10000,
+  }[brand] || 10000);
+  // Weighted engagement (saves > comments > likes by impact).
+  const weighted = likes + comments * 2 + saves * 4;
+  const rate = weighted / followersGuess;
+  const brandWeight = BRAND_WEIGHTS[brand] ?? 0.5;
+  // Final score: rate * brand_weight * 1000 (normalized, easy to compare).
+  return +(rate * brandWeight * 1000).toFixed(3);
 }
 
 // ─── Main entrypoint ──────────────────────────────────────────────────────────
-export async function ingestUrl(url, chatId = null) {
+export async function ingestUrl(url, chatId = null, opts = {}) {
+  const { autoIngested = false, prescraped = null, source = "manual" } = opts;
   if (!fs.existsSync(PIPELINE_DB)) {
     return { ok: false, error: "pipeline.db missing" };
   }
@@ -217,26 +258,33 @@ export async function ingestUrl(url, chatId = null) {
   }
 
   const platform = detectPlatform(url);
-  const scraper = SCRAPERS[platform] || SCRAPERS.web;
-
-  let scrape;
-  try { scrape = await scraper(url); }
-  catch (e) { scrape = { error: e.message?.slice(0, 200) || "scrape error" }; }
+  let scrape = prescraped;
+  if (!scrape) {
+    const scraper = SCRAPERS[platform] || SCRAPERS.web;
+    try { scrape = await scraper(url); }
+    catch (e) { scrape = { error: e.message?.slice(0, 200) || "scrape error" }; }
+  }
 
   if (scrape?.error || !scrape?.caption) {
-    audit({ event: "scrape_failed", url, platform, error: scrape?.error });
+    audit({ event: "scrape_failed", url, platform, error: scrape?.error, source });
     db.close();
     return { ok: false, error: scrape?.error || "no caption extracted", platform, hint: scrape?.hint_to_founder };
   }
 
-  const brand = detectBrand(url, scrape.caption);
+  const brand = scrape.brand || detectBrand(url, scrape.caption);
   const persona = suggestPersona(scrape.caption);
   const pillar = suggestPillar(scrape.caption);
+  const brandWeight = BRAND_WEIGHTS[brand] ?? 0.5;
+  const engagementScore = normalizeEngagementScore({
+    engagement: scrape.engagement, brand, followers: scrape.followers,
+  });
 
   const stmt = db.prepare(`
     INSERT INTO ideas_backlog
-      (source_url, source_brand, source_platform, original_caption, original_author, media_urls, engagement, persona_suggested, pillar_suggested, ingested_at, ingested_by_chat_id, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
+      (source_url, source_brand, source_platform, original_caption, original_author,
+       media_urls, engagement, scraped_engagement, persona_suggested, pillar_suggested,
+       ingested_at, ingested_by_chat_id, status, auto_ingested, brand_weight, engagement_score)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', ?, ?, ?)
   `);
   const info = stmt.run(
     url, brand, platform,
@@ -244,19 +292,24 @@ export async function ingestUrl(url, chatId = null) {
     scrape.author || null,
     JSON.stringify(scrape.media_urls || []),
     JSON.stringify(scrape.engagement || {}),
+    JSON.stringify(scrape.engagement || {}),
     persona, pillar,
     new Date().toISOString(), chatId,
+    autoIngested ? 1 : 0,
+    brandWeight, engagementScore,
   );
   db.close();
 
-  audit({ event: "ingest_ok", url, platform, brand, persona, pillar, idea_id: info.lastInsertRowid });
+  audit({ event: "ingest_ok", url, platform, brand, persona, pillar, idea_id: info.lastInsertRowid, engagement_score: engagementScore, auto: autoIngested, source });
   return {
     ok: true,
     idea_id: info.lastInsertRowid,
     platform, brand, persona, pillar,
+    engagement_score: engagementScore,
     caption: scrape.caption,
     author: scrape.author,
     media_urls: scrape.media_urls || [],
+    auto_ingested: autoIngested,
   };
 }
 
@@ -286,19 +339,38 @@ export function setIdeaStatus(ideaId, status, opts = {}) {
   } finally { db.close(); }
 }
 
-// List ideas with status='saved-for-remix' (for /backlog command). Newest first.
-export function listBacklog(limit = 20) {
+// List ideas with status IN (saved-for-remix, new) — ordered by engagement_score DESC.
+// Includes auto-ingested big3-watcher posts. Manual saves get priority via brand_weight.
+export function listBacklog(limit = 20, offset = 0) {
   if (!fs.existsSync(PIPELINE_DB)) return [];
   const db = new Database(PIPELINE_DB, { readonly: true });
   try {
     ensureTable(db);
     return db.prepare(`
-      SELECT id, source_url, source_brand, source_platform, original_caption, persona_suggested, pillar_suggested, ingested_at
+      SELECT id, source_url, source_brand, source_platform, original_caption, persona_suggested, pillar_suggested,
+             ingested_at, engagement_score, auto_ingested, status
       FROM ideas_backlog
-      WHERE status = 'saved-for-remix'
-      ORDER BY ingested_at DESC
-      LIMIT ?
-    `).all(limit);
+      WHERE status IN ('saved-for-remix', 'new')
+      ORDER BY COALESCE(engagement_score, 0) DESC, ingested_at DESC
+      LIMIT ? OFFSET ?
+    `).all(limit, offset);
+  } finally { db.close(); }
+}
+
+// Ideas ingested in the last 24h with source=big3-watcher (for daily-digest).
+export function listAutoIngestedRecent(hoursBack = 26) {
+  if (!fs.existsSync(PIPELINE_DB)) return [];
+  const db = new Database(PIPELINE_DB, { readonly: true });
+  try {
+    ensureTable(db);
+    const cutoff = new Date(Date.now() - hoursBack * 3600 * 1000).toISOString();
+    return db.prepare(`
+      SELECT id, source_url, source_brand, source_platform, original_caption, persona_suggested, pillar_suggested,
+             ingested_at, engagement_score, auto_ingested, status
+      FROM ideas_backlog
+      WHERE auto_ingested = 1 AND ingested_at >= ? AND status = 'new'
+      ORDER BY engagement_score DESC
+    `).all(cutoff);
   } finally { db.close(); }
 }
 
