@@ -72,11 +72,44 @@ export function summarizeDraft(runId) {
     }
   }
 
+  // Hook = first sentence/line of caption (capped at 100 chars).
+  let hook = null;
+  if (caption) {
+    const firstLine = caption.split(/\n/).find(l => l.trim().length > 0) || "";
+    hook = firstLine.length > 100 ? firstLine.slice(0, 100) + "…" : firstLine;
+  }
+
+  // Visual assets: slide-*.{png,jpg,webp} for carousels, *.mp4 for reels.
+  const assetsDir = path.join(runDir, "assets");
+  let slides = [];
+  let videos = [];
+  if (fs.existsSync(assetsDir)) {
+    const all = fs.readdirSync(assetsDir);
+    slides = all.filter(f => /^slide-\d+.*\.(png|jpg|jpeg|webp)$/i.test(f)).sort();
+    videos = all.filter(f => /\.(mp4|mov|webm)$/i.test(f)).sort();
+  }
+
+  // Editor score: look for runs/<id>/editor-decision.json or last audit entry.
+  let editorScore = null;
+  let editorDecision = null;
+  const editorJson = path.join(runDir, "editor-decision.json");
+  if (fs.existsSync(editorJson)) {
+    try {
+      const j = JSON.parse(fs.readFileSync(editorJson, "utf-8"));
+      editorScore = j.rubric?.total ?? null;
+      editorDecision = j.decision ?? null;
+    } catch {}
+  }
+
   return {
     run_id: runId,
+    caption: caption || null,
     caption_preview: caption ? caption.slice(0, 280) : null,
     caption_chars: caption ? caption.length : 0,
     has_caption: !!caption,
+    hook,
+    slides,  // filenames; served from /runs/<id>/assets/<file>
+    videos,  // mp4/mov filenames for reels
     flags: {
       em_dash_count: emDashCount,
       slop: slopVerdict,
@@ -86,6 +119,8 @@ export function summarizeDraft(runId) {
       route: fm.route || null,
       state: fm.state || null,
       scheduled_for: fm.scheduled_for || null,
+      editor_score: editorScore,
+      editor_decision: editorDecision,
     },
   };
 }

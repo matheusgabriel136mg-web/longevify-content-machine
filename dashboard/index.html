@@ -46,9 +46,41 @@
     .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
     button { font-size: 12px; padding: 6px 10px; }
   }
+  /* Visual carousel inside approval cards */
+  .slide-strip { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 8px; scrollbar-width: thin; }
+  .slide-strip::-webkit-scrollbar { height: 6px; }
+  .slide-strip::-webkit-scrollbar-thumb { background: #3a3733; border-radius: 3px; }
+  .slide-thumb { flex: 0 0 auto; width: 130px; height: 162px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid #3a3733; background: #1A1916; transition: transform .12s, border-color .12s; }
+  .slide-thumb:hover { transform: scale(1.03); border-color: #D4A053; }
+  .slide-video { flex: 0 0 auto; width: 130px; height: 162px; border-radius: 6px; border: 1px solid #3a3733; background: #0a0a0a; cursor: pointer; }
+  /* Lightbox modal */
+  .lightbox { position: fixed; inset: 0; background: rgba(10,9,8,0.92); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 2rem; }
+  .lightbox.open { display: flex; }
+  .lightbox img, .lightbox video { max-width: 95vw; max-height: 92vh; border-radius: 8px; box-shadow: 0 4px 40px rgba(0,0,0,0.8); }
+  .lightbox-close { position: absolute; top: 1rem; right: 1.5rem; color: #F5EFE3; font-size: 2rem; cursor: pointer; background: none; border: none; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(36,33,32,0.8); color: #F5EFE3; border: none; padding: 12px 18px; font-size: 1.5rem; cursor: pointer; border-radius: 6px; }
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+  /* Approval card: visual-first layout */
+  .approval-card { background: #232120; border: 1px solid #3a3733; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+  .approval-meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 11px; }
+  .approval-flags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .approval-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .caption-collapse summary { font-size: 12px; color: #F5EFE388; padding: 6px 0; }
+  .caption-collapse[open] summary { color: #D4A053; }
+  .caption-body { font-size: 13px; line-height: 1.55; color: #F5EFE3CC; white-space: pre-wrap; margin-top: 6px; padding-top: 6px; border-top: 1px solid #3a3733; max-height: 320px; overflow-y: auto; }
 </style>
 </head>
 <body class="p-6 max-w-6xl mx-auto">
+
+<!-- Lightbox modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1, event)">‹</button>
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1, event)">›</button>
+  <div id="lightbox-content"></div>
+</div>
+
 
 <header class="mb-8">
   <h1 class="text-3xl font-light tracking-tight">Longevify <span class="muted">· Content Dashboard</span></h1>
@@ -212,7 +244,22 @@ async function refreshHealth() {
 }
 
 async function refreshAll() {
-  await Promise.all([refreshState(), refreshDrafts(), refreshHealth()]);
+  // Drafts must load before renderPending (which now depends on drafts data).
+  await Promise.all([
+    api('GET', '/api/state').then(s => { state = s; }),
+    api('GET', '/api/drafts' + (document.getElementById('drafts-filter').value ? '?state=' + encodeURIComponent(document.getElementById('drafts-filter').value) : '')).then(r => { drafts = r.drafts || []; }),
+    api('GET', '/api/health').then(h => { health = h; }),
+  ]);
+  document.getElementById('drafts-count').textContent = `(${drafts.length})`;
+  renderHoje();
+  renderIdeas();
+  renderPending();
+  renderDrafts();
+  renderInsights();
+  renderAlerts();
+  renderHealth();
+  document.getElementById('last-refresh').textContent = 'last: ' + new Date().toLocaleTimeString('pt-BR');
+  log('✓ refreshed (state + drafts + health)');
 }
 
 function toggleAutoRefresh() {
@@ -361,25 +408,124 @@ function renderIdeas() {
   `).join('');
 }
 
+// Index of approval-card slide assets for lightbox navigation.
+const _lb = { items: [], idx: 0 };
+
 function renderPending() {
   const el = document.getElementById('pending');
-  const items = state.pending_approval || [];
-  if (!items.length) { el.innerHTML = '<div class="muted text-sm">(nenhum aprovando)</div>'; return; }
-  el.innerHTML = items.map(p => `
-    <div class="card-hover p-3 rounded border border-stone-700">
-      <div class="flex justify-between items-start mb-1">
-        <div><code class="text-xs">${p.run_id}</code></div>
-        <div class="text-xs">${badge(p.state)} <span class="muted">${p.scheduled_for || "(no slot)"}</span></div>
+  // Source of truth = /api/drafts filtered to approving (has slides + caption).
+  // Falls back to state.pending_approval if drafts not yet loaded.
+  const approvingDrafts = (drafts || []).filter(d => d.flags.state === 'approving');
+  if (!approvingDrafts.length) {
+    el.innerHTML = '<div class="muted text-sm">(nenhum aprovando)</div>';
+    return;
+  }
+  el.innerHTML = approvingDrafts.map(d => approvalCardHtml(d)).join('');
+}
+
+function approvalCardHtml(d) {
+  const f = d.flags;
+  const emLevel = f.em_dash_count >= 4 ? 'bad' : f.em_dash_count >= 2 ? 'warn' : 'ok';
+  const slopLevel = f.slop?.action === 'reject' ? 'bad' : f.slop?.action === 'deduct' ? 'warn' : 'ok';
+
+  // VISUAL FIRST: carousel strip OR video player
+  let visual = '';
+  if (d.videos?.length) {
+    visual = d.videos.map((v, i) => `<video class="slide-video" muted preload="metadata" onclick="openLightbox('${d.run_id}', 'video', ${i})" src="/runs/${d.run_id}/assets/${v}"></video>`).join('');
+  } else if (d.slides?.length) {
+    visual = d.slides.map((s, i) => `<img class="slide-thumb" loading="lazy" src="/runs/${d.run_id}/assets/${s}" alt="slide ${i+1}" onclick="openLightbox('${d.run_id}', 'image', ${i})"/>`).join('');
+  } else {
+    visual = '<div class="muted text-xs p-3">— sem assets visuais renderizados —</div>';
+  }
+
+  // Hook prominent
+  const hookHtml = d.hook ? `<div class="text-sm" style="line-height:1.4; margin-top: 8px;">${escapeHtml(d.hook)}</div>` : '';
+
+  // Caption collapsed
+  const captionHtml = d.caption ? `
+    <details class="caption-collapse mt-2">
+      <summary>📄 ver caption (${d.caption_chars} chars)</summary>
+      <div class="caption-body">${escapeHtml(d.caption)}</div>
+    </details>` : '';
+
+  // Editor score
+  const scoreHtml = f.editor_score != null
+    ? `<span class="flag-pill ${f.editor_score >= 9 ? 'flag-ok' : f.editor_score >= 6 ? 'flag-warn' : 'flag-bad'}">score ${f.editor_score}/12${f.editor_decision ? ' · ' + f.editor_decision : ''}</span>`
+    : '';
+
+  // Schedule info
+  const scheduledLabel = f.scheduled_for ? f.scheduled_for : '📌 backlog';
+
+  return `
+    <div class="approval-card">
+      <div class="slide-strip">${visual}</div>
+      <div class="approval-meta">
+        <div>
+          <code class="text-xs muted">${d.run_id}</code>
+          <span class="muted ml-2">P${f.pillar||"?"} · ${f.persona||"?"} · ${scheduledLabel}</span>
+        </div>
+        <div class="approval-flags">
+          ${scoreHtml}
+          ${flagPill('— × ' + f.em_dash_count, emLevel)}
+          ${f.slop ? flagPill('slop: ' + f.slop.action, slopLevel) : ''}
+        </div>
       </div>
-      <div class="muted text-xs">P${p.pillar||"?"} · ${p.persona||"?"} · ${p.format||"?"}</div>
-      <div class="flex gap-2 mt-2">
-        <button class="btn-primary" onclick="publishRun('${p.run_id}')">Approve + Publish</button>
-        <button class="btn-secondary" onclick="reEdit('${p.run_id}')">Re-edit</button>
-        <button class="btn-danger" onclick="discardRun('${p.run_id}')">Discard</button>
+      ${hookHtml}
+      ${captionHtml}
+      <div class="approval-actions">
+        <button class="btn-primary" onclick="publishRun('${d.run_id}')">✅ Approve + Publish</button>
+        <button class="btn-secondary" onclick="reEdit('${d.run_id}')">🛠 Re-editor</button>
+        <button class="btn-secondary" onclick="regenerateRun('${d.run_id}')">↻ Regen</button>
+        <button class="btn-danger" onclick="discardRun('${d.run_id}')">🗑 Discard</button>
       </div>
     </div>
-  `).join('');
+  `;
 }
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function openLightbox(runId, kind, idx) {
+  // Build the asset list for this run by re-finding the draft.
+  const d = (drafts || []).find(x => x.run_id === runId);
+  if (!d) return;
+  const list = kind === 'video' ? (d.videos || []).map(v => ({kind: 'video', file: v})) : (d.slides || []).map(s => ({kind: 'image', file: s}));
+  _lb.items = list.map(x => ({ ...x, url: `/runs/${runId}/assets/${x.file}` }));
+  _lb.idx = idx;
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function renderLightbox() {
+  const item = _lb.items[_lb.idx];
+  if (!item) return;
+  const c = document.getElementById('lightbox-content');
+  c.innerHTML = item.kind === 'video'
+    ? `<video src="${item.url}" controls autoplay style="max-width:95vw; max-height:92vh;"></video>`
+    : `<img src="${item.url}" alt="slide ${_lb.idx + 1}"/>`;
+}
+
+function lightboxNav(delta, ev) {
+  if (ev) ev.stopPropagation();
+  if (!_lb.items.length) return;
+  _lb.idx = (_lb.idx + delta + _lb.items.length) % _lb.items.length;
+  renderLightbox();
+}
+
+function closeLightbox(ev) {
+  if (ev && ev.target.id !== 'lightbox' && !ev.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-content').innerHTML = '';
+}
+
+// Keyboard nav: arrows + Esc for lightbox.
+window.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lightboxNav(-1);
+  if (e.key === 'ArrowRight') lightboxNav(1);
+});
 
 function renderInsights() {
   const el = document.getElementById('insights');

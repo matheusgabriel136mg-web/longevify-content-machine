@@ -20,11 +20,21 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
+import { timingSafeEqual } from "node:crypto";
 import Database from "better-sqlite3";
 import {
   listDrafts, summarizeDraft, getTimerHealth, getRecentErrors,
   getCostBreakdown, getCircuitState,
 } from "./agents/dashboard-helpers.mjs";
+
+// .env loader (so DASHBOARD_USERS works when launched directly, not just via systemd)
+const ENV_PATH_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", ".env");
+if (fs.existsSync(ENV_PATH_ROOT)) {
+  for (const line of fs.readFileSync(ENV_PATH_ROOT, "utf-8").split("\n")) {
+    const m = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+  }
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,7 +63,54 @@ function auditEvent(entry) {
 function cors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+}
+
+// HTTP Basic Auth via DASHBOARD_USERS=user1:pass1,user2:pass2 in .env.
+// If unset → open access (dev mode). On VPS the env file must set it.
+// On localhost when LOCAL_BYPASS=1, also allowed without auth (founder local dev).
+const USERS = (() => {
+  const raw = process.env.DASHBOARD_USERS;
+  if (!raw) return null;
+  const map = {};
+  for (const pair of raw.split(",")) {
+    const [u, p] = pair.split(":");
+    if (u && p) map[u.trim()] = p.trim();
+  }
+  return Object.keys(map).length ? map : null;
+})();
+const LOCAL_BYPASS = process.env.DASHBOARD_LOCAL_BYPASS === "1";
+
+function safeEq(a, b) {
+  const aBuf = Buffer.from(a);
+  const bBuf = Buffer.from(b);
+  if (aBuf.length !== bBuf.length) return false;
+  return timingSafeEqual(aBuf, bBuf);
+}
+
+function isAuthorized(req) {
+  if (!USERS) return true;  // no auth configured
+  if (LOCAL_BYPASS) {
+    const ra = req.socket.remoteAddress || "";
+    if (ra === "127.0.0.1" || ra === "::1" || ra === "::ffff:127.0.0.1") return true;
+  }
+  const header = req.headers.authorization || "";
+  if (!header.startsWith("Basic ")) return false;
+  let decoded;
+  try { decoded = Buffer.from(header.slice(6), "base64").toString("utf-8"); } catch { return false; }
+  const idx = decoded.indexOf(":");
+  if (idx < 0) return false;
+  const user = decoded.slice(0, idx);
+  const pass = decoded.slice(idx + 1);
+  const expected = USERS[user];
+  if (!expected) return false;
+  return safeEq(pass, expected);
+}
+
+function sendUnauthorized(res) {
+  res.setHeader("WWW-Authenticate", 'Basic realm="Longevify Dashboard", charset="UTF-8"');
+  res.writeHead(401, { "Content-Type": "text/plain" });
+  res.end("Unauthorized");
 }
 
 function json(res, data, status = 200) {
@@ -310,6 +367,7 @@ async function postIdea(body) {
 // ─── HTTP server ─────────────────────────────────────────────────────────────
 const server = http.createServer(async (req, res) => {
   if (req.method === "OPTIONS") { cors(res); res.writeHead(204); res.end(); return; }
+  if (!isAuthorized(req)) return sendUnauthorized(res);
   const url = new URL(req.url, `http://localhost:${PORT}`);
 
   try {
@@ -323,6 +381,25 @@ const server = http.createServer(async (req, res) => {
         } else {
           json(res, { error: `Dashboard HTML não existe em ${DASHBOARD_HTML}` }, 404);
         }
+        return;
+      }
+      // Static assets: /runs/<runId>/assets/<file>
+      const assetMatch = url.pathname.match(/^\/runs\/([^\/]+)\/assets\/([^\/]+)$/);
+      if (assetMatch) {
+        const [, runId, file] = assetMatch;
+        // Reject any path traversal attempt.
+        if (runId.includes("..") || file.includes("..")) { json(res, { error: "bad path" }, 400); return; }
+        const assetPath = path.join(ROOT, "runs", runId, "assets", file);
+        if (!fs.existsSync(assetPath)) { json(res, { error: "not found" }, 404); return; }
+        const ext = path.extname(file).toLowerCase();
+        const mime = {
+          ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+          ".webp": "image/webp", ".mp4": "video/mp4", ".webm": "video/webm",
+          ".mov": "video/quicktime",
+        }[ext] || "application/octet-stream";
+        cors(res);
+        res.writeHead(200, { "Content-Type": mime, "Cache-Control": "private, max-age=300" });
+        fs.createReadStream(assetPath).pipe(res);
         return;
       }
       if (url.pathname === "/api/state") return json(res, getState());
@@ -365,13 +442,16 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`\n📊 Dashboard server rodando em http://localhost:${PORT}\n`);
-  console.log(`  Abre dashboard em browser:`);
-  console.log(`    file://${DASHBOARD_HTML}`);
-  console.log(`  ou direto: http://localhost:${PORT}/\n`);
+// Bind: on VPS we listen 127.0.0.1 only (cloudflared proxies); on dev 0.0.0.0.
+const BIND = process.env.DASHBOARD_BIND || "127.0.0.1";
+server.listen(PORT, BIND, () => {
+  console.log(`\n📊 Dashboard server rodando em http://${BIND}:${PORT}\n`);
+  console.log(`  Auth: ${USERS ? Object.keys(USERS).length + " users via DASHBOARD_USERS" : "OPEN (no DASHBOARD_USERS set)"}`);
+  console.log(`  HTML: ${DASHBOARD_HTML}`);
   console.log(`  Endpoints:`);
-  console.log(`    GET  /api/state    GET  /api/brief    GET  /api/insights`);
+  console.log(`    GET  /api/state    GET  /api/drafts   GET  /api/health`);
+  console.log(`    GET  /api/brief    GET  /api/insights`);
   console.log(`    POST /api/draft    POST /api/edit     POST /api/publish`);
-  console.log(`    POST /api/discard  POST /api/idea\n`);
+  console.log(`    POST /api/discard  POST /api/idea`);
+  console.log(`    POST /api/approve  POST /api/reject   POST /api/regenerate\n`);
 });
