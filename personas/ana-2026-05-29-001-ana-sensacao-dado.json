@@ -1,58 +1,58 @@
 {
   "id": "ana-2026-05-29-001-ana-sensacao-dado",
   "name": "Ana",
-  "age": 43,
-  "biological_age": 37,
-  "location": "Escritório no Itaim Bibi, treinos no Equinox Faria Lima",
+  "age": 42,
+  "biological_age": 36,
+  "location": "Academia Equinox Faria Lima, São Paulo",
   "city": "São Paulo",
-  "occupation": "Sócia em escritório de advocacia corporativa",
+  "occupation": "Sócia em escritório de advocacia empresarial",
   "cover_external": true,
   "cover_filename": "cover-raw.png",
   "sintomas": [
     {
       "n": "01",
-      "text": "Foco que fragmenta às 15h — reunião seguinte, raciocínio mais lento que o necessário"
+      "text": "Foco que fragmenta após as 14h — reuniões longas viram ruído"
     },
     {
       "n": "02",
-      "text": "Cansaço pós-almoço desproporcional, mesmo sem refeição pesada ou noite curta"
+      "text": "Cansaço pós-almoço que nenhum café corrige de vez"
     },
     {
       "n": "03",
-      "text": "Sono de sete horas que não restaura — acorda funcional, nunca descansada de verdade"
+      "text": "Sono de seis horas que não restaura como costumava restaurar"
     },
     {
       "n": "04",
-      "text": "Hemograma de rotina dentro do normal — e a sensação de que algo, mesmo assim, está levemente fora de ponto"
+      "text": "Exame de rotina voltou normal. A sensação de subtração, não voltou."
     }
   ],
   "biomarkers_before": [
     {
-      "name": "HRV matinal",
+      "name": "HRV Matinal",
       "unit": "ms",
-      "value": "34",
+      "value": "28",
       "status": "BAIXO",
-      "pct": 0.28,
+      "pct": 0.22,
       "optStart": 0.55,
       "optEnd": 0.85
     },
     {
-      "name": "Cortisol matinal",
+      "name": "Cortisol Matinal",
       "unit": "µg/dL",
       "value": "22.4",
       "status": "ALTO",
       "pct": 0.78,
-      "optStart": 0.25,
-      "optEnd": 0.55
+      "optStart": 0.3,
+      "optEnd": 0.6
     },
     {
-      "name": "Glicemia pós-prandial (2h)",
+      "name": "Glicemia Pós-Prandial 2h",
       "unit": "mg/dL",
       "value": "148",
-      "status": "ALTO",
-      "pct": 0.72,
-      "optStart": 0.15,
-      "optEnd": 0.45
+      "status": "LIMITE",
+      "pct": 0.68,
+      "optStart": 0.2,
+      "optEnd": 0.5
     },
     {
       "name": "Latência REM",
@@ -60,49 +60,49 @@
       "value": "94",
       "status": "ALTO",
       "pct": 0.8,
-      "optStart": 0.2,
-      "optEnd": 0.5
+      "optStart": 0.25,
+      "optEnd": 0.55
     },
     {
       "name": "HOMA-IR",
       "unit": "índice",
       "value": "2.9",
       "status": "LIMITE",
-      "pct": 0.65,
-      "optStart": 0.1,
-      "optEnd": 0.4
+      "pct": 0.72,
+      "optStart": 0.15,
+      "optEnd": 0.45
     }
   ],
   "biomarkers_after": [
     {
-      "name": "HRV matinal",
+      "name": "HRV Matinal",
       "unit": "ms",
-      "before": "34",
-      "after": "58",
-      "bPct": 0.28,
+      "before": "28",
+      "after": "54",
+      "bPct": 0.22,
       "aPct": 0.68,
       "optStart": 0.55,
       "optEnd": 0.85
     },
     {
-      "name": "Cortisol matinal",
+      "name": "Cortisol Matinal",
       "unit": "µg/dL",
       "before": "22.4",
-      "after": "14.1",
+      "after": "13.8",
       "bPct": 0.78,
-      "aPct": 0.38,
-      "optStart": 0.25,
-      "optEnd": 0.55
+      "aPct": 0.42,
+      "optStart": 0.3,
+      "optEnd": 0.6
     },
     {
-      "name": "Glicemia pós-prandial (2h)",
+      "name": "Glicemia Pós-Prandial 2h",
       "unit": "mg/dL",
       "before": "148",
       "after": "112",
-      "bPct": 0.72,
+      "bPct": 0.68,
       "aPct": 0.32,
-      "optStart": 0.15,
-      "optEnd": 0.45
+      "optStart": 0.2,
+      "optEnd": 0.5
     },
     {
       "name": "Latência REM",
@@ -110,71 +110,71 @@
       "before": "94",
       "after": "52",
       "bPct": 0.8,
-      "aPct": 0.28,
-      "optStart": 0.2,
-      "optEnd": 0.5
+      "aPct": 0.38,
+      "optStart": 0.25,
+      "optEnd": 0.55
     }
   ],
   "headliner_stat": {
     "label": "IDADE BIOLÓGICA",
-    "before": "43",
-    "after": "37"
+    "before": "42",
+    "after": "36"
   },
   "protocolo": [
     {
       "n": "01",
-      "t": "Magnésio glicinato 400 mg ao dormir",
-      "b": "Reduz latência REM e atenua pico de cortisol noturno elevado.",
-      "icon": "icon-supplement.png"
+      "t": "Janela de sono 22h30–6h00",
+      "b": "Ancora o ritmo circadiano e reduz latência REM de 94 para faixa funcional abaixo de 60 min.",
+      "icon": "icon-sono.png"
     },
     {
       "n": "02",
-      "t": "Janela alimentar comprimida (12h–20h)",
-      "b": "Limita resposta pós-prandial e permite queda de HOMA-IR sem restrição calórica.",
-      "icon": "icon-protocolo.png"
-    },
-    {
-      "n": "03",
-      "t": "Ômega-3 EPA/DHA 2 g/dia",
-      "b": "Anti-inflamatório sistêmico — suporte direto à variabilidade de HRV e sensibilidade insulínica.",
+      "t": "Ômega-3 EPA/DHA 2g/dia",
+      "b": "Reduz carga inflamatória sistêmica e apoia variabilidade de HRV matinal.",
       "icon": "icon-omega.png"
     },
     {
+      "n": "03",
+      "t": "Protocolo glicêmico pós-almoço",
+      "b": "Caminhada de 10 min após refeição principal — atenua pico pós-prandial e HOMA-IR.",
+      "icon": "icon-exercise.png"
+    },
+    {
       "n": "04",
-      "t": "Treino de força 3× por semana (protocolo progressivo)",
-      "b": "Principal alavanca para captação de glicose muscular e melhora do perfil metabólico.",
+      "t": "Força 3× por semana",
+      "b": "Sensibilidade à insulina periférica melhora com carga progressiva — impacto direto em HOMA-IR.",
       "icon": "icon-forca.png"
     },
     {
       "n": "05",
-      "t": "Janela de sono fixa 22h30–6h (blackout + 18°C)",
-      "b": "Estabiliza arquitetura circadiana — comprime latência REM e reduz fragmentação.",
-      "icon": "icon-sono.png"
+      "t": "Vitamina D3 + K2",
+      "b": "Suporte ao eixo HPA — cortisol matinal cronicamente elevado tem correlação com insuficiência de D.",
+      "icon": "icon-vitd.png"
     },
     {
       "n": "06",
-      "t": "Recheck de painel a cada 90 dias",
-      "b": "Confirma resposta aos protocolos e recalibra metas antes de qualquer desvio se instalar.",
+      "t": "Recheck de painel em 90 dias",
+      "b": "HRV, cortisol, glicemia pós-prandial e latência REM reavaliados com dado comparativo base.",
       "icon": "icon-recheck.png"
     }
   ],
   "copy": {
-    "s2_headline_1": "Ana sentia algo",
-    "s2_headline_2_italic": "levemente fora de ponto.",
-    "s2_sub": "43 anos. Sócia em escritório de advocacia corporativa. Agenda sem margem. Hemograma dentro do normal — e a certeza quieta de que 'normal' não era o mesmo que ótima. O médico não encontrou nada. O corpo continuava sinalizando.",
-    "s2_closing_italic": "Sintoma sem laudo não é ausência de problema. É ausência do painel certo.",
+    "s2_headline_1": "Conheça a Ana.",
+    "s2_headline_2_italic": "Exame normal. Corpo em outra frequência.",
+    "s2_sub": "42 anos. Sócia. Agenda sem espaço — e uma sensação de subtração silenciosa que nenhum hemograma de rotina conseguiu nomear. Não era doença. Não era crise. Era um sinal sem painel para lê-lo.",
+    "s2_closing_italic": "O sistema disse normal. O corpo disse outra coisa.",
     "s3_headline_1": "Foco fragmentado às 15h.",
-    "s3_headline_2_italic": "O dado já explicava.",
-    "s3_sub": "HRV matinal de 34 ms — abaixo da faixa funcional de referência (55–85 ms) — combinado com cortisol matinal em 22,4 µg/dL indicava ativação do eixo HPA elevada desde cedo. O sistema nervoso chegava à tarde já sem reserva adaptativa. Não era falta de disciplina. Era carga fisiológica não lida.",
-    "s4_headline_1": "Almoço leve,",
-    "s4_headline_2_italic": "cansaço desproporcional.",
-    "s4_sub": "Glicemia pós-prandial de 148 mg/dL duas horas após refeição moderada. HOMA-IR em 2,9 — limiar de resistência insulínica funcional antes de qualquer alteração em jejum. O pico glicêmico gerava queda brusca subsequente. O corpo interpretava como estresse metabólico. O exame de rotina, sem medir isso, devolvia: normal.",
-    "s5_headline_1": "Sete horas de sono.",
-    "s5_headline_2_italic": "Zero restauração real.",
-    "s5_sub": "Latência REM de 94 minutos — faixa funcional pede abaixo de 60. Com cortisol elevado ao dormir e magnésio sérico no limite inferior, a arquitetura do sono não atingia o estágio de recuperação cognitiva e consolidação de memória de trabalho. Ela dormia. Não reparava.",
-    "s6_headline_1": "Ana não estava",
-    "s6_headline_2_italic": "exagerando.",
-    "s6_body": "Ela estava sem o painel que traduz o que o corpo já sinalizava.\nHRV, cortisol, glicemia pós-prandial, latência REM — marcadores que exame de rotina não cobre.\nA Longevify não criou o problema. Tornou o sinal legível.",
+    "s3_headline_2_italic": "HRV a 28 ms explica o porquê.",
+    "s3_sub": "Variabilidade de frequência cardíaca matinal abaixo de 35 ms indica sistema nervoso autônomo sob carga. O cortisol da Ana às 7h marcava 22.4 µg/dL — acima da faixa funcional. Não falta de disciplina. É dado.",
+    "s4_headline_1": "Cansaço pós-almoço.",
+    "s4_headline_2_italic": "Glicemia a 148 mg/dL duas horas depois.",
+    "s4_sub": "Glicemia pós-prandial acima de 140 mg/dL com HOMA-IR em 2.9 aponta resistência insulínica incipiente — invisível no jejum, legível no painel certo. O café da tarde não resolve. O protocolo, resolve.",
+    "s5_headline_1": "Seis horas de sono.",
+    "s5_headline_2_italic": "Latência REM de 94 minutos.",
+    "s5_sub": "Acima de 80 minutos para entrar em REM, o sono não regenera — fragmenta. A Ana dormia a quantidade certa e acordava esgotada. A leitura de latência e fragmentação separa duração de qualidade. São métricas diferentes.",
+    "s6_headline_1": "Ana não estava exagerando.",
+    "s6_headline_2_italic": "Faltava o painel, não a percepção.",
+    "s6_body": "A Longevify não criou o problema da Ana.\nTraduziu o sinal que o corpo já emitia em dado acionável.\nIsso não é medicina reativa. Não é autoconhecimento intuitivo. É antecipação com evidência.",
     "s6_closing_italic": "Se você reconheceu a Ana em algum slide, sua biologia merece o mesmo painel. longevify.com.br"
   },
   "palette_internal": "dark_cedar"

@@ -94,15 +94,50 @@ async function compositeLogo(buf, { bottomMargin = 50 } = {}) {
   return sharp(buf).composite([{ input: logoBuf, left: x, top: y }]).png().toBuffer();
 }
 
+// Wrap text por largura — quebra em N lines mantendo word boundaries
+function wrapText(text, maxCharsPerLine) {
+  if (!text) return [];
+  const words = text.split(/\s+/);
+  const lines = [];
+  let cur = "";
+  for (const w of words) {
+    if ((cur + " " + w).trim().length <= maxCharsPerLine) {
+      cur = (cur + " " + w).trim();
+    } else {
+      if (cur) lines.push(cur);
+      cur = w;
+    }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
+// Auto-shrink fontSize se headline > N chars
+function autoShrinkFont(text, baseSize, maxCharsAtBaseSize = 16) {
+  if (!text) return baseSize;
+  if (text.length <= maxCharsAtBaseSize) return baseSize;
+  // Linear shrink: longer text → smaller font
+  const ratio = maxCharsAtBaseSize / text.length;
+  return Math.max(36, Math.round(baseSize * Math.max(0.65, ratio)));
+}
+
 function headlineXml(line1, line2Italic, sub, opts = {}) {
-  const { y = 110, fontSize = 62 } = opts;
+  const { y = 110, fontSize: baseFontSize = 62 } = opts;
+  // Auto-shrink baseado na linha mais comprida
+  const longest = Math.max((line1 || "").length, (line2Italic || "").length);
+  const fontSize = autoShrinkFont(longest, baseFontSize, 18);
+
   let svg = `<text x="${W/2}" y="${y}" font-family="Inter, sans-serif" font-size="${fontSize}" font-weight="300" fill="${WHITE}" text-anchor="middle" letter-spacing="-2">${esc(line1)}</text>`;
   if (line2Italic) {
     svg += `<text x="${W/2}" y="${y + fontSize * 1.1}" font-family="Georgia, serif" font-style="italic" font-size="${fontSize}" font-weight="400" fill="${WHITE}" text-anchor="middle" letter-spacing="-1">${esc(line2Italic)}</text>`;
   }
   if (sub) {
-    const subY = y + (line2Italic ? 2 * fontSize * 1.1 : fontSize * 1.1) + 14;
-    svg += `<text x="${W/2}" y="${subY}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${WHITE_SOFT}" text-anchor="middle">${esc(sub)}</text>`;
+    // Wrap sub se > 60 chars (cabe ~60 chars em 22pt no canvas 1080)
+    const subLines = wrapText(sub, 60);
+    const subStartY = y + (line2Italic ? 2 * fontSize * 1.1 : fontSize * 1.1) + 14;
+    subLines.forEach((ln, i) => {
+      svg += `<text x="${W/2}" y="${subStartY + i * 28}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${WHITE_SOFT}" text-anchor="middle">${esc(ln)}</text>`;
+    });
   }
   return svg;
 }

@@ -416,43 +416,296 @@ Próximo passo: \`node scripts/render-persona-carousel.mjs --persona ${personaId
   fs.writeFileSync(p, fm);
 }
 
+// ─── Dispatcher por pattern/format ───────────────────────────────────────────
+async function dispatchByPattern({ brief, runId, anthropic }) {
+  const p = brief.meta.pattern;
+  const slot = brief.meta.type || brief.meta.slot_type;
+  const format = brief.meta.format;
+
+  if (p === "persona-bio-case-study" || slot === "persona-bio") {
+    return await generatePersonaBioFlow({ brief, runId, anthropic });
+  }
+  if (p === "dado-punch-bryan-style" || format === "image" || slot === "dado-punch") {
+    return await generateDadoPunchFlow({ brief, runId, anthropic });
+  }
+  if (p === "brand-manifesto" || slot === "premium-manifesto") {
+    return await generateManifestoFlow({ brief, runId, anthropic });
+  }
+  if (p === "biomarker-gap") {
+    return await generateBiomarkerGapFlow({ brief, runId, anthropic });
+  }
+  if (format === "reel" || p === "reel-tips-hold-to-reveal") {
+    return await generateReelTipsFlow({ brief, runId, anthropic });
+  }
+  throw new Error(`Pattern não suportado: ${p}/${slot}/${format}`);
+}
+
+// Persona-bio flow (existing logic)
+async function generatePersonaBioFlow({ brief, runId, anthropic }) {
+  let totalCost = 0;
+  console.log(`  [1/3] persona JSON via LLM...`);
+  const { json: personaJson, cost: c1 } = await generatePersonaBioJson({ runId, brief, anthropic });
+  console.log(`         ✓ $${c1.toFixed(4)} · ${personaJson.name} (${personaJson.age}/${personaJson.biological_age})`);
+  totalCost += c1;
+  const personaId = persistPersonaJson({ runId, personaJson, dryRun: args.dryRun });
+
+  console.log(`  [2/3] caption via LLM...`);
+  const { caption, cost: c2 } = await generateCaption({ brief, personaJson, anthropic });
+  console.log(`         ✓ $${c2.toFixed(4)} · ${caption.length} chars`);
+  totalCost += c2;
+  persistDraftPackage({ runId, caption, personaId, dryRun: args.dryRun });
+
+  console.log(`  [3/3] content-object verified...`);
+  upsertContentObject({ runId, personaId, brief, dryRun: args.dryRun });
+  return { totalCost, persona_id: personaId, format: "persona-bio" };
+}
+
+// Generic LLM-based render data generator pra outros formats
+async function generateRenderData({ brief, runId, schema, anthropic }) {
+  const voice = fs.readFileSync(VOICE_PATH, "utf-8").slice(0, 3000);
+
+  const prompt = `Você é o content-generator da Longevify. Gere JSON estruturado completo no schema abaixo, baseado no brief.
+
+═══ BRIEF ═══
+Pillar: P${brief.meta.pillar}
+Persona alvo: ${brief.meta.target_persona}
+Format: ${brief.meta.format}
+Pattern/type: ${brief.meta.pattern || brief.meta.type}
+Headline hint: ${brief.headline_hint}
+Angle: ${brief.angle}
+Brief: ${brief.brief_text}
+
+═══ VOICE (resumido) ═══
+${voice.slice(0, 1500)}
+
+═══ AVOID-SLOP (banidos) ═══
+transformação, jornada, bora, melhor versão, link na bio, cura, garante, reverte, milagre, no excuses, no shortcuts
+
+═══ SCHEMA EXPECTED ═══
+${schema}
+
+REGRAS:
+- pt-BR puro. Voice Mito+Aesop+Equinox sóbrio. Anti-hype.
+- Headlines: 4-7 palavras paradoxo/número
+- Italics editoriais (Aesop) pontuais
+- NUNCA hashtag, emoji decorativo, link na bio, claim médico
+- Valores numéricos realistas
+
+Retorne SÓ o JSON. Sem markdown wrapper.`;
+
+  const msg = await anthropic.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 3000,
+    messages: [{ role: "user", content: prompt }],
+  });
+  const text = msg.content.filter(b => b.type === "text").map(b => b.text).join("\n");
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error(`LLM no JSON: ${text.slice(0,300)}`);
+  const cost = ((msg.usage?.input_tokens ?? 0) / 1e6) * 3 + ((msg.usage?.output_tokens ?? 0) / 1e6) * 15;
+  return { json: JSON.parse(m[0]), cost };
+}
+
+async function generateDadoPunchFlow({ brief, runId, anthropic }) {
+  console.log(`  [1/2] render-data via LLM (dado-punch)...`);
+  const schema = `{
+  "palette": "dark_cedar" | "warm_taupe" | "cream_clay",
+  "kicker": "<TÓPICO · CONTEXTO>",
+  "number": "<NÚMERO + UNIDADE OPCIONAL ex: 73% ou 2.3x>",
+  "number_color": "amber" | "sage" | "warm",
+  "headline_1": "<linha 1 que precede o número grande>",
+  "headline_2_italic": "<linha 2 italic Georgia que completa a frase>",
+  "body": ["<linha body 1>", "<linha body 2>"],
+  "closing_italic": "<fechamento Aesop>",
+  "footer_source": "<FONTE · STUDO · YEAR N=>"
+}`;
+  const { json, cost } = await generateRenderData({ brief, runId, schema, anthropic });
+  console.log(`         ✓ $${cost.toFixed(4)} · número ${json.number}`);
+  persistRenderData(runId, json);
+  await generateCaptionGeneric({ brief, renderData: json, runId, anthropic, format: "dado-punch" });
+  return { totalCost: cost, format: "dado-punch" };
+}
+
+async function generateManifestoFlow({ brief, runId, anthropic }) {
+  console.log(`  [1/2] render-data via LLM (brand-manifesto)...`);
+  const schema = `{
+  "palette": "cream_clay",
+  "s2_headline_1": "<headline curto>",
+  "s2_headline_2_italic": "<continuation italic>",
+  "s2_sub": "<sub>",
+  "s2_groups": [
+    {"label": "<DIMENSÃO>", "markers": ["m1", "m2", "m3", "m4"]}
+    /* 4-5 grupos */
+  ],
+  "s2_legend": "CADA PONTO · UM MARCADOR LIDO",
+  "s3_headline_1": "<...>",
+  "s3_headline_2_italic": "<...>",
+  "s3_sub": "<...>",
+  "s3_col_left_header": "CONVENCIONAL",
+  "s3_col_right_header": "LONGEVIFY",
+  "s3_pairs": [{"left": "...", "right": "..."}, /* 3-4 pairs */],
+  "s3_closing_italic": "<fechamento>",
+  "s4_headline_1": "<...>",
+  "s4_headline_2_italic": "<...>",
+  "s4_sub": "<...>",
+  "s4_steps": [{"n": "01", "t": "...", "b": "...", "icon": "icon-X.png"}, /* 4 steps */],
+  "s5_headline_1": "<manifesto headline>",
+  "s5_headline_2_italic": "<continuation>",
+  "s5_body": ["linha 1", "linha 2", "linha 3"],
+  "s5_closing_italic": "<sign-off italic>"
+}
+
+ICONS VÁLIDOS (use SOMENTE esta lista): ${Object.keys(ICONS_CATALOG.icons || {}).join(", ")}`;
+  const { json, cost } = await generateRenderData({ brief, runId, schema, anthropic });
+  console.log(`         ✓ $${cost.toFixed(4)}`);
+  persistRenderData(runId, json);
+  await generateCaptionGeneric({ brief, renderData: json, runId, anthropic, format: "brand-manifesto" });
+  return { totalCost: cost, format: "brand-manifesto" };
+}
+
+async function generateBiomarkerGapFlow({ brief, runId, anthropic }) {
+  console.log(`  [1/2] render-data via LLM (biomarker-gap)...`);
+  const schema = `{
+  "palette": "warm_taupe" | "dark_cedar",
+  "cover_filename": "cover-raw.png",
+  "cover_headline_1": "<linha 1>",
+  "cover_headline_2_italic": "<linha 2 italic>",
+  "cover_sub": "<sub>",
+  "s2_headline_1": "<MARCADOR A ≠ MARCADOR B>",
+  "s2_sub": "<sub explicativa>",
+  "s2_bar_left":  {"label": "MARC A", "value": "120 µg/dL", "unit": "no sangue", "height_pct": 0.85},
+  "s2_bar_right": {"label": "MARC B", "value": "22 ng/mL",  "unit": "no estoque", "height_pct": 0.18},
+  "s2_body_1": "<insight body 1>",
+  "s2_body_2": "<insight body 2>",
+  "s2_closing_italic": "<fechamento>",
+  "s3_headline_1": "<...>",
+  "s3_headline_2_italic": "<...>",
+  "s3_sub": "<...>",
+  "s3_items": [{"title": "...", "body": "...", "icon": "icon-X.png"}, /* 4 sintomas */],
+  "s4_headline_1": "<...>",
+  "s4_headline_2_italic": "<...>",
+  "s4_sub": "<...>",
+  "s4_items": [{"n": "01", "t": "...", "b": "...", "icon": "icon-X.png"}, /* 4 alavancas */],
+  "s5_headline_1": "Bloqueadores",
+  "s5_headline_2_italic": "silenciosos.",
+  "s5_sub": "<sub>",
+  "s5_items": [{"title": "...", "body": "..."}, /* 3 bloqueadores X-mark */]
+}
+
+ICONS VÁLIDOS (use SOMENTE esta lista): ${Object.keys(ICONS_CATALOG.icons || {}).join(", ")}`;
+  const { json, cost } = await generateRenderData({ brief, runId, schema, anthropic });
+  console.log(`         ✓ $${cost.toFixed(4)}`);
+  persistRenderData(runId, json);
+  await generateCaptionGeneric({ brief, renderData: json, runId, anthropic, format: "biomarker-gap" });
+  return { totalCost: cost, format: "biomarker-gap" };
+}
+
+async function generateReelTipsFlow({ brief, runId, anthropic }) {
+  console.log(`  [1/2] render-data via LLM (reel-tips)...`);
+  const schema = `{
+  "header_line_1": "Pressione e segure",
+  "header_line_2": "pra revelar sua dica:",
+  "cards": [
+    {"title": "TITULO\\nDUAS LINHAS UPPERCASE", "tip": "<dica concreta com biomarker/dado>", "bg": "bg-<slug>.png"}
+    /* 5-8 cards */
+  ],
+  "fps": 30,
+  "pop_in_frames": 3,
+  "hold_frames": 28,
+  "fade_out_frames": 3
+}`;
+  const { json, cost } = await generateRenderData({ brief, runId, schema, anthropic });
+  console.log(`         ✓ $${cost.toFixed(4)} · ${json.cards?.length} cards`);
+  persistRenderData(runId, json);
+  await generateCaptionGeneric({ brief, renderData: json, runId, anthropic, format: "reel-tips" });
+  return { totalCost: cost, format: "reel-tips" };
+}
+
+function persistRenderData(runId, json) {
+  const runDir = path.join(ROOT, "runs", runId);
+  fs.mkdirSync(runDir, { recursive: true });
+  const p = path.join(runDir, "render-data.json");
+  fs.writeFileSync(p, JSON.stringify(json, null, 2));
+}
+
+async function generateCaptionGeneric({ brief, renderData, runId, anthropic, format }) {
+  console.log(`  [2/2] caption via LLM...`);
+  const voice = fs.readFileSync(VOICE_PATH, "utf-8").slice(0, 2000);
+  const prompt = `Você é o copywriter Longevify. Escreva CAPTION Instagram (3-5 parágrafos curtos) baseada no render-data abaixo.
+
+═══ Format ═══ ${format}
+═══ Brief ═══
+${brief.brief_text.slice(0, 1500)}
+═══ Render-data (estrutura visual) ═══
+${JSON.stringify(renderData, null, 1).slice(0, 2000)}
+═══ Voice ═══
+${voice.slice(0, 1500)}
+
+REGRAS: pt-BR. Mito+Aesop+Equinox sóbrio. Frase italic editorial pontual. ZERO: hashtags, emoji decorativo, link na bio, transformação, jornada, cura, garantia.
+
+Retorne SÓ o texto da caption.`;
+  const msg = await anthropic.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 1000,
+    messages: [{ role: "user", content: prompt }],
+  });
+  const caption = msg.content.filter(b => b.type === "text").map(b => b.text).join("\n").trim();
+  const cost = ((msg.usage?.input_tokens ?? 0) / 1e6) * 3 + ((msg.usage?.output_tokens ?? 0) / 1e6) * 15;
+  // Persist draft-package.md (genérico)
+  const p = path.join(ROOT, "runs", runId, "draft-package.md");
+  fs.writeFileSync(p, `---
+content_object: ${runId}
+draft_id: v1
+status: verified
+target_persona: ${brief.meta.target_persona}
+format: ${format}
+generated_by: content-generator
+---
+
+# Draft — ${runId}
+
+## Caption
+
+${caption}
+`);
+  // Upsert content-object minimal
+  const coPath = path.join(ROOT, "runs", runId, "content-object.md");
+  if (!fs.existsSync(coPath)) {
+    fs.writeFileSync(coPath, `---
+id: ${runId}
+route: original-content-generator
+state: verified
+pillar: ${brief.meta.pillar}
+format: ${brief.meta.format}
+platforms: [instagram]
+created_at: ${new Date().toISOString().slice(0,10)}
+updated_at: ${new Date().toISOString().slice(0,10)}
+scheduled_for: ${brief.meta.slot}
+pattern: ${brief.meta.pattern || brief.meta.type}
+target_persona: ${brief.meta.target_persona}
+render_data_file: runs/${runId}/render-data.json
+---
+
+# ${runId}
+
+Auto-generated by content-generator (${format}).
+`);
+  }
+  console.log(`         ✓ $${cost.toFixed(4)} · caption + draft-package.md`);
+  return cost;
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 const args = parseArgs();
 console.log(`\n🤖 Content Generator · ${args.run}\n`);
 
 const brief = readBrief(args.run);
-console.log(`  Brief: P${brief.meta.pillar} · persona=${brief.meta.target_persona} · slot=${brief.meta.slot}`);
+console.log(`  Brief: P${brief.meta.pillar} · persona=${brief.meta.target_persona} · pattern=${brief.meta.pattern || brief.meta.type} · format=${brief.meta.format}`);
 console.log(`  Headline hint: ${brief.headline_hint}\n`);
 
 const anthropic = new Anthropic();
 
-let totalCost = 0;
+const result = await dispatchByPattern({ brief, runId: args.run, anthropic });
 
-// Step 1: gera personas/<id>.json (LLM)
-console.log(`  [1/3] Generating persona data via LLM...`);
-const { json: personaJson, cost: c1, duration_ms: d1 } = await generatePersonaBioJson({ runId: args.run, brief, anthropic });
-console.log(`         ✓ ${d1}ms · $${c1.toFixed(4)} · ${personaJson.name} (${personaJson.age}/${personaJson.biological_age})`);
-totalCost += c1;
-
-const personaId = persistPersonaJson({ runId: args.run, personaJson, dryRun: args.dryRun });
-
-// Step 2: gera caption (LLM)
-console.log(`  [2/3] Generating caption via LLM...`);
-const { caption, cost: c2, duration_ms: d2 } = await generateCaption({ brief, personaJson, anthropic });
-console.log(`         ✓ ${d2}ms · $${c2.toFixed(4)} · ${caption.length} chars`);
-totalCost += c2;
-
-persistDraftPackage({ runId: args.run, caption, personaId, dryRun: args.dryRun });
-
-// Step 3: upsert content-object
-console.log(`  [3/3] Upserting content-object.md...`);
-upsertContentObject({ runId: args.run, personaId, brief, dryRun: args.dryRun });
-console.log(`         ✓ state=verified`);
-
-console.log(`\n✅ Total: $${totalCost.toFixed(4)} · ${d1+d2}ms`);
-console.log(`   persona data: personas/${personaId}.json`);
-console.log(`   draft: runs/${args.run}/draft-package.md`);
-
-logAudit({ event: "content_generated", run_id: args.run, persona_id: personaId, total_cost_usd: totalCost, name: personaJson.name });
-
-console.log(`\nNext: node scripts/agents/generator.mjs --run ${args.run}  # → render-persona-carousel\n`);
+console.log(`\n✅ Total: $${result.totalCost.toFixed(4)} · format=${result.format}`);
+logAudit({ event: "content_generated", run_id: args.run, format: result.format, total_cost_usd: result.totalCost });
+console.log(`\nNext: node scripts/agents/generator.mjs --run ${args.run}\n`);

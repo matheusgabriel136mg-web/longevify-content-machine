@@ -84,20 +84,35 @@ function routeToRenderer(meta) {
     return { ok: true, script: "scripts/render-persona-carousel.mjs", args: ["--persona", personaIdToUse, "--run", meta.runId] };
   }
 
-  if (meta.format === "reel") {
-    return { ok: true, script: "scripts/render-reel-tips.mjs", args: [] };
+  // For non-persona templates, expect runs/<id>/render-data.json from content-generator
+  const renderDataPath = path.join(ROOT, "runs", meta.runId, "render-data.json");
+
+  if (meta.format === "reel" || meta.pattern === "reel-tips-hold-to-reveal") {
+    if (!fs.existsSync(renderDataPath)) {
+      return { ok: true, script: "scripts/agents/content-generator.mjs", args: ["--run", meta.runId], next_after: "self_retry" };
+    }
+    return { ok: true, script: "scripts/templates/reel-tips.mjs", args: ["--data", renderDataPath, "--run", meta.runId] };
   }
 
-  if (meta.pattern === "dado-punch-bryan-style" || meta.format === "image") {
-    return { ok: false, reason: "dado-punch template generic ainda não construído. Use scripts/render-vitd-brasil.mjs como base — duplica + adapta." };
+  if (meta.pattern === "dado-punch-bryan-style" || meta.format === "image" || meta.slot_type === "dado-punch") {
+    if (!fs.existsSync(renderDataPath)) {
+      return { ok: true, script: "scripts/agents/content-generator.mjs", args: ["--run", meta.runId], next_after: "self_retry" };
+    }
+    return { ok: true, script: "scripts/templates/dado-punch.mjs", args: ["--data", renderDataPath, "--run", meta.runId] };
   }
 
   if (meta.pattern === "brand-manifesto" || meta.slot_type === "premium-manifesto") {
-    return { ok: false, reason: "brand-manifesto template generic ainda não construído. Use scripts/render-jockey-carousel.mjs como base." };
+    if (!fs.existsSync(renderDataPath)) {
+      return { ok: true, script: "scripts/agents/content-generator.mjs", args: ["--run", meta.runId], next_after: "self_retry" };
+    }
+    return { ok: true, script: "scripts/templates/brand-manifesto.mjs", args: ["--data", renderDataPath, "--run", meta.runId] };
   }
 
   if (meta.pattern === "biomarker-gap") {
-    return { ok: false, reason: "biomarker-gap template generic ainda não construído. Use scripts/render-ferritin-carousel.mjs como base." };
+    if (!fs.existsSync(renderDataPath)) {
+      return { ok: true, script: "scripts/agents/content-generator.mjs", args: ["--run", meta.runId], next_after: "self_retry" };
+    }
+    return { ok: true, script: "scripts/templates/biomarker-gap.mjs", args: ["--data", renderDataPath, "--run", meta.runId] };
   }
 
   return { ok: false, reason: `Sem rota pra meta: ${JSON.stringify(meta)}` };
