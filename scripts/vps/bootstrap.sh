@@ -367,6 +367,32 @@ Persistent=true
 WantedBy=timers.target
 EOF
 
+# Publisher tick — every 5min, publishes state='approved' runs whose slot arrived
+cat > $SERVICES_DIR/longevify-publisher.service <<EOF
+[Unit]
+Description=Longevify Publisher Tick (auto-publish approved runs at slot)
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/publisher-tick.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-publisher.log
+StandardError=append:/var/log/longevify-publisher.log
+EOF
+
+cat > $SERVICES_DIR/longevify-publisher.timer <<EOF
+[Unit]
+Description=Publisher tick every 5min
+
+[Timer]
+OnCalendar=*-*-* *:00,05,10,15,20,25,30,35,40,45,50,55:30 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
 # Approval reminder/stale check (hourly — 24h reminder, 48h stale → blocked)
 cat > $SERVICES_DIR/longevify-approval-reminder.service <<EOF
 [Unit]
@@ -461,7 +487,7 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor brand-drift r2-backup approval-reminder; do
+for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor brand-drift r2-backup approval-reminder publisher; do
   systemctl enable longevify-${timer}.timer
   systemctl start longevify-${timer}.timer
 done
@@ -469,7 +495,7 @@ systemctl enable longevify-telegram-bot.service
 systemctl start longevify-telegram-bot.service
 systemctl enable longevify-dashboard.service
 systemctl restart longevify-dashboard.service
-echo "  ✓ 12 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
+echo "  ✓ 13 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
 
 # ─── 9. Cloudflared install (binary only; auth + tunnel create manual) ────────
 echo ""

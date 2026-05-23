@@ -306,19 +306,98 @@ async function handleCallbackQuery(cq) {
 
     // ─── New approval-v2 actions (canonical flow) ─────────────────────────────
     if (action === "approve_v2") {
-      // Approve = explicit human publish trigger (per CLAUDE.md "Auto-publish NUNCA sem trigger").
-      // Runs sit in `blocked` (awaiting_human_publish) after handlePublishing.
-      // Tapping approve actually fires publish.ts now.
-      await send(`✅ Publicando \`${runId}\`...`, cq.message.message_id);
-      try {
-        const out = execSync(`cd ${ROOT} && npm run publish -- --run ${runId} 2>&1`, { encoding: "utf-8", timeout: 300000 });
-        const mediaId = (out.match(/media_id:\s*(\S+)/) ?? [, "?"])[1];
-        markApprovalDecision(runId, "approve_v2", reviewer);
-        audit({ event: "approve_v2", run_id: runId, reviewer, media_id: mediaId });
-        reply = `✅ *Publicado* por *${reviewer}*\n\`${runId}\`\nmedia_id: \`${mediaId}\``;
-      } catch (e) {
-        audit({ event: "approve_v2_publish_failed", run_id: runId, reviewer, error: e.message?.slice(0, 200) });
-        reply = `❌ publish falhou: ${e.message.slice(0, 400)}`;
+      // Approve = transition to state='approved' + queue for scheduled_for slot.
+      // publisher-tick (every 5min) actually publishes when slot is due.
+      // NEVER publish immediately on tap — explicit founder rule 2026-05-23.
+      if (!fs.existsSync(PIPELINE_DB)) { reply = "❌ pipeline.db missing"; }
+      else {
+        const db = new Database(PIPELINE_DB);
+        try {
+          const row = db.prepare(`SELECT state, scheduled_for FROM runs WHERE run_id = ?`).get(runId);
+          if (!row) { reply = `❌ run \`${runId}\` not in pipeline DB`; }
+          else if (!row.scheduled_for) {
+            // CASE 3 — no slot: prompt with inline keyboard for scheduling decision.
+            db.prepare(`UPDATE runs SET state='approved', updated_at=? WHERE run_id=?`).run(new Date().toISOString(), runId);
+            markApprovalDecision(runId, "approve_v2_no_slot", reviewer);
+            audit({ event: "approve_v2_no_slot", run_id: runId, reviewer, prev_state: row.state });
+            await send(`✅ Aprovado por *${reviewer}*\n\`${runId}\`\n\n⚠️ *Sem slot agendado.* Escolhe quando publicar:`, cq.message.message_id);
+            // Send inline-keyboard-only message for scheduling.
+            try {
+              await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  chat_id: CHAT_ID,
+                  text: `🗓 Quando publica \`${runId}\`?`,
+                  parse_mode: "Markdown",
+                  reply_markup: { inline_keyboard: [[
+                    { text: "▶️ Publicar agora", callback_data: `schedule_v2:now:${runId}` },
+                    { text: "+30min", callback_data: `schedule_v2:30:${runId}` },
+                  ], [
+                    { text: "+1h", callback_data: `schedule_v2:60:${runId}` },
+                    { text: "+3h", callback_data: `schedule_v2:180:${runId}` },
+                    { text: "amanhã 10h BRT", callback_data: `schedule_v2:tomorrow10:${runId}` },
+                  ]] },
+                }),
+              });
+            } catch (e) { console.error("schedule prompt failed:", e.message); }
+            return;  // suppress further reply
+          } else {
+            // Slot exists — compute time-to-slot.
+            const slotMs = new Date(row.scheduled_for).getTime();
+            const now = Date.now();
+            const minsToSlot = Math.round((slotMs - now) / 60000);
+            let effectiveScheduledFor = row.scheduled_for;
+            let msg;
+            if (minsToSlot < 0) {
+              // CASE 2 — slot passed: reschedule to now+5min buffer.
+              const newSlot = new Date(now + 5 * 60 * 1000).toISOString();
+              db.prepare(`UPDATE runs SET state='approved', scheduled_for=?, updated_at=? WHERE run_id=?`)
+                .run(newSlot, new Date().toISOString(), runId);
+              effectiveScheduledFor = newSlot;
+              msg = `✅ Aprovado por *${reviewer}*\n\`${runId}\`\n\n_Slot original ${row.scheduled_for} já passou. Publicando em 5min._`;
+            } else {
+              // CASE 1 — slot in future: simple transition.
+              db.prepare(`UPDATE runs SET state='approved', updated_at=? WHERE run_id=?`).run(new Date().toISOString(), runId);
+              const inHours = minsToSlot / 60;
+              const when = inHours < 1 ? `em ${minsToSlot}min`
+                          : inHours < 24 ? `em ${inHours.toFixed(1)}h`
+                          : `em ${(inHours/24).toFixed(1)} dias`;
+              msg = `✅ Aprovado por *${reviewer}*\n\`${runId}\`\n\n🗓 Publica \`${row.scheduled_for}\` (${when}).`;
+            }
+            markApprovalDecision(runId, "approve_v2", reviewer);
+            audit({ event: "approve_v2", run_id: runId, reviewer, prev_state: row.state, scheduled_for: effectiveScheduledFor, mins_to_slot: minsToSlot });
+            reply = msg;
+          }
+        } finally { db.close(); }
+      }
+    }
+    else if (action === "schedule_v2") {
+      // Callback data: schedule_v2:<choice>:<runId>
+      // Note: parseCommand already split on first colon. Need to re-parse data manually.
+      const parts = data.split(":");
+      const choice = parts[1];
+      const realRunId = parts.slice(2).join(":");  // run IDs may contain colons (defensive)
+      let newSlot;
+      const now = Date.now();
+      if (choice === "now") newSlot = new Date(now + 5 * 60_000).toISOString();
+      else if (choice === "30") newSlot = new Date(now + 30 * 60_000).toISOString();
+      else if (choice === "60") newSlot = new Date(now + 60 * 60_000).toISOString();
+      else if (choice === "180") newSlot = new Date(now + 180 * 60_000).toISOString();
+      else if (choice === "tomorrow10") {
+        const d = new Date();
+        d.setUTCDate(d.getUTCDate() + 1);
+        d.setUTCHours(13, 0, 0, 0);  // 10h BRT = 13h UTC
+        newSlot = d.toISOString();
+      } else { reply = `❓ choice desconhecido: ${choice}`; }
+
+      if (newSlot && fs.existsSync(PIPELINE_DB)) {
+        const db = new Database(PIPELINE_DB);
+        try {
+          db.prepare(`UPDATE runs SET scheduled_for=?, updated_at=? WHERE run_id=?`).run(newSlot, new Date().toISOString(), realRunId);
+        } finally { db.close(); }
+        audit({ event: "schedule_v2", run_id: realRunId, reviewer, choice, new_slot: newSlot });
+        reply = `🗓 \`${realRunId}\` agendado pra \`${newSlot}\` por *${reviewer}*.`;
       }
     }
     else if (action === "edit_v2") {
