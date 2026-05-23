@@ -89,6 +89,8 @@ META_APP_SECRET=
 CLOUDINARY_URL=
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_CHAT_ID=
+# Dashboard auth: comma-separated user:password pairs. Required on VPS.
+DASHBOARD_USERS=
 EOF
   echo "  ✓ .env template criado em $INSTALL_DIR/.env"
   echo "  ⚠ Popula via: scp local-.env root@VPS:$INSTALL_DIR/.env"
@@ -391,6 +393,27 @@ Persistent=true
 WantedBy=timers.target
 EOF
 
+# Dashboard ops server (HTTP daemon — service, not timer)
+cat > $SERVICES_DIR/longevify-dashboard.service <<EOF
+[Unit]
+Description=Longevify Ops Dashboard (HTTP server, port 4242, bind 127.0.0.1)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/dashboard-server.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+Environment=DASHBOARD_BIND=127.0.0.1
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/longevify-dashboard.log
+StandardError=append:/var/log/longevify-dashboard.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 # Telegram bot (long-poll daemon — service, not timer)
 cat > $SERVICES_DIR/longevify-telegram-bot.service <<EOF
 [Unit]
@@ -418,7 +441,26 @@ for timer in daily-brief insights auto-updater cross-version idea-picker pipelin
 done
 systemctl enable longevify-telegram-bot.service
 systemctl start longevify-telegram-bot.service
-echo "  ✓ 11 systemd timers + 1 daemon (longevify-telegram-bot.service) configured + enabled + started"
+systemctl enable longevify-dashboard.service
+systemctl restart longevify-dashboard.service
+echo "  ✓ 11 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
+
+# ─── 9. Cloudflared install (binary only; auth + tunnel create manual) ────────
+echo ""
+echo "[9/9] cloudflared CLI..."
+if ! command -v cloudflared >/dev/null; then
+  ARCH=$(dpkg --print-architecture)
+  curl -fsSL "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-${ARCH}" -o /usr/local/bin/cloudflared
+  chmod +x /usr/local/bin/cloudflared
+  echo "  ✓ cloudflared installed at /usr/local/bin/cloudflared"
+else
+  echo "  ✓ cloudflared already installed: $(cloudflared --version 2>&1 | head -1)"
+fi
+echo ""
+echo "  ⚠ Cloudflared MANUAL setup needed (one-time, founder runs):"
+echo "    1. cloudflared tunnel login           # browser auth"
+echo "    2. cloudflared tunnel create longevify-dashboard"
+echo "    3. bash scripts/vps/cloudflared-setup.sh   # writes config + installs systemd unit"
 
 echo ""
 echo "════════════════════════════════════════════════════"
