@@ -98,9 +98,13 @@ export async function sendDailyBrief(briefMarkdown) {
 export async function sendPhotoAlbum(photoPaths, caption = "") {
   if (!BOT_TOKEN || !CHAT_ID) return { ok: false, reason: "missing_env" };
   if (!photoPaths.length) return { ok: false, reason: "no_photos" };
-  const FormData = (await import("formdata-node")).FormData?.default ?? globalThis.FormData;
-  // Native fetch supports FormData since Node 18+
-  const form = new FormData();
+  // Native FormData (Node 18+); legacy fallback only if globalThis.FormData missing.
+  let FormDataCtor = globalThis.FormData;
+  if (!FormDataCtor) {
+    try { FormDataCtor = (await import("formdata-node")).FormData; }
+    catch { return { ok: false, reason: "no_formdata_available" }; }
+  }
+  const form = new FormDataCtor();
   form.append("chat_id", CHAT_ID);
   const media = photoPaths.slice(0, 10).map((p, i) => ({
     type: "photo",
