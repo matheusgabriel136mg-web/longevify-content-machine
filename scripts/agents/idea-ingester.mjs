@@ -191,11 +191,14 @@ function ensureTable(db) {
       ingested_by_chat_id INTEGER,
       promoted_to_run_id TEXT,
       remix_decision TEXT,
-      remix_at TEXT
+      remix_at TEXT,
+      use_mode TEXT
     );
   `);
   db.exec(`CREATE INDEX IF NOT EXISTS idx_ideas_status ON ideas_backlog(status);`);
   db.exec(`CREATE INDEX IF NOT EXISTS idx_ideas_brand ON ideas_backlog(source_brand);`);
+  // Idempotent ALTER for pre-existing tables (production VPS).
+  try { db.exec(`ALTER TABLE ideas_backlog ADD COLUMN use_mode TEXT;`); } catch { /* already exists */ }
 }
 
 // ─── Main entrypoint ──────────────────────────────────────────────────────────
@@ -277,8 +280,35 @@ export function setIdeaStatus(ideaId, status, opts = {}) {
       fields.push("remix_decision = ?", "remix_at = ?");
       values.push(opts.remix_decision, new Date().toISOString());
     }
+    if (opts.use_mode) { fields.push("use_mode = ?"); values.push(opts.use_mode); }
     values.push(ideaId);
     db.prepare(`UPDATE ideas_backlog SET ${fields.join(", ")} WHERE id = ?`).run(...values);
+  } finally { db.close(); }
+}
+
+// List ideas with status='saved-for-remix' (for /backlog command). Newest first.
+export function listBacklog(limit = 20) {
+  if (!fs.existsSync(PIPELINE_DB)) return [];
+  const db = new Database(PIPELINE_DB, { readonly: true });
+  try {
+    ensureTable(db);
+    return db.prepare(`
+      SELECT id, source_url, source_brand, source_platform, original_caption, persona_suggested, pillar_suggested, ingested_at
+      FROM ideas_backlog
+      WHERE status = 'saved-for-remix'
+      ORDER BY ingested_at DESC
+      LIMIT ?
+    `).all(limit);
+  } finally { db.close(); }
+}
+
+// Count ideas by status — for the response when user saves to backlog.
+export function countBacklog() {
+  if (!fs.existsSync(PIPELINE_DB)) return 0;
+  const db = new Database(PIPELINE_DB, { readonly: true });
+  try {
+    ensureTable(db);
+    return db.prepare(`SELECT COUNT(*) AS n FROM ideas_backlog WHERE status='saved-for-remix'`).get()?.n || 0;
   } finally { db.close(); }
 }
 

@@ -22,7 +22,7 @@ import { fileURLToPath } from "url";
 import { execSync, spawn } from "child_process";
 import Database from "better-sqlite3";
 import { composeStatus } from "./formatTelegram.mjs";
-import { detectUrls, ingestUrl, getIdea, setIdeaStatus } from "./idea-ingester.mjs";
+import { detectUrls, ingestUrl, getIdea, setIdeaStatus, listBacklog, countBacklog } from "./idea-ingester.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -144,17 +144,29 @@ const commands = {
   async help() {
     return `🤖 *Longevify Bot · comandos*
 
+*Pipeline*
 \`/status\` — pipeline state + próximos slots
 \`/brief\` — daily brief agora
 \`/insights\` — ranking IG insights
 \`/queue\` — lista runs por estado
-\`/publish <id>\` — solicita publish (vai pedir /confirm)
+
+*Approval / Publish*
+\`/publish <id>\` — solicita publish (pede /confirm)
 \`/confirm\` — confirma último /publish
 \`/cancel <id>\` — bloqueia run
 \`/run <id>\` — força pipeline.mjs run no id
+
+*Ideas (ingester)*
+\`/backlog\` — lista ideas guardadas no backlog
+\`/reproduce <idea_id>\` — 🚀 reproduzir agora (preserva estrutura)
+\`/concept <idea_id>\` — 💡 só a ideia (Longevify-native do zero)
+\`/discard_idea <idea_id>\` — 🗑️ descartar
+
 \`/help\` — esta mensagem
 
-*Atalho:* qualquer mensagem com "posta <id>" = mesmo que /publish.`;
+*Atalhos:*
+• "posta <id>" = /publish
+• Cola URL no chat → bot detecta + ingere com 4 botões`;
   },
 
   async status() {
@@ -254,6 +266,56 @@ const commands = {
       }
     }
     return runId ? `🚫 nenhum pending pra \`${runId}\`` : "🚫 nenhum publish pending";
+  },
+
+  async backlog() {
+    try {
+      const items = listBacklog(15);
+      if (!items.length) return "📋 Backlog vazio. Cola URL no chat pra adicionar.";
+      let out = `📋 *Backlog · ${items.length} ideias*\n\n`;
+      for (const it of items.slice(0, 10)) {
+        const date = it.ingested_at?.slice(5, 10) || "?";
+        const captionPreview = (it.original_caption || "").slice(0, 70).replace(/\n/g, " ").trim();
+        out += `*#${it.id}* ${date} · ${it.source_brand} · P${it.pillar_suggested} · ${it.persona_suggested}\n`;
+        out += `_${captionPreview}${(it.original_caption?.length || 0) > 70 ? "…" : ""}_\n\n`;
+      }
+      if (items.length > 10) out += `_(+${items.length - 10} mais)_\n\n`;
+      out += `Pra acionar uma: /reproduce <id> ou /concept <id> ou /discard_idea <id>`;
+      return out;
+    } catch (e) { return "❌ backlog falhou: " + e.message.slice(0, 200); }
+  },
+
+  async reproduce(arg) {
+    if (!arg) return "❌ uso: `/reproduce <idea_id>`";
+    const ideaId = parseInt(arg);
+    const idea = getIdea(ideaId);
+    if (!idea) return `❌ idea #${ideaId} não existe`;
+    await send(`🚀 Reproduzindo idea #${ideaId}...`);
+    try {
+      execSync(`node ${path.join(ROOT, "scripts", "agents", "remix-mode.mjs")} --idea ${ideaId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 360000 });
+      setIdeaStatus(ideaId, "remixed", { remix_decision: "remix", use_mode: "remix" });
+      return `✅ Idea #${ideaId} reproduzida. Approval card chegando.`;
+    } catch (e) { return `❌ remix falhou: ${e.message.slice(0, 300)}`; }
+  },
+
+  async concept(arg) {
+    if (!arg) return "❌ uso: `/concept <idea_id>`";
+    const ideaId = parseInt(arg);
+    const idea = getIdea(ideaId);
+    if (!idea) return `❌ idea #${ideaId} não existe`;
+    await send(`💡 Concept-mode idea #${ideaId}...`);
+    try {
+      execSync(`node ${path.join(ROOT, "scripts", "agents", "concept-mode.mjs")} --idea ${ideaId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 360000 });
+      setIdeaStatus(ideaId, "remixed", { remix_decision: "concept", use_mode: "concept-only" });
+      return `✅ Idea #${ideaId} concept-generated. Approval card chegando.`;
+    } catch (e) { return `❌ concept falhou: ${e.message.slice(0, 300)}`; }
+  },
+
+  async discard_idea(arg) {
+    if (!arg) return "❌ uso: `/discard_idea <idea_id>`";
+    const ideaId = parseInt(arg);
+    setIdeaStatus(ideaId, "discarded", { remix_decision: "discard", use_mode: "discarded" });
+    return `🗑️ Idea #${ideaId} descartada.`;
   },
 
   async run(runId) {
@@ -373,18 +435,19 @@ async function handleCallbackQuery(cq) {
         } finally { db.close(); }
       }
     }
-    // ─── Idea ingester callbacks ──────────────────────────────────────────────
+    // ─── Idea ingester callbacks (4 use modes) ───────────────────────────────
     else if (action === "ingest_remix") {
+      // 🚀 Reproduzir agora — preserves original structure, generates Longevify-native draft.
       const ideaId = parseInt(runId);
       const idea = getIdea(ideaId);
       if (!idea) { reply = `❌ idea #${ideaId} não existe`; }
       else {
-        await send(`🎨 Remix da idea #${ideaId} (${idea.source_brand}, persona ${idea.persona_suggested}, P${idea.pillar_suggested})...\n\n_(~$0.05 + ~2min)_`, cq.message.message_id);
+        await send(`🚀 Reproduzindo idea #${ideaId} (${idea.source_brand} · ${idea.persona_suggested} · P${idea.pillar_suggested})...\n\n_~$0.05 + ~2min. Approval card chega quando terminar._`, cq.message.message_id);
         try {
           execSync(`node ${path.join(ROOT, "scripts", "agents", "remix-mode.mjs")} --idea ${ideaId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 360000 });
-          setIdeaStatus(ideaId, "remixed", { remix_decision: "remix" });
+          setIdeaStatus(ideaId, "remixed", { remix_decision: "remix", use_mode: "remix" });
           audit({ event: "ingest_remix_ok", idea_id: ideaId, reviewer });
-          // The remix-mode script triggers telegram-approval --notify itself.
+          // remix-mode dispatches telegram-approval --notify itself.
           return;
         } catch (e) {
           audit({ event: "ingest_remix_failed", idea_id: ideaId, reviewer, error: e.message?.slice(0, 200) });
@@ -392,15 +455,35 @@ async function handleCallbackQuery(cq) {
         }
       }
     }
-    else if (action === "ingest_save") {
+    else if (action === "ingest_concept") {
+      // 💡 Só a ideia — ignores original structure, generates 100% Longevify-native from topic.
       const ideaId = parseInt(runId);
-      setIdeaStatus(ideaId, "saved", { remix_decision: "save" });
-      audit({ event: "ingest_save", idea_id: ideaId, reviewer });
-      reply = `📋 Idea #${ideaId} guardada no backlog. Acessa via dashboard.`;
+      const idea = getIdea(ideaId);
+      if (!idea) { reply = `❌ idea #${ideaId} não existe`; }
+      else {
+        await send(`💡 Só a ideia da #${ideaId} — gerando Longevify-native do zero (~$0.05 + ~2min). Approval card depois.`, cq.message.message_id);
+        try {
+          execSync(`node ${path.join(ROOT, "scripts", "agents", "concept-mode.mjs")} --idea ${ideaId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 360000 });
+          setIdeaStatus(ideaId, "remixed", { remix_decision: "concept", use_mode: "concept-only" });
+          audit({ event: "ingest_concept_ok", idea_id: ideaId, reviewer });
+          return;
+        } catch (e) {
+          audit({ event: "ingest_concept_failed", idea_id: ideaId, reviewer, error: e.message?.slice(0, 200) });
+          reply = `❌ concept falhou: ${e.message.slice(0, 400)}`;
+        }
+      }
+    }
+    else if (action === "ingest_backlog") {
+      // 📋 Backlog — save for later. No generation. Listable via /backlog.
+      const ideaId = parseInt(runId);
+      setIdeaStatus(ideaId, "saved-for-remix", { remix_decision: "save", use_mode: "backlog" });
+      const total = countBacklog();
+      audit({ event: "ingest_backlog", idea_id: ideaId, reviewer, total });
+      reply = `📋 Idea #${ideaId} no backlog. *${total}* ideias aguardando.\n\nVer/acionar: /backlog`;
     }
     else if (action === "ingest_discard") {
       const ideaId = parseInt(runId);
-      setIdeaStatus(ideaId, "discarded", { remix_decision: "discard" });
+      setIdeaStatus(ideaId, "discarded", { remix_decision: "discard", use_mode: "discarded" });
       audit({ event: "ingest_discard", idea_id: ideaId, reviewer });
       reply = `🗑️ Idea #${ideaId} descartada.`;
     }
@@ -526,8 +609,10 @@ async function handleIngestUrls(chatId, urls) {
           parse_mode: "Markdown",
           disable_web_page_preview: true,
           reply_markup: { inline_keyboard: [[
-            { text: "🎨 Remixar", callback_data: `ingest_remix:${r.idea_id}` },
-            { text: "📋 Só guardar", callback_data: `ingest_save:${r.idea_id}` },
+            { text: "🚀 Reproduzir agora", callback_data: `ingest_remix:${r.idea_id}` },
+            { text: "💡 Só a ideia", callback_data: `ingest_concept:${r.idea_id}` },
+          ], [
+            { text: "📋 Backlog", callback_data: `ingest_backlog:${r.idea_id}` },
             { text: "🗑️ Descartar", callback_data: `ingest_discard:${r.idea_id}` },
           ]] },
         }),
