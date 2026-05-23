@@ -37,7 +37,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir, wrapText, svgWrappedCentered } from "./_shared.mjs";
+import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir, wrapText, svgWrappedCentered, svgWrappedLeft } from "./_shared.mjs";
 
 const ICONS_DIR = path.join(ROOT, "assets", "icons");
 const SCALE = 1440 / 1080;
@@ -147,30 +147,63 @@ async function renderSlide2() {
 async function renderCardListSlide({ outName, headLine1, headLine2Italic, sub, items, numbered = false }) {
   let svg = `<rect width="${W}" height="${H}" fill="${P.BG}"/>`;
   svg += headlineXml(headLine1, headLine2Italic, sub, P);
-  const iconSize = 130, iconGap = 44, textBlockW = 460;
+  // FIX 2026-05-23 founder: textBlockW was 460 (43% of canvas) → body overflowed AND
+  // looked cramped. Bump to 720, use 60px side margin = 960 total used = 89% canvas.
+  // Wrap title + body to maxChars constrained by textBlockW.
+  const iconSize = 130, iconGap = 44, textBlockW = 720;
   const groupW = iconSize + iconGap + textBlockW;
-  const groupX = (W - groupW) / 2;
+  const groupX = (W - groupW) / 2;     // ≈ 93px each side
   const textX = groupX + iconSize + iconGap;
-  const cardStartY = 330, cardH = 170, cardGap = 22;
+  // Approx chars per line at given font-size:
+  //   fs 30: ~17px/char → 720/17 ≈ 42 chars (title)
+  //   fs 21: ~12px/char → 720/12 ≈ 60 chars (body)
+  const TITLE_MAX_CHARS = 38;
+  const BODY_MAX_CHARS = 56;
+
+  const cardGap = 22;
+  // Card height now adapts per item based on wrapped line count.
   const composites = [];
+  let cursorY = 330;
+  const cardPositions = [];
+
   items.forEach((it, i) => {
-    const y = cardStartY + i * (cardH + cardGap);
-    if (i > 0) svg += `<line x1="${groupX}" y1="${y - cardGap/2}" x2="${groupX + groupW}" y2="${y - cardGap/2}" stroke="${P.WHITE}" stroke-width="0.5" opacity="0.2"/>`;
     const title = numbered ? `${it.n || (i+1).toString().padStart(2,"0")}  ·  ${it.t || it.title}` : (it.title || it.t);
-    svg += `<text x="${textX}" y="${y + 60}" font-family="Inter, sans-serif" font-size="30" font-weight="500" fill="${P.WHITE}" letter-spacing="-0.5">${esc(title)}</text>`;
-    const bodyLines = (it.body || it.b || "").split("\n");
-    bodyLines.forEach((ln, k) => {
-      svg += `<text x="${textX}" y="${y + 102 + k * 30}" font-family="Inter, sans-serif" font-size="21" font-weight="400" fill="${P.WHITE_SOFT}">${esc(ln)}</text>`;
-    });
+    const bodyText = (it.body || it.b || "").replace(/\n+/g, " ").trim();
+    const titleLines = wrapText(title, TITLE_MAX_CHARS);
+    const bodyLines = wrapText(bodyText, BODY_MAX_CHARS);
+    // Card height: title block + gap + body block + bottom pad.
+    const titleH = titleLines.length * 38;
+    const bodyH = bodyLines.length * 28;
+    const cardH = Math.max(170, titleH + 10 + bodyH + 30);
+
+    const y = cursorY;
+    if (i > 0) svg += `<line x1="${groupX}" y1="${y - cardGap/2}" x2="${groupX + groupW}" y2="${y - cardGap/2}" stroke="${P.WHITE}" stroke-width="0.5" opacity="0.2"/>`;
+
+    // Title (left-aligned, wrap-aware).
+    let titleY = y + 50;
+    for (const ln of titleLines) {
+      svg += `<text x="${textX}" y="${titleY}" font-family="Inter, sans-serif" font-size="30" font-weight="500" fill="${P.WHITE}" letter-spacing="-0.5">${esc(ln)}</text>`;
+      titleY += 38;
+    }
+    // Body lines.
+    let bodyY = titleY + 4;
+    for (const ln of bodyLines) {
+      svg += `<text x="${textX}" y="${bodyY}" font-family="Inter, sans-serif" font-size="21" font-weight="400" fill="${P.WHITE_SOFT}">${esc(ln)}</text>`;
+      bodyY += 28;
+    }
+
+    cardPositions.push({ y, cardH });
+    cursorY += cardH + cardGap;
   });
   const base = await sharp(Buffer.from(svgWrap(svg))).png().toBuffer();
   for (let i = 0; i < items.length; i++) {
-    const y = cardStartY + i * (cardH + cardGap);
+    const pos = cardPositions[i];
+    if (!pos) continue;
     const iconName = items[i].icon || "icon-painel.png";
     const iconPath = path.join(ICONS_DIR, iconName);
     if (!fs.existsSync(iconPath)) continue;
     const iconBuf = await makeCircleIcon(iconPath, Math.round(iconSize * SCALE));
-    composites.push({ input: iconBuf, left: Math.round(groupX * SCALE), top: Math.round((y + (cardH - iconSize) / 2) * SCALE) });
+    composites.push({ input: iconBuf, left: Math.round(groupX * SCALE), top: Math.round((pos.y + (pos.cardH - iconSize) / 2) * SCALE) });
   }
   const withIcons = await sharp(base).composite(composites).png().toBuffer();
   const withLogo = await compositeLogo(withIcons, { paletteKey });
@@ -182,27 +215,50 @@ async function renderSlide5XMark() {
   let svg = `<rect width="${W}" height="${H}" fill="${P.BG}"/>`;
   svg += headlineXml(data.s5_headline_1, data.s5_headline_2_italic, data.s5_sub, P);
   const items = data.s5_items || [];
-  const circleD = 130, xInnerSize = 64, iconGap = 44, textBlockW = 530;
+  // FIX 2026-05-23 same as renderCardListSlide: bump textBlockW 530 → 720,
+  // wrap title + body. Card height adapts to wrapped line count.
+  const circleD = 130, xInnerSize = 64, iconGap = 44, textBlockW = 720;
   const groupW = circleD + iconGap + textBlockW;
   const groupX = (W - groupW) / 2;
   const circleX = groupX;
   const textX = groupX + circleD + iconGap;
-  const startY = 330, itemH = 195, gap = 28;
+  const TITLE_MAX_CHARS = 36;
+  const BODY_MAX_CHARS = 56;
+  const gap = 28;
+  let cursorY = 330;
+
   items.forEach((it, i) => {
-    const y = startY + i * (itemH + gap);
+    const titleLines = wrapText(it.title || "", TITLE_MAX_CHARS);
+    const bodyLines = wrapText((it.body || "").replace(/\n+/g, " "), BODY_MAX_CHARS);
+    const titleH = titleLines.length * 38;
+    const bodyH = bodyLines.length * 28;
+    const cardH = Math.max(circleD + 20, titleH + 10 + bodyH + 30);
+
+    const y = cursorY;
     const cx = circleX + circleD/2;
-    const cy = y + circleD/2;
+    const cy = y + cardH / 2;
     svg += `<circle cx="${cx}" cy="${cy}" r="${circleD/2}" fill="none" stroke="${P.WHITE}" stroke-width="1.5" opacity="0.85"/>`;
     const half = xInnerSize/2;
     svg += `<line x1="${cx - half}" y1="${cy - half}" x2="${cx + half}" y2="${cy + half}" stroke="${P.WHITE}" stroke-width="4" stroke-linecap="round"/>`;
     svg += `<line x1="${cx + half}" y1="${cy - half}" x2="${cx - half}" y2="${cy + half}" stroke="${P.WHITE}" stroke-width="4" stroke-linecap="round"/>`;
-    const titleY = cy - 12;
-    svg += `<text x="${textX}" y="${titleY}" font-family="Inter, sans-serif" font-size="32" font-weight="500" fill="${P.WHITE}" letter-spacing="-0.5">${esc(it.title)}</text>`;
-    (it.body || "").split("\n").forEach((ln, k) => {
-      svg += `<text x="${textX}" y="${titleY + 36 + k * 30}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${P.WHITE_SOFT}">${esc(ln)}</text>`;
-    });
+
+    // Title (left-aligned, wrap-aware), vertically centered relative to card.
+    const titleStartY = cy - (titleH + bodyH + 10) / 2 + 32;  // visually balanced
+    let ty = titleStartY;
+    for (const ln of titleLines) {
+      svg += `<text x="${textX}" y="${ty}" font-family="Inter, sans-serif" font-size="32" font-weight="500" fill="${P.WHITE}" letter-spacing="-0.5">${esc(ln)}</text>`;
+      ty += 38;
+    }
+    // Body
+    let by = ty + 4;
+    for (const ln of bodyLines) {
+      svg += `<text x="${textX}" y="${by}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${P.WHITE_SOFT}">${esc(ln)}</text>`;
+      by += 28;
+    }
+
+    cursorY += cardH + gap;
     if (i < items.length - 1) {
-      const dy = y + itemH + gap/2;
+      const dy = cursorY - gap/2;
       svg += `<line x1="${groupX}" y1="${dy}" x2="${groupX + groupW}" y2="${dy}" stroke="${P.WHITE}" stroke-width="0.5" opacity="0.2"/>`;
     }
   });

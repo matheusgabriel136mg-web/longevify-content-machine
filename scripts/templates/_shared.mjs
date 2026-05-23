@@ -54,6 +54,25 @@ export function wrapText(text, maxChars) {
   return lines;
 }
 
+// Left-anchored wrap-aware emitter (for card-list layouts where x is fixed).
+// Use when text-anchor defaults to "start". Returns { svg, endY }.
+export function svgWrappedLeft(text, opts) {
+  if (!text) return { svg: "", endY: opts.startY };
+  const {
+    startX, startY, fontSize, family = "Inter, sans-serif", weight = "400", fill,
+    italic = false, letterSpacing = 0, maxChars, lineHeight,
+  } = opts;
+  const lh = lineHeight || Math.round(fontSize * 1.3);
+  const lines = wrapText(text, maxChars);
+  const escape = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  let out = "";
+  for (let i = 0; i < lines.length; i++) {
+    const yy = startY + i * lh;
+    out += `<text x="${startX}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''}${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''}>${escape(lines[i])}</text>`;
+  }
+  return { svg: out, endY: startY + (lines.length - 1) * lh };
+}
+
 // Shared SVG text emitter — center-anchored, wrap-aware. Returns { svg, endY }.
 // Canvas is 1080px wide (viewBox); safe margin ~60px each side → usable ~960px.
 // Default maxChars values: fs 76 → 14 chars · fs 32 → 28 · fs 22 → 50 · fs 20 → 50 · fs 16 → 70.
