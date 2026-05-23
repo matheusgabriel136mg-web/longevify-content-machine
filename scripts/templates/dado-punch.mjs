@@ -27,7 +27,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir } from "./_shared.mjs";
+import { W, H, OUT_W, OUT_H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir } from "./_shared.mjs";
 import { higgsfieldGenerate } from "../agents/higgsfield-retry.mjs";
 import { validateCover } from "../agents/cover-validator.mjs";
 
@@ -90,7 +90,8 @@ async function ensureLifestyleBg() {
 }
 
 const bgPath = await ensureLifestyleBg();
-const bgBuf = await sharp(bgPath).resize(W, H, { fit: "cover", position: "center" }).toBuffer();
+// Resize bg to OUT dimensions (1440×1800) — same scale as the SVG overlay produced by svgWrap.
+const bgBuf = await sharp(bgPath).resize(OUT_W, OUT_H, { fit: "cover", position: "center" }).toBuffer();
 
 // ─── SVG overlay: gradient + text + number ───────────────────────────────────
 let svg = `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
