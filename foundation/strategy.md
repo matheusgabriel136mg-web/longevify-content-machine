@@ -1,66 +1,109 @@
 # Strategy — Longevify
 
-> Canonical source: `../LONGEVIFY_BRAND.md` (essência, produto, posicionamento, concorrentes). Este arquivo adiciona camada operacional para o pipeline.
+> **🔴 SOURCE OF TRUTH:** `/Users/mathe/Documents/Longev/Claude Code/CEO/contexto/brand-truth.md`
+> Em conflito, brand-truth.md vence. Reescrito 2026-05-17 v2.0 multi-persona — substitui versão "atleta sério 18-60" anterior.
 
 ## Posicionamento (1 frase)
-A inteligência de saúde para quem treina sério. 100+ biomarcadores + dados de wearable + AI on-demand que responde a sua pergunta às 6h da manhã antes do treino. Premium, brasileira, científica, integrada.
+> **A inteligência integrada da sua saúde. Seus exames, seu wearable e seu acompanhamento médico finalmente conversando — para quem já cuida, mas sente que os dados estão soltos.**
 
-Onde Superpower/Function são americanas e neutras, Longevify é brasileira e atlética. Onde Mito é técnica/fria, Longevify é integrada e responsiva. Onde Whoop/Oura entregam dado isolado, Longevify amarra wearable + sangue + sintoma + ação.
+Não é app de exame. Não é wearable. Não é coaching. É o **integrador AI** que cruza exames + wearable + sintoma + ação em UMA leitura, com agente que responde sob demanda.
 
-## Diferenciador-chave: AI on-demand
-Não é só painel de exame. É **agente que conversa com você sobre os seus dados em tempo real.** Você pergunta "treino hoje ou descanso?" — ele cruza HRV de ontem + sono + cortisol da última coleta + ferritina + carga acumulada → resposta específica em segundos. Substitui consulta-de-3-semanas-pra-pergunta-de-30-segundos.
+## Hero ICP (UM só — locked 2026-05-17)
 
-## ICP (mantra antes de cada draft)
-**Qualquer atleta / esportista, 18-60.** Modalidade não importa — corredor, força, triatlo, crossfit/hyrox, yoga, ciclismo, surf, futebol amador, escalada, dança, natação, lutas. Amador casual ou competitivo profissional. Urbano, mas geograficamente flexível. ICP é amplo de propósito: quem **JÁ se move** e quer ser mais inteligente sobre os próprios dados.
+**Profissional brasileiro 30-50 anos, classe A/B:**
+- Renda familiar R$10k+/mês
+- Gasta R$500+/mês em saúde fora do plano (suplemento, nutri, personal, exames extras)
+- Tem dados soltos (wearable + exames + sintomas) mas SEM integração
+- Frustrado com fragmentação cara OU com falta de inteligência interpretativa nos dados
 
-**Dor central (dupla camada):**
+**Quem NÃO é ICP:**
+- Sedentário sem hábito de cuidado
+- Comprador de pílula mágica
+- Buscador de "transformação corporal" estética
+- Quem ainda não paga por nada além do plano
 
-1. **Dados desconectados:** "Tenho relógio, tenho app, tenho exame anual, mas os dados não conversam. Vejo cortisol num lugar, sono noutro, treino noutro. Ninguém amarra e me diz o que **eu** preciso fazer essa semana." Quer interpretação **on-demand com AI** — não esperar consulta de 3 semanas pra perguntar se 84% de HRV é normal pra ele.
+## 4 Personas de copy (mesmo produto, hooks diferentes)
 
-2. **Protocolos fragmentados:** "Pra ter um protocolo personalizado de treino + alimentação + sono + suplementação + recuperação eu teria que ir em 10-15 profissionais (personal, nutri, fisio, médico do esporte, endócrino, psiquiatra do sono, suplementologist, etc.) — cada um com sua agenda, custo, recomendação isolada. Ninguém olha o quadro inteiro." Quer **uma plataforma** que cruze tudo e dê UM protocolo.
+| Persona | Demografia | Hook | Voice mode |
+|---|---|---|---|
+| **Maria** | Mulher 35-50, advogada/médica/exec, R$25k+/mês | Frustração com fragmentação cara | Frustração validada (Aesop empático) |
+| **Julia** | Carioca casual fit 30-45, mora bem, treina casual | "Da sensação ao dado" | Persona-bio warm narrativo (Equinox lifestyle) |
+| **Pedro/Carlos** | Atleta amador 30-45, Whoop/Garmin, treina sério | Integração + AI on-demand | Athletic premium (Mito × Equinox) |
+| **Ana** | Executiva premium 40-55, R$50k+/mês, Equinox+Apple+Blue Bottle | Premium identity + cutting-edge | Biomarcador deep-dive sofisticado |
 
-**Quem não é ICP:** sedentário casual sem hábito, comprador de pílula mágica, quem busca "transformação corporal" estética. Buscamos quem JÁ se move.
+**Editor rule:** cada peça serve hero ICP via UMA das 4 personas reconhecidas. Peça que não cabe em nenhuma = REJECT.
 
-**Consome (ilustrativo, não exaustivo):** Strava, Whoop, Garmin, Oura, Nike Training, Huberman, Atlas, Outside Magazine. Compra Lululemon, On Running, Hoka, Athletic Greens (cético mas tentou). + qualquer marca/app/podcast relacionado a performance e wellness sério.
+## Diferenciador-chave: AI on-demand integradora
 
-## Pilares (resumo — ver `pillars.md` para detalhes)
-1. **Identidade & Manifesto** — brand statements, launches, hero pieces (manifesto-led + aesthetic-led)
-2. **O Biomarcador Que Ninguém Te Mostrou** — preditivos vs obrigatórios
-3. **A Obsolescência do Modelo Doctor-Dependent** — AI substitui médico-de-rotina
-4. **Da Sensação ao Dado (com AI on-demand)** — pilar-âncora
-5. **O Integrador** — Longevify substitui 15 profissionais
-6. **Cultura de Performance** — lifestyle, brand-adjacent, paisagens
+Não é "mais um painel". É **agente conversacional sobre os SEUS dados em tempo real.**
 
-## Mix mensal (12 posts)
-- 2 Pilar 1 · 3 Pilar 2 · 2 Pilar 3 · 3 Pilar 4 · 1 Pilar 5 · 1 Pilar 6
+Você pergunta "treino hoje ou descanso?" — ele cruza HRV de ontem + sono + cortisol da última coleta + ferritina + carga acumulada → resposta específica em segundos. Substitui consulta-de-3-semanas-pra-pergunta-de-30-segundos.
 
-## Source watchlist (sinal externo)
-Ver `source-watchlist.md` para lista completa monitorada via Apify.
+## Concorrente real
 
-## Northstar metrics
+NÃO é uma marca. É **a fragmentação cara atual**:
+> plano + nutricionista + nutrólogo + ginecologista/uro + médico particular + wearable burro + suplemento aleatório + nutri esportivo + personal
 
-**Hierarquia de sinal (orgânico):**
-1. **Shares / Sends** — sinal mais forte. Viewer achou útil o suficiente pra recomendar a alguém. Validação social + utilidade.
-2. **Bookmarks / Saves** — intenção real de retornar. Próximo da decisão de uso.
-3. **Comments / DMs** — engajamento ativo, conversa, dor articulada.
-4. **Likes** — sinal mais fraco, passivo. Track mas não otimize.
+Soma: R$ 1.500-4.000/mês entregando frustração.
+Longevify: R$ 130/mês integrando tudo (tier-âncora Standard).
+
+## Inimigo de marca
+
+**Medicina reativa + fragmentação cara + dados sem inteligência.**
+
+NUNCA atacar médicos como categoria (CFM Resolução 2.336/2023). Atacar SISTEMA, nunca PROFISSIONAL.
+
+## Pricing oficial (3 tiers, lançam JUNTOS)
+
+- **Lite:** R$ 89-99/mês — entry
+- **Standard:** R$ 129-149/mês ⭐ tier-âncora
+- **Pro:** R$ 299-349/mês — premium
+
+**Princípio sagrado:** Longevify NUNCA paga COGS de exame. Sempre via plano (TUSS) ou add-on com markup 120%.
+
+## Sales motion (Cofounder Guide)
+
+- **Atual:** founder-led consultative (pre-launch)
+- **Próximo:** low-touch outbound + product-led inbound (waitlist → launch)
+- **Final:** product-led inbound dominante (pós-escala)
+
+Implicação operacional: pricing self-serve no checkout, sem demo de vendas obrigatória.
+
+## Pilares (resumo — detalhe em `pillars.md`)
+
+| Pilar | Mira persona | Mix mensal /12 |
+|---|---|---|
+| P1 — Identidade & Manifesto | Todas | 2 |
+| P2 — O Biomarcador Que Ninguém Te Mostrou | Maria, Pedro, Ana | 3 ⭐ |
+| P3 — A Falha do Modelo Tradicional | Maria, Ana | 2 |
+| P4 — Da Sensação ao Dado (AI on-demand) | Julia, Pedro | 3 ⭐ diferenciador-chave |
+| P5 — O Integrador | Maria, Ana, Julia | 1 |
+| P6 — Cultura de Performance | Pedro, Julia, Ana | 1 |
+
+**ATENÇÃO:** P4 estava em 0% da produção dos últimos 30 dias. Precisa crescer pra 25% — é o diferenciador-chave do produto.
+
+## Northstar metrics (orgânico)
+
+Hierarquia de sinal:
+1. **Shares / Sends** — sinal mais forte
+2. **Bookmarks / Saves** — intenção real de retornar
+3. **Comments / DMs** — engajamento ativo
+4. **Likes** — sinal fraco
 
 **vsMedian:** vs mediana do nosso próprio histórico — >1.0 neutro · >2x winner · >5x banger.
 
-**Métricas por contexto:**
-- **Orgânico:** prioridade shares → bookmarks → comments
-- **Ads (paid):** prioridade CTR (click-through rate) → CPC → conversion (cadastro / trial / purchase)
-- **Brand pieces (Pilar 1.2 aesthetic):** saves + shares > tudo (mood pieces não comentam, são compartilhados)
-- **Manifesto (Pilar 1.1):** comments + shares (viewer reage à tese)
-- **Biomarcador/Integrador (Pilar 2, 5):** saves + DMs (alta intenção, viewer salva pra estudar / pergunta diretamente)
-- **Sensação→Dado AI (Pilar 4):** clicks pro link bio + saves (alta intenção de testar produto)
-
-## Anti-objetivos
-- Crescimento de seguidores **sem qualificação** (não queremos audiência fake/genérica)
-- Engajamento via outrage / fear / urgency
-- Performance que vem de hook clickbait que não cumpre
-
 ## Cadence
-- **Instagram (único canal por enquanto):** 3 posts/semana = ~12/mês
-  - 1 carrossel + 1 reel + 1 story-set por semana (combinação flex conforme pilar)
-- LinkedIn / X / outros: **adiados pra futuro** (Phase 7+)
+
+**Instagram (único canal hoje):** 4 posts/semana = 16/mês orgânicos.
+- Dom 10h — Premium/Manifesto
+- Ter 19h — Dado punch
+- Qui 19h — Deep-dive técnico
+- Sex 19h — Persona-bio fixo
+- Sáb stories
+
+**A/B variations (Cliff-style, escala depois):** pode ser muito mais (20-30/dia paid test) — desde que editor-agent + brand sync estejam estáveis.
+
+## Histórico de mudanças
+
+- **2026-05-17:** Reescrito v2.0 multi-persona. Substitui "atleta sério 18-60". Origem: `CEO/decisoes/2026-05-17-icp-unificado-multi-persona.md`
+- **Anterior:** versão atlética 18-60 (foundation original) — DESCONTINUADA.

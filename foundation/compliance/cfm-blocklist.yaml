@@ -1,0 +1,216 @@
+# CFM/Procon Compliance Blocklist — Longevify
+# v1.0 — 2026-05-22 (D0)
+# Reference: CFM Resolução 2.336/2023 + CDC (Procon) marketing saúde
+# Source-of-truth: este arquivo
+# Editor-agent: deterministic scan PRIMEIRO. Se hit, REJECT sem invocar LLM.
+#               Patterns ambíguos invocam LLM second-pass.
+
+version: "1.0"
+updated: "2026-05-22"
+reference_docs:
+  - "CFM Res. 2.336/2023 (publicidade médica)"
+  - "CDC Art. 37 (propaganda enganosa em saúde)"
+  - "ANVISA RDC 21/2021 (suplementos)"
+
+# ─── ZERO-TOLERANCE WORDS (auto-reject sem LLM) ───────────────────────────────
+zero_tolerance:
+  - word: "cura"
+    severity: grave
+    category: claim-medico
+    rationale: "Longevify NÃO trata/cura. Promete CLAREZA e ANTECIPAÇÃO."
+    permitted_context_exceptions: []
+
+  - word: "curar"
+    severity: grave
+    category: claim-medico
+
+  - word: "curado"
+    severity: grave
+    category: claim-medico
+
+  - word: "curada"
+    severity: grave
+    category: claim-medico
+
+  - word: "tratamento"
+    severity: grave
+    category: claim-medico
+    rationale: "Longevify NÃO faz tratamento. Faz LEITURA + PROTOCOLO de longevidade."
+    permitted_context_exceptions:
+      - "tratamento de dados"
+      - "tratamento de imagem"
+
+  - word: "tratar"
+    severity: grave
+    category: claim-medico
+    permitted_context_exceptions:
+      - "tratar dados"
+      - "tratar imagem"
+
+  - word: "trato"
+    severity: medio
+    category: ambiguo
+    note: "trato intestinal = OK · 'eu trato sua doença' = NOT OK → LLM check"
+    requires_llm_check: true
+
+  - word: "garante"
+    severity: grave
+    category: promessa
+    rationale: "Saúde nunca tem garantia. Promete LEITURA, não resultado."
+
+  - word: "garantia"
+    severity: grave
+    category: promessa
+    permitted_context_exceptions:
+      - "garantia de privacidade"
+      - "garantia LGPD"
+
+  - word: "garantido"
+    severity: grave
+    category: promessa
+
+  - word: "reverte"
+    severity: grave
+    category: claim-medico
+    rationale: "Não 'revertemos' nada. Não somos Bryan Johnson."
+
+  - word: "reverter"
+    severity: grave
+    category: claim-medico
+
+  - word: "diagnóstico"
+    severity: grave
+    category: ato-medico
+    rationale: "Diagnóstico é ATO MÉDICO privativo (CFM). Longevify INTERPRETA dados, não diagnostica."
+    permitted_context_exceptions:
+      - "diagnóstico do sistema"
+      - "diagnóstico técnico"
+
+  - word: "diagnosticar"
+    severity: grave
+    category: ato-medico
+
+  - word: "prescrever"
+    severity: grave
+    category: ato-medico
+    rationale: "Prescrição é ATO MÉDICO privativo."
+
+  - word: "prescrição"
+    severity: grave
+    category: ato-medico
+
+  - word: "prescrito"
+    severity: grave
+    category: ato-medico
+
+# ─── AMBIGUOUS PATTERNS (LLM second-pass required) ────────────────────────────
+ambiguous_patterns:
+  - pattern: "ajuda a (curar|tratar|reverter|prevenir)"
+    severity: grave
+    category: claim-indireto
+    description: "'ajuda a [verbo-médico]' = claim médico disfarçado"
+    requires_llm_check: false   # já claro, deny
+
+  - pattern: "(elimina|combate|destrói) (a |o )?[a-zà-ú]+(ção|ite|emia|ose)"
+    severity: grave
+    category: claim-tratamento
+    description: "'elimina/combate inflamação/anemia/etc' = claim de tratamento"
+    requires_llm_check: true
+
+  - pattern: "(aprovado|certificado|recomendado) pel[oa] (FDA|ANVISA|CFM|OMS)"
+    severity: grave
+    category: false-authority
+    description: "Cita autoridade sem citar fonte = potencial false-authority"
+    requires_llm_check: true
+
+  - pattern: "(comprovado|cientificamente comprovado) (que|por)"
+    severity: medio
+    category: claim-ciencia
+    description: "'comprovado que X' precisa ter citação. LLM verifica se tem study cited."
+    requires_llm_check: true
+
+  - pattern: "(milagre|milagroso|miraculoso)"
+    severity: grave
+    category: hype
+    requires_llm_check: false
+
+  - pattern: "(perde|emagrece|queima) \\d+ ?(kg|kilos|quilos)"
+    severity: grave
+    category: claim-emagrecimento
+    description: "Claim quantificado de perda de peso = Procon issue"
+    requires_llm_check: false
+
+  - pattern: "(antes e depois|before.{0,3}after)"
+    severity: medio
+    category: claim-resultado
+    description: "Before/after pode ser claim médico se quantifica saúde"
+    requires_llm_check: true
+
+# ─── PERMITTED VOCABULARY (whitelist — usar livremente) ───────────────────────
+permitted_vocabulary:
+  educational:
+    - "leitura"
+    - "interpretação"
+    - "análise"
+    - "painel"
+    - "biomarcadores"
+    - "marcadores"
+    - "ferramenta"
+    - "plataforma"
+    - "sistema"
+    - "agente"
+    - "AI"
+    - "protocolo personalizado"
+    - "plano personalizado"
+    - "antecipação"
+    - "mapa"
+    - "base de referência"
+    - "linha de base"
+    - "faixa funcional"
+    - "faixa populacional"
+
+  product:
+    - "Longevify"
+    - "painel completo"
+    - "painel inteligente"
+    - "tier Standard"
+    - "tier Pro"
+    - "tier Lite"
+
+# ─── DISCLAIMER REQUIRED IN CERTAIN CONTEXTS ──────────────────────────────────
+disclaimer_required:
+  - context: "qualquer post que mencione biomarcador específico com faixa numérica"
+    disclaimer: "Valores referência. Interpretação clínica requer profissional habilitado."
+    placement: "caption ou último slide"
+    severity_if_missing: medio
+
+  - context: "post persona-bio (Conheça a X)"
+    disclaimer: "Caso ilustrativo. Resultados individuais variam."
+    placement: "caption"
+    severity_if_missing: leve
+
+# ─── SCORING IMPACT ───────────────────────────────────────────────────────────
+scoring:
+  zero_tolerance_hit: reject       # qualquer 1 → REJECT sem LLM
+  ambiguous_grave_hit: reject_or_llm  # LLM decide se contexto salva
+  ambiguous_medio_hit: -1.0 + llm_check
+  ambiguous_leve_hit: -0.5
+  missing_disclaimer_medio: -1.0
+  missing_disclaimer_leve: -0.5
+
+# ─── ESCALATION FLAGS ─────────────────────────────────────────────────────────
+escalation_flags:
+  - flag: cfm_risk_detected
+    trigger: "zero_tolerance hit OR 2+ ambiguous_grave hits"
+    action: "ESCALATE pra founder (push notification Telegram), do NOT auto-publish"
+
+  - flag: regulatory_review_needed
+    trigger: "disclaimer missing + biomarker numeric value present"
+    action: "Add disclaimer suggestion, revise, do NOT reject"
+
+# ─── CHANGELOG ────────────────────────────────────────────────────────────────
+changelog:
+  - date: "2026-05-22"
+    version: "1.0"
+    change: "Inicial — extraído de brand-truth.md + CFM 2.336/2023 + experience"
+    by: "D0 setup"

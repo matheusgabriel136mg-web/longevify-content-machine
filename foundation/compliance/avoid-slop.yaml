@@ -1,0 +1,333 @@
+# Avoid-Slop Deterministic Rules — Longevify
+# Source-of-truth: foundation/master-avoid-slop.md (human-readable)
+# This file: machine-readable rules for editor-agent deterministic scan
+# v1.0 — 2026-05-22 (D0)
+# Severity: grave (auto-reject) | medio (-1.0) | leve (-0.5)
+
+version: "1.0"
+updated: "2026-05-22"
+
+# ─── 1. Banned phrases (exact match, case-insensitive) ────────────────────────
+banned_phrases:
+  - phrase: "no mundo agitado de hoje"
+    severity: medio
+    category: ai-tell
+  - phrase: "em um mundo cada vez mais"
+    severity: medio
+    category: ai-tell
+  - phrase: "no atual cenário"
+    severity: medio
+    category: ai-tell
+  - phrase: "na era da informação"
+    severity: medio
+    category: ai-tell
+  - phrase: "é inegável que"
+    severity: medio
+    category: ai-tell
+  - phrase: "vamos descobrir juntos"
+    severity: medio
+    category: ai-tell
+  - phrase: "embarque nessa jornada"
+    severity: medio
+    category: ai-tell
+  - phrase: "bem-vindo ao"
+    severity: medio
+    category: ai-tell
+  - phrase: "bem-vinda ao"
+    severity: medio
+    category: ai-tell
+  - phrase: "você já parou para pensar"
+    severity: medio
+    category: hook-proibido
+  - phrase: "quantas vezes você"
+    severity: medio
+    category: hook-proibido
+
+  # Self-help / coaching
+  - phrase: "transforme sua vida"
+    severity: grave
+    category: self-help
+  - phrase: "desbloqueie sua melhor versão"
+    severity: grave
+    category: self-help
+  - phrase: "cuide-se"
+    severity: medio
+    category: self-help
+  - phrase: "ame-se"
+    severity: medio
+    category: self-help
+  - phrase: "você merece"
+    severity: medio
+    category: self-help
+  - phrase: "empoderar"
+    severity: medio
+    category: self-help
+  - phrase: "jornada de autoconhecimento"
+    severity: grave
+    category: self-help
+  - phrase: "melhor versão"
+    severity: medio
+    category: self-help
+  - phrase: "evoluir como pessoa"
+    severity: grave
+    category: self-help
+
+  # Startup-speak
+  - phrase: "game-changer"
+    severity: medio
+    category: startup-speak
+  - phrase: "game changer"
+    severity: medio
+    category: startup-speak
+
+  # Fear / urgency
+  - phrase: "última chance"
+    severity: grave
+    category: fear-urgency
+  - phrase: "garanta já"
+    severity: grave
+    category: fear-urgency
+  - phrase: "ofertas exclusivas"
+    severity: grave
+    category: fear-urgency
+  - phrase: "por tempo limitado"
+    severity: grave
+    category: fear-urgency
+  - phrase: "compre agora"
+    severity: grave
+    category: fear-urgency
+  - phrase: "não perca essa oportunidade"
+    severity: grave
+    category: fear-urgency
+  - phrase: "não perca"
+    severity: medio
+    category: fear-urgency
+
+  # Bryan-Johnson style
+  - phrase: "no shortcuts"
+    severity: grave
+    category: bryan-style
+  - phrase: "no excuses"
+    severity: grave
+    category: bryan-style
+  - phrase: "grind"
+    severity: medio
+    category: bryan-style
+  - phrase: "hustle"
+    severity: medio
+    category: bryan-style
+
+  # Health platitudes
+  - phrase: "a saúde é o maior tesouro"
+    severity: grave
+    category: platitude
+  - phrase: "mens sana in corpore sano"
+    severity: grave
+    category: platitude
+  - phrase: "prevenir é melhor que remediar"
+    severity: grave
+    category: platitude
+  - phrase: "movimento é vida"
+    severity: grave
+    category: platitude
+
+  # Hooks proibidos
+  - phrase: "o segredo que ninguém te contou"
+    severity: grave
+    category: hook-proibido
+  - phrase: "pov:"
+    severity: medio
+    category: hook-proibido
+  - phrase: "olha isso:"
+    severity: medio
+    category: hook-proibido
+  - phrase: "atenção:"
+    severity: medio
+    category: hook-proibido
+  - phrase: "spoiler:"
+    severity: medio
+    category: hook-proibido
+  - phrase: "real talk"
+    severity: medio
+    category: hook-proibido
+  - phrase: "plot twist"
+    severity: medio
+    category: hook-proibido
+
+  # Fechamentos proibidos
+  - phrase: "para saber mais, acesse"
+    severity: medio
+    category: fechamento-banido
+  - phrase: "estamos juntos nessa jornada"
+    severity: grave
+    category: fechamento-banido
+  - phrase: "conte com a gente"
+    severity: medio
+    category: fechamento-banido
+  - phrase: "bora?"
+    severity: medio
+    category: fechamento-banido
+  - phrase: "vamos lá?"
+    severity: medio
+    category: fechamento-banido
+  - phrase: "junte-se à revolução"
+    severity: grave
+    category: fechamento-banido
+  - phrase: "seja parte dessa transformação"
+    severity: grave
+    category: fechamento-banido
+  - phrase: "salve este post"
+    severity: medio
+    category: manipulation
+  - phrase: "comente aí embaixo"
+    severity: medio
+    category: manipulation
+  - phrase: "link na bio"
+    severity: medio
+    category: cta-cliche
+
+# ─── 2. Banned tokens (single words, case-insensitive, isolated word match) ───
+banned_tokens:
+  - token: "transformação"
+    severity: medio
+    category: vocabulary
+  - token: "empoderar"
+    severity: medio
+    category: vocabulary
+  - token: "jornada"
+    severity: leve
+    category: overused
+    note: "permitido se contexto específico (jornada do dado), banido se genérico"
+  - token: "inovador"
+    severity: leve
+    category: vocabulary-vazia
+  - token: "revolucionário"
+    severity: leve
+    category: vocabulary-vazia
+    note: "permitido se amarrado a evidência citada"
+  - token: "solução"
+    severity: leve
+    category: generic
+  - token: "incrível"
+    severity: medio
+    category: adjetivo-vazio
+  - token: "poderoso"
+    severity: medio
+    category: adjetivo-vazio
+
+# ─── 3. Regex patterns ─────────────────────────────────────────────────────────
+banned_regex:
+  - pattern: "(—.*){3,}"          # 3+ em-dashes no mesmo bloco
+    severity: leve
+    category: punctuation-tell
+    description: "3+ em-dashes em parágrafo"
+
+  - pattern: "[!]{1,}"             # ANY exclamation in body copy
+    severity: leve
+    category: punctuation-tell
+    description: "ponto de exclamação (zero em body copy)"
+    scope: body  # Only flag in body, not in legitimate quotes
+
+  - pattern: "\\.{4,}"             # 4+ dots = excessive ellipsis
+    severity: leve
+    category: punctuation-tell
+    description: "reticências excessivas"
+
+  - pattern: "[A-ZÁ-Ú]{4,}\\s+[A-ZÁ-Ú]{4,}" # ALL CAPS sequences (2+ words)
+    severity: medio
+    category: caps-lock
+    description: "CAPS LOCK pra ênfase"
+
+# ─── 4. Emoji policy ──────────────────────────────────────────────────────────
+emoji_policy:
+  allowed:
+    - "✓"      # check em listas curtas
+    - "→"      # seta em CTAs
+    - "·"      # separador
+    - "🇧🇷"     # contextual raro
+    - "❄️"      # contextual raro
+
+  banned:
+    - "✨"
+    - "🚀"
+    - "💪"
+    - "🔥"
+    - "💯"
+    - "🙌"
+    - "❤️‍🩹"
+    - "🧬"
+    - "📊"
+    - "📈"
+    - "📉"
+
+  rules:
+    max_per_post: 1
+    forbidden_in_headlines: true
+    severity_if_banned: grave
+    severity_if_over_max: medio
+
+# ─── 5. Tom proibido (regex + LLM hybrid) ─────────────────────────────────────
+forbidden_tom_patterns:
+  - pattern: "(dr\\.|doutor[a]?|médic[oa])\\s+[A-Z][a-zà-ú]+"
+    severity: grave
+    category: ataque-medico-nominal
+    description: "Atacar médico nominalmente — CFM 2.336/2023"
+    requires_llm_check: true   # LLM verifica se é ATAQUE ou apenas menção neutra
+
+  - pattern: "SUS\\b"
+    severity: medio
+    category: ataque-sus
+    description: "Atacar SUS"
+    requires_llm_check: true   # LLM verifica se é ataque ou referência neutra
+
+  - pattern: "(vamos refletir|vamos pensar) sobre"
+    severity: medio
+    category: tom-palestrante
+
+  - pattern: "a verdade que ninguém te conta"
+    severity: grave
+    category: tom-guru
+
+  - pattern: "(garantimos|garantia de) (cura|recuperação|melhora)"
+    severity: grave
+    category: promessa-cura
+
+# ─── 6. Estrutura proibida ────────────────────────────────────────────────────
+structure_rules:
+  - rule: max_em_dashes_per_paragraph
+    value: 2
+    severity: leve
+
+  - rule: max_emoji_per_post
+    value: 1
+    severity: medio
+
+  - rule: max_exclamation_in_body
+    value: 0
+    severity: leve
+
+  - rule: max_headline_height_pct
+    value: 60
+    severity: medio
+    note: "headline NÃO ocupa mais que 60% da altura"
+
+  - rule: caps_lock_words_threshold
+    value: 4
+    severity: medio
+    note: "4+ palavras consecutivas em CAPS = flag"
+
+# ─── 7. Scoring impact ────────────────────────────────────────────────────────
+scoring:
+  grave_violation: reject     # qualquer 1 → reject automático sem LLM
+  medio_violation_deduction: 1.0
+  leve_violation_deduction: 0.5
+  max_deduction_medio: 3.0
+  max_deduction_leve: 1.5
+  reject_threshold: 6.0       # se score após deduções < 6 → reject
+
+# ─── 8. Histórico de adições (rastreabilidade) ────────────────────────────────
+changelog:
+  - date: "2026-05-22"
+    version: "1.0"
+    change: "Inicial — extraído de master-avoid-slop.md pra YAML deterministic"
+    by: "D0 setup"

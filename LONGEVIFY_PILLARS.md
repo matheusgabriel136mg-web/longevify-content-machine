@@ -1,10 +1,13 @@
 # Longevify — Content Pillars
 
+> **🔴 SOURCE OF TRUTH:** `/Users/mathe/Documents/Longev/Claude Code/CEO/contexto/brand-truth.md` (v2.0 multi-persona, 2026-05-17).
+> Em conflito, brand-truth.md vence. Versão operacional refinada em `foundation/pillars.md`.
+>
 > **Como usar:** este arquivo é o "shared brain" do conteúdo. Toda skill de drafting (post Instagram, carrossel, reel, email, LinkedIn) deve ler isto + `LONGEVIFY_BRAND.md` antes de gerar qualquer coisa. Sem pillars carregados → output genérico.
 >
-> **Quando atualizar:** mudança de ICP, produto, posicionamento, ou quando engagement de um pilar cair consistentemente (3+ posts seguidos abaixo da mediana).
+> **Quando atualizar:** quando brand-truth.md mudar (cascade automatic). OU quando engagement de um pilar cair consistentemente (3+ posts seguidos abaixo da mediana — Auto-Updater Diarization #2 propõe PR).
 >
-> **Origem:** destilado de `LONGEVIFY_BRAND.md` + análise competitiva de 240 posts (Superpower, Mito Health, Function Health) em `output/analysis-2026-05-08T13-19/analysis.md`. Substitui posts de "tech genérica de longevidade" por território próprio.
+> **2026-05-17 UPDATE:** Hero ICP unificado pra "profissional 30-50 classe A/B" + 4 personas de copy (Maria/Julia/Pedro/Ana). Substitui versão "atleta 18-60" anterior. Detalhe em `foundation/pillars.md`.
 
 ---
 

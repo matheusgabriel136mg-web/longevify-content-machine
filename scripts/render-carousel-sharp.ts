@@ -283,6 +283,33 @@ function parseRunSlides(runId: string): Slide[] {
         },
       },
     ],
+    "2026-05-22-002-your-mitochondrias-favorite-headline-from-bm": [
+      { n: 1, total: 5, headline: "A célula que decide\nse você envelhece bem.", layout: "hero", micro: "01 · mitocôndria" },
+      { n: 2, total: 5, kicker: "O QUE É", headline: "Em cada célula, milhares delas. Pequenas usinas que viram o que você comeu hoje em energia pra treinar amanhã.", micro: "Energia. Recuperação. Resiliência. Tudo passa por elas." },
+      { n: 3, total: 5, kicker: "COMO ENVELHECEM", headline: "Com o tempo, a usina perde rendimento. Produz menos ATP. Sinaliza inflamação de baixo grau — inflammaging.", micro: "O cansaço aos 45 raramente é preguiça. É bioenergética caindo." },
+      { n: 4, total: 5, kicker: "O QUE DE FATO AJUDA", headline: "Zona 2 + força. Restrição calórica leve + jejum noturno. Sono profundo consistente.", micro: "Suplemento entra depois. Não antes." },
+      { n: 5, total: 5, headline: "A pergunta não é se elas estão envelhecendo.\nÉ quão rápido.", layout: "hero", micro: "Painel Longevify mede inflamação, tireoide, metabolismo · link na bio" },
+    ],
+    "2026-05-21-008-ferritina-ferro-escondido": [
+      { n: 1, total: 5, headline: "Ferro normal.\nFerritina baixa.", layout: "hero", micro: "O cansaço que o laudo não explica." },
+      { n: 2, total: 5, kicker: "DOIS NÚMEROS · HISTÓRIAS DIFERENTES", headline: "Ferro sérico mede o que circula. Ferritina mede o que está guardado.", micro: "O check-up padrão olha o primeiro. Ignora o segundo — onde a deficiência começa." },
+      {
+        n: 3, total: 5, kicker: "FAIXA FUNCIONAL · FERRITINA",
+        layout: "faixa-funcional", headline: "",
+        faixa: {
+          biomarker: "Ferritina sérica",
+          subBiomarker: "estoque de ferro · ng/mL",
+          left: { label: "Faixa laboratório", number: "15–150", unit: "ng/mL", sub: "referência populacional ampla" },
+          right: { label: "Faixa funcional", number: "> 50", unit: "ng/mL (>70 atleta)", sub: "Longevify · padrão preventivo" },
+          footerLines: [
+            "Ferritina 32 aparece como 'normal' no laudo.",
+            "Para o corpo que treina, é reserva no vermelho.",
+          ],
+        },
+      },
+      { n: 4, total: 5, kicker: "O CORPO AVISA ANTES DO LAUDO", headline: "Cansaço que o sono não resolve. Queda de cabelo. Frio nas extremidades. Falta de ar no treino leve.", micro: "Quatro sinais. Um número que os explica." },
+      { n: 5, total: 5, headline: "Ferritina é um dos 100+.", layout: "hero", micro: "Painel Longevify mede o que o exame de rotina não pede · link na bio" },
+    ],
     "2026-05-24-001-overheard-apob-colesterol-bom": [
       { n: 1, total: 5, headline: '"Meu colesterol tá bom, doutor."', layout: "hero", micro: "— paciente, 42 anos, São Paulo" },
       { n: 2, total: 5, kicker: "O EXAME, LADO A LADO", headline: "Total 180 · LDL 95 · ApoB 132", layout: "hero", micro: "Mesmo lipidograma. Três leituras diferentes." },

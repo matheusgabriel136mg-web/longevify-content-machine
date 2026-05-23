@@ -1,0 +1,74 @@
+{
+  "id": "julia",
+  "name": "Julia",
+  "age": 34,
+  "biological_age": 28,
+  "location": "Sauna · Lagoa Rodrigo de Freitas",
+  "city": "Rio de Janeiro",
+  "occupation": "—",
+  "cover_external": true,
+  "cover_filename": "cover-raw.png",
+
+  "sintomas": [
+    { "n": "01", "text": "Sono picado. Acordava 3 vezes por noite sem motivo." },
+    { "n": "02", "text": "Pernas inquietas no fim do dia." },
+    { "n": "03", "text": "Disposição que escapava às 15h, todo dia." },
+    { "n": "04", "text": "Treino que não rendia mesmo dormindo 7h." }
+  ],
+
+  "biomarkers_before": [
+    { "name": "Vitamina D", "unit": "ng/mL", "value": "21.3", "status": "BAIXO",  "pct": 0.21, "optStart": 0.30, "optEnd": 0.80 },
+    { "name": "hs-CRP",     "unit": "mg/L",  "value": "8.12", "status": "ALTO",   "pct": 0.81, "optStart": 0.00, "optEnd": 0.10 },
+    { "name": "Ferritina",  "unit": "ng/mL", "value": "18",   "status": "BAIXO",  "pct": 0.09, "optStart": 0.25, "optEnd": 1.00 },
+    { "name": "ApoB",       "unit": "mg/dL", "value": "95",   "status": "LIMITE", "pct": 0.59, "optStart": 0.00, "optEnd": 0.50 },
+    { "name": "HbA1c",      "unit": "%",     "value": "5.6",  "status": "LIMITE", "pct": 0.53, "optStart": 0.00, "optEnd": 0.46 }
+  ],
+
+  "biomarkers_after": [
+    { "name": "Vitamina D", "unit": "ng/mL", "before": "21.3", "after": "47.0", "bPct": 0.21, "aPct": 0.47, "optStart": 0.30, "optEnd": 0.80 },
+    { "name": "hs-CRP",     "unit": "mg/L",  "before": "8.12", "after": "1.20", "bPct": 0.81, "aPct": 0.12, "optStart": 0.00, "optEnd": 0.10 },
+    { "name": "Ferritina",  "unit": "ng/mL", "before": "18",   "after": "68",   "bPct": 0.09, "aPct": 0.34, "optStart": 0.25, "optEnd": 1.00 },
+    { "name": "ApoB",       "unit": "mg/dL", "before": "95",   "after": "73",   "bPct": 0.59, "aPct": 0.46, "optStart": 0.00, "optEnd": 0.50 }
+  ],
+
+  "headliner_stat": {
+    "label": "IDADE BIOLÓGICA",
+    "before": "34",
+    "after": "28"
+  },
+
+  "protocolo": [
+    { "n": "01", "t": "Vitamina D3 + K2",        "b": "5000 UI matinal, com gordura. K2 direciona o cálcio.",  "icon": "icon-vitd.png"  },
+    { "n": "02", "t": "Ômega-3 EPA/DHA",         "b": "2g/dia. Apaga a inflamação que o hs-CRP denunciava.",  "icon": "icon-omega.png" },
+    { "n": "03", "t": "Ferro heme + vitamina C", "b": "Em jejum, longe de café. Ferritina sobe primeiro.",    "icon": "icon-ferro.png" },
+    { "n": "04", "t": "Sauna 2× por semana",     "b": "HSP, recuperação, baixa inflamação sistêmica.",        "icon": "icon-sauna.png" },
+    { "n": "05", "t": "Força 3× por semana",     "b": "Massa magra primeiro. Glicose responde depois.",       "icon": "icon-forca.png" },
+    { "n": "06", "t": "Janela de sono travada",  "b": "23h–7h, sempre. Circadiano não negocia.",              "icon": "icon-sono.png"  }
+  ],
+
+  "copy": {
+    "s2_headline_1": "Sintomas que",
+    "s2_headline_2_italic": "não fechavam.",
+    "s2_sub": "O hemograma rotineiro dizia normal. O corpo dizia outra coisa.",
+    "s2_closing_italic": "Sintoma sem laudo é sinal mal lido.",
+
+    "s3_headline_1": "O que o exame",
+    "s3_headline_2_italic": "mostrou.",
+    "s3_sub": "Cinco marcadores fora da faixa funcional.",
+
+    "s4_headline_1": "Protocolo construído",
+    "s4_headline_2_italic": "sobre os dados.",
+    "s4_sub": "Seis alavancas, ajustadas à biologia da Julia.",
+
+    "s5_headline_1": "Seis semanas.",
+    "s5_headline_2_italic": "Outra Julia.",
+    "s5_sub": "Mesmos exames. Faixa funcional alcançada.",
+
+    "s6_headline_1": "Seu corpo não é",
+    "s6_headline_2_italic": "a média.",
+    "s6_body": "O exame mainstream te coloca dentro de uma faixa populacional.\nO painel certo lê a sua biologia.\nE só depois constrói o protocolo.",
+    "s6_closing_italic": "É essa leitura que sustenta um protocolo."
+  },
+
+  "palette_internal": "dark_cedar"
+}

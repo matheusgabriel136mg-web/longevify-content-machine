@@ -26,9 +26,6 @@ logs/
 Thumbs.db
 
 # Heavy generated assets — vão pro Cloudinary/disco separado
-runs/**/assets/
-runs/**/drafts/
-assets/
 dashboard-images/
 attached_assets/
 

@@ -1,184 +1,146 @@
-# Pillars — Longevify (6 pilares, ICP atleta/wellness amplo)
+# Pillars — Longevify (6 pilares × 4 personas)
 
-> **Canonical source:** `../LONGEVIFY_PILLARS.md` (versão original). Este arquivo é a versão operacional refinada com 6 pilares — sharp em 2/3/4, brand-identity em 1/5/6.
+> **🔴 SOURCE OF TRUTH:** `/Users/mathe/Documents/Longev/Claude Code/CEO/contexto/brand-truth.md`
+> Em conflito, brand-truth.md vence. Reescrito 2026-05-17 v2.0 — substitui versão "ICP atleta amplo 18-60" anterior.
 >
-> **ICP-fit:** ICP amplo — qualquer atleta/esportista 18-60. Pilares falam com quem treina, em qualquer modalidade, do amador ao profissional.
+> **ICP-fit:** Hero ICP unificado — profissional 30-50 classe A/B (renda R$10k+/mês). Pilares falam com hero ICP via UMA das 4 personas de copy (Maria/Julia/Pedro/Ana).
 
-## Os 6 Pilares
+## Os 6 Pilares — Mix mensal 12 posts
 
-### Pilar 1 — Identidade & Manifesto
-Brand statements, lançamentos, hero pieces. Quem é Longevify, o que estamos construindo, o que acabamos de lançar.
+| # | Pilar | Mira persona | Mix | Voice mode dominante |
+|---|---|---|---|---|
+| **P1** | Identidade & Manifesto | Todas | 2/12 | Frustração validada + Persona-bio |
+| **P2** | O Biomarcador Que Ninguém Te Mostrou | Maria, Pedro, Ana | 3/12 ⭐ | Biomarcador deep-dive |
+| **P3** | A Falha do Modelo Tradicional | Maria, Ana | 2/12 | Frustração validada |
+| **P4** | Da Sensação ao Dado (AI on-demand) | Julia, Pedro | 3/12 ⭐ diferenciador-chave | Persona-bio + Athletic premium |
+| **P5** | O Integrador | Maria, Ana, Julia | 1/12 | Frustração validada + Persona-bio |
+| **P6** | Cultura de Performance | Pedro, Julia, Ana | 1/12 | Athletic premium |
 
-**Tipo de hook:** Declarativo, cinematográfico, manifesto
+---
 
-**Modo voice:** Superpower dominante (+ Camada Aesop em fechamentos)
+## Pilar 1 — Identidade & Manifesto
+
+**Brand statements, launches, hero pieces.** Quem é Longevify, o que estamos construindo.
+
+**Hook:** Declarativo, cinematográfico, manifesto-grade
+**Mira:** Todas as 4 personas (peça âncora)
+**Mix:** 2/12 mensal
 
 **Sub-flavor 1.1 — Manifesto-led (copy-heavy):**
-- "Introducing Specialty Panels"
-- "Sua biologia é única."
-- Lançamentos de feature
-- Expansões, novidades de produto
-- Headlines decisivas
+- "Um protocolo de saúde construído ao redor da sua biologia."
+- "Sua biologia merece leitura, não palpite."
+- Lançamentos de feature, expansões
 
-**Sub-flavor 1.2 — Aesthetic-led (mood-heavy, copy mínimo):**
-- Paisagem carioca + glow teal + tagline curta
-- Corredor ao amanhecer + 1 frase de assinatura
-- Pura atmosfera, sem manifesto explícito
-- Modo Superpower puro + Camada Aesop forte
+**Sub-flavor 1.2 — Aesthetic-led (visual hero):**
+- Imagem editorial premium + 1 linha
+- Vibe Equinox + Aesop + Mito
 
-**Anti-temas:**
-- Brand-talk vazio sem produto/promessa real
-- Aesthetic sem identidade Longevify (genérico de health)
-- Manifesto inflado ("vamos revolucionar a saúde brasileira")
+**Editor rule:** P1 só passa se for MANIFESTO-grade. Não é "post sobre Longevify" qualquer.
 
 ---
 
-### Pilar 2 — O Biomarcador Que Ninguém Te Mostrou
-"Tem um número escondido por trás do 'está tudo normal'. Para atleta, esse número é a diferença entre PR e overtraining."
+## Pilar 2 — O Biomarcador Que Ninguém Te Mostrou ⭐
 
-**Tipo de hook:** Paradoxo / curiosity gap
-**Modo voice:** Mito dominante + Camada Equinox em hooks atléticos
+**Preditivos vs obrigatórios.** Marcadores que mainstream ignora mas que predizem health-span.
 
-**Athlete framing:**
-- Ferritina < 50 explica fadiga em corredora de 38min nos 10k (não é "preguiça")
-- Cortisol matinal alto crônico = porque o treino "não tá rendendo"
-- T3 reverso elevado = sinal de overreaching antes de virar overtraining
-- ApoB > 90 em atleta magro de 30 anos = bomba cardiovascular silenciosa
-- hs-CRP elevado pós-treino crônico = inflamação que mata adaptação
-- B12, magnésio, zinco — performance-relevant, raro em check-up
+**Hook:** Paradoxo Mito-coded ("O ApoB de 95 que passa no exame")
+**Mira:** Maria (advogada que faz check-up e sente que falta algo), Pedro (atleta amador que já entende biomarcador básico), Ana (executiva premium querendo cutting-edge)
+**Mix:** 3/12 mensal (maior pilar — viraliza)
 
-**Anti-temas:**
-- Tom alarmista — atleta é resiliente, não vítima
-- Listar biomarcadores sem explicar o porquê
-- Vender milagre
+**Patterns aprovados:**
+- Ferro ≠ Ferritina (gap entre marcador comum vs estoque real)
+- Cortisol curva vs valor isolado
+- ApoB > LDL (partícula real > colesterol simplificado)
+- hs-CRP funcional (1.0 mainstream vs <0.5 funcional)
+- Lp(a) hereditário (faltando em 99% dos exames)
+
+**Editor rule:** P2 PRECISA citar pelo menos 1 biomarcador específico + faixa funcional vs mainstream.
 
 ---
 
-### Pilar 3 — A Obsolescência do Modelo Doctor-Dependent
-"O modelo '10 min de consulta + 20 marcadores + volta em 1 ano + espera 3 semanas pra perguntar qualquer coisa' não acompanha quem treina 6x/semana. **Longevify é a tradução da medicina pós-médico-de-rotina: dados integrados + AI on-demand resolvendo 80% das perguntas que hoje exigem agendamento.**"
+## Pilar 3 — A Falha do Modelo Tradicional
 
-**Tese da marca:** AI + dados ricos substituem o médico-generalista-de-rotina pra maioria das perguntas do dia-a-dia. Médico vira escalation tier, não primary care.
+**Sistema fragmentado vs visão integrada.** Atacar SISTEMA, nunca PROFISSIONAL (CFM 2.336/2023).
 
-**Tipo de hook:** Crítica direta ao modelo + demonstração de superioridade da AI
-**Modo voice:** Mito direto + Modo Superpower na confiança "AI é o futuro"
+**Hook:** Frustração validada ("você sente que vê 5 médicos e ninguém olha o quadro inteiro")
+**Mira:** Maria (frustrada com R$3k/mês fragmentado), Ana (executiva que tem acesso premium mas dados ainda soltos)
+**Mix:** 2/12 mensal
 
-**Athlete framing:**
-- Você não precisa de médico pra saber se treina hoje. Precisa do seu HRV cruzado com cortisol e sono — em 30 segundos.
-- "Está tudo normal" da clínica padrão é cego pra overreaching
-- 7 dias do exame ao laudo (vs 30+) importa pra atleta em plano de prova
-- Plano cobre exame, não cobre interpretação. Longevify cobre os dois.
+**Patterns aprovados:**
+- "Consulta de 3 semanas pra pergunta de 30 segundos"
+- "Faixa populacional vs faixa funcional"
+- "10-15 profissionais isolados vs 1 integração"
+- Jockey Manifesto pattern (medicina convencional vs Longevify)
 
-**Anti-temas:**
-- Citar nome de médico / shaming individual (atacamos o modelo, nunca a pessoa)
-- Atacar SUS
-- "Medicina tradicional é ignorante" sem exemplo concreto
+**Editor rule:** P3 NÃO pode personificar um médico negativo. Atacar sistema, sem nominalizar profissão.
 
 ---
 
-### Pilar 4 — Da Sensação ao Dado (com AI on-demand) — **PILAR-ÂNCORA**
-"Aquele 'algo tá diferente no treino esta semana' tem nome, número e pode ser medido. E você pergunta agora — não daqui 3 semanas."
+## Pilar 4 — Da Sensação ao Dado (AI on-demand) ⭐ DIFERENCIADOR-CHAVE
 
-**Tipo de hook:** Pergunta com stakes reais + demo de app
-**Modo voice:** Superpower (UI premium) + Camada Equinox (performance hooks) + flash Mito (precisão do dado)
+**Pilar-âncora do produto.** Translate sintoma vago em biomarcador + protocolo.
 
-**Athlete framing:**
-- HRV caiu 15% e você sente. Por quê? Pergunta na hora pro agente — ele cruza cortisol/sono/treino
-- "Treino hoje ou descanso?" — AI responde com seu dado, não com regra genérica
-- "Por que estou batendo PR no 5k mas regredindo nos longos?" — agente cruza ferritina + B12 + lactato
-- UI app + agente conversacional = clareza que Whoop/Oura não dão
-- "Sua biologia é única. Sua interpretação também deveria ser."
+**Hook:** "Você sente X. Aqui está o que mostra no painel."
+**Mira:** Julia (sente fadiga mas não consegue articular), Pedro (sabe HRV caiu mas não sabe por quê)
+**Mix:** 3/12 mensal — **PRECISA crescer (estava em 0% últimos 30d).**
 
-**Anti-temas:**
-- Mostrar UI sem amarrar a benefício específico
-- Self-help / coaching
-- "Você merece se cuidar"
+**Patterns aprovados:**
+- Persona-bio (Conheça a Julia — 34/28 anos)
+- "Pergunta às 6h da manhã antes do treino → AI cruza HRV+sono+cortisol+ferritina → resposta em 5s"
+- "Sintoma sem laudo é sinal mal lido"
+
+**Editor rule:** P4 PRECISA mostrar o JOIN AI (cruzamento de 3+ fontes de dado), não só "AI olha um exame". Senão é P2 disfarçado.
 
 ---
 
-### Pilar 5 — O Integrador
-"Você não precisa de 15 profissionais. Precisa de uma plataforma que cruze treino + nutrição + sono + suplementação + bloodwork e te entregue um protocolo personalizado."
+## Pilar 5 — O Integrador
 
-**Tipo de hook:** Cálculo do absurdo (quantos profissionais, quanto tempo, quanto custo) → solução
-**Modo voice:** Mito (precisão técnica do que cruzamos) + Superpower (premium da experiência integrada)
+**Longevify substitui 5-15 profissionais soltos.** Diferente de P3 (que ataca o sistema). P5 mostra a SOLUÇÃO integrada.
 
-**Framing:**
-- Personal trainer não vê seu sangue. Nutricionista não vê seu HRV. Médico não vê seu treino. Longevify vê os 3 e te dá UM protocolo.
-- "Treino A + nutrição B + suplementação C + sono D" — derivados dos SEUS dados, não de regra genérica
-- Custo comparativo: 15 profissionais ≠ 1 Longevify
-- Tempo: 15 agendas ≠ 1 dashboard
+**Hook:** "1 plataforma. 5 profissionais sintetizados."
+**Mira:** Maria, Ana, Julia (quem paga e tá cansado de coordenar agendas)
+**Mix:** 1/12 mensal
 
-**Anti-temas:**
-- Soar sales-y / "compre nosso plano"
-- Dizer que todos os 15 profissionais são desnecessários (alguns são — outros viram escalation tier)
-- Promessa de protocolo perfeito (sempre é hipótese a testar)
+**Patterns aprovados:**
+- "R$3k/mês em fragmentação vs R$130/mês em integração"
+- "O time multi-disciplinar virtual que cabe no seu bolso"
+
+**Editor rule:** P5 PRECISA quantificar a redução (custo, # profissionais, tempo).
 
 ---
 
-### Pilar 6 — Cultura de Performance
-"O lifestyle de quem treina sério no Brasil. Paisagens, marcas adjacentes, atletas inspiradores, momentos de corpo-em-movimento. Brand depth sem ser sales."
+## Pilar 6 — Cultura de Performance
 
-**Tipo de hook:** Aspiracional / contemplativo / atlético
-**Modo voice:** Camada Equinox dominante + Modo Superpower no acabamento + Camada Aesop em fechamentos sensoriais
+**Lifestyle, brand-adjacent.** Mood pieces. Atmosfera Equinox + Mito.
 
-**Framing:**
-- Cenas: longo de domingo, força no fim de tarde, yoga ao amanhecer, ciclismo na Mantiqueira
-- Brand-adjacent: Hoka, On Running, Tracksmith, Lululemon, Oakley — referências sem ser ads
-- Paisagens cariocas, paulistas, brasilienses — corpo no território brasileiro sem cair em estereótipo
-- Atletas reais, momentos reais, sem "modelo perfeito sorrindo"
+**Hook:** Foto editorial + 1 linha conceitual
+**Mira:** Pedro (vibe atlética séria), Julia (lifestyle warm), Ana (executiva premium)
+**Mix:** 1/12 mensal
 
-**Anti-temas:**
-- "Inspirational quote" sobre saúde
-- Imagem de estoque de runner sorrindo
-- Estilo "transformation" antes/depois
-- Coaching / motivacional vazio
+**Patterns aprovados:**
+- Paisagem Rio editorial (Jockey Club, Lagoa, Parque Lage)
+- "Cultura > Hábito" tipo posts
+
+**Editor rule:** P6 NÃO vende produto. NUNCA tem CTA. Pure brand mood.
 
 ---
 
-## Mix mensal (12 posts/mês)
+## Distribuição por persona (matriz com pilares)
 
-| Pilar | Posts/mês | Justificativa |
-|---|---|---|
-| 1. Identidade/Manifesto | 2 | brand depth, mas não overdo (1 manifesto + 1 aesthetic, flex/mês) |
-| 2. Biomarcador Escondido | 3 | formato high-performing (SP/Mito), curiosity gap |
-| 3. Obsolescência Doctor | 2 | crítica direta, dose certa, tese da marca |
-| 4. Sensação→Dado AI | 3 | pilar-âncora, demo do produto + AI on-demand |
-| 5. O Integrador | 1 | sales-pitch direto, baixa frequência pra não saturar |
-| 6. Cultura/Performance | 1 | respiração, lifestyle, brand depth |
-| **Total** | **12** | |
-
-## Idea Gate routing
-
-| Sinal externo | Pilar provável | Route |
-|---|---|---|
-| SP "Introducing X" / launch announcement | 1 (Identidade) | REWRITE com produto Longevify |
-| SP hero piece (System Warning, Cortisol post) | 1 sub-flavor 1.2 ou 4 | REPURPOSE com nossa UI/persona |
-| Mito hook biomarcador | 2 (Biomarcador) | REWRITE com angle atleta amador |
-| Function emoção → biologia | 1, 4, ou 6 | REWRITE com angle Brasil/treino |
-| Whoop/Oura post sobre HRV | 4 (Sensação→Dado) | REWRITE — camada Longevify (sangue + AI) |
-| Conversa em Strava sobre fadiga | 2 ou 4 | ORIGINAL (insight nativo) |
-| Crítica geral ao plano de saúde | 3 (Obsolescência) | REWRITE com angle atleta-specific |
-| UI demo Longevify novo recurso | 4 ou 1 | REPURPOSE em cenários (corredor/força/yoga) |
-| Atleta brasileiro inspirador (sem ser cliente) | 6 (Cultura) | ORIGINAL com curadoria |
-| Análise do "15 profissionais" / custo de saúde fragmentada | 5 (Integrador) | ORIGINAL com cálculo |
-
-## Pillar performance tracking
-
-| Pilar | Posts no mês | Mediana vsMedian | Best post | Worst |
+| Pilar | Maria | Julia | Pedro/Carlos | Ana |
 |---|---|---|---|---|
-| 1 | — | — | — | — |
-| 2 | — | — | — | — |
-| 3 | — | — | — | — |
-| 4 | — | — | — | — |
-| 5 | — | — | — | — |
-| 6 | — | — | — | — |
+| P1 | ✓ | ✓ | ✓ | ✓ |
+| P2 | ⭐ | — | ⭐ | ⭐ |
+| P3 | ⭐ | — | — | ⭐ |
+| P4 | — | ⭐ | ⭐ | — |
+| P5 | ⭐ | ✓ | — | ⭐ |
+| P6 | — | ⭐ | ⭐ | ⭐ |
 
-Quando um pilar fica 3 meses seguidos abaixo de 1.0 vsMedian, revisar.
+## A/B variations (Cliff-style)
 
-## Quando promover sub-flavor 1.2 (Aesthetic) pra Pilar 7 próprio
+Mesmo brief → N variações por persona-mode. Editor-agent decide qual variação ganha em shadow mode antes de promover pra produção.
 
-Se ao longo de 2-3 meses:
-- Cadence flexível 1+1 não basta — você quer rodar 4+ aesthetic/mês
-- Métrica aesthetic-led diverge muito da manifesto-led (precisa tracking separado)
-- Produção de aesthetic exige workflow diferente (mais tempo curadoria visual, menos copy)
+## Histórico
 
-→ Promover pra Pilar 7 separado com cadence própria.
+- **2026-05-17:** Reescrito v2.0 multi-persona. Mix re-calibrado pra crescer P4 (diferenciador-chave) e diminuir over-concentration em P2.
+- **Anterior:** ICP atleta 18-60, mix idêntico mas mira de persona única.
