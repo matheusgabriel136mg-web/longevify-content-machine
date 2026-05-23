@@ -120,7 +120,11 @@ function syncRunsDirToDb() {
     const coPath = path.join(runsDir, dir, "content-object.md");
     if (!fs.existsSync(coPath)) continue;
     const co = fs.readFileSync(coPath, "utf-8");
-    const state = (co.match(/^state:\s*(\S+)/m) ?? [, "draft"])[1];
+    let state = (co.match(/^state:\s*(\S+)/m) ?? [, "draft"])[1];
+    // Normalize content-object states → pipeline state machine
+    if (state === "verified") state = "approving";   // verified content-object é approving-step
+    if (state === "visuals-generated") state = "editing"; // visuals exist, ready for editor
+    if (state === "idea") state = "draft";
     const scheduledFor = (co.match(/^scheduled_for:\s*(\S+)/m) ?? [, null])[1];
     const persona = (co.match(/^target_persona:\s*(\S+)/m) ?? [, null])[1];
     const pillar = parseInt((co.match(/^pillar:\s*(\d+)/m) ?? [, "0"])[1]);

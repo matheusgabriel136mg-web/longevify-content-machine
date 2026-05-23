@@ -1,0 +1,29 @@
+# Safety Thresholds — Longevify content-machine
+# Aprovados pelo Matheus 2026-05-23 (D2 manhã)
+
+cost_circuit_breaker:
+  daily_limit_brl: 200
+  daily_limit_usd: 40  # ~R$200 a R$5/USD
+  action_on_exceed: pause_pipeline + telegram_alert_critical
+  reset: midnight_brt
+
+quality_circuit_breaker:
+  consecutive_rejects_threshold: 5
+  action_on_exceed: pause_pipeline + telegram_alert_critical
+  reset: manual_via_cli_or_24h_idle
+
+compliance_circuit_breaker:
+  trigger: any_zero_tolerance_hit  # cfm-blocklist.yaml zero_tolerance list
+  action: pause_pipeline + telegram_alert_critical + flag_run_as_blocked
+  reset: manual_review_required
+
+rate_limit_awareness:
+  warn_at_pct: 80
+  pause_at_pct: 95
+  monitored_services:
+    - higgsfield_credits
+    - anthropic_api_tier
+    - cloudinary_quota
+    - ig_publish_25_per_day
+  action_on_warn: telegram_alert_info
+  action_on_pause: pause_pipeline + telegram_alert_critical
