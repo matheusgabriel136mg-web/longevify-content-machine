@@ -135,6 +135,7 @@ function readBrief(runId) {
     target_persona: (txt.match(/^target_persona:\s*(\S+)/m) ?? [, "unknown"])[1],
     slot: (txt.match(/^slot:\s*(\S+)/m) ?? [, null])[1],
     type: (txt.match(/^type:\s*(\S+)/m) ?? [, null])[1],
+    pattern: (txt.match(/^pattern:\s*(\S+)/m) ?? [, null])[1],
   };
   const headlineMatch = txt.match(/\*\*Headline hint:\*\*\s*(.+)/);
   const angleMatch = txt.match(/\*\*Angle:\*\*\s*(.+)/);

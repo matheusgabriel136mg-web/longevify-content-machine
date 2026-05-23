@@ -23,6 +23,7 @@ import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import Anthropic from "@anthropic-ai/sdk";
 import { getIdea, setIdeaStatus } from "./idea-ingester.mjs";
+import { runFullPipeline } from "./pipeline-helpers.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -284,31 +285,16 @@ ${result.concept_notes}
     } finally { db.close(); }
   }
 
-  // Dispatch content-generator (text/data/caption)
-  try {
-    execSync(`node ${path.join(__dirname, "content-generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-    audit({ event: "concept_generator_ok", idea_id: ideaId, run_id: runId });
-  } catch (e) {
-    console.error(`  ✗ content-generator failed: ${e.message.slice(0, 200)}`);
-    audit({ event: "concept_generator_failed", idea_id: ideaId, run_id: runId, error: e.message?.slice(0, 200) });
-  }
-
-  // Dispatch generator (visual)
-  try {
-    execSync(`node ${path.join(__dirname, "generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-    audit({ event: "concept_visual_ok", idea_id: ideaId, run_id: runId });
-  } catch (e) {
-    console.error(`  ✗ visual generator failed: ${e.message.slice(0, 200)}`);
-    audit({ event: "concept_visual_failed", idea_id: ideaId, run_id: runId, error: e.message?.slice(0, 200) });
+  // Full pipeline via shared helper — guarantees no half-rendered notify.
+  const pipelineResult = await runFullPipeline(runId, { source: "concept-mode", reviewer: `idea-${ideaId}` });
+  if (!pipelineResult.ok) {
+    console.error(`\n✗ Concept pipeline failed at step '${pipelineResult.failed_at}': ${pipelineResult.error?.slice(0, 200)}`);
+    setIdeaStatus(ideaId, "failed", { promoted_to_run_id: runId, remix_decision: "concept-failed", use_mode: "concept-only" });
+    process.exit(1);
   }
 
   setIdeaStatus(ideaId, "remixed", { promoted_to_run_id: runId, remix_decision: "concept", use_mode: "concept-only" });
-
-  try {
-    execSync(`node ${path.join(__dirname, "telegram-approval.mjs")} --notify ${runId} --force 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 60000 });
-  } catch (e) { console.error(`  ⚠ notify failed: ${e.message.slice(0, 200)}`); }
-
-  console.log(`\n💡 Concept done: idea #${ideaId} → run ${runId} (pattern=${chosenPattern})\n`);
+  console.log(`\n💡 Concept done: idea #${ideaId} → run ${runId} (pattern=${chosenPattern}, ${pipelineResult.asset_count} slides)\n`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

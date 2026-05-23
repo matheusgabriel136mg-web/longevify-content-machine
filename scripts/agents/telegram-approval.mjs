@@ -113,6 +113,18 @@ export async function notifyApproval(runId, opts = {}) {
     return { ok: false, reason: "summarize failed" };
   }
 
+  // ─── Asset gate (last line of defense — never send media-less approval) ───
+  // 2026-05-23: founder approved blindly on concept-mode card without slides.
+  // This gate blocks any notify where assets/ has no slide-*.png and no video.
+  const hasSlides = (summary.slides?.length || 0) > 0;
+  const hasVideos = (summary.videos?.length || 0) > 0;
+  if (!hasSlides && !hasVideos) {
+    audit({ event: "notify_aborted_no_media", run_id: runId });
+    console.error(`✗ notify aborted: run ${runId} has no slide-*.png or *.mp4 in assets/`);
+    try { await sendTelegram(`🚨 \`${runId}\` notify abortado — sem media renderizado.\nRoda \`generator.mjs --run ${runId}\` antes de tentar de novo.`); } catch {}
+    return { ok: false, reason: "no_media_in_assets" };
+  }
+
   // ─── Step 1: delete previous approval card (1-card-per-runId rule) ──────────
   if (prev.media_message_ids?.length) {
     for (const mid of prev.media_message_ids) {

@@ -18,6 +18,7 @@ import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import Anthropic from "@anthropic-ai/sdk";
 import { getIdea, setIdeaStatus } from "./idea-ingester.mjs";
+import { runFullPipeline } from "./pipeline-helpers.mjs";
 
 // 5 valid patterns from content-generator dispatchByPattern.
 // Dispatcher reads (brief.meta.type || brief.meta.slot_type) as the short slot ID,
@@ -292,40 +293,18 @@ ${remix.remix_notes}
     console.warn("  ⚠ pipeline.db missing — Telegram approve callback won't find this run");
   }
 
-  // Dispatch content-generator (text/data/caption + persistRenderData)
-  console.log(`  ⏳ content-generator...`);
-  try {
-    const out = execSync(`node ${path.join(__dirname, "content-generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-    console.log(`  ✓ content-generator done`);
-    audit({ event: "remix_generator_ok", idea_id: ideaId, run_id: runId, gen_tail: out.slice(-300) });
-  } catch (e) {
-    console.error(`  ✗ content-generator failed: ${e.message.slice(0, 300)}`);
-    audit({ event: "remix_generator_failed", idea_id: ideaId, run_id: runId, error: e.message?.slice(0, 200) });
+  // Run the full pipeline (content-gen → visual → assert media → notify).
+  // pipeline-helpers handles failures: marks state='failed' + Telegram alert,
+  // returns { ok:false, failed_at } so we never send empty approval cards.
+  const result = await runFullPipeline(runId, { source: "remix-mode", reviewer: `idea-${ideaId}` });
+  if (!result.ok) {
+    console.error(`\n✗ Remix pipeline failed at step '${result.failed_at}': ${result.error?.slice(0, 200)}`);
+    setIdeaStatus(ideaId, "failed", { promoted_to_run_id: runId, remix_decision: "remix-failed" });
+    process.exit(1);
   }
 
-  // Dispatch generator (visual render via template)
-  console.log(`  ⏳ generator (visual render)...`);
-  try {
-    const out = execSync(`node ${path.join(__dirname, "generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-    console.log(`  ✓ generator done`);
-    audit({ event: "remix_visual_ok", idea_id: ideaId, run_id: runId });
-  } catch (e) {
-    console.error(`  ✗ generator (visual) failed: ${e.message.slice(0, 300)}`);
-    audit({ event: "remix_visual_failed", idea_id: ideaId, run_id: runId, error: e.message?.slice(0, 200) });
-  }
-
-  // Mark idea promoted
   setIdeaStatus(ideaId, "remixed", { promoted_to_run_id: runId, remix_decision: "remix" });
-
-  // Trigger approval notification
-  try {
-    execSync(`node ${path.join(__dirname, "telegram-approval.mjs")} --notify ${runId} --force 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 60000 });
-    console.log(`  ✓ approval notification dispatched`);
-  } catch (e) {
-    console.error(`  ⚠ approval notify failed: ${e.message.slice(0, 200)}`);
-  }
-
-  console.log(`\n🎨 Remix done: idea #${ideaId} → run ${runId}\n`);
+  console.log(`\n🎨 Remix done: idea #${ideaId} → run ${runId} (${result.asset_count} slides)\n`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
