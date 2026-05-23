@@ -68,7 +68,7 @@ export function svgWrappedLeft(text, opts) {
   let out = "";
   for (let i = 0; i < lines.length; i++) {
     const yy = startY + i * lh;
-    out += `<text x="${startX}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''}${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''}>${escape(lines[i])}</text>`;
+    out += `<text x="${startX}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''}${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''} xml:space="preserve">${escape(lines[i])}</text>`;
   }
   return { svg: out, endY: startY + (lines.length - 1) * lh };
 }
@@ -89,7 +89,7 @@ export function svgWrappedCentered(text, opts) {
   let out = "";
   for (let i = 0; i < lines.length; i++) {
     const yy = startY + i * lh;
-    out += `<text x="${W/2}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''} text-anchor="middle"${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''}>${esc(lines[i])}</text>`;
+    out += `<text x="${W/2}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''} text-anchor="middle"${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''} xml:space="preserve">${esc(lines[i])}</text>`;
   }
   return { svg: out, endY: startY + (lines.length - 1) * lh };
 }
@@ -125,15 +125,18 @@ export function headlineXml(line1, line2Italic, sub, palette, opts = {}) {
   const fontSize = autoShrinkFont(longest, baseFontSize, 18);
   const { WHITE, WHITE_SOFT } = palette;
 
-  let svg = `<text x="${W/2}" y="${y}" font-family="Inter, sans-serif" font-size="${fontSize}" font-weight="300" fill="${WHITE}" text-anchor="middle" letter-spacing="-2">${esc(line1)}</text>`;
+  // 2026-05-23 fix: letter-spacing="-2" collapsed word spaces on libvips/sharp.
+  // Inter at fs 32-44 doesn't need negative kerning. Use -0.5 max (subtle tighten).
+  // Explicit font fallback chain forces Inter Regular pick (vs Inter Display ambiguity).
+  let svg = `<text x="${W/2}" y="${y}" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="${fontSize}" font-weight="300" fill="${WHITE}" text-anchor="middle" letter-spacing="-0.5" xml:space="preserve">${esc(line1)}</text>`;
   if (line2Italic) {
-    svg += `<text x="${W/2}" y="${y + fontSize * 1.1}" font-family="Georgia, serif" font-style="italic" font-size="${fontSize}" font-weight="400" fill="${WHITE}" text-anchor="middle" letter-spacing="-1">${esc(line2Italic)}</text>`;
+    svg += `<text x="${W/2}" y="${y + fontSize * 1.1}" font-family="Georgia, 'Liberation Serif', serif" font-style="italic" font-size="${fontSize}" font-weight="400" fill="${WHITE}" text-anchor="middle" xml:space="preserve">${esc(line2Italic)}</text>`;
   }
   if (sub) {
     const subLines = wrapText(sub, 60);
     const subStartY = y + (line2Italic ? 2 * fontSize * 1.1 : fontSize * 1.1) + 14;
     subLines.forEach((ln, i) => {
-      svg += `<text x="${W/2}" y="${subStartY + i * 28}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${WHITE_SOFT}" text-anchor="middle">${esc(ln)}</text>`;
+      svg += `<text x="${W/2}" y="${subStartY + i * 28}" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="${WHITE_SOFT}" text-anchor="middle" xml:space="preserve">${esc(ln)}</text>`;
     });
   }
   return svg;

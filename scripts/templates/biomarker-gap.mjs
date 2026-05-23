@@ -105,7 +105,7 @@ async function renderSlide2() {
   const bar1Y = chartY + chartH - bar1H;
   svg += `<rect x="${chartX}" y="${bar1Y}" width="${barW}" height="${bar1H}" fill="${P.WHITE}" opacity="0.95" rx="2"/>`;
   svg += `<text x="${chartX + barW/2}" y="${bar1Y - 20}" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="${P.WHITE}" text-anchor="middle">${esc(left.value)}</text>`;
-  svg += `<text x="${chartX + barW/2}" y="${chartY + chartH + 40}" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="${P.WHITE}" text-anchor="middle" letter-spacing="2">${esc(left.label)}</text>`;
+  svg += `<text x="${chartX + barW/2}" y="${chartY + chartH + 40}" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="${P.WHITE}" text-anchor="middle" letter-spacing="1.5">${esc(left.label)}</text>`;
   svg += `<text x="${chartX + barW/2}" y="${chartY + chartH + 68}" font-family="Inter, sans-serif" font-size="16" font-weight="400" fill="${P.WHITE_SOFT}" text-anchor="middle">${esc(left.unit)}</text>`;
   // Right bar
   const bar2H = chartH * (right.height_pct || 0.18);
@@ -113,28 +113,35 @@ async function renderSlide2() {
   const bar2X = chartX + barW + barGap;
   svg += `<rect x="${bar2X}" y="${bar2Y}" width="${barW}" height="${bar2H}" fill="${P.WHITE}" opacity="0.95" rx="2"/>`;
   svg += `<text x="${bar2X + barW/2}" y="${bar2Y - 20}" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="${P.WHITE}" text-anchor="middle">${esc(right.value)}</text>`;
-  svg += `<text x="${bar2X + barW/2}" y="${chartY + chartH + 40}" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="${P.WHITE}" text-anchor="middle" letter-spacing="2">${esc(right.label)}</text>`;
+  svg += `<text x="${bar2X + barW/2}" y="${chartY + chartH + 40}" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="${P.WHITE}" text-anchor="middle" letter-spacing="1.5">${esc(right.label)}</text>`;
   svg += `<text x="${bar2X + barW/2}" y="${chartY + chartH + 68}" font-family="Inter, sans-serif" font-size="16" font-weight="400" fill="${P.WHITE_SOFT}" text-anchor="middle">${esc(right.unit)}</text>`;
-  // Body explanation: wrap-aware (fs 22 → max 48 chars; fs 24 italic → max 44 chars).
-  let bodyY = chartY + chartH + 150;
+  // Body + closing: wrap-aware. Bug L2 fix: cap closing endY at 1170 (logo zone
+  // starts ~y=1203 in 1080×1350 viewBox). If body grows too tall, body lines
+  // step shrinks to compress, but closing italic ALWAYS lands above the logo.
+  const LOGO_TOP_Y = 1170;
+  let bodyY = chartY + chartH + 140;
   if (data.s2_body_1) {
     const b1 = svgWrappedCentered(data.s2_body_1, {
-      startY: bodyY, fontSize: 22, fill: P.WHITE, maxChars: 48, lineHeight: 30,
+      startY: bodyY, fontSize: 20, fill: P.WHITE, maxChars: 50, lineHeight: 28,
     });
     svg += b1.svg;
-    bodyY = b1.endY + 32;
+    bodyY = b1.endY + 26;
   }
   if (data.s2_body_2) {
     const b2 = svgWrappedCentered(data.s2_body_2, {
-      startY: bodyY, fontSize: 22, fill: P.WHITE, maxChars: 48, lineHeight: 30,
+      startY: bodyY, fontSize: 20, fill: P.WHITE, maxChars: 50, lineHeight: 28,
     });
     svg += b2.svg;
-    bodyY = b2.endY + 58;
+    bodyY = b2.endY + 36;
   }
   if (data.s2_closing_italic) {
+    // Estimate closing wrap height first; place so endY ≤ LOGO_TOP_Y.
+    const closingLines = wrapText(data.s2_closing_italic, 44);
+    const closingH = closingLines.length * 30;
+    const closingStartY = Math.min(bodyY, LOGO_TOP_Y - closingH);
     const cl = svgWrappedCentered(data.s2_closing_italic, {
-      startY: bodyY, fontSize: 24, family: "Georgia, serif", italic: true,
-      fill: P.WHITE, maxChars: 44, lineHeight: 32,
+      startY: closingStartY, fontSize: 22, family: "Georgia, 'Liberation Serif', serif", italic: true,
+      fill: P.WHITE, maxChars: 44, lineHeight: 30,
     });
     svg += cl.svg;
   }
