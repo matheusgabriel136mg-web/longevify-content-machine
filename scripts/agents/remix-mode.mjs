@@ -29,6 +29,10 @@ const PATTERN_MAP = {
   "biomarker-gap":               { type: "biomarker-gap",      format: "carousel" },
   "reel-tips-hold-to-reveal":    { type: "reel-tips",          format: "reel"     },
 };
+// Patterns excluded from LLM auto-pick (visual template broken / quarantined).
+// Founder can still force via --pattern flag (CLI), but Claude must NOT choose.
+// Setting added 2026-05-23 after reel-tips shipped visually broken (slide 2 empty).
+const PATTERN_EXCLUDED_FROM_AUTOPICK = new Set(["reel-tips-hold-to-reveal"]);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -98,16 +102,15 @@ ${slop}
   * NUNCA "cura", "trata", "previne doença" — use "suporta", "otimiza", "calibra"
 
 ═══ PATTERN SELECTION ═══
-Escolha UM dos 5 patterns existentes que melhor encaixa neste conteúdo:
+Escolha UM dos 4 patterns que melhor encaixa neste conteúdo:
 - "persona-bio-case-study"   — narrativa de pessoa (sintoma → painel → protocolo → resultado em N semanas)
 - "dado-punch-bryan-style"   — single-image com 1 número/stat gigante + frase curta (ex: 73%)
 - "brand-manifesto"          — manifesto/posicionamento/filosofia editorial
 - "biomarker-gap"            — comparação faixa populacional vs faixa funcional de UM biomarcador
-- "reel-tips-hold-to-reveal" — listicle/tips (4-8 bullets), formato vídeo curto
 
 ═══ OUTPUT: JSON ÚNICO ═══
 {
-  "chosen_pattern": "persona-bio-case-study" | "dado-punch-bryan-style" | "brand-manifesto" | "biomarker-gap" | "reel-tips-hold-to-reveal",
+  "chosen_pattern": "persona-bio-case-study" | "dado-punch-bryan-style" | "brand-manifesto" | "biomarker-gap",
   "pattern_reason": "<1 sentence explicando por que esse pattern encaixa>",
   "headline": "<headline curta paradoxal/biológica, 4-6 palavras max>",
   "sub_headline": "<oferta de produto/protocolo, max 12 palavras>",
@@ -183,10 +186,15 @@ async function main() {
   console.log(`  ✓ Claude remix done ($${remix._cost_usd.toFixed(4)})`);
   audit({ event: "remix_llm_done", idea_id: ideaId, cost_usd: remix._cost_usd });
 
-  // ─── Pattern resolution (Bug R2 fix) ───────────────────────────────────────
-  const chosenPattern = remix.chosen_pattern && PATTERN_MAP[remix.chosen_pattern]
+  // ─── Pattern resolution (Bug R2 + reel-tips quarantine) ────────────────────
+  let chosenPattern = remix.chosen_pattern && PATTERN_MAP[remix.chosen_pattern]
     ? remix.chosen_pattern
-    : "persona-bio-case-study";  // safe default if Claude returned invalid
+    : "persona-bio-case-study";
+  if (PATTERN_EXCLUDED_FROM_AUTOPICK.has(chosenPattern)) {
+    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — falling back to dado-punch-bryan-style`);
+    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "dado-punch-bryan-style", idea_id: ideaId });
+    chosenPattern = "dado-punch-bryan-style";
+  }
   const { type: patternType, format: patternFormat } = PATTERN_MAP[chosenPattern];
   console.log(`  ✓ pattern: ${chosenPattern} (type=${patternType}, format=${patternFormat}) — ${remix.pattern_reason || ""}`);
 

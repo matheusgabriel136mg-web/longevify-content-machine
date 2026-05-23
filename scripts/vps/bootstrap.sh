@@ -549,6 +549,16 @@ systemctl enable longevify-dashboard.service
 systemctl restart longevify-dashboard.service
 echo "  ✓ 15 systemd timers + 2 daemons (longevify-telegram-bot, longevify-dashboard) configured + enabled + started"
 
+# ─── 10. Visual-smoke regression check ────────────────────────────────────────
+echo ""
+echo "[10/10] visual-smoke..."
+if node $INSTALL_DIR/scripts/agents/visual-smoke.mjs 2>&1 | tail -5; then
+  echo "  ✓ visual-smoke PASS — all reference slides intact"
+else
+  echo "  ⚠ visual-smoke FAILED — check /var/log/longevify-visual-smoke.log"
+  # Non-fatal during bootstrap; ops decides whether to roll back.
+fi
+
 # ─── 9. Cloudflared install (binary only; auth + tunnel create manual) ────────
 echo ""
 echo "[9/9] cloudflared CLI..."

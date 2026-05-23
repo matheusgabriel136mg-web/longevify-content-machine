@@ -49,6 +49,8 @@ const PATTERN_MAP = {
   "biomarker-gap":               { type: "biomarker-gap",      format: "carousel" },
   "reel-tips-hold-to-reveal":    { type: "reel-tips",          format: "reel"     },
 };
+// Patterns excluded from LLM auto-pick — quarantined until visual template rewritten.
+const PATTERN_EXCLUDED_FROM_AUTOPICK = new Set(["reel-tips-hold-to-reveal"]);
 
 function audit(entry) {
   fs.mkdirSync(path.dirname(AUDIT_LOG), { recursive: true });
@@ -106,12 +108,11 @@ ${slop}
 - CFM-safe: "suporta", "otimiza", "calibra" — nunca "cura", "trata", "previne doença".
 - Português brasileiro. Termos médicos em inglês permitidos (ApoB, hs-CRP, etc).
 
-═══ PATTERN — escolha UM dos 5 ═══
+═══ PATTERN — escolha UM dos 4 ═══
 - "persona-bio-case-study"   — narrativa pessoa (sintoma → painel → protocolo → 6 sem)
 - "dado-punch-bryan-style"   — single-image com 1 número/stat gigante (ex: 73%)
 - "brand-manifesto"          — manifesto/posicionamento/filosofia
 - "biomarker-gap"            — comparação faixa populacional vs faixa funcional
-- "reel-tips-hold-to-reveal" — listicle/tips (4-8 bullets)
 
 ═══ OUTPUT: JSON ÚNICO ═══
 {
@@ -202,8 +203,13 @@ async function main() {
   console.log(`  ✓ Claude concept done ($${result._cost_usd.toFixed(4)}) · pattern=${result.chosen_pattern}`);
   audit({ event: "concept_llm_done", idea_id: ideaId, cost_usd: result._cost_usd, chosen_pattern: result.chosen_pattern });
 
-  const chosenPattern = result.chosen_pattern && PATTERN_MAP[result.chosen_pattern]
+  let chosenPattern = result.chosen_pattern && PATTERN_MAP[result.chosen_pattern]
     ? result.chosen_pattern : "persona-bio-case-study";
+  if (PATTERN_EXCLUDED_FROM_AUTOPICK.has(chosenPattern)) {
+    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — fallback dado-punch-bryan-style`);
+    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "dado-punch-bryan-style", idea_id: ideaId });
+    chosenPattern = "dado-punch-bryan-style";
+  }
   const { type: patternType, format: patternFormat } = PATTERN_MAP[chosenPattern];
 
   const runId = genRunId(idea.source_brand, idea.persona_suggested, idea.pillar_suggested);
