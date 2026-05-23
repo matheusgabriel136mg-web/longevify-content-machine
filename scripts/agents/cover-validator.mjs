@@ -95,6 +95,48 @@ export async function validateCover(filePath) {
   };
 }
 
+// Palette diversity check (bible §11): compares this cover's modal RGB against
+// the last N covers. Returns { diverse, similar_to } so callers can FAIL on convergence.
+// modalDistance: Euclidean RGB distance. <40 = "very similar"; <80 = "similar"; ≥80 = "diverse".
+export function comparePalettes(currentRgb, recentRgbs, threshold = 60) {
+  if (!recentRgbs?.length) return { diverse: true, distances: [] };
+  const distances = recentRgbs.map(rgb => {
+    if (!rgb || rgb.length !== 3) return Infinity;
+    return Math.sqrt(
+      (currentRgb[0] - rgb[0]) ** 2 +
+      (currentRgb[1] - rgb[1]) ** 2 +
+      (currentRgb[2] - rgb[2]) ** 2
+    );
+  });
+  const minDist = Math.min(...distances);
+  const similarIdx = distances.indexOf(minDist);
+  return {
+    diverse: minDist >= threshold,
+    minDistance: +minDist.toFixed(1),
+    similar_to_index: minDist < threshold ? similarIdx : null,
+    distances: distances.map(d => +d.toFixed(1)),
+  };
+}
+
+// Validates current cover AND checks diversity against last N published runs.
+// Returns combined result. Pass `pipelineDbPath` + `lastN` for diversity check.
+export async function validateCoverWithDiversity(filePath, opts = {}) {
+  const { recentModalRgbs = [], threshold = 60 } = opts;
+  const baseResult = await validateCover(filePath);
+  if (!baseResult.ok) return baseResult;  // already failed on content
+  const diversity = comparePalettes(baseResult.metrics.modal_rgb, recentModalRgbs, threshold);
+  if (!diversity.diverse) {
+    return {
+      ...baseResult,
+      ok: false,
+      verdict: "fail_diversity",
+      reason: `Palette too similar to recent post (RGB distance ${diversity.minDistance} < ${threshold}). Bible §11: feed nunca monótono.`,
+      diversity,
+    };
+  }
+  return { ...baseResult, diversity };
+}
+
 // CLI
 async function main() {
   const a = process.argv.slice(2);

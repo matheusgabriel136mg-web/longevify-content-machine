@@ -15,23 +15,125 @@ export const OUT_W = 1440, OUT_H = 1800;
 export const SCALE = OUT_W / W;
 export const LOGO_PATH = path.join(ROOT, "assets", "logo-horizontal-white.png");
 
+// 8 canonical palettes per brand-bible §4. Each carries thematic meaning.
+// Schema: { BG, WHITE, WHITE_SOFT, WHITE_FAINT, STATUS_WARM, STATUS_GOOD, ACCENT, MID }
+// BG = canvas background, WHITE = primary text fill, ACCENT = highlight (numbers, italics).
+// MID = secondary accent (often used for charts/lines).
 export const PALETTES = {
+  // ─── Bible §4 canonical paletas ─────────────────────────────────────────────
+  "P1-sage": {
+    BG: "#3A4A3A", WHITE: "#E8E4D9", WHITE_SOFT: "#E8E4D9CC", WHITE_FAINT: "#E8E4D988",
+    STATUS_WARM: "#C9A661", STATUS_GOOD: "#A8C49C",
+    ACCENT: "#A8C49C", MID: "#5C6E5A",
+    description: "Microbioma, intestino, vegetal, natural — forest greens",
+  },
+  "P2-amber": {
+    BG: "#8B5E2B", WHITE: "#F5E8D3", WHITE_SOFT: "#F5E8D3CC", WHITE_FAINT: "#F5E8D388",
+    STATUS_WARM: "#E5A268", STATUS_GOOD: "#A8C49C",
+    ACCENT: "#C28B47", MID: "#5C3F1D",
+    description: "Ômega-3, óleos, gordura, oxidação — amber/lipid warmth (lighter brown bg)",
+  },
+  "P3-concrete": {
+    BG: "#2A2823", WHITE: "#E8E2D5", WHITE_SOFT: "#E8E2D5CC", WHITE_FAINT: "#E8E2D588",
+    STATUS_WARM: "#C18545", STATUS_GOOD: "#A8B377",
+    ACCENT: "#A89C8A", MID: "#7A7264",
+    description: "Performance, prevenção, masculino sério (cancer, prostate) — urban concrete",
+  },
+  "P4-sunset": {
+    BG: "#3B2516", WHITE: "#FFE8CC", WHITE_SOFT: "#FFE8CCCC", WHITE_FAINT: "#FFE8CC88",
+    STATUS_WARM: "#E5A268", STATUS_GOOD: "#C9A661",
+    ACCENT: "#E5A268", MID: "#A85B2B",
+    description: "Sol, vitamina D, paisagem BR, energia — Carioca sunset",
+  },
+  "P5-olive": {
+    BG: "#2C2B1F", WHITE: "#D8D4B8", WHITE_SOFT: "#D8D4B8CC", WHITE_FAINT: "#D8D4B888",
+    STATUS_WARM: "#C9A661", STATUS_GOOD: "#A8B377",
+    ACCENT: "#A8B377", MID: "#7E7E5C",
+    description: "Mood, comportamental, sazonal — contemplative olive",
+  },
+  "P6-cool": {
+    BG: "#1F262C", WHITE: "#D9DDE0", WHITE_SOFT: "#D9DDE0CC", WHITE_FAINT: "#D9DDE088",
+    STATUS_WARM: "#C18545", STATUS_GOOD: "#7A8590",
+    ACCENT: "#7A8590", MID: "#3A4148",
+    description: "Sangue, ferro, sono, recovery — cool mineral",
+  },
+  "P7-white": {
+    BG: "#FAFAF7", WHITE: "#1A1916", WHITE_SOFT: "#1A1916CC", WHITE_FAINT: "#1A191688",
+    STATUS_WARM: "#A8623A", STATUS_GOOD: "#5C9477",
+    ACCENT: "#A8623A", MID: "#7A7264",
+    description: "Stats slides, comparison, CTA, inner respiro — editorial branco",
+  },
+  "P8-nightfall": {
+    BG: "#1A1916", WHITE: "#F5EFE3", WHITE_SOFT: "#F5EFE3CC", WHITE_FAINT: "#F5EFE388",
+    STATUS_WARM: "#D4A053", STATUS_GOOD: "#8FB39A",
+    ACCENT: "#D4A053", MID: "#252321",
+    description: "Member case study, premium feel, manifesto — nightfall premium",
+  },
+
+  // ─── Status vocabulary visual (bible §4) — for badges/biomarker cards ──────
+  // Use via paletteStatus({ level }) helper, not as a slide background.
+  // STATUS_LEVELS exported separately below.
+
+  // ─── Legacy aliases (backward compat for older runs / templates) ───────────
   warm_taupe: {
     BG: "#BBB4A2", WHITE: "#FAF7F0", WHITE_SOFT: "#FAF7F0CC", WHITE_FAINT: "#FAF7F088",
     STATUS_WARM: "#C89136", STATUS_GOOD: "#7A9B7E",
+    ACCENT: "#C89136", MID: "#A89C8A",
+    description: "Legacy — alias to P3-concrete in future",
   },
   dark_cedar: {
     BG: "#1A1916", WHITE: "#F5EFE3", WHITE_SOFT: "#F5EFE3CC", WHITE_FAINT: "#F5EFE388",
     STATUS_WARM: "#D4A053", STATUS_GOOD: "#8FB39A",
+    ACCENT: "#D4A053", MID: "#252321",
+    description: "Legacy — alias to P8-nightfall",
   },
   cream_clay: {
     BG: "#F1EBDD", WHITE: "#2A2722", WHITE_SOFT: "#2A2722CC", WHITE_FAINT: "#2A272288",
     STATUS_WARM: "#A8623A", STATUS_GOOD: "#7A8B6E",
+    ACCENT: "#A8623A", MID: "#7A7264",
+    description: "Legacy — alias to P7-white variant",
   },
   dark_charcoal: {
     BG: "#141414", WHITE: "#F5EFE3", WHITE_SOFT: "#F5EFE3CC", WHITE_FAINT: "#F5EFE388",
     STATUS_WARM: "#D4A053", STATUS_GOOD: "#8FB39A",
+    ACCENT: "#D4A053", MID: "#252321",
+    description: "Legacy — alias to P8-nightfall variant",
   },
+};
+
+// Status vocabulary visual (bible §4) — colors for biomarker badges/grades.
+export const STATUS_LEVELS = {
+  optimal:      { color: "#5C9477", label: "ÓTIMO" },        // A grade, biomarker green
+  funcional:    { color: "#A8B377", label: "FUNCIONAL" },    // Próximo do alvo
+  warning:      { color: "#C18545", label: "ALERTA" },       // B grade, atenção
+  insuficiente: { color: "#A85647", label: "INSUFICIENTE" }, // C grade, intervir
+  critico:      { color: "#8B3220", label: "CRÍTICO" },      // Urgência clínica
+};
+
+// Resolver: accepts canonical IDs, legacy IDs, or null. Returns the palette object.
+// Logs warning if unknown key.
+export function resolvePalette(key) {
+  if (!key) return PALETTES["P8-nightfall"];  // safe default
+  if (PALETTES[key]) return PALETTES[key];
+  // Tolerate "P2_amber", "p2-amber", "P2 amber" variants.
+  const normalized = String(key).toLowerCase().replace(/[_\s]/g, "-");
+  for (const k of Object.keys(PALETTES)) {
+    if (k.toLowerCase() === normalized) return PALETTES[k];
+  }
+  console.warn(`  ⚠ unknown palette '${key}' — falling back to P8-nightfall`);
+  return PALETTES["P8-nightfall"];
+}
+
+// Topic → palette suggestion (bible §4 mapping). Used by concept-mode/remix-mode
+// when LLM doesn't pick or as a deterministic check.
+export const TOPIC_PALETTE_MAP = {
+  microbioma: "P1-sage", intestino: "P1-sage", vegetal: "P1-sage", fibra: "P1-sage", probiotico: "P1-sage",
+  omega: "P2-amber", lipidio: "P2-amber", colesterol: "P2-amber", gordura: "P2-amber", oxidacao: "P2-amber", apob: "P2-amber",
+  prostata: "P3-concrete", cancer: "P3-concrete", prevencao: "P3-concrete", performance: "P3-concrete",
+  vitd: "P4-sunset", "vitamina-d": "P4-sunset", sol: "P4-sunset", energia: "P4-sunset",
+  humor: "P5-olive", comportamental: "P5-olive", sazonal: "P5-olive", cortisol: "P5-olive", estresse: "P5-olive",
+  ferro: "P6-cool", ferritina: "P6-cool", sangue: "P6-cool", sono: "P6-cool", hrv: "P6-cool", recovery: "P6-cool",
+  manifesto: "P8-nightfall", "case-study": "P8-nightfall", premium: "P8-nightfall",
 };
 
 export const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
