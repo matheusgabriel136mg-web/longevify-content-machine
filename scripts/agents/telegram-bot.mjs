@@ -332,10 +332,14 @@ async function handleCallbackQuery(cq) {
     else if (action === "regen_v2") {
       await send(`🔄 Regenerando \`${runId}\`... (~$0.06 + ~2min)`, cq.message.message_id);
       try {
-        const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-        markApprovalDecision(runId, "regen_v2", reviewer);
+        execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
         audit({ event: "regen_v2", run_id: runId, reviewer });
-        reply = `🔄 Regenerado por *${reviewer}*\n\`${runId}\`\n\n_Output tail:_\n\`\`\`\n${out.slice(-600)}\n\`\`\``;
+        // Auto re-notify with --force: deletes previous approval card + sends fresh one.
+        try {
+          execSync(`node ${path.join(ROOT, "scripts", "agents", "telegram-approval.mjs")} --notify ${runId} --force 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 60000 });
+        } catch (e) { console.error("re-notify failed:", e.message); }
+        // Suppress legacy reply text — the new approval card is the canonical reply.
+        return;
       } catch (e) {
         audit({ event: "regen_v2_failed", run_id: runId, reviewer, error: e.message?.slice(0, 200) });
         reply = `❌ regen falhou: ${e.message.slice(0, 300)}`;
@@ -417,10 +421,14 @@ async function consumePendingEditIfAny(chatId, text) {
 
   // Regen.
   try {
-    const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${run_id} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
-    markApprovalDecision(run_id, "edit_v2", reviewer, hint);
+    execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${run_id} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
     audit({ event: "edit_v2_regen_ok", run_id, reviewer });
-    await send(`✅ Regenerado com hint.\n\`${run_id}\` voltou pra fila.\n\n_Output tail:_\n\`\`\`\n${out.slice(-500)}\n\`\`\``);
+    // Auto re-notify (deletes prev approval card + sends fresh).
+    try {
+      execSync(`node ${path.join(ROOT, "scripts", "agents", "telegram-approval.mjs")} --notify ${run_id} --force 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 60000 });
+    } catch (e) { console.error("re-notify failed:", e.message); }
+    // Cleanup hint file so subsequent regens (without hint) don't reuse it.
+    try { fs.unlinkSync(hintPath); } catch {}
   } catch (e) {
     audit({ event: "edit_v2_regen_failed", run_id, reviewer, error: e.message?.slice(0, 200) });
     await send(`❌ regen falhou: ${e.message.slice(0, 400)}`);

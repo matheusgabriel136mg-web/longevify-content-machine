@@ -42,7 +42,7 @@ export async function sendTelegram(text, opts = {}) {
     return { ok: false, reason: "missing_env" };
   }
 
-  const { parseMode = "Markdown", silent = false, replyMarkup = null } = opts;
+  const { parseMode = "Markdown", silent = false, replyMarkup = null, replyToMessageId = null } = opts;
 
   // Telegram limit: 4096 chars per message
   const chunks = chunkText(text, 4000);
@@ -57,6 +57,9 @@ export async function sendTelegram(text, opts = {}) {
         disable_notification: silent,
         disable_web_page_preview: true,
       };
+      if (replyToMessageId && chunks.indexOf(chunk) === 0) {
+        body.reply_to_message_id = replyToMessageId;
+      }
       // Inline keyboard (callback_data buttons) — só na última chunk
       if (replyMarkup && chunks.indexOf(chunk) === chunks.length - 1) {
         body.reply_markup = replyMarkup;
@@ -123,10 +126,24 @@ export async function sendPhotoAlbum(photoPaths, caption = "") {
       body: form,
     });
     const json = await res.json();
-    return { ok: json.ok, json };
+    const message_ids = Array.isArray(json.result) ? json.result.map(m => m.message_id) : [];
+    return { ok: json.ok, json, message_ids };
   } catch (e) {
     return { ok: false, error: e.message };
   }
+}
+
+// Delete a message (single message_id). Silent on failure (e.g. message gone, too old).
+export async function deleteTelegramMessage(messageId) {
+  if (!BOT_TOKEN || !CHAT_ID || !messageId) return { ok: false };
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/deleteMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CHAT_ID, message_id: messageId }),
+    });
+    return await res.json();
+  } catch { return { ok: false }; }
 }
 
 // Send approve/cancel inline buttons attached to text.

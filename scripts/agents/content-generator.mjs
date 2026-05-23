@@ -69,9 +69,65 @@ function parseArgs() {
   return out;
 }
 
+// Derive idea.md from content-object.md when missing (regen path for old runs).
+// Writes the derived idea.md to disk so subsequent calls are idempotent + cheaper.
+function deriveIdeaFromContentObject(runId) {
+  const coPath = path.join(ROOT, "runs", runId, "content-object.md");
+  if (!fs.existsSync(coPath)) return false;
+  const co = fs.readFileSync(coPath, "utf-8");
+
+  // YAML frontmatter — both --- delimited and ```yaml fenced styles seen in repo.
+  const fmMatch = co.match(/^---\n([\s\S]*?)\n---/) ?? co.match(/```yaml\n([\s\S]*?)\n```/);
+  const fm = {};
+  if (fmMatch) {
+    for (const line of fmMatch[1].split("\n")) {
+      const kv = line.match(/^([a-z_][a-z0-9_]*)\s*:\s*(.+?)\s*$/i);
+      if (kv) fm[kv[1]] = kv[2].replace(/^["']|["']$/g, "");
+    }
+  }
+
+  // Headline = first `# ` line after frontmatter
+  const headlineMatch = co.match(/^#\s+(.+)$/m);
+  const headline = headlineMatch?.[1]?.trim() ?? runId;
+
+  // Brief = ## TL;DR section, fallback to first non-empty paragraph
+  const tldrMatch = co.match(/##\s+TL;DR\s*\n([\s\S]*?)(?=\n##|\n---|$)/i);
+  const briefBody = tldrMatch
+    ? tldrMatch[1].trim()
+    : (co.split(/\n\n/).find(p => p.trim() && !p.startsWith("#") && !p.startsWith("---")) || "").trim();
+
+  // Slot: prefer scheduled_for, or fall back to slot.date if nested
+  const slot = fm.scheduled_for || fm.slot || null;
+  const ideaContent = `---
+content_object: ${runId}
+route: derived-from-content-object
+pillar: ${fm.pillar ?? "2"}
+format: ${fm.format ?? "carousel"}
+target_persona: ${fm.target_persona ?? fm.persona ?? "maria"}
+type: ${fm.pattern ?? fm.type ?? "persona-bio"}
+${slot ? `slot: ${slot}\n` : ""}created_at: ${new Date().toISOString().slice(0,10)}
+---
+
+# ${runId}
+
+**Headline hint:** ${headline}
+
+**Brief:**
+${briefBody || `Regenerar conteúdo pra ${runId}. Briefing derivado automaticamente de content-object.md (idea.md original ausente).`}
+`;
+  const ideaPath = path.join(ROOT, "runs", runId, "idea.md");
+  fs.writeFileSync(ideaPath, ideaContent);
+  console.log(`  ↻ derived idea.md from content-object.md`);
+  return true;
+}
+
 function readBrief(runId) {
   const ideaPath = path.join(ROOT, "runs", runId, "idea.md");
-  if (!fs.existsSync(ideaPath)) throw new Error(`idea.md missing for ${runId}`);
+  if (!fs.existsSync(ideaPath)) {
+    if (!deriveIdeaFromContentObject(runId)) {
+      throw new Error(`idea.md missing for ${runId} and no content-object.md to derive from`);
+    }
+  }
   const txt = fs.readFileSync(ideaPath, "utf-8");
   const meta = {
     pillar: parseInt((txt.match(/^pillar:\s*(\d+)/m) ?? [, "0"])[1]),
@@ -83,11 +139,17 @@ function readBrief(runId) {
   const headlineMatch = txt.match(/\*\*Headline hint:\*\*\s*(.+)/);
   const angleMatch = txt.match(/\*\*Angle:\*\*\s*(.+)/);
   const briefBody = (txt.match(/\*\*Brief:\*\*\n([\s\S]*?)(?=\n##|\n---|\n\*\*External|$)/) ?? [, ""])[1].trim();
+  // Regen hint: if regen-hint.txt exists (set by telegram-bot edit_v2 flow), prepend it.
+  const hintPath = path.join(ROOT, "runs", runId, "regen-hint.txt");
+  let regenHint = "";
+  if (fs.existsSync(hintPath)) {
+    try { regenHint = fs.readFileSync(hintPath, "utf-8").trim(); } catch {}
+  }
   return {
     meta,
     headline_hint: headlineMatch?.[1]?.trim() ?? "",
     angle: angleMatch?.[1]?.trim() ?? "",
-    brief_text: briefBody,
+    brief_text: regenHint ? `[FOUNDER REGEN HINT: ${regenHint}]\n\n${briefBody}` : briefBody,
   };
 }
 

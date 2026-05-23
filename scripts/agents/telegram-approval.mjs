@@ -16,7 +16,7 @@ import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import { summarizeDraft } from "./dashboard-helpers.mjs";
-import { sendTelegram, sendPhotoAlbum, sendWithApproveButtons } from "./telegram-notify.mjs";
+import { sendTelegram, sendPhotoAlbum, sendWithApproveButtons, deleteTelegramMessage } from "./telegram-notify.mjs";
 import { composePrepublishAlert, formatRelativeDate, humanizeRunId, formatStatusEmoji } from "./formatTelegram.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -53,7 +53,8 @@ function audit(entry) {
 }
 
 // ─── Compose the approval message ─────────────────────────────────────────────
-function composeApprovalText(summary) {
+function composeApprovalText(summary, opts = {}) {
+  const { regenCount = 0 } = opts;
   const f = summary.flags;
   const title = humanizeRunId(summary.run_id);
   const when = f.scheduled_for ? formatRelativeDate(f.scheduled_for) : "📌 sem slot (publica imediato)";
@@ -61,7 +62,6 @@ function composeApprovalText(summary) {
   const pillar = f.pillar ? `P${f.pillar}` : "P?";
   const fmt = f.format || "?";
 
-  // Flag pills as compact text.
   const emPill = f.em_dash_count >= 4 ? "❌ — × " + f.em_dash_count
               : f.em_dash_count >= 2 ? "⚠️ — × " + f.em_dash_count
               : "✓ — × " + f.em_dash_count;
@@ -70,7 +70,6 @@ function composeApprovalText(summary) {
     : f.slop.action === "deduct" ? "⚠️ slop revise"
     : "✓ slop ok"
   ) : "";
-  const personaPill = f.persona ? `👤 ${f.persona}` : "👤 ?";
   const scorePill = f.editor_score != null
     ? `📊 ${f.editor_score}/12${f.editor_decision ? " " + f.editor_decision : ""}`
     : "";
@@ -79,8 +78,12 @@ function composeApprovalText(summary) {
     ? (summary.caption.length > 200 ? summary.caption.slice(0, 200).trim() + "…" : summary.caption.trim())
     : "_(sem caption)_";
 
+  const nowBRT = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
+  const versionTag = regenCount > 0 ? `🔄 *regen #${regenCount}* · ${nowBRT}` : `🕐 ${nowBRT} BRT`;
+
   return [
     `📝 *Approval · ${title}*`,
+    versionTag,
     "",
     `\`${summary.run_id}\``,
     `${when} · ${pillar} · ${persona} · ${fmt}`,
@@ -92,11 +95,15 @@ function composeApprovalText(summary) {
 }
 
 // ─── notify ────────────────────────────────────────────────────────────────────
+// 1-card-per-runId. Deletes previous media + buttons message before sending new.
+// State tracks: notified_at, regen_count, media_message_ids[], buttons_message_id.
 export async function notifyApproval(runId, opts = {}) {
   const { force = false } = opts;
   const state = loadState();
-  if (state[runId]?.notified_at && !state[runId].decided_at && !force) {
-    console.log(`(already notified ${runId} at ${state[runId].notified_at})`);
+  const prev = state[runId] || {};
+
+  if (prev.notified_at && !prev.decided_at && !force) {
+    console.log(`(already notified ${runId} at ${prev.notified_at})`);
     return { ok: true, skipped: true };
   }
 
@@ -106,30 +113,58 @@ export async function notifyApproval(runId, opts = {}) {
     return { ok: false, reason: "summarize failed" };
   }
 
-  // Photo album first (so caption + buttons sit AFTER the visual).
+  // ─── Step 1: delete previous approval card (1-card-per-runId rule) ──────────
+  if (prev.media_message_ids?.length) {
+    for (const mid of prev.media_message_ids) {
+      await deleteTelegramMessage(mid);
+    }
+  }
+  if (prev.buttons_message_id) {
+    await deleteTelegramMessage(prev.buttons_message_id);
+  }
+
+  // ─── Step 2: send media (photo album OR video) ──────────────────────────────
   const assetsDir = path.join(ROOT, "runs", runId, "assets");
+  let mediaMessageIds = [];
+  let mediaTopMsgId = null;
   if (fs.existsSync(assetsDir) && (summary.slides?.length || summary.videos?.length)) {
     try {
       if (summary.videos?.length) {
-        // Telegram doesn't allow mixed media; send video first if exists.
         const vid = path.join(assetsDir, summary.videos[0]);
-        await sendVideo(vid, `🎬 Preview ${runId}`);
+        const r = await sendVideo(vid, "");
+        if (r?.result?.message_id) { mediaMessageIds = [r.result.message_id]; mediaTopMsgId = r.result.message_id; }
       } else {
         const slides = summary.slides.slice(0, 10).map(f => path.join(assetsDir, f));
-        await sendPhotoAlbum(slides, `📸 Preview ${runId} (${slides.length} slides)`);
+        const r = await sendPhotoAlbum(slides, "");
+        mediaMessageIds = r?.message_ids || [];
+        mediaTopMsgId = mediaMessageIds[0] || null;
       }
     } catch (e) {
       console.error("media send failed:", e.message);
     }
   }
 
-  // Text + buttons
-  const text = composeApprovalText(summary);
-  const result = await sendWithApproveButtons(text, runId);
-  state[runId] = { ...(state[runId] || {}), notified_at: new Date().toISOString(), notified_force: force };
+  // ─── Step 3: send text + inline buttons, replying to the media group ────────
+  const regenCount = (prev.regen_count || 0) + (force && prev.notified_at ? 1 : 0);
+  const text = composeApprovalText(summary, { regenCount });
+  const buttonsResult = await sendWithApproveButtons(text, runId, {
+    replyToMessageId: mediaTopMsgId || undefined,
+  });
+  const buttonsMessageId = buttonsResult?.results?.[0]?.message_id || null;
+
+  state[runId] = {
+    ...prev,
+    notified_at: new Date().toISOString(),
+    notified_force: force,
+    regen_count: regenCount,
+    media_message_ids: mediaMessageIds,
+    buttons_message_id: buttonsMessageId,
+    decided_at: null,         // reset on re-notify (regen case)
+    reminder_sent_at: null,   // reset on re-notify
+  };
   saveState(state);
-  audit({ event: "approval_notified", run_id: runId });
-  return { ok: !!result?.ok, runId };
+  audit({ event: "approval_notified", run_id: runId, regen_count: regenCount, buttons_message_id: buttonsMessageId });
+  return { ok: !!buttonsResult?.ok, runId, buttons_message_id: buttonsMessageId };
 }
 
 // Native sendVideo (telegram-notify doesn't have one yet).
