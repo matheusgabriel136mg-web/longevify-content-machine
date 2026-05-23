@@ -1,0 +1,93 @@
+# Icon Library Catalog — Longevify
+# Use no content-generator pra whitelist semantic
+# Cada icon tem 1 descrição curta + tags semânticas
+# Quando LLM pede icon novo, content-generator faz match por tag/descrição
+
+icons:
+  # ─── Suplementação ────────────────────────────────────────────
+  icon-vitd.png:
+    description: "Pílula branca sobre superfície warm, dreamy bokeh"
+    tags: [vitamina-d, d3, k2, pill, supplement, suplemento]
+
+  icon-omega.png:
+    description: "Cápsulas amber translucentes (óleo de peixe), bokeh"
+    tags: [omega-3, epa, dha, fish-oil, capsula, anti-inflam]
+
+  icon-supplement.png:
+    description: "Suplemento genérico em superfície neutra"
+    tags: [suplemento, generic, supplement, generic-pill]
+
+  icon-vitc.png:
+    description: "Citrus (laranja) close-up dreamy"
+    tags: [vitamina-c, citrus, citros, laranja, antioxidante]
+
+  # ─── Comida / nutrição ────────────────────────────────────────
+  icon-redmeat.png:
+    description: "Carne vermelha cru ou cozido warm rustico"
+    tags: [carne, beef, heme, ferro-heme, red-meat, proteina-animal]
+
+  icon-ferro.png:
+    description: "Carne vermelha + citros — pareamento heme/vit C"
+    tags: [ferritina, ferro, iron, heme-vit-c, absorption]
+
+  # ─── Sono / recuperação ──────────────────────────────────────
+  icon-sleep.png:
+    description: "Lençol/travesseiro warm linen morning light"
+    tags: [sono, sleep, descanso, recovery, latencia-rem]
+
+  icon-sono.png:
+    description: "Quarto/lençol em tom dreamy noturno"
+    tags: [sono, sleep, janela, bedtime, circadiano]
+
+  icon-sauna.png:
+    description: "Sauna cedar warm interior dimly lit"
+    tags: [sauna, hsp, recovery, calor, heat-shock]
+
+  # ─── Atividade física ────────────────────────────────────────
+  icon-forca.png:
+    description: "Halteres ou musculação em gym warm wood"
+    tags: [forca, strength, peso, dumbbells, massa-magra, hipertrofia]
+
+  icon-exercise.png:
+    description: "Paisagem outdoor blur (running/movement)"
+    tags: [exercise, cardio, movement, performance-baixa]
+
+  # ─── Sintomas / corpo ────────────────────────────────────────
+  icon-brain.png:
+    description: "Coral abstrato (representação cérebro)"
+    tags: [nevoa-mental, cognicao, brain-fog, foco, mental-clarity]
+
+  icon-hair.png:
+    description: "Cacho de cabelo escuro em superfície branca"
+    tags: [queda-cabelo, cabelo, hair-loss, alopecia]
+
+  # ─── Operacional / clinical ──────────────────────────────────
+  icon-painel.png:
+    description: "Lab/tubos clínicos minimalist dreamy"
+    tags: [painel, lab, exames, biomarcadores-coleta, clinical]
+
+  icon-leitura.png:
+    description: "Notebook + caneta sobre mesa warm wood"
+    tags: [leitura, consulta, briefing, clinical-reading, notes]
+
+  icon-protocolo.png:
+    description: "Papel branco com anotações sutil daylight"
+    tags: [protocolo, prescription, plan, customized, notes]
+
+  icon-recheck.png:
+    description: "Calendário/agenda warm wall"
+    tags: [recheck, mensal, follow-up, calendar, monthly]
+
+  # ─── Investigação raiz ────────────────────────────────────────
+  icon-root.png:
+    description: "Paisagem distante person caminhando blur"
+    tags: [raiz, investigation, root-cause, hpylori, menstruacao, celiaca]
+
+# ─── INSTRUÇÕES PARA content-generator ──────────────────────────
+# 1. Lê CATALOG.yaml.icons no boot
+# 2. No prompt, passa lista de filenames disponíveis + tags
+# 3. LLM PRECISA escolher icon SÓ desta lista
+# 4. Se LLM precisa icon que não existe: tenta match semântico via tags
+# 5. Se nem match: fallback pra icon-painel.png (genérico clínico) + flag em audit log
+
+# Future: Higgsfield retry pra GERAR icon novo quando match score < threshold.

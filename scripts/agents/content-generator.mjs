@@ -42,6 +42,14 @@ const VOICE_PATH = path.join(ROOT, "foundation", "voice.md");
 const PILLARS_PATH = path.join(ROOT, "foundation", "pillars.md");
 const SLOP_PATH = path.join(ROOT, "foundation", "compliance", "avoid-slop.yaml");
 const CFM_PATH = path.join(ROOT, "foundation", "compliance", "cfm-blocklist.yaml");
+const ICONS_CATALOG_PATH = path.join(ROOT, "assets", "icons", "CATALOG.yaml");
+const ICONS_DIR = path.join(ROOT, "assets", "icons");
+
+// Load icon catalog (whitelist) — fail fast if LLM invents
+const ICONS_CATALOG = fs.existsSync(ICONS_CATALOG_PATH)
+  ? YAML.parse(fs.readFileSync(ICONS_CATALOG_PATH, "utf-8"))
+  : { icons: {} };
+const VALID_ICONS = Object.keys(ICONS_CATALOG.icons || {});
 
 function logAudit(entry) {
   fs.mkdirSync(path.dirname(AUDIT_LOG), { recursive: true });
@@ -94,6 +102,11 @@ async function generatePersonaBioJson({ runId, brief, anthropic }) {
   const personaId = brief.meta.target_persona;
   const personaDef = personaKw[personaId];
   if (!personaDef) throw new Error(`persona ${personaId} not in persona-keywords.yaml`);
+
+  // Build icons whitelist string for prompt
+  const iconsListStr = Object.entries(ICONS_CATALOG.icons || {})
+    .map(([fname, meta]) => `- ${fname} — ${meta.description} (tags: ${(meta.tags || []).join(", ")})`)
+    .join("\n");
 
   const prompt = `Você é o content-generator da Longevify. Sua tarefa: a partir do brief abaixo, gerar JSON estruturado completo de uma persona-bio case study (carrossel de 6 slides).
 
@@ -157,9 +170,24 @@ Schema:
   },
 
   "protocolo": [
-    { "n": "01", "t": "<intervenção curta>", "b": "<por que/como — 1 frase>", "icon": "icon-<slug>.png" },
+    { "n": "01", "t": "<intervenção curta>", "b": "<por que/como — 1 frase>", "icon": "<EXATAMENTE 1 nome da LISTA ABAIXO>" },
     /* 6 alavancas — CADA uma deve ter relação direta com 1 biomarker */
   ],
+
+═══ ICON WHITELIST (USE SOMENTE ESTES — JAMAIS invente nome) ═══
+${iconsListStr}
+
+REGRA DE ICON: pra cada item do protocolo, escolha o icon mais semanticamente próximo da intervenção. Se nenhum match perfeito, escolha o mais próximo via tags. NUNCA invente um filename novo.
+
+EXEMPLOS válidos:
+- "Vitamina D3 + K2" → icon-vitd.png
+- "Ômega-3 EPA/DHA" → icon-omega.png
+- "Força 3× por semana" → icon-forca.png
+- "Sono janela 22h-6h" → icon-sono.png
+- "Sauna 2× por semana" → icon-sauna.png
+- "Recheck mensal" → icon-recheck.png
+- "Painel completo" → icon-painel.png
+- "Investigue raiz (H. pylori)" → icon-root.png
 
   "copy": {
     "s2_headline_1": "<headline curta — Inter Light>",
@@ -266,12 +294,61 @@ Retorne SÓ o texto da caption. Sem header, sem comentário, sem markdown ###.`;
 }
 
 // ─── Persist outputs ──────────────────────────────────────────────────────────
+function validateIcons(personaJson) {
+  const invalidIcons = [];
+  const remaps = {};
+  for (const item of personaJson.protocolo || []) {
+    if (!item.icon) continue;
+    if (VALID_ICONS.includes(item.icon)) continue;
+    // Try fuzzy match via tags
+    const lowerIcon = item.icon.toLowerCase();
+    let bestMatch = null;
+    for (const [validIcon, meta] of Object.entries(ICONS_CATALOG.icons || {})) {
+      const tags = (meta.tags || []).join(" ");
+      const score = (lowerIcon.includes(validIcon.replace("icon-", "").replace(".png", ""))
+                     || tags.toLowerCase().split(/\s+/).some(t => lowerIcon.includes(t.toLowerCase())))
+                    ? 1 : 0;
+      if (score && !bestMatch) bestMatch = validIcon;
+    }
+    if (bestMatch) {
+      remaps[item.icon] = bestMatch;
+      item.icon = bestMatch;
+    } else {
+      invalidIcons.push({ original: item.icon, fallback: "icon-painel.png" });
+      item.icon = "icon-painel.png"; // generic fallback
+    }
+  }
+  return { invalidIcons, remaps };
+}
+
 function persistPersonaJson({ runId, personaJson, dryRun }) {
   // Salva em personas/<personaId-runId>.json (não sobrescreve persona base)
   const personasDir = path.join(ROOT, "personas");
   fs.mkdirSync(personasDir, { recursive: true });
   const safeId = personaJson.id.replace(/[^a-z0-9-]/gi, "-");
   const p = path.join(personasDir, `${safeId}.json`);
+
+  // Validate icons — remap inválidos ou fallback
+  const { invalidIcons, remaps } = validateIcons(personaJson);
+  if (Object.keys(remaps).length) {
+    console.log(`         ⚠ Icon remaps: ${Object.entries(remaps).map(([k,v]) => `${k}→${v}`).join(", ")}`);
+  }
+  if (invalidIcons.length) {
+    console.log(`         ⚠ Icons inventados → fallback icon-painel.png: ${invalidIcons.map(i => i.original).join(", ")}`);
+  }
+
+  // Copy icons referenced into run dir (renderer expects them there)
+  const runAssetsDir = path.join(ROOT, "runs", runId, "assets");
+  fs.mkdirSync(runAssetsDir, { recursive: true });
+  for (const item of personaJson.protocolo || []) {
+    if (!item.icon) continue;
+    const srcIcon = path.join(ICONS_DIR, item.icon);
+    const dstIcon = path.join(runAssetsDir, item.icon);
+    if (fs.existsSync(srcIcon) && !fs.existsSync(dstIcon)) {
+      fs.copyFileSync(srcIcon, dstIcon);
+    }
+  }
+
   if (dryRun) { console.log(`  [DRY-RUN] Would write ${p}`); return safeId; }
   fs.writeFileSync(p, JSON.stringify(personaJson, null, 2));
   return safeId;
