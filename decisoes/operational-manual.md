@@ -336,6 +336,34 @@ ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl start 'longevify-*.time
 ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-telegram-bot.service"
 ```
 
+### Stop ops dashboard
+```bash
+ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-dashboard.service"
+```
+
+### Dashboard URL + auth (F4)
+
+- Internal bind: `127.0.0.1:4242` on VPS (not exposed)
+- Public access via Cloudflare Tunnel (TLS automático, sem IP exposto)
+- HTTP Basic Auth via `DASHBOARD_USERS` env var (format: `user1:pass1,user2:pass2`)
+
+**One-time cloudflared setup (founder runs in VPS shell):**
+```bash
+ssh root@178.105.184.134
+cloudflared tunnel login                              # opens browser, auth with Cloudflare account
+cloudflared tunnel create longevify-dashboard        # writes credentials JSON
+bash /opt/content-machine/scripts/vps/cloudflared-setup.sh   # wires config + systemd
+```
+
+After setup: pick one access mode:
+- **Custom domain**: add CNAME `ops.longevify.com.br → <tunnel-uuid>.cfargotunnel.com` in Cloudflare DNS. TLS automatic.
+- **Quick trycloudflare URL**: `cloudflared tunnel --url http://127.0.0.1:4242` (no DNS setup, URL changes each run).
+
+**Update dashboard passwords:**
+```bash
+ssh root@178.105.184.134 'sed -i "s|^DASHBOARD_USERS=.*|DASHBOARD_USERS=founder:STRONG1,lucas:STRONG2|" /opt/content-machine/.env && systemctl restart longevify-dashboard'
+```
+
 ### Force circuit OPEN (parar processamento sem desligar timers)
 ```bash
 echo '{"state":"OPEN","reason":"manual_pause"}' > runs/_circuit-state.json
