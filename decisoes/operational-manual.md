@@ -341,6 +341,33 @@ ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-telegram
 ssh -i ~/.ssh/id_ed25519 root@178.105.184.134 "systemctl stop longevify-dashboard.service"
 ```
 
+### Telegram approval flow (v2)
+
+Quando um run termina `editing → approving → publishing`, pipeline.mjs transiciona
+ele pra `blocked` (regra CLAUDE.md: nunca publica sem trigger humano) E dispara
+`telegram-approval.mjs --notify <runId>` em background.
+
+O founder recebe no Telegram (chat 1161825350):
+- 📸 Photo album dos slides (ou 🎬 vídeo do reel)
+- 📝 Caption preview + persona + pillar + flags (em-dash count, slop verdict, editor score)
+- Inline buttons: ✅ Aprovar / ✏️ Editar / 🔄 Refazer / 🗑️ Descartar
+
+**Comportamento dos botões:**
+- **✅ Aprovar** → `npm run publish -- --run <id>` (publica imediato, audit registra reviewer)
+- **✏️ Editar** → bot pergunta "qual ajuste?", próxima mensagem de texto (em até 10min) vira `regen-hint.txt` + dispara content-generator com hint
+- **🔄 Refazer** → content-generator novo do zero (mesmo brief)
+- **🗑️ Descartar** → safe-rm soft delete
+
+**Reminders/stale:** `longevify-approval-reminder.timer` roda hourly (`*:30:00 UTC`).
+- 24h sem decisão → manda lembrete no Telegram
+- 48h sem decisão → marca como `stale_blocked` + audit + mensagem "🪦 stale"
+
+**Multi-reviewer:** popular `.env` com `TELEGRAM_REVIEWERS=1161825350:founder,XXXXXX:lucas` (default = founder se vazio). Audit log captura `reviewer` em todo evento.
+
+**State files:**
+- `runs/_approval-notifications.json` — track de notificações pendentes/decididas
+- `runs/_telegram-pending-edit.json` — chat com pending edit prompt (TTL 10min)
+
 ### Dashboard URL + auth (F4)
 
 - Internal bind: `127.0.0.1:4242` on VPS (not exposed)

@@ -251,14 +251,20 @@ async function handleApproving(runId) {
 }
 
 async function handlePublishing(runId) {
-  // CHECK SCHEDULED time first (NUNCA publica fora do slot OR sem trigger humano)
-  // Per CLAUDE.md: "Auto-publish via cron NUNCA sem trigger explícito do Matheus"
-  // → orchestrator NUNCA invoca publish.ts automaticamente.
-  // → marca como "blocked" + telegram waiting for human trigger
+  // Per CLAUDE.md: "Auto-publish via cron NUNCA sem trigger explícito do Matheus".
+  // Approval flow v2: transition to `blocked` (awaiting human) + send rich Telegram
+  // approval request (media + caption + flags + 4 inline buttons).
+  // Tapping ✅ Aprovar in Telegram fires the actual publish.
   transition(runId, "publishing", "blocked", { failure_reason: "awaiting human publish trigger (CLAUDE.md regra)" });
+  // Background dispatch — non-blocking. Idempotent (telegram-approval skips if already notified).
   try {
-    execSync(`node ${path.join(__dirname, "agents", "telegram-notify.mjs")} --alert "Run ${runId} pronto pra publish. Aguardando seu trigger." info`, { cwd: ROOT });
-  } catch (e) { /* telegram not configured */ }
+    execSync(`nohup node ${path.join(__dirname, "agents", "telegram-approval.mjs")} --notify ${runId} > /tmp/longevify-approval-${runId}.log 2>&1 &`, { cwd: ROOT, shell: "/bin/bash" });
+  } catch (e) {
+    // Fallback to legacy basic alert.
+    try {
+      execSync(`node ${path.join(__dirname, "agents", "telegram-notify.mjs")} --alert "Run ${runId} pronto pra publish. Aguardando seu trigger." info`, { cwd: ROOT });
+    } catch { /* telegram not configured */ }
+  }
 }
 
 // ─── Main tick loop ──────────────────────────────────────────────────────────

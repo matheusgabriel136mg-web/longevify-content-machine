@@ -42,10 +42,56 @@ const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const STATE_PATH = path.join(ROOT, "runs", "_telegram-bot-state.json");
 const AUDIT_LOG = path.join(ROOT, "runs", "_audit-log.jsonl");
 const PUBLISH_PENDING_PATH = path.join(ROOT, "runs", "_publish-pending.json");
+const PENDING_EDIT_PATH = path.join(ROOT, "runs", "_telegram-pending-edit.json");
+const APPROVAL_NOTIF_PATH = path.join(ROOT, "runs", "_approval-notifications.json");
+const PENDING_EDIT_TTL_MIN = 10;
+
+// Reviewer map: TELEGRAM_REVIEWERS=chatid1:founder,chatid2:lucas
+const REVIEWERS = (() => {
+  const m = {};
+  for (const pair of (process.env.TELEGRAM_REVIEWERS || "").split(",")) {
+    const [id, name] = pair.split(":").map(s => s?.trim());
+    if (id && name) m[id] = name;
+  }
+  // Default: founder = TELEGRAM_CHAT_ID
+  if (!Object.keys(m).length && CHAT_ID) m[CHAT_ID] = "founder";
+  return m;
+})();
+const reviewerOf = (chatId) => REVIEWERS[String(chatId)] || `unknown-${chatId}`;
 
 if (!TOKEN || !CHAT_ID) {
   console.error("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing in .env");
   process.exit(1);
+}
+
+// Pending edit state ({ chat_id: { run_id, requested_at } })
+function loadPendingEdit() {
+  if (!fs.existsSync(PENDING_EDIT_PATH)) return {};
+  try { return JSON.parse(fs.readFileSync(PENDING_EDIT_PATH, "utf-8")); } catch { return {}; }
+}
+function savePendingEdit(s) {
+  fs.mkdirSync(path.dirname(PENDING_EDIT_PATH), { recursive: true });
+  fs.writeFileSync(PENDING_EDIT_PATH, JSON.stringify(s, null, 2));
+}
+function pendingEditFresh(entry) {
+  if (!entry?.requested_at) return false;
+  const age = (Date.now() - new Date(entry.requested_at).getTime()) / 60000;
+  return age < PENDING_EDIT_TTL_MIN;
+}
+
+// Approval notifications log ({ run_id: { notified_at, decided_at, decision, reviewer, reason } })
+function loadApprovalNotifs() {
+  if (!fs.existsSync(APPROVAL_NOTIF_PATH)) return {};
+  try { return JSON.parse(fs.readFileSync(APPROVAL_NOTIF_PATH, "utf-8")); } catch { return {}; }
+}
+function saveApprovalNotifs(s) {
+  fs.mkdirSync(path.dirname(APPROVAL_NOTIF_PATH), { recursive: true });
+  fs.writeFileSync(APPROVAL_NOTIF_PATH, JSON.stringify(s, null, 2));
+}
+function markApprovalDecision(runId, decision, reviewer, reason = null) {
+  const all = loadApprovalNotifs();
+  all[runId] = { ...(all[runId] || {}), decided_at: new Date().toISOString(), decision, reviewer, reason };
+  saveApprovalNotifs(all);
 }
 
 function loadState() {
@@ -244,24 +290,78 @@ async function answerCallbackQuery(callbackQueryId, text = "") {
 }
 
 async function handleCallbackQuery(cq) {
-  if (String(cq.message.chat.id) !== String(CHAT_ID)) return;
+  const chatId = cq.message.chat.id;
+  if (!REVIEWERS[String(chatId)] && String(chatId) !== String(CHAT_ID)) {
+    audit({ event: "unauthorized_callback", chat_id: chatId, data: cq.data });
+    return;
+  }
   const data = cq.data || "";  // formato: "<action>:<runId>"
   const [action, runId] = data.split(":");
-  audit({ event: "callback_received", action, run_id: runId });
+  const reviewer = reviewerOf(chatId);
+  audit({ event: "callback_received", action, run_id: runId, reviewer });
   await answerCallbackQuery(cq.id, `processando ${action}...`);
 
   try {
     let reply;
-    if (action === "publish") {
-      // Auto-confirm via button (sem 2-step pra cliques diretos)
+
+    // ─── New approval-v2 actions (canonical flow) ─────────────────────────────
+    if (action === "approve_v2") {
+      // Approve = explicit human publish trigger (per CLAUDE.md "Auto-publish NUNCA sem trigger").
+      // Runs sit in `blocked` (awaiting_human_publish) after handlePublishing.
+      // Tapping approve actually fires publish.ts now.
+      await send(`✅ Publicando \`${runId}\`...`, cq.message.message_id);
+      try {
+        const out = execSync(`cd ${ROOT} && npm run publish -- --run ${runId} 2>&1`, { encoding: "utf-8", timeout: 300000 });
+        const mediaId = (out.match(/media_id:\s*(\S+)/) ?? [, "?"])[1];
+        markApprovalDecision(runId, "approve_v2", reviewer);
+        audit({ event: "approve_v2", run_id: runId, reviewer, media_id: mediaId });
+        reply = `✅ *Publicado* por *${reviewer}*\n\`${runId}\`\nmedia_id: \`${mediaId}\``;
+      } catch (e) {
+        audit({ event: "approve_v2_publish_failed", run_id: runId, reviewer, error: e.message?.slice(0, 200) });
+        reply = `❌ publish falhou: ${e.message.slice(0, 400)}`;
+      }
+    }
+    else if (action === "edit_v2") {
+      // Set pending edit state — next text message from this chat is captured as hint.
+      const pending = loadPendingEdit();
+      pending[String(chatId)] = { run_id: runId, requested_at: new Date().toISOString() };
+      savePendingEdit(pending);
+      audit({ event: "edit_v2_requested", run_id: runId, reviewer });
+      reply = `✏️ *Editar \`${runId}\`*\n\nResponde nesta conversa com o ajuste (ex: "reduz em-dash" / "mais punch no hook" / "troca exemplo da Julia por Ana").\n\n_Você tem ${PENDING_EDIT_TTL_MIN}min. Qualquer /comando cancela._`;
+    }
+    else if (action === "regen_v2") {
+      await send(`🔄 Regenerando \`${runId}\`... (~$0.06 + ~2min)`, cq.message.message_id);
+      try {
+        const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${runId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
+        markApprovalDecision(runId, "regen_v2", reviewer);
+        audit({ event: "regen_v2", run_id: runId, reviewer });
+        reply = `🔄 Regenerado por *${reviewer}*\n\`${runId}\`\n\n_Output tail:_\n\`\`\`\n${out.slice(-600)}\n\`\`\``;
+      } catch (e) {
+        audit({ event: "regen_v2_failed", run_id: runId, reviewer, error: e.message?.slice(0, 200) });
+        reply = `❌ regen falhou: ${e.message.slice(0, 300)}`;
+      }
+    }
+    else if (action === "discard_v2") {
+      const target = path.join(ROOT, "runs", runId);
+      try {
+        execSync(`DESTRUCTIVE_CONFIRMED=1 node ${path.join(ROOT, "scripts", "agents", "safe-rm.mjs")} --path "${target}" --agent telegram-approval-v2 --reason "discarded by ${reviewer}"`, { cwd: ROOT });
+        markApprovalDecision(runId, "discard_v2", reviewer);
+        audit({ event: "discard_v2", run_id: runId, reviewer });
+        reply = `🗑️ Descartado por *${reviewer}*\n\`${runId}\` movido pra _archived`;
+      } catch (e) {
+        reply = `❌ discard falhou: ${e.message.slice(0, 300)}`;
+      }
+    }
+
+    // ─── Legacy actions (kept for T-15min prepublish-alerts compatibility) ───
+    else if (action === "publish") {
       const out = execSync(`cd ${ROOT} && npm run publish -- --run ${runId} 2>&1`, { encoding: "utf-8", timeout: 300000 });
       const mediaId = (out.match(/media_id:\s*(\S+)/) ?? [, "?"])[1];
-      audit({ event: "published_via_button", run_id: runId, media_id: mediaId });
+      audit({ event: "published_via_button", run_id: runId, media_id: mediaId, reviewer });
       reply = `✅ Publicado!\nmedia_id: \`${mediaId}\``;
     } else if (action === "cancel") {
-      // Set blocked
       reply = `🚫 \`${runId}\` cancelado pra este slot`;
-      audit({ event: "cancelled_via_button", run_id: runId });
+      audit({ event: "cancelled_via_button", run_id: runId, reviewer });
     } else if (action === "reedit") {
       const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "editor-agent.mjs")} --run ${runId}`, { encoding: "utf-8", timeout: 60000 });
       reply = "🔄 *Re-edit result*\n```\n" + out.trim().slice(-1500) + "\n```";
@@ -269,27 +369,88 @@ async function handleCallbackQuery(cq) {
       const target = path.join(ROOT, "runs", runId);
       execSync(`DESTRUCTIVE_CONFIRMED=1 node ${path.join(ROOT, "scripts", "agents", "safe-rm.mjs")} --path "${target}" --agent telegram-button --reason "user discard button"`, { cwd: ROOT });
       reply = `🗑 \`${runId}\` archived`;
-    } else {
+    }
+
+    else {
       reply = `❓ ação desconhecida: ${action}`;
     }
     await send(reply, cq.message.message_id);
   } catch (e) {
     await send(`❌ erro processando ${action}: ${e.message.slice(0, 300)}`, cq.message.message_id);
-    audit({ event: "callback_error", action, run_id: runId, error: e.message });
+    audit({ event: "callback_error", action, run_id: runId, error: e.message, reviewer });
   }
+}
+
+async function consumePendingEditIfAny(chatId, text) {
+  // Returns true if this text was consumed as an edit hint (next regen with hint).
+  const all = loadPendingEdit();
+  const entry = all[String(chatId)];
+  if (!entry || !pendingEditFresh(entry)) {
+    if (entry) { delete all[String(chatId)]; savePendingEdit(all); }
+    return false;
+  }
+  // Text is the edit hint. Consume + clear.
+  const { run_id } = entry;
+  const hint = text.trim();
+  delete all[String(chatId)];
+  savePendingEdit(all);
+  const reviewer = reviewerOf(chatId);
+
+  audit({ event: "edit_v2_hint_received", run_id, reviewer, hint });
+  await send(`✏️ Editando \`${run_id}\` com hint:\n> ${hint.slice(0, 200)}\n\n_Regenerando..._`);
+
+  // First, mark current draft as blocked with reason (so reject is audit-recorded).
+  if (fs.existsSync(PIPELINE_DB)) {
+    const db = new Database(PIPELINE_DB);
+    try {
+      db.prepare(`UPDATE runs SET state='blocked', failure_reason=?, updated_at=? WHERE run_id=?`)
+        .run(`edit_v2 hint: ${hint.slice(0, 400)}`, new Date().toISOString(), run_id);
+    } finally { db.close(); }
+  }
+
+  // Save hint to a file so content-generator can pick it up.
+  const hintPath = path.join(ROOT, "runs", run_id, "regen-hint.txt");
+  try {
+    fs.mkdirSync(path.dirname(hintPath), { recursive: true });
+    fs.writeFileSync(hintPath, hint);
+  } catch (e) { console.error("hint write failed", e.message); }
+
+  // Regen.
+  try {
+    const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "content-generator.mjs")} --run ${run_id} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 240000 });
+    markApprovalDecision(run_id, "edit_v2", reviewer, hint);
+    audit({ event: "edit_v2_regen_ok", run_id, reviewer });
+    await send(`✅ Regenerado com hint.\n\`${run_id}\` voltou pra fila.\n\n_Output tail:_\n\`\`\`\n${out.slice(-500)}\n\`\`\``);
+  } catch (e) {
+    audit({ event: "edit_v2_regen_failed", run_id, reviewer, error: e.message?.slice(0, 200) });
+    await send(`❌ regen falhou: ${e.message.slice(0, 400)}`);
+  }
+  return true;
 }
 
 async function handleUpdate(update) {
   if (update.callback_query) return handleCallbackQuery(update.callback_query);
   const msg = update.message;
   if (!msg || !msg.text) return;
-  if (String(msg.chat.id) !== String(CHAT_ID)) {
+  if (!REVIEWERS[String(msg.chat.id)] && String(msg.chat.id) !== String(CHAT_ID)) {
     audit({ event: "unauthorized_chat", chat_id: msg.chat.id, text: msg.text.slice(0, 50) });
     return; // ignore non-authorized chats
   }
+
+  // First: if this text is a /command, clear any pending edit + handle as command.
+  const isCommand = msg.text.trim().startsWith("/");
+  if (isCommand) {
+    const all = loadPendingEdit();
+    if (all[String(msg.chat.id)]) { delete all[String(msg.chat.id)]; savePendingEdit(all); }
+  } else {
+    // Non-command text: check pending edit consumer.
+    const consumed = await consumePendingEditIfAny(msg.chat.id, msg.text);
+    if (consumed) return;
+  }
+
   const parsed = parseCommand(msg.text);
   if (!parsed) return;
-  audit({ event: "command_received", cmd: parsed.cmd, args: parsed.args });
+  audit({ event: "command_received", cmd: parsed.cmd, args: parsed.args, reviewer: reviewerOf(msg.chat.id) });
   const handler = commands[parsed.cmd];
   if (!handler) {
     await send(`❓ comando desconhecido: \`/${parsed.cmd}\`\nUse \`/help\``, msg.message_id);

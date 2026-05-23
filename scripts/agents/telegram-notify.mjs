@@ -125,19 +125,31 @@ export async function sendPhotoAlbum(photoPaths, caption = "") {
   }
 }
 
-// Send approve/cancel inline buttons attached to text
-export async function sendWithApproveButtons(text, runId) {
-  return sendTelegram(text, {
-    replyMarkup: {
-      inline_keyboard: [[
-        { text: "✅ Approve + Publish", callback_data: `publish:${runId}` },
-        { text: "🚫 Cancel", callback_data: `cancel:${runId}` },
-      ], [
-        { text: "🔄 Re-edit", callback_data: `reedit:${runId}` },
-        { text: "🗑 Discard", callback_data: `discard:${runId}` },
-      ]],
-    },
-  });
+// Send approve/cancel inline buttons attached to text.
+// Default = "approval-v2" flow buttons (matches the bot's new handlers + dashboard endpoints).
+// Pass `kind: "legacy"` to get the old publish-direct buttons (used by prepublish-alerts T-15min).
+export async function sendWithApproveButtons(text, runId, opts = {}) {
+  const kind = opts.kind || "approval-v2";
+  const replyMarkup = kind === "legacy"
+    ? {
+        inline_keyboard: [[
+          { text: "✅ Approve + Publish", callback_data: `publish:${runId}` },
+          { text: "🚫 Cancel", callback_data: `cancel:${runId}` },
+        ], [
+          { text: "🔄 Re-edit", callback_data: `reedit:${runId}` },
+          { text: "🗑 Discard", callback_data: `discard:${runId}` },
+        ]],
+      }
+    : {
+        inline_keyboard: [[
+          { text: "✅ Aprovar", callback_data: `approve_v2:${runId}` },
+          { text: "✏️ Editar", callback_data: `edit_v2:${runId}` },
+        ], [
+          { text: "🔄 Refazer", callback_data: `regen_v2:${runId}` },
+          { text: "🗑️ Descartar", callback_data: `discard_v2:${runId}` },
+        ]],
+      };
+  return sendTelegram(text, { ...opts, replyMarkup });
 }
 
 function chunkText(text, maxLen) {
