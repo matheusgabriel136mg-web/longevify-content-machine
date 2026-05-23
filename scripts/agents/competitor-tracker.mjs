@@ -32,21 +32,41 @@ const SNAPSHOTS_DIR = path.join(ROOT, "runs", "_competitor-snapshots");
 const MOVES_LOG = path.join(ROOT, "foundation", "stores", "competitor-moves.md");
 const AUDIT_LOG = path.join(ROOT, "runs", "_audit-log.jsonl");
 const TELEGRAM_NOTIFY = path.join(ROOT, "scripts", "agents", "telegram-notify.mjs");
+const WATCHLIST = path.join(ROOT, "foundation", "source-watchlist.md");
 
 fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
 fs.mkdirSync(path.dirname(MOVES_LOG), { recursive: true });
 
-// Hard-coded list (deriva de source-watchlist.md, evita parsing)
-const COMPETITORS = [
-  { slug: "doutorinc", name: "Doutor Inc", url: "https://doutorinc.com.br" },
-  { slug: "conexa", name: "Conexa Saúde", url: "https://conexasaude.com.br" },
-  { slug: "saudeid", name: "Saúde iD", url: "https://saudeid.com.br" },
-  { slug: "memed", name: "Memed", url: "https://memed.com.br" },
-  { slug: "morsch", name: "Telemedicina Morsch", url: "https://telemedicinamorsch.com.br" },
-  { slug: "beep", name: "Beep Saúde", url: "https://beepsaude.com.br" },
-  { slug: "sami", name: "Sami Saúde", url: "https://sami.com.br" },
-  { slug: "alice", name: "Alice", url: "https://alice.com.br" },
-];
+// Parse competitors from foundation/source-watchlist.md (single source of truth).
+// Matches lines like:
+//   - **Name** (domain.com.br) — description
+//   - **Name** (https://domain.com.br) — description
+// Scope: only lines under "Concorrentes nacionais" section (between that heading and next H2).
+function loadCompetitors() {
+  if (!fs.existsSync(WATCHLIST)) {
+    throw new Error(`source-watchlist.md not found at ${WATCHLIST}`);
+  }
+  const md = fs.readFileSync(WATCHLIST, "utf-8");
+  const sectionMatch = md.match(/##\s+Concorrentes nacionais[\s\S]*?(?=\n##\s|\n#\s|$)/);
+  if (!sectionMatch) {
+    throw new Error("'## Concorrentes nacionais' section missing in source-watchlist.md");
+  }
+  const lineRe = /^-\s+\*\*([^*]+)\*\*\s*\(([^)]+)\)/gm;
+  const competitors = [];
+  let m;
+  while ((m = lineRe.exec(sectionMatch[0])) !== null) {
+    const name = m[1].trim();
+    let url = m[2].trim();
+    if (!/^https?:\/\//.test(url)) url = "https://" + url;
+    const slug = name.toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")  // strip accents
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    competitors.push({ slug, name, url });
+  }
+  return competitors;
+}
+
+const COMPETITORS = loadCompetitors();
 
 function audit(entry) {
   fs.mkdirSync(path.dirname(AUDIT_LOG), { recursive: true });
