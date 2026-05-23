@@ -16,6 +16,7 @@ import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
 import { sendTelegram } from "./telegram-notify.mjs";
+import { checkSourceGrounding } from "./source-grounding-check.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,9 +68,9 @@ function runStep(name, cmd, opts = {}) {
 }
 
 // Main entrypoint. Caller provides runId + (optional) sourceLabel for audit.
-// Returns { ok, run_id, failed_at?: "content-generator"|"generator"|"no_media"|"notify" }
+// Returns { ok, run_id, failed_at?: "content-generator"|"generator"|"no_media"|"grounding"|"notify" }
 export async function runFullPipeline(runId, opts = {}) {
-  const { source = "manual", reviewer = "system", skipNotify = false } = opts;
+  const { source = "manual", reviewer = "system", skipNotify = false, sourceIdeaId = null } = opts;
   audit({ event: "pipeline_start", run_id: runId, source });
 
   // ─── Step 1: content-generator (LLM text/data/caption) ──────────────────────
@@ -104,6 +105,34 @@ export async function runFullPipeline(runId, opts = {}) {
     return { ok: false, run_id: runId, failed_at: "no_media", error: msg };
   }
   console.log(`  ✓ assets verified (${assetCount} slide(s))`);
+
+  // ─── Step 3b: source-grounding check (block hallucinated stats) ─────────────
+  // Skipped when run is not derived from an ingested URL (sourceIdeaId null).
+  if (sourceIdeaId) {
+    const db = new Database(PIPELINE_DB, { readonly: true });
+    let sourceCaption = null;
+    try {
+      const row = db.prepare(`SELECT original_caption FROM ideas_backlog WHERE id = ?`).get(sourceIdeaId);
+      sourceCaption = row?.original_caption || null;
+    } finally { db.close(); }
+    const dpPath = path.join(ROOT, "runs", runId, "draft-package.md");
+    if (sourceCaption && fs.existsSync(dpPath)) {
+      const generated = fs.readFileSync(dpPath, "utf-8");
+      const g = checkSourceGrounding({ generatedText: generated, sourceText: sourceCaption });
+      if (!g.ok) {
+        const hList = g.hallucinated_stats.slice(0, 5).join(", ");
+        const reason = `hallucinated_stats: ${hList}`;
+        markFailed(runId, reason);
+        audit({ event: "pipeline_step_failed", run_id: runId, step: "grounding", hallucinated: g.hallucinated_stats, grounded: g.grounded_stats });
+        try {
+          await sendTelegram(`🚨 *Source-grounding FAIL* \`${runId}\`\n\nClaude inventou stats não-presentes na source:\n${g.hallucinated_stats.slice(0, 5).map(s => `• ${s}`).join("\n")}\n\nGrounded OK:\n${g.grounded_stats.slice(0, 3).map(s => `• ${s}`).join("\n") || "_(nenhuma)_"}\n\nApproval card *NÃO ENVIADO*. Re-roda com prompt grounded.`);
+        } catch {}
+        return { ok: false, run_id: runId, failed_at: "grounding", error: reason, hallucinated: g.hallucinated_stats };
+      }
+      console.log(`  ✓ source-grounding PASS (${g.grounded_stats.length} stats grounded, 0 hallucinated)`);
+      audit({ event: "grounding_pass", run_id: runId, grounded: g.grounded_stats });
+    }
+  }
 
   // ─── Step 4: notify approval (unless skipped) ───────────────────────────────
   if (skipNotify) {

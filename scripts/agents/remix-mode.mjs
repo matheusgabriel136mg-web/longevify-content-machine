@@ -79,8 +79,17 @@ async function callClaudeRemix(idea) {
 
 Sua tarefa: remixar este post externo num draft Longevify em pt-BR.
 
-═══ POST ORIGINAL (${idea.source_brand}, ${idea.source_platform}) ═══
+═══ POST ORIGINAL (${idea.source_brand}, ${idea.source_platform}) — fonte única de fatos verificáveis ═══
 ${idea.original_caption}
+
+═══ REGRA DE GROUNDING (NÃO-NEGOCIÁVEL) ═══
+- USE APENAS estatísticas, números, percentuais e citações PRESENTES no post original acima.
+- NÃO adicione fatos do seu training (mesmo que plausíveis ou clinicamente corretos).
+- Se precisar suportar uma claim sem suporte na source → OMITA. Qualidade > volume.
+- Termos médicos consagrados (ApoB, hs-CRP, HbA1c) e faixas funcionais canônicas (Longevify foundation) são OK porque são CONCEITOS/canon.
+- Numbers no output que NÃO estão na source serão flagged como hallucinated e bloqueiam approval card.
+
+Declare no campo 'source_stats_used' quais stats do source você usou.
 
 ═══ VOICE / BRAND-TRUTH ═══
 ${voice}
@@ -103,11 +112,18 @@ ${slop}
   * NUNCA "cura", "trata", "previne doença" — use "suporta", "otimiza", "calibra"
 
 ═══ PATTERN SELECTION ═══
-Escolha UM dos 4 patterns que melhor encaixa neste conteúdo:
-- "persona-bio-case-study"   — narrativa de pessoa (sintoma → painel → protocolo → resultado em N semanas)
-- "dado-punch-bryan-style"   — single-image com 1 número/stat gigante + frase curta (ex: 73%)
-- "brand-manifesto"          — manifesto/posicionamento/filosofia editorial
-- "biomarker-gap"            — comparação faixa populacional vs faixa funcional de UM biomarcador
+
+REGRA DE OURO: tópico rico (≥3 sub-pontos relacionados no post original) → CARROSSEL.
+                tópico compacto (1 dado central, 1 frase) → dado-punch.
+
+- "dado-punch-bryan-style"   — SINGLE IMAGE. SÓ se: 1 dado central (ex: 73%, 5x, 500mi) + 1 frase impacto Mito-style + ZERO sub-pontos que precisariam de slide próprio. Default é carrossel quando ambíguo.
+- "biomarker-gap"            — CARROSSEL 5 slides. Sintoma → biomarcador escondido → faixa populacional vs funcional → protocolo → manifesto. Coringa pra tópicos técnicos.
+- "persona-bio-case-study"   — CARROSSEL 6 slides. Narrativa pessoa concreta (Maria/Julia/Pedro/Ana).
+- "brand-manifesto"          — CARROSSEL 5 slides. Manifesto/posicionamento/filosofia.
+
+VIESES A EVITAR:
+- NÃO escolha dado-punch só porque o original tem um número. Pergunta: "esse número aguenta sozinho 1 slide inteiro?". Se não, carrossel.
+- biomarker-gap é o coringa pra tópicos técnicos com ≥3 pontos.
 
 ═══ OUTPUT: JSON ÚNICO ═══
 {
@@ -117,7 +133,8 @@ Escolha UM dos 4 patterns que melhor encaixa neste conteúdo:
   "sub_headline": "<oferta de produto/protocolo, max 12 palavras>",
   "caption_full": "<caption pt-BR completa 800-1200 chars, estrutura preservada do original mas adaptada>",
   "cover_variant": "copacabana-woman-A" | "sp-restaurant-still-life-A" | "br-executive-lunch-cgm-B" | "generic-br-premium",
-  "remix_notes": "<1 sentence sobre o que mudou vs original>"
+  "remix_notes": "<1 sentence sobre o que mudou vs original>",
+  "source_stats_used": ["<stats verbatim do post original — ex: '95% serotonina', '70% imune'. [] se nenhuma stat usada.>"]
 }
 
 REGRA JSON CRÍTICA: dentro de qualquer valor string (especialmente caption_full), JAMAIS use aspas duplas (\"). Se precisar destacar palavras use aspas simples ('') ou curvas (« »). Quebras de linha = \\n literal.
@@ -174,10 +191,16 @@ async function main() {
   const a = process.argv.slice(2);
   const idx = a.indexOf("--idea");
   if (idx < 0 || !a[idx + 1]) {
-    console.error("Usage: remix-mode.mjs --idea <id>");
+    console.error("Usage: remix-mode.mjs --idea <id> [--pattern <name>]");
     process.exit(1);
   }
   const ideaId = parseInt(a[idx + 1]);
+  const pIdx = a.indexOf("--pattern");
+  const forcedPattern = pIdx >= 0 && a[pIdx + 1] ? a[pIdx + 1] : null;
+  if (forcedPattern && !PATTERN_MAP[forcedPattern]) {
+    console.error(`Unknown --pattern '${forcedPattern}'. Valid: ${Object.keys(PATTERN_MAP).join(", ")}`);
+    process.exit(1);
+  }
   const idea = getIdea(ideaId);
   if (!idea) { console.error(`idea #${ideaId} not found`); process.exit(1); }
 
@@ -187,14 +210,19 @@ async function main() {
   console.log(`  ✓ Claude remix done ($${remix._cost_usd.toFixed(4)})`);
   audit({ event: "remix_llm_done", idea_id: ideaId, cost_usd: remix._cost_usd });
 
-  // ─── Pattern resolution (Bug R2 + reel-tips quarantine) ────────────────────
+  // ─── Pattern resolution (Bug R2 + reel-tips quarantine + --pattern force) ──
   let chosenPattern = remix.chosen_pattern && PATTERN_MAP[remix.chosen_pattern]
     ? remix.chosen_pattern
     : "persona-bio-case-study";
   if (PATTERN_EXCLUDED_FROM_AUTOPICK.has(chosenPattern)) {
-    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — falling back to dado-punch-bryan-style`);
-    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "dado-punch-bryan-style", idea_id: ideaId });
-    chosenPattern = "dado-punch-bryan-style";
+    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — fallback biomarker-gap`);
+    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "biomarker-gap", idea_id: ideaId });
+    chosenPattern = "biomarker-gap";
+  }
+  if (forcedPattern) {
+    console.log(`  🔧 --pattern override: ${chosenPattern} → ${forcedPattern}`);
+    audit({ event: "pattern_forced", original: chosenPattern, forced: forcedPattern, idea_id: ideaId });
+    chosenPattern = forcedPattern;
   }
   const { type: patternType, format: patternFormat } = PATTERN_MAP[chosenPattern];
   console.log(`  ✓ pattern: ${chosenPattern} (type=${patternType}, format=${patternFormat}) — ${remix.pattern_reason || ""}`);
@@ -296,7 +324,7 @@ ${remix.remix_notes}
   // Run the full pipeline (content-gen → visual → assert media → notify).
   // pipeline-helpers handles failures: marks state='failed' + Telegram alert,
   // returns { ok:false, failed_at } so we never send empty approval cards.
-  const result = await runFullPipeline(runId, { source: "remix-mode", reviewer: `idea-${ideaId}` });
+  const result = await runFullPipeline(runId, { source: "remix-mode", reviewer: `idea-${ideaId}`, sourceIdeaId: ideaId });
   if (!result.ok) {
     console.error(`\n✗ Remix pipeline failed at step '${result.failed_at}': ${result.error?.slice(0, 200)}`);
     setIdeaStatus(ideaId, "failed", { promoted_to_run_id: runId, remix_decision: "remix-failed" });

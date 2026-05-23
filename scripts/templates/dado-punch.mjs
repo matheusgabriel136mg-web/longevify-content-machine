@@ -27,7 +27,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, OUT_W, OUT_H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir } from "./_shared.mjs";
+import { W, H, OUT_W, OUT_H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir, wrapText } from "./_shared.mjs";
 import { higgsfieldGenerate } from "../agents/higgsfield-retry.mjs";
 import { validateCover } from "../agents/cover-validator.mjs";
 
@@ -112,25 +112,56 @@ if (data.kicker) {
 // Número GIGANTE
 svg += `<text x="${W/2}" y="${600}" font-family="Inter, sans-serif" font-size="320" font-weight="200" fill="${accent}" text-anchor="middle" letter-spacing="-12">${esc(data.number || "—")}</text>`;
 
-if (data.headline_1) {
-  svg += `<text x="${W/2}" y="${740}" font-family="Inter, sans-serif" font-size="32" font-weight="400" fill="${P.WHITE}" text-anchor="middle" letter-spacing="-0.5">${esc(data.headline_1)}</text>`;
-}
-if (data.headline_2_italic) {
-  svg += `<text x="${W/2}" y="${782}" font-family="Georgia, serif" font-style="italic" font-size="32" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.headline_2_italic)}</text>`;
+// ─── Centered text wrap helper (fix 2026-05-23: body text was overflowing) ─
+// Canvas 1080px wide; safe usable area ~920px (80px margin per side).
+// At Inter fs 32: ~28 chars/line · fs 20: ~50 chars · Georgia fs 22 italic: ~52 chars · Courier fs 13: ~65 chars.
+function emitWrappedCentered(text, { startY, fontSize, family, weight = "400", fill, italic = false, letterSpacing = 0, maxChars, lineHeight }) {
+  if (!text) return startY;
+  const lines = wrapText(text, maxChars);
+  const lh = lineHeight || Math.round(fontSize * 1.3);
+  for (let i = 0; i < lines.length; i++) {
+    const yy = startY + i * lh;
+    svg += `<text x="${W/2}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''} text-anchor="middle"${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''}>${esc(lines[i])}</text>`;
+  }
+  return startY + (lines.length - 1) * lh;
 }
 
-const bodyLines = data.body || [];
-bodyLines.forEach((ln, i) => {
-  svg += `<text x="${W/2}" y="${890 + i * 30}" font-family="Inter, sans-serif" font-size="20" font-weight="400" fill="${P.WHITE_SOFT}" text-anchor="middle">${esc(ln)}</text>`;
+let cursorY = 740;
+cursorY = emitWrappedCentered(data.headline_1, {
+  startY: cursorY, fontSize: 32, family: "Inter, sans-serif", fill: P.WHITE,
+  letterSpacing: "-0.5", maxChars: 28, lineHeight: 42,
 });
+if (data.headline_2_italic) {
+  cursorY = emitWrappedCentered(data.headline_2_italic, {
+    startY: cursorY + 42, fontSize: 32, family: "Georgia, serif", fill: P.WHITE,
+    italic: true, maxChars: 28, lineHeight: 42,
+  });
+}
+
+// Body lines (gap after headlines)
+cursorY += 70;
+const bodyLines = data.body || [];
+for (const rawLine of bodyLines) {
+  cursorY = emitWrappedCentered(rawLine, {
+    startY: cursorY, fontSize: 20, family: "Inter, sans-serif", fill: P.WHITE_SOFT,
+    maxChars: 50, lineHeight: 28,
+  }) + 28 + 6;  // step to next paragraph
+}
 
 if (data.closing_italic) {
-  const closingY = 890 + bodyLines.length * 30 + 50;
-  svg += `<text x="${W/2}" y="${closingY}" font-family="Georgia, serif" font-style="italic" font-size="22" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.closing_italic)}</text>`;
+  cursorY += 24;
+  cursorY = emitWrappedCentered(data.closing_italic, {
+    startY: cursorY, fontSize: 22, family: "Georgia, serif", fill: P.WHITE,
+    italic: true, maxChars: 52, lineHeight: 30,
+  });
 }
 
 if (data.footer_source) {
-  svg += `<text x="${W/2}" y="${1110}" font-family="Courier New, monospace" font-size="13" font-weight="500" fill="${P.WHITE_FAINT}" text-anchor="middle" letter-spacing="2.5">${esc(data.footer_source)}</text>`;
+  // Footer pinned near bottom regardless of body length.
+  emitWrappedCentered(data.footer_source, {
+    startY: 1110, fontSize: 13, family: "Courier New, monospace", weight: "500",
+    fill: P.WHITE_FAINT, letterSpacing: "2.5", maxChars: 65, lineHeight: 18,
+  });
 }
 
 // Composite: bg → svg overlay (text) → logo

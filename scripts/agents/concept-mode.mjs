@@ -90,7 +90,20 @@ async function callClaudeConcept(idea) {
 ═══ TÓPICO (inspiração, NÃO estrutura) ═══
 ${topic}
 
+═══ SOURCE CAPTION COMPLETO (fonte única de fatos verificáveis) ═══
+${idea.original_caption}
+
 (Brand original do post: ${idea.source_brand}. Use só como referência de espaço temático — NUNCA copie estrutura, hook, ou organização.)
+
+═══ REGRA DE GROUNDING (NÃO-NEGOCIÁVEL) ═══
+- USE APENAS estatísticas, números, percentuais e citações PRESENTES no source caption acima.
+- NÃO adicione fatos do seu training (mesmo que plausíveis ou clinicamente corretos).
+- Se precisar suportar uma claim sem suporte na source → OMITA. Qualidade > volume.
+- Termos médicos consagrados (ApoB, hs-CRP, HbA1c, faixa funcional) são OK porque são CONCEITOS, não stats.
+- Stats genéricos populacionais (ex: faixa funcional 40-60 ng/mL) são OK SE coerentes com canon Longevify (foundation/*).
+- Numbers in output que NÃO estão no source caption serão flagged como hallucinated e bloqueiam approval.
+
+Você DEVE declarar quais stats você USOU do source no campo 'source_stats_used'.
 
 ═══ VOICE / BRAND-TRUTH ═══
 ${voice}
@@ -110,20 +123,30 @@ ${slop}
 - Português brasileiro. Termos médicos em inglês permitidos (ApoB, hs-CRP, etc).
 
 ═══ PATTERN — escolha UM dos 4 ═══
-- "persona-bio-case-study"   — narrativa pessoa (sintoma → painel → protocolo → 6 sem)
-- "dado-punch-bryan-style"   — single-image com 1 número/stat gigante (ex: 73%)
-- "brand-manifesto"          — manifesto/posicionamento/filosofia
-- "biomarker-gap"            — comparação faixa populacional vs faixa funcional
+
+REGRA DE OURO: tópico rico (≥3 sub-pontos relacionados) → CARROSSEL.
+                tópico compacto (1 dado central, 1 frase) → dado-punch.
+
+- "dado-punch-bryan-style"   — SINGLE IMAGE. SÓ se: 1 dado central (ex: 73%, 5x, 500mi) + 1 frase impacto Mito-style + ZERO sub-pontos que precisariam de slide próprio. Se o tópico tem múltiplos ângulos (sintomas + mecanismo + protocolo + CTA), NÃO use. Default é carrossel quando ambíguo.
+- "biomarker-gap"            — CARROSSEL 5 slides. Sintoma → biomarcador escondido → faixa populacional vs funcional → protocolo → manifesto. Bate com qualquer tópico de "exame normal mas sensação ruim" / "marcador específico" / "eixo X-Y" (ex: eixo intestino-cérebro, vit D, ferritina).
+- "persona-bio-case-study"   — CARROSSEL 6 slides. Narrativa pessoa concreta (Maria/Julia/Pedro/Ana) com sintoma → painel → protocolo → resultado em 6 sem.
+- "brand-manifesto"          — CARROSSEL 5 slides. Manifesto/posicionamento/filosofia editorial. Bate com tópico de framing macro (modelo convencional vs Longevify, faixa funcional como categoria, ApoB vs colesterol).
+
+VIESES A EVITAR:
+- NÃO escolha dado-punch só porque o original tem um número. Pergunta: "esse número aguenta sozinho 1 slide inteiro sem precisar de contexto?". Se não, carrossel.
+- NÃO escolha persona-bio se o tópico é abstrato (sem pessoa concreta).
+- biomarker-gap é o coringa pra tópicos técnicos com ≥3 pontos.
 
 ═══ OUTPUT: JSON ÚNICO ═══
 {
-  "chosen_pattern": "<one of 5 above>",
+  "chosen_pattern": "<one of 4 above>",
   "pattern_reason": "<1 sentence>",
   "headline": "<4-6 words, paradoxo/biológico>",
   "sub_headline": "<oferta de produto/protocolo, max 12 palavras>",
   "caption_full": "<800-1200 chars pt-BR, formato Longevify, NÃO copia estrutura do original>",
   "cover_variant": "copacabana-woman-A" | "sp-restaurant-still-life-A" | "br-executive-lunch-cgm-B" | "generic-br-premium",
-  "concept_notes": "<1 sentence: o que pegou do tópico + por que esse pattern>"
+  "concept_notes": "<1 sentence: o que pegou do tópico + por que esse pattern>",
+  "source_stats_used": ["<lista das stats verbatim copiadas do source caption — ex: '95% serotonina', '70% sistema imune'. SE NENHUMA stat do source foi usada, [].>"]
 }
 
 REGRA JSON CRÍTICA: dentro de qualquer valor string (especialmente caption_full), JAMAIS use aspas duplas (\"). Se precisar destacar palavras use aspas simples ('') ou curvas (« »). Quebras de linha = \\n literal. Caractere \\ não permitido salvo \\n.
@@ -191,10 +214,18 @@ async function main() {
   const a = process.argv.slice(2);
   const idx = a.indexOf("--idea");
   if (idx < 0 || !a[idx + 1]) {
-    console.error("Usage: concept-mode.mjs --idea <id>");
+    console.error("Usage: concept-mode.mjs --idea <id> [--pattern <name>]");
     process.exit(1);
   }
   const ideaId = parseInt(a[idx + 1]);
+  // Optional --pattern override: founder can force a specific pattern (e.g. when
+  // re-applying after a bad auto-pick). Must match one of PATTERN_MAP keys.
+  const pIdx = a.indexOf("--pattern");
+  const forcedPattern = pIdx >= 0 && a[pIdx + 1] ? a[pIdx + 1] : null;
+  if (forcedPattern && !PATTERN_MAP[forcedPattern]) {
+    console.error(`Unknown --pattern '${forcedPattern}'. Valid: ${Object.keys(PATTERN_MAP).join(", ")}`);
+    process.exit(1);
+  }
   const idea = getIdea(ideaId);
   if (!idea) { console.error(`idea #${ideaId} not found`); process.exit(1); }
 
@@ -207,9 +238,15 @@ async function main() {
   let chosenPattern = result.chosen_pattern && PATTERN_MAP[result.chosen_pattern]
     ? result.chosen_pattern : "persona-bio-case-study";
   if (PATTERN_EXCLUDED_FROM_AUTOPICK.has(chosenPattern)) {
-    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — fallback dado-punch-bryan-style`);
-    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "dado-punch-bryan-style", idea_id: ideaId });
-    chosenPattern = "dado-punch-bryan-style";
+    console.log(`  ⚠ Claude picked excluded pattern '${chosenPattern}' — fallback biomarker-gap`);
+    audit({ event: "pattern_excluded_fallback", original: chosenPattern, fallback: "biomarker-gap", idea_id: ideaId });
+    chosenPattern = "biomarker-gap";
+  }
+  // --pattern <name> CLI override wins over Claude pick.
+  if (forcedPattern) {
+    console.log(`  🔧 --pattern override: ${chosenPattern} → ${forcedPattern}`);
+    audit({ event: "pattern_forced", original: chosenPattern, forced: forcedPattern, idea_id: ideaId });
+    chosenPattern = forcedPattern;
   }
   const { type: patternType, format: patternFormat } = PATTERN_MAP[chosenPattern];
 
@@ -286,7 +323,7 @@ ${result.concept_notes}
   }
 
   // Full pipeline via shared helper — guarantees no half-rendered notify.
-  const pipelineResult = await runFullPipeline(runId, { source: "concept-mode", reviewer: `idea-${ideaId}` });
+  const pipelineResult = await runFullPipeline(runId, { source: "concept-mode", reviewer: `idea-${ideaId}`, sourceIdeaId: ideaId });
   if (!pipelineResult.ok) {
     console.error(`\n✗ Concept pipeline failed at step '${pipelineResult.failed_at}': ${pipelineResult.error?.slice(0, 200)}`);
     setIdeaStatus(ideaId, "failed", { promoted_to_run_id: runId, remix_decision: "concept-failed", use_mode: "concept-only" });
