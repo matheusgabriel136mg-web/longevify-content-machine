@@ -30,8 +30,20 @@ fs.mkdirSync(TMP_BASE, { recursive: true });
 const DEFAULT_TIMEOUT_MS = 180 * 1000; // 3min per job
 const MAX_RETRIES = 2;
 
+// Best-effort .env loader (child processes spawned by generator.mjs don't inherit it).
+function ensureEnvLoaded() {
+  if (process.env.OPENAI_API_KEY) return;
+  const envPath = path.join(ROOT, ".env");
+  if (!fs.existsSync(envPath)) return;
+  for (const line of fs.readFileSync(envPath, "utf-8").split("\n")) {
+    const m = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);
+    if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "");
+  }
+}
+
 // ─── OpenAI gpt-image-1 fallback (when Higgsfield CLI missing / failed) ───────
 async function openaiFallback({ prompt, outPath }) {
+  ensureEnvLoaded();
   if (!process.env.OPENAI_API_KEY) return { ok: false, reason: "OPENAI_API_KEY missing" };
   let OpenAI;
   try { OpenAI = (await import("openai")).default; }
