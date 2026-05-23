@@ -1,0 +1,125 @@
+# Persona Keywords — detecção determinística com strong/weak signals
+# v1.0 — 2026-05-22 (D1)
+#
+# Regra de peso:
+#   - strong_signal:  match = +3 pontos (definitivo da persona)
+#   - weak_signal:    match = +1 ponto (overlap com outras personas)
+#
+# Decisão:
+#   - Maior score = persona detectada
+#   - Se TOP 2 personas empatam SOMENTE em weak_signals → LLM tiebreaker
+#   - Se zero matches em qualquer persona → LLM cold call
+#
+# Mira: cada peça serve hero ICP via UMA das 4 personas (Maria/Julia/Pedro/Ana)
+
+version: "1.0"
+updated: "2026-05-22"
+
+maria:
+  description: "Mulher 35-50, advogada/médica/exec, R$25k+/mês. Frustração com fragmentação cara."
+  strong_signals:
+    - "fragmentação"
+    - "5 médicos"
+    - "5 profissionais"
+    - "10 profissionais"
+    - "15 profissionais"
+    - "mal atendida"
+    - "pago caro"
+    - "consulta de 3 semanas"
+    - "agenda lotada"
+    - "convênio premium"
+    - "advogada"
+    - "executiva"
+    - "fragmentado"
+    - "ninguém amarra"
+  weak_signals:
+    - "queda de cabelo"
+    - "névoa mental"
+    - "cansaço"
+    - "fadiga"
+    - "libido"
+    - "frustrada"
+    - "cuida"
+    - "rotina"
+
+julia:
+  description: "Carioca casual fit 30-45, mora bem, treina casual. Da sensação ao dado."
+  strong_signals:
+    - "carioca"
+    - "lagoa"
+    - "ipanema"
+    - "leblon"
+    - "barra"
+    - "jardim botânico"
+    - "lifestyle"
+    - "sauna"
+    - "casual fit"
+    - "yoga"
+    - "praia"
+    - "rio de janeiro"
+    - "sensação ao dado"
+    - "translate sintoma"
+  weak_signals:
+    - "sintoma"
+    - "sensação"
+    - "fadiga"
+    - "sono picado"
+    - "pernas inquietas"
+    - "disposição"
+    - "treino"
+    - "warm"
+
+pedro:
+  description: "Atleta amador 30-45, Whoop/Garmin, treina sério. Integração + AI on-demand."
+  strong_signals:
+    - "hrv"
+    - "vo2max"
+    - "z2"
+    - "zona 2"
+    - "lactato"
+    - "overtraining"
+    - "overreaching"
+    - "whoop"
+    - "garmin"
+    - "oura"
+    - "carga aeróbica"
+    - "treino z"
+    - "ai on-demand"
+    - "agente conversacional"
+    - "wearable"
+    - "atleta"
+  weak_signals:
+    - "treino"
+    - "performance"
+    - "recuperação"
+    - "cansaço"
+    - "queda de cabelo"
+    - "sono"
+
+ana:
+  description: "Executiva premium 40-55, R$50k+/mês, Equinox+Apple. Premium identity + cutting-edge."
+  strong_signals:
+    - "equinox"
+    - "blue bottle"
+    - "executiva premium"
+    - "cutting-edge"
+    - "biohacker"
+    - "longevidade premium"
+    - "deep-dive"
+    - "apob"
+    - "lp(a)"
+    - "lp a"
+    - "homocisteína"
+    - "t3 reverso"
+    - "telômero"
+    - "metilação"
+  weak_signals:
+    - "premium"
+    - "executiva"
+    - "sofisticado"
+    - "biomarcador"
+    - "ciência"
+    - "evidência"
+
+# Persona fallback se zero matches: chamar LLM com voice.md modes + caption + persona descriptions
+# LLM tiebreaker prompt: "Dado este draft, dado que personas X e Y empataram em sinais fracos, qual persona é a alvo mais provável?"
