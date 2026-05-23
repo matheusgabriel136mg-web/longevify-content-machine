@@ -30,8 +30,58 @@ fs.mkdirSync(TMP_BASE, { recursive: true });
 const DEFAULT_TIMEOUT_MS = 180 * 1000; // 3min per job
 const MAX_RETRIES = 2;
 
-// ─── Single job with retry ────────────────────────────────────────────────────
+// ─── OpenAI gpt-image-1 fallback (when Higgsfield CLI missing / failed) ───────
+async function openaiFallback({ prompt, outPath }) {
+  if (!process.env.OPENAI_API_KEY) return { ok: false, reason: "OPENAI_API_KEY missing" };
+  let OpenAI;
+  try { OpenAI = (await import("openai")).default; }
+  catch (e) { return { ok: false, reason: "openai SDK not installed" }; }
+  const client = new OpenAI();
+  try {
+    const r = await client.images.generate({
+      model: "gpt-image-1",
+      prompt,
+      size: "1024x1536",  // closest to 4:5 (2:3); sharp/composite crops to 1080×1350
+      quality: "high",
+      n: 1,
+    });
+    const item = r.data?.[0];
+    if (!item) return { ok: false, reason: "no image returned" };
+    if (item.b64_json) {
+      fs.writeFileSync(outPath, Buffer.from(item.b64_json, "base64"));
+    } else if (item.url) {
+      const resp = await fetch(item.url);
+      fs.writeFileSync(outPath, Buffer.from(await resp.arrayBuffer()));
+    } else {
+      return { ok: false, reason: "neither b64_json nor url" };
+    }
+    return { ok: true, fallback: "openai-gpt-image-1", path: outPath };
+  } catch (e) {
+    return { ok: false, reason: e.message?.slice(0, 200) || "openai exception" };
+  }
+}
+
+// Detects if higgsfield CLI is available + auth'd. Cached after first check.
+let _higgsfieldAvailable = null;
+function higgsfieldAvailable() {
+  if (_higgsfieldAvailable !== null) return _higgsfieldAvailable;
+  try {
+    const r = spawnSync("higgsfield", ["--version"], { stdio: "ignore" });
+    _higgsfieldAvailable = r.status === 0;
+  } catch { _higgsfieldAvailable = false; }
+  return _higgsfieldAvailable;
+}
+
+// ─── Single job with retry (auto-fallback to OpenAI if Higgsfield missing) ──
 export async function higgsfieldGenerate({ prompt, aspectRatio = "1:1", resolution = "2k", model = "nano_banana_2", logName = null, outPath = null }) {
+  // Pre-check: if Higgsfield CLI not on PATH, skip straight to OpenAI fallback.
+  if (!higgsfieldAvailable()) {
+    console.log(`  ↪ Higgsfield CLI missing — falling back to OpenAI gpt-image-1`);
+    if (!outPath) return { ok: false, reason: "outPath required for fallback" };
+    const r = await openaiFallback({ prompt, outPath });
+    if (r.ok) return { ok: true, url: null, path: outPath, attempts: 1, fallback: "openai-gpt-image-1" };
+    return { ok: false, reason: r.reason };
+  }
   const jobName = logName || `hf-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
   const logPath = path.join(TMP_BASE, `${jobName}.log`);
 
