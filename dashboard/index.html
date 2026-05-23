@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Longevify · Content Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #1A1916; color: #F5EFE3; }
+  .card { background: #232120; border: 1px solid #3a3733; }
+  .card-hover:hover { background: #2a2826; }
+  .accent { color: #D4A053; }
+  .sage { color: #8FB39A; }
+  .terra { color: #A8623A; }
+  .muted { color: #F5EFE388; }
+  .badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; letter-spacing: 1.5px; font-weight: 500; }
+  .badge-draft { background: #3a3733; color: #F5EFE3CC; }
+  .badge-approving { background: #5a4733; color: #D4A053; }
+  .badge-published { background: #3a5040; color: #8FB39A; }
+  .badge-blocked { background: #5a3733; color: #C95A4E; }
+  .badge-failed { background: #5a3733; color: #C95A4E; }
+  pre { background: #1A1916; border: 1px solid #3a3733; padding: 12px; border-radius: 6px; font-size: 11px; overflow-x: auto; }
+  button { transition: all 0.15s; }
+  button:hover { opacity: 0.85; }
+  .btn-primary { background: #D4A053; color: #1A1916; padding: 8px 14px; border-radius: 6px; font-weight: 500; font-size: 13px; }
+  .btn-secondary { background: #3a3733; color: #F5EFE3; padding: 8px 14px; border-radius: 6px; font-weight: 500; font-size: 13px; }
+  .btn-danger { background: #5a3733; color: #F5EFE3; padding: 8px 14px; border-radius: 6px; font-weight: 500; font-size: 13px; }
+  input, textarea, select { background: #1A1916; border: 1px solid #3a3733; color: #F5EFE3; padding: 8px 12px; border-radius: 6px; width: 100%; font-size: 13px; }
+  textarea { resize: vertical; min-height: 80px; }
+  .loading { opacity: 0.5; pointer-events: none; }
+  .caption-preview { font-size: 12px; line-height: 1.5; color: #F5EFE3CC; max-height: 6em; overflow: hidden; }
+  .caption-preview.expanded { max-height: none; }
+  .flag-pill { display: inline-flex; gap: 4px; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+  .flag-ok { background: #2a3a30; color: #8FB39A; }
+  .flag-warn { background: #4a3a20; color: #D4A053; }
+  .flag-bad { background: #4a2828; color: #C95A4E; }
+  details > summary { cursor: pointer; outline: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  .health-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #3a3733; font-size: 12px; }
+  .health-row:last-child { border-bottom: none; }
+  @media (max-width: 640px) {
+    body { padding: 1rem !important; }
+    h1 { font-size: 1.5rem !important; }
+    section { padding: 1rem !important; }
+    .grid.grid-cols-3 { grid-template-columns: 1fr !important; gap: 0.75rem !important; }
+    .grid.grid-cols-2 { grid-template-columns: 1fr !important; }
+    button { font-size: 12px; padding: 6px 10px; }
+  }
+</style>
+</head>
+<body class="p-6 max-w-6xl mx-auto">
+
+<header class="mb-8">
+  <h1 class="text-3xl font-light tracking-tight">Longevify <span class="muted">· Content Dashboard</span></h1>
+  <div class="text-sm muted mt-1">Local view + manual override. Cron autônomo continua no VPS.</div>
+</header>
+
+<!-- ALERTS BANNER -->
+<div id="alerts" class="mb-6"></div>
+
+<!-- 🎯 HOJE -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">🎯 Hoje</h2>
+  <div id="hoje" class="grid grid-cols-3 gap-4 text-sm">
+    <div class="text-center muted">carregando...</div>
+  </div>
+</section>
+
+<!-- 💡 IDEAS TOP 5 -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">💡 Ideas top 5 <span class="text-xs muted">(gap-aware)</span></h2>
+  <div id="ideas" class="space-y-3"><div class="muted text-sm">carregando...</div></div>
+</section>
+
+<!-- ✅ APROVAÇÃO PENDENTE -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">✅ Aprovação pendente</h2>
+  <div id="pending" class="space-y-3"><div class="muted text-sm">carregando...</div></div>
+</section>
+
+<!-- ✍️ DRAFTS -->
+<section class="card rounded-lg p-5 mb-6">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-lg accent uppercase tracking-wider">✍️ Drafts <span id="drafts-count" class="text-xs muted"></span></h2>
+    <select id="drafts-filter" onchange="refreshDrafts()" class="text-xs" style="max-width: 200px;">
+      <option value="">todos os states</option>
+      <option value="draft">só draft</option>
+      <option value="draft,approving">draft + approving</option>
+      <option value="approving">só approving</option>
+      <option value="blocked">só blocked</option>
+    </select>
+  </div>
+  <div id="drafts" class="space-y-3"><div class="muted text-sm">carregando...</div></div>
+</section>
+
+<!-- 🩺 HEALTH -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">🩺 Health <span id="health-vps-tag" class="text-xs muted"></span></h2>
+  <div id="health" class="grid grid-cols-2 gap-4 text-sm">
+    <div class="text-center muted">carregando...</div>
+  </div>
+</section>
+
+<!-- 📊 ÚLTIMA SEMANA -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">📊 Última semana (insights)</h2>
+  <div id="insights"><div class="muted text-sm">carregando...</div></div>
+</section>
+
+<!-- 💬 LOG IDEIA -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">💬 Log ideia random</h2>
+  <div class="space-y-2">
+    <textarea id="idea-text" placeholder="Escreva ideia, hook, observação..."></textarea>
+    <div class="flex gap-2">
+      <select id="idea-persona" class="flex-1">
+        <option value="">(persona)</option>
+        <option value="maria">Maria</option>
+        <option value="julia">Julia</option>
+        <option value="pedro">Pedro</option>
+        <option value="ana">Ana</option>
+      </select>
+      <select id="idea-pillar" class="flex-1">
+        <option value="">(pillar)</option>
+        <option value="1">P1 Manifesto</option>
+        <option value="2">P2 Biomarker</option>
+        <option value="3">P3 Falha Modelo</option>
+        <option value="4">P4 Sensação→Dado</option>
+        <option value="5">P5 Integrador</option>
+        <option value="6">P6 Cultura</option>
+      </select>
+      <button class="btn-primary" onclick="saveIdea()">Save</button>
+    </div>
+    <div id="idea-saved" class="text-xs sage hidden">✓ saved</div>
+  </div>
+</section>
+
+<!-- ⚡ ACTIONS -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">⚡ Actions</h2>
+  <div class="flex gap-2 flex-wrap items-center">
+    <button class="btn-secondary" onclick="refreshAll()">🔄 Refresh tudo</button>
+    <button class="btn-secondary" onclick="runBrief()">📋 Gerar daily brief</button>
+    <button class="btn-secondary" onclick="runInsights()">📈 Refresh insights</button>
+    <label class="text-xs muted ml-3 flex items-center gap-1">
+      <input type="checkbox" id="auto-refresh" checked style="width: auto;" onchange="toggleAutoRefresh()"/>
+      auto-refresh 30s
+    </label>
+    <span id="last-refresh" class="text-xs muted ml-auto"></span>
+  </div>
+</section>
+
+<!-- 📜 LOGS -->
+<section class="card rounded-lg p-5 mb-6">
+  <h2 class="text-lg accent uppercase tracking-wider mb-3">📜 Action log</h2>
+  <pre id="logs" class="max-h-64 overflow-y-auto">(awaiting actions)</pre>
+</section>
+
+<footer class="text-xs muted text-center mt-8">
+  Dashboard local · servidor em <code>http://localhost:4242</code> · VPS cron continua independente
+</footer>
+
+<script>
+const API = 'http://localhost:4242';
+let state = null;
+
+async function api(method, path, body = null) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  return await res.json();
+}
+
+function log(text) {
+  const el = document.getElementById('logs');
+  const time = new Date().toLocaleTimeString('pt-BR');
+  el.textContent = `[${time}] ${text}\n${el.textContent}`.slice(0, 5000);
+}
+
+function badge(state) {
+  return `<span class="badge badge-${state}">${state}</span>`;
+}
+
+let drafts = null;
+let health = null;
+let autoTimer = null;
+
+async function refreshState() {
+  log('refresh state...');
+  state = await api('GET', '/api/state');
+  renderHoje();
+  renderIdeas();
+  renderPending();
+  renderInsights();
+  renderAlerts();
+  document.getElementById('last-refresh').textContent = 'last: ' + new Date().toLocaleTimeString('pt-BR');
+  log('✓ state refreshed');
+}
+
+async function refreshDrafts() {
+  const filter = document.getElementById('drafts-filter').value;
+  const path = '/api/drafts' + (filter ? '?state=' + encodeURIComponent(filter) : '');
+  const r = await api('GET', path);
+  drafts = r.drafts || [];
+  document.getElementById('drafts-count').textContent = `(${drafts.length})`;
+  renderDrafts();
+}
+
+async function refreshHealth() {
+  health = await api('GET', '/api/health');
+  renderHealth();
+}
+
+async function refreshAll() {
+  await Promise.all([refreshState(), refreshDrafts(), refreshHealth()]);
+}
+
+function toggleAutoRefresh() {
+  const checked = document.getElementById('auto-refresh').checked;
+  if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+  if (checked) {
+    autoTimer = setInterval(refreshAll, 30000);
+    log('auto-refresh enabled (30s)');
+  } else {
+    log('auto-refresh disabled');
+  }
+}
+
+function flagPill(text, level) {
+  const cls = level === 'bad' ? 'flag-bad' : level === 'warn' ? 'flag-warn' : 'flag-ok';
+  return `<span class="flag-pill ${cls}">${text}</span>`;
+}
+
+function renderDrafts() {
+  const el = document.getElementById('drafts');
+  if (!drafts || !drafts.length) { el.innerHTML = '<div class="muted text-sm">(nenhum draft)</div>'; return; }
+  el.innerHTML = drafts.map(d => {
+    const f = d.flags;
+    const emLevel = f.em_dash_count >= 4 ? 'bad' : f.em_dash_count >= 2 ? 'warn' : 'ok';
+    const slopLevel = f.slop?.action === 'reject' ? 'bad' : f.slop?.action === 'deduct' ? 'warn' : 'ok';
+    const stateLabel = f.state ? badge(f.state) : '';
+    const personaTag = f.persona ? `<span class="muted text-xs">${f.persona}</span>` : '';
+    const pillarTag = f.pillar ? `<span class="muted text-xs">P${f.pillar}</span>` : '';
+    const scheduledTag = f.scheduled_for ? `<span class="muted text-xs">${f.scheduled_for}</span>` : '<span class="muted text-xs">📌 backlog</span>';
+    return `
+    <details class="card-hover p-3 rounded border border-stone-700">
+      <summary class="flex justify-between items-start gap-2 flex-wrap">
+        <div class="flex-1 min-w-0">
+          <code class="text-xs muted">${d.run_id}</code>
+          <div class="flex gap-2 mt-1 flex-wrap items-center">
+            ${stateLabel} ${pillarTag} ${personaTag} ${scheduledTag}
+          </div>
+        </div>
+        <div class="flex gap-1 flex-wrap">
+          ${flagPill(`— × ${f.em_dash_count}`, emLevel)}
+          ${f.slop ? flagPill(`slop: ${f.slop.action}`, slopLevel) : ''}
+        </div>
+      </summary>
+      <div class="caption-preview mt-3 whitespace-pre-wrap">${(d.caption_preview || '(sem caption)').replace(/</g, '&lt;')}</div>
+      <div class="flex gap-2 mt-3 flex-wrap">
+        <button class="btn-primary" onclick="approveRun('${d.run_id}')">✓ Aprovar</button>
+        <button class="btn-danger" onclick="rejectRun('${d.run_id}')">✗ Rejeitar</button>
+        <button class="btn-secondary" onclick="regenerateRun('${d.run_id}')">↻ Regenerar</button>
+        <button class="btn-secondary" onclick="reEdit('${d.run_id}')">🛠 Re-editor</button>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderHealth() {
+  const el = document.getElementById('health');
+  document.getElementById('health-vps-tag').textContent = health?.on_vps ? '(VPS)' : '(local — sem timers)';
+  const timers = health?.timers || [];
+  const errors = health?.recent_errors_24h || [];
+  const cost = health?.cost_today_by_agent || {};
+  const totalCost = (health?.cost_today_total || 0).toFixed(2);
+  const budget = health?.cost_budget_usd || 40;
+  const circuit = health?.circuit?.state || '?';
+  const circuitColor = circuit === 'CLOSED' ? 'sage' : 'terra';
+
+  const timersHtml = timers.length
+    ? timers.slice(0, 6).map(t => `<div class="health-row"><span class="muted">${(t.unit || '').replace('longevify-', '').replace('.service', '')}</span><span>${t.next_in || t.next || '?'}</span></div>`).join('')
+    : '<div class="muted text-xs">— no timers (local dev)</div>';
+
+  const costHtml = Object.keys(cost).length
+    ? Object.entries(cost).sort((a,b) => b[1] - a[1]).map(([k,v]) => `<div class="health-row"><span class="muted">${k}</span><span class="accent">$${v.toFixed(3)}</span></div>`).join('')
+    : '<div class="muted text-xs">— no LLM cost today</div>';
+
+  const errorsHtml = errors.length
+    ? errors.slice(0, 5).map(e => `<div class="health-row"><span class="muted text-xs">${e.ts?.slice(11,19) || ''} ${e.agent || ''}</span><span class="text-xs terra">${(e.event || '').slice(0, 30)}</span></div>`).join('')
+    : '<div class="sage text-xs">✓ no errors in last 24h</div>';
+
+  el.innerHTML = `
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-2">⏱ Próximos timers</div>
+      ${timersHtml}
+    </div>
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-2">💵 Custo hoje · <span class="accent">$${totalCost}</span>/$${budget}</div>
+      ${costHtml}
+    </div>
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-2">🔌 Circuit</div>
+      <div class="text-2xl font-light ${circuitColor}">${circuit}</div>
+      ${health?.circuit?.reason ? `<div class="text-xs muted mt-1">${health.circuit.reason}</div>` : ''}
+    </div>
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-2">🚨 Erros 24h</div>
+      ${errorsHtml}
+    </div>
+  `;
+}
+
+function renderAlerts() {
+  const el = document.getElementById('alerts');
+  if (state.circuit?.state === 'OPEN') {
+    el.innerHTML = `<div class="bg-red-900 border border-red-700 rounded p-4 text-sm">🚨 <strong>Circuit OPEN:</strong> ${state.circuit.reason || 'unknown'}</div>`;
+  } else if (state.flags?.length) {
+    el.innerHTML = `<div class="bg-yellow-900 border border-yellow-700 rounded p-3 text-sm">⚠️ ${state.flags.length} critical drift flag(s) active. <a href="#" class="underline">Ver detalhe</a></div>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function renderHoje() {
+  const next = state.upcoming?.[0];
+  const cost = (state.cost_today_usd || 0).toFixed(2);
+  const flagsCount = state.flags?.length || 0;
+  document.getElementById('hoje').innerHTML = `
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-1">Próximo</div>
+      <div class="text-base">${next ? `<code class="text-xs">${next.run_id}</code><br/><span class="muted text-xs">${next.scheduled_for}</span><br/>${badge(next.state)}` : '(nada agendado)'}</div>
+    </div>
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-1">Custo hoje</div>
+      <div class="text-2xl font-light"><span class="accent">$${cost}</span> <span class="text-sm muted">/ $40</span></div>
+    </div>
+    <div>
+      <div class="muted text-xs uppercase tracking-wider mb-1">Drift flags</div>
+      <div class="text-2xl font-light ${flagsCount ? 'terra' : 'sage'}">${flagsCount}</div>
+    </div>
+  `;
+}
+
+function renderIdeas() {
+  const el = document.getElementById('ideas');
+  const ideas = state.ideas_top || [];
+  if (!ideas.length) { el.innerHTML = '<div class="muted text-sm">(nenhuma idea no queue — rode idea-picker)</div>'; return; }
+  el.innerHTML = ideas.map(i => `
+    <div class="card-hover p-3 rounded border border-stone-700">
+      <div class="flex justify-between items-start mb-1">
+        <div class="text-sm"><code class="text-xs muted">${i.id}</code></div>
+        <div class="flex gap-2 text-xs">${badge(i.status)} <span class="muted">P${i.pillar||"?"} · ${i.target_persona||"?"}</span></div>
+      </div>
+      <div class="text-sm mt-1 muted">${i.headline_hint || i.brief?.slice(0, 120) || ""}</div>
+      <div class="flex gap-2 mt-2">
+        <button class="btn-primary" onclick="genDraft('${i.id}')">Draft</button>
+        <button class="btn-secondary" onclick="discardRun('${i.id}')">Skip</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPending() {
+  const el = document.getElementById('pending');
+  const items = state.pending_approval || [];
+  if (!items.length) { el.innerHTML = '<div class="muted text-sm">(nenhum aprovando)</div>'; return; }
+  el.innerHTML = items.map(p => `
+    <div class="card-hover p-3 rounded border border-stone-700">
+      <div class="flex justify-between items-start mb-1">
+        <div><code class="text-xs">${p.run_id}</code></div>
+        <div class="text-xs">${badge(p.state)} <span class="muted">${p.scheduled_for || "(no slot)"}</span></div>
+      </div>
+      <div class="muted text-xs">P${p.pillar||"?"} · ${p.persona||"?"} · ${p.format||"?"}</div>
+      <div class="flex gap-2 mt-2">
+        <button class="btn-primary" onclick="publishRun('${p.run_id}')">Approve + Publish</button>
+        <button class="btn-secondary" onclick="reEdit('${p.run_id}')">Re-edit</button>
+        <button class="btn-danger" onclick="discardRun('${p.run_id}')">Discard</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderInsights() {
+  const el = document.getElementById('insights');
+  const rows = state.insights || [];
+  if (!rows.length) { el.innerHTML = '<div class="muted text-sm">(sem insights ainda)</div>'; return; }
+  el.innerHTML = `
+    <table class="w-full text-sm">
+      <thead><tr class="muted text-xs uppercase tracking-wider"><th class="text-left py-2">post</th><th>P</th><th>persona</th><th>reach</th><th>saves</th><th>save%</th></tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr class="border-t border-stone-700">
+            <td class="py-2 text-xs"><code>${r.run_id}</code></td>
+            <td class="text-center">P${r.pillar||"?"}</td>
+            <td>${r.persona||"?"}</td>
+            <td>${r.reach||0}</td>
+            <td>${r.saves||0}</td>
+            <td class="${(r.save_rate||0) > 0.03 ? 'sage' : 'muted'}">${((r.save_rate||0)*100).toFixed(2)}%</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function saveIdea() {
+  const text = document.getElementById('idea-text').value.trim();
+  if (!text) return;
+  const persona = document.getElementById('idea-persona').value;
+  const pillar = document.getElementById('idea-pillar').value;
+  log(`saving idea: ${text.slice(0, 60)}...`);
+  const r = await api('POST', '/api/idea', { text, persona, pillar });
+  if (r.ok) {
+    document.getElementById('idea-text').value = '';
+    document.getElementById('idea-saved').classList.remove('hidden');
+    setTimeout(() => document.getElementById('idea-saved').classList.add('hidden'), 2000);
+    log('✓ saved em foundation/stores/ideas.md');
+  } else {
+    log(`✗ ${r.error}`);
+  }
+}
+
+async function genDraft(runId) {
+  if (!confirm(`Generate draft for ${runId}? (LLM call ~$0.06)`)) return;
+  log(`generating draft ${runId}...`);
+  const r = await api('POST', '/api/draft', { runId });
+  if (r.ok) { log(`✓ ${runId} drafted`); refreshState(); }
+  else log(`✗ ${r.error}`);
+}
+
+async function reEdit(runId) {
+  log(`re-editor ${runId}...`);
+  const r = await api('POST', '/api/edit', { runId });
+  if (r.ok) log(`✓ editor: ${r.decision.decision} (${r.decision.score}/12)`);
+  else log(`✗ ${r.error}`);
+  refreshState();
+}
+
+async function publishRun(runId) {
+  if (!confirm(`PUBLISH ${runId} no Instagram AGORA?\n\nIrreversível.`)) return;
+  log(`publishing ${runId}...`);
+  const r = await api('POST', '/api/publish', { runId, confirm: true });
+  if (r.ok) log(`✅ published! media_id: ${r.media_id}`);
+  else log(`✗ ${r.error}`);
+  refreshState();
+}
+
+async function discardRun(runId) {
+  if (!confirm(`Discard ${runId}? Soft-delete pra runs/_archived/`)) return;
+  log(`discarding ${runId}...`);
+  const r = await api('POST', '/api/discard', { runId });
+  if (r.ok) log(`✓ archived`);
+  else log(`✗ ${r.error}`);
+  refreshState();
+}
+
+async function runBrief() {
+  log('generating brief...');
+  const r = await api('GET', '/api/brief');
+  if (r.ok) log(`✓ brief generated (${r.brief.length} chars)`);
+  else log(`✗ ${r.error || 'failed'}`);
+}
+
+async function runInsights() {
+  log('refreshing insights...');
+  const r = await api('GET', '/api/insights');
+  log(r.output ? '✓ insights refreshed' : `✗ ${r.error}`);
+  refreshState();
+}
+
+async function approveRun(runId) {
+  if (!confirm(`Aprovar ${runId}?\n\nVai transicionar pra 'approving' — pipeline tick processa em até 15min.`)) return;
+  log(`approving ${runId}...`);
+  const r = await api('POST', '/api/approve', { runId, reviewer: 'dashboard-user' });
+  if (r.ok) log(`✓ ${runId}: ${r.prev_state} → ${r.new_state}`);
+  else log(`✗ ${r.error}`);
+  refreshAll();
+}
+
+async function rejectRun(runId) {
+  const reason = prompt(`Motivo da rejeição de ${runId}?\n(opcional — Enter pra pular)`) || '';
+  const regen = confirm(`Regenerar ${runId} após rejeitar? (OK = sim, Cancel = só rejeita)`);
+  log(`rejecting ${runId}${regen ? ' + regen' : ''}...`);
+  const r = await api('POST', '/api/reject', { runId, reason, regenerate: regen, reviewer: 'dashboard-user' });
+  if (r.ok) log(`✓ rejected${r.regenerated ? ' + regen ' + (r.regenerated.ok ? 'OK' : 'FAILED') : ''}`);
+  else log(`✗ ${r.error}`);
+  refreshAll();
+}
+
+async function regenerateRun(runId) {
+  if (!confirm(`Regenerar ${runId}?\n\nVai rodar content-generator de novo (~$0.06 + ~2min).`)) return;
+  log(`regenerating ${runId}...`);
+  const r = await api('POST', '/api/regenerate', { runId, reviewer: 'dashboard-user' });
+  if (r.ok) log(`✓ regenerated ${runId}`);
+  else log(`✗ ${r.error}`);
+  refreshAll();
+}
+
+// Initial load
+refreshAll();
+toggleAutoRefresh();
+</script>
+</body>
+</html>

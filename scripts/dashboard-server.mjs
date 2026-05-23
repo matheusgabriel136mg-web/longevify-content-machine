@@ -21,6 +21,10 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
+import {
+  listDrafts, summarizeDraft, getTimerHealth, getRecentErrors,
+  getCostBreakdown, getCircuitState,
+} from "./agents/dashboard-helpers.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,7 +37,18 @@ const QUEUE = path.join(ROOT, "runs", "_queue.json");
 const CIRCUIT = path.join(ROOT, "runs", "_circuit-state.json");
 const BRIEFS_DIR = path.join(ROOT, "runs", "_briefs");
 const STORES_DIR = path.join(ROOT, "foundation", "stores");
-const DASHBOARD_HTML = path.join(process.env.HOME, "longevify-content-dashboard.html");
+const AUDIT_LOG = path.join(ROOT, "runs", "_audit-log.jsonl");
+// Dashboard HTML lives in the repo (versioned). Fallback to legacy ~/ location for single-user dev.
+const DASHBOARD_HTML_REPO = path.join(ROOT, "dashboard", "index.html");
+const DASHBOARD_HTML_LEGACY = path.join(process.env.HOME || "/root", "longevify-content-dashboard.html");
+const DASHBOARD_HTML = fs.existsSync(DASHBOARD_HTML_REPO) ? DASHBOARD_HTML_REPO : DASHBOARD_HTML_LEGACY;
+
+function auditEvent(entry) {
+  try {
+    fs.mkdirSync(path.dirname(AUDIT_LOG), { recursive: true });
+    fs.appendFileSync(AUDIT_LOG, JSON.stringify({ ts: new Date().toISOString(), agent: "dashboard", ...entry }) + "\n");
+  } catch {}
+}
 
 function cors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -193,6 +208,94 @@ async function postDiscard(body) {
   }
 }
 
+// ─── F1 handlers: drafts + health + approve/reject/regenerate ────────────────
+
+function getDrafts(query) {
+  const filterState = query.state;  // optional: ?state=draft,approving
+  let pipelineDb = null;
+  if (fs.existsSync(PIPELINE_DB)) pipelineDb = new Database(PIPELINE_DB, { readonly: true });
+  try {
+    const statesAllowed = filterState ? new Set(filterState.split(",")) : null;
+    const drafts = listDrafts({ pipelineDb, statesAllowed, limit: 50 });
+    return { drafts, count: drafts.length };
+  } finally {
+    if (pipelineDb) pipelineDb.close();
+  }
+}
+
+function getHealth() {
+  const timers = getTimerHealth();
+  const errors = getRecentErrors(24, 15);
+  const cost = getCostBreakdown();
+  const circuit = getCircuitState();
+  return {
+    timers,
+    on_vps: timers.length > 0,
+    recent_errors_24h: errors,
+    cost_today_by_agent: cost.totals,
+    cost_today_total: cost.total_usd,
+    cost_budget_usd: 40,
+    circuit,
+  };
+}
+
+async function postApprove(body) {
+  // Approve = transition run to 'approving'. Pipeline tick will pick it up async.
+  const { runId, reviewer } = body;
+  if (!runId) throw new Error("runId required");
+  if (!fs.existsSync(PIPELINE_DB)) return { ok: false, error: "pipeline.db missing" };
+  const db = new Database(PIPELINE_DB);
+  try {
+    const row = db.prepare(`SELECT state FROM runs WHERE run_id = ?`).get(runId);
+    if (!row) return { ok: false, error: `run ${runId} not in pipeline DB` };
+    db.prepare(`UPDATE runs SET state = 'approving', updated_at = ? WHERE run_id = ?`)
+      .run(new Date().toISOString(), runId);
+    auditEvent({ event: "dashboard_approve", run_id: runId, prev_state: row.state, reviewer: reviewer || "unknown" });
+    return { ok: true, run_id: runId, prev_state: row.state, new_state: "approving" };
+  } finally {
+    db.close();
+  }
+}
+
+async function postReject(body) {
+  const { runId, reason, regenerate, reviewer } = body;
+  if (!runId) throw new Error("runId required");
+  if (!fs.existsSync(PIPELINE_DB)) return { ok: false, error: "pipeline.db missing" };
+  const db = new Database(PIPELINE_DB);
+  try {
+    const row = db.prepare(`SELECT state FROM runs WHERE run_id = ?`).get(runId);
+    if (!row) return { ok: false, error: `run ${runId} not in pipeline DB` };
+    db.prepare(`UPDATE runs SET state = 'blocked', failure_reason = ?, updated_at = ? WHERE run_id = ?`)
+      .run((reason || "rejected via dashboard").slice(0, 500), new Date().toISOString(), runId);
+    auditEvent({ event: "dashboard_reject", run_id: runId, prev_state: row.state, reason: reason || null, reviewer: reviewer || "unknown" });
+  } finally {
+    db.close();
+  }
+  if (regenerate) {
+    const r = await postRegenerate({ runId, reviewer });
+    return { ok: true, rejected: true, regenerated: r };
+  }
+  return { ok: true, rejected: true };
+}
+
+async function postRegenerate(body) {
+  const { runId, reviewer } = body;
+  if (!runId) throw new Error("runId required");
+  const runDir = path.join(ROOT, "runs", runId);
+  if (!fs.existsSync(runDir)) return { ok: false, error: `run ${runId} dir missing` };
+  auditEvent({ event: "dashboard_regenerate_start", run_id: runId, reviewer: reviewer || "unknown" });
+  try {
+    const out = execSync(`node ${path.join(__dirname, "agents", "content-generator.mjs")} --run ${runId} 2>&1`, {
+      cwd: ROOT, encoding: "utf-8", timeout: 180000,
+    });
+    auditEvent({ event: "dashboard_regenerate_ok", run_id: runId });
+    return { ok: true, run_id: runId, output_tail: out.slice(-800) };
+  } catch (e) {
+    auditEvent({ event: "dashboard_regenerate_failed", run_id: runId, error: e.message?.slice(0, 200) });
+    return { ok: false, error: e.message.slice(0, 800) };
+  }
+}
+
 async function postIdea(body) {
   // Append em foundation/stores/ideas.md
   const { text, persona, pillar } = body;
@@ -223,6 +326,11 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       if (url.pathname === "/api/state") return json(res, getState());
+      if (url.pathname === "/api/drafts") {
+        const q = Object.fromEntries(url.searchParams.entries());
+        return json(res, getDrafts(q));
+      }
+      if (url.pathname === "/api/health") return json(res, getHealth());
       if (url.pathname === "/api/insights") {
         const out = execSync(`node ${path.join(__dirname, "agents", "ig-insights-scraper.mjs")} --ranking`, { encoding: "utf-8", timeout: 30000 });
         return json(res, { output: out });
@@ -241,11 +349,14 @@ const server = http.createServer(async (req, res) => {
     // POST routes
     if (req.method === "POST") {
       const body = await readBody(req);
-      if (url.pathname === "/api/draft")   return json(res, await postDraft(body));
-      if (url.pathname === "/api/edit")    return json(res, await postEdit(body));
-      if (url.pathname === "/api/publish") return json(res, await postPublish(body));
-      if (url.pathname === "/api/discard") return json(res, await postDiscard(body));
-      if (url.pathname === "/api/idea")    return json(res, await postIdea(body));
+      if (url.pathname === "/api/draft")      return json(res, await postDraft(body));
+      if (url.pathname === "/api/edit")       return json(res, await postEdit(body));
+      if (url.pathname === "/api/publish")    return json(res, await postPublish(body));
+      if (url.pathname === "/api/discard")    return json(res, await postDiscard(body));
+      if (url.pathname === "/api/idea")       return json(res, await postIdea(body));
+      if (url.pathname === "/api/approve")    return json(res, await postApprove(body));
+      if (url.pathname === "/api/reject")     return json(res, await postReject(body));
+      if (url.pathname === "/api/regenerate") return json(res, await postRegenerate(body));
       json(res, { error: "not found" }, 404);
       return;
     }
