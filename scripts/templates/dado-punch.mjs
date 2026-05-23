@@ -27,7 +27,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, OUT_W, OUT_H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir, wrapText } from "./_shared.mjs";
+import { W, H, OUT_W, OUT_H, ROOT, PALETTES, esc, svgWrap, compositeLogo, loadData, ensureRunDir, wrapText, svgWrappedCentered } from "./_shared.mjs";
 import { higgsfieldGenerate } from "../agents/higgsfield-retry.mjs";
 import { validateCover } from "../agents/cover-validator.mjs";
 

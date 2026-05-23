@@ -37,7 +37,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir } from "./_shared.mjs";
+import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir, wrapText, svgWrappedCentered } from "./_shared.mjs";
 
 const ICONS_DIR = path.join(ROOT, "assets", "icons");
 const SCALE = 1440 / 1080;
@@ -62,14 +62,29 @@ async function renderSlide1() {
   const dim = Buffer.from(`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="0.5" stop-color="#000" stop-opacity="0.05"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/></linearGradient></defs><rect width="${W}" height="${H}" fill="url(#g)"/></svg>`);
   const wrappedDim = `<svg width="1440" height="1800" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${dim.toString().match(/<svg[^>]*>([\s\S]*)<\/svg>/)[1]}</svg>`;
   const dimmed = await sharp(bg).composite([{ input: Buffer.from(wrappedDim), top: 0, left: 0 }]).png().toBuffer();
+  // Cover headlines + sub: wrap-aware (fs 76 → max 14 chars; fs 28 → max 38 chars).
   let svg = "";
-  const headY = 880;
-  svg += `<text x="${W/2}" y="${headY}" font-family="Inter, Helvetica, sans-serif" font-size="76" font-weight="300" fill="${P.WHITE}" text-anchor="middle" letter-spacing="-2">${esc(data.cover_headline_1)}</text>`;
+  let cursorY = 880;
+  const h1 = svgWrappedCentered(data.cover_headline_1, {
+    startY: cursorY, fontSize: 76, family: "Inter, Helvetica, sans-serif", weight: "300",
+    fill: P.WHITE, letterSpacing: "-2", maxChars: 14, lineHeight: 84,
+  });
+  svg += h1.svg;
+  cursorY = h1.endY + 84;
   if (data.cover_headline_2_italic) {
-    svg += `<text x="${W/2}" y="${headY + 84}" font-family="Georgia, serif" font-style="italic" font-size="76" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.cover_headline_2_italic)}</text>`;
+    const h2 = svgWrappedCentered(data.cover_headline_2_italic, {
+      startY: cursorY, fontSize: 76, family: "Georgia, serif", italic: true, fill: P.WHITE,
+      maxChars: 14, lineHeight: 84,
+    });
+    svg += h2.svg;
+    cursorY = h2.endY + 96;
   }
   if (data.cover_sub) {
-    svg += `<text x="${W/2}" y="${headY + 180}" font-family="Inter, Helvetica, sans-serif" font-size="28" font-weight="400" fill="${P.WHITE_SOFT}" text-anchor="middle">${esc(data.cover_sub)}</text>`;
+    const sub = svgWrappedCentered(data.cover_sub, {
+      startY: cursorY, fontSize: 28, family: "Inter, Helvetica, sans-serif", fill: P.WHITE_SOFT,
+      maxChars: 38, lineHeight: 36,
+    });
+    svg += sub.svg;
   }
   const composed = await sharp(dimmed).composite([{ input: Buffer.from(svgWrap(svg)), top: 0, left: 0 }]).png().toBuffer();
   const withLogo = await compositeLogo(composed, { paletteKey: "dark_cedar", bottomMargin: 35 });
@@ -100,10 +115,29 @@ async function renderSlide2() {
   svg += `<text x="${bar2X + barW/2}" y="${bar2Y - 20}" font-family="Inter, sans-serif" font-size="22" font-weight="500" fill="${P.WHITE}" text-anchor="middle">${esc(right.value)}</text>`;
   svg += `<text x="${bar2X + barW/2}" y="${chartY + chartH + 40}" font-family="Inter, sans-serif" font-size="20" font-weight="500" fill="${P.WHITE}" text-anchor="middle" letter-spacing="2">${esc(right.label)}</text>`;
   svg += `<text x="${bar2X + barW/2}" y="${chartY + chartH + 68}" font-family="Inter, sans-serif" font-size="16" font-weight="400" fill="${P.WHITE_SOFT}" text-anchor="middle">${esc(right.unit)}</text>`;
-  const explY = chartY + chartH + 150;
-  if (data.s2_body_1) svg += `<text x="${W/2}" y="${explY}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.s2_body_1)}</text>`;
-  if (data.s2_body_2) svg += `<text x="${W/2}" y="${explY + 32}" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.s2_body_2)}</text>`;
-  if (data.s2_closing_italic) svg += `<text x="${W/2}" y="${explY + 90}" font-family="Georgia, serif" font-style="italic" font-size="24" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(data.s2_closing_italic)}</text>`;
+  // Body explanation: wrap-aware (fs 22 → max 48 chars; fs 24 italic → max 44 chars).
+  let bodyY = chartY + chartH + 150;
+  if (data.s2_body_1) {
+    const b1 = svgWrappedCentered(data.s2_body_1, {
+      startY: bodyY, fontSize: 22, fill: P.WHITE, maxChars: 48, lineHeight: 30,
+    });
+    svg += b1.svg;
+    bodyY = b1.endY + 32;
+  }
+  if (data.s2_body_2) {
+    const b2 = svgWrappedCentered(data.s2_body_2, {
+      startY: bodyY, fontSize: 22, fill: P.WHITE, maxChars: 48, lineHeight: 30,
+    });
+    svg += b2.svg;
+    bodyY = b2.endY + 58;
+  }
+  if (data.s2_closing_italic) {
+    const cl = svgWrappedCentered(data.s2_closing_italic, {
+      startY: bodyY, fontSize: 24, family: "Georgia, serif", italic: true,
+      fill: P.WHITE, maxChars: 44, lineHeight: 32,
+    });
+    svg += cl.svg;
+  }
   const base = await sharp(Buffer.from(svgWrap(svg))).png().toBuffer();
   const withLogo = await compositeLogo(base, { paletteKey });
   fs.writeFileSync(path.join(runDir, "slide-2-chart.png"), withLogo);

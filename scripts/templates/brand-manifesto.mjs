@@ -38,7 +38,7 @@
 import sharp from "sharp";
 import * as fs from "fs";
 import * as path from "path";
-import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir } from "./_shared.mjs";
+import { W, H, ROOT, PALETTES, esc, svgWrap, compositeLogo, headlineXml, loadData, ensureRunDir, svgWrappedCentered } from "./_shared.mjs";
 
 const ICONS_DIR = path.join(ROOT, "assets", "icons");
 
@@ -193,21 +193,41 @@ async function renderSlide4() {
 // ═══════════════════════════════════════════════════════════════════════════
 async function renderSlide5() {
   let svg = `<rect width="${W}" height="${H}" fill="${P.BG}"/>`;
-  const headY = 380;
-  svg += `<text x="${W/2}" y="${headY}" font-family="Inter, sans-serif" font-size="68" font-weight="300" fill="${P.WHITE}" text-anchor="middle" letter-spacing="-2">${esc(data.s5_headline_1)}</text>`;
+  // Headlines (fs 68 → max 16 chars per line). Wrap-aware.
+  let cursorY = 380;
+  const h1 = svgWrappedCentered(data.s5_headline_1, {
+    startY: cursorY, fontSize: 68, fill: P.WHITE, letterSpacing: "-2", maxChars: 16, lineHeight: 80,
+  });
+  svg += h1.svg;
+  cursorY = h1.endY + 80;
   if (data.s5_headline_2_italic) {
-    svg += `<text x="${W/2}" y="${headY + 80}" font-family="Georgia, serif" font-style="italic" font-size="68" font-weight="400" fill="${P.WHITE}" text-anchor="middle" letter-spacing="-1">${esc(data.s5_headline_2_italic)}</text>`;
+    const h2 = svgWrappedCentered(data.s5_headline_2_italic, {
+      startY: cursorY, fontSize: 68, family: "Georgia, serif", italic: true,
+      fill: P.WHITE, letterSpacing: "-1", maxChars: 16, lineHeight: 80,
+    });
+    svg += h2.svg;
+    cursorY = h2.endY + 120;
+  } else {
+    cursorY += 40;
   }
 
+  // Body (fs 24 → max 44 chars per line). Wrap each paragraph.
   const bodyLines = data.s5_body || [];
-  const bodyY = headY + 200;
-  bodyLines.forEach((ln, i) => {
-    svg += `<text x="${W/2}" y="${bodyY + i * 34}" font-family="Inter, sans-serif" font-size="24" font-weight="400" fill="${P.WHITE}" text-anchor="middle">${esc(ln)}</text>`;
-  });
+  for (const rawLine of bodyLines) {
+    const b = svgWrappedCentered(rawLine, {
+      startY: cursorY, fontSize: 24, fill: P.WHITE, maxChars: 44, lineHeight: 34,
+    });
+    svg += b.svg;
+    cursorY = b.endY + 38;
+  }
 
   if (data.s5_closing_italic) {
-    const closingY = bodyY + bodyLines.length * 34 + 80;
-    svg += `<text x="${W/2}" y="${closingY}" font-family="Georgia, serif" font-style="italic" font-size="26" font-weight="400" fill="${ACCENT_CLAY}" text-anchor="middle">${esc(data.s5_closing_italic)}</text>`;
+    cursorY += 40;
+    const c = svgWrappedCentered(data.s5_closing_italic, {
+      startY: cursorY, fontSize: 26, family: "Georgia, serif", italic: true,
+      fill: ACCENT_CLAY, maxChars: 40, lineHeight: 34,
+    });
+    svg += c.svg;
   }
 
   const base = await sharp(Buffer.from(svgWrap(svg))).png().toBuffer();

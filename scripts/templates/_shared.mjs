@@ -43,7 +43,7 @@ export function svgWrap(inner) {
 
 export function wrapText(text, maxChars) {
   if (!text) return [];
-  const words = text.split(/\s+/);
+  const words = String(text).split(/\s+/);
   const lines = [];
   let cur = "";
   for (const w of words) {
@@ -52,6 +52,27 @@ export function wrapText(text, maxChars) {
   }
   if (cur) lines.push(cur);
   return lines;
+}
+
+// Shared SVG text emitter — center-anchored, wrap-aware. Returns { svg, endY }.
+// Canvas is 1080px wide (viewBox); safe margin ~60px each side → usable ~960px.
+// Default maxChars values: fs 76 → 14 chars · fs 32 → 28 · fs 22 → 50 · fs 20 → 50 · fs 16 → 70.
+// Letter-spacing tightens or loosens; account for it via maxChars caller-side.
+export function svgWrappedCentered(text, opts) {
+  if (!text) return { svg: "", endY: opts.startY };
+  const {
+    startY, fontSize, family = "Inter, sans-serif", weight = "400", fill,
+    italic = false, letterSpacing = 0, maxChars, lineHeight,
+  } = opts;
+  const lh = lineHeight || Math.round(fontSize * 1.3);
+  const lines = wrapText(text, maxChars);
+  const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  let out = "";
+  for (let i = 0; i < lines.length; i++) {
+    const yy = startY + i * lh;
+    out += `<text x="${W/2}" y="${yy}" font-family="${family}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}"${italic ? ' font-style="italic"' : ''} text-anchor="middle"${letterSpacing ? ` letter-spacing="${letterSpacing}"` : ''}>${esc(lines[i])}</text>`;
+  }
+  return { svg: out, endY: startY + (lines.length - 1) * lh };
 }
 
 export function autoShrinkFont(text, baseSize, maxCharsAtBaseSize = 18) {
