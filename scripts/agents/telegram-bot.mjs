@@ -22,6 +22,7 @@ import { fileURLToPath } from "url";
 import { execSync, spawn } from "child_process";
 import Database from "better-sqlite3";
 import { composeStatus } from "./formatTelegram.mjs";
+import { detectUrls, ingestUrl, getIdea, setIdeaStatus } from "./idea-ingester.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -372,6 +373,37 @@ async function handleCallbackQuery(cq) {
         } finally { db.close(); }
       }
     }
+    // ─── Idea ingester callbacks ──────────────────────────────────────────────
+    else if (action === "ingest_remix") {
+      const ideaId = parseInt(runId);
+      const idea = getIdea(ideaId);
+      if (!idea) { reply = `❌ idea #${ideaId} não existe`; }
+      else {
+        await send(`🎨 Remix da idea #${ideaId} (${idea.source_brand}, persona ${idea.persona_suggested}, P${idea.pillar_suggested})...\n\n_(~$0.05 + ~2min)_`, cq.message.message_id);
+        try {
+          execSync(`node ${path.join(ROOT, "scripts", "agents", "remix-mode.mjs")} --idea ${ideaId} 2>&1`, { cwd: ROOT, encoding: "utf-8", timeout: 360000 });
+          setIdeaStatus(ideaId, "remixed", { remix_decision: "remix" });
+          audit({ event: "ingest_remix_ok", idea_id: ideaId, reviewer });
+          // The remix-mode script triggers telegram-approval --notify itself.
+          return;
+        } catch (e) {
+          audit({ event: "ingest_remix_failed", idea_id: ideaId, reviewer, error: e.message?.slice(0, 200) });
+          reply = `❌ remix falhou: ${e.message.slice(0, 400)}`;
+        }
+      }
+    }
+    else if (action === "ingest_save") {
+      const ideaId = parseInt(runId);
+      setIdeaStatus(ideaId, "saved", { remix_decision: "save" });
+      audit({ event: "ingest_save", idea_id: ideaId, reviewer });
+      reply = `📋 Idea #${ideaId} guardada no backlog. Acessa via dashboard.`;
+    }
+    else if (action === "ingest_discard") {
+      const ideaId = parseInt(runId);
+      setIdeaStatus(ideaId, "discarded", { remix_decision: "discard" });
+      audit({ event: "ingest_discard", idea_id: ideaId, reviewer });
+      reply = `🗑️ Idea #${ideaId} descartada.`;
+    }
     else if (action === "schedule_v2") {
       // Callback data: schedule_v2:<choice>:<runId>
       // Note: parseCommand already split on first colon. Need to re-parse data manually.
@@ -464,6 +496,47 @@ async function handleCallbackQuery(cq) {
   }
 }
 
+async function handleIngestUrls(chatId, urls) {
+  for (const url of urls) {
+    const r = await ingestUrl(url, chatId);
+    if (!r.ok) {
+      await send(`⚠️ Não consegui ingerir \`${url}\`\n_${r.error || "scrape vazio"}_${r.hint ? `\n${r.hint}` : ""}`);
+      continue;
+    }
+    if (r.dup) {
+      await send(`📌 Já tava na backlog (idea #${r.idea_id}, status ${r.status}).`);
+      continue;
+    }
+    const previewCaption = (r.caption || "").slice(0, 280).trim() + (r.caption.length > 280 ? "…" : "");
+    const text = [
+      `✅ *Salvo* idea #${r.idea_id}`,
+      `🌐 *${r.brand}* via ${r.platform}${r.author ? ` · ${r.author}` : ""}`,
+      "",
+      `> ${previewCaption.replace(/\n/g, "\n> ")}`,
+      "",
+      `_Sugestão:_ persona *${r.persona}* · pillar *P${r.pillar}*`,
+    ].join("\n");
+    try {
+      await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text,
+          parse_mode: "Markdown",
+          disable_web_page_preview: true,
+          reply_markup: { inline_keyboard: [[
+            { text: "🎨 Remixar", callback_data: `ingest_remix:${r.idea_id}` },
+            { text: "📋 Só guardar", callback_data: `ingest_save:${r.idea_id}` },
+            { text: "🗑️ Descartar", callback_data: `ingest_discard:${r.idea_id}` },
+          ]] },
+        }),
+      });
+    } catch (e) { console.error("ingest preview send failed:", e.message); }
+  }
+  return true;
+}
+
 async function consumePendingEditIfAny(chatId, text) {
   // Returns true if this text was consumed as an edit hint (next regen with hint).
   const all = loadPendingEdit();
@@ -530,7 +603,13 @@ async function handleUpdate(update) {
     const all = loadPendingEdit();
     if (all[String(msg.chat.id)]) { delete all[String(msg.chat.id)]; savePendingEdit(all); }
   } else {
-    // Non-command text: check pending edit consumer.
+    // Non-command text: (1) URL middleware first (ingest if any URL detected),
+    //                   (2) then pending-edit consumer.
+    const urls = detectUrls(msg.text);
+    if (urls.length) {
+      const consumed = await handleIngestUrls(msg.chat.id, urls);
+      if (consumed) return;
+    }
     const consumed = await consumePendingEditIfAny(msg.chat.id, msg.text);
     if (consumed) return;
   }
