@@ -33,6 +33,33 @@ Contas, sites e fontes monitoradas. Estes alimentam `stores/inbox.md` via Apify.
 - Brazilian health-tech founders
 - Endocrinologistas brasileiros respeitados
 
+## Concorrentes nacionais (healthtech BR — competitor-tracker.mjs)
+
+Estes são monitorados weekly pra: pricing changes, feature launches, captação anunciada.
+Output: `foundation/stores/competitor-moves.md` + Telegram alert se movimento material.
+
+### Healthtech BR diretos
+- **Doutor Inc** (doutorinc.com.br) — telemedicina + plataforma. Track pricing + features.
+- **Conexa Saúde** (conexasaude.com.br) — telemedicina B2B/B2C. Track captação + B2B deals.
+- **Saúde iD** (saudeid.com.br) — gestão de saúde + plano. Track features + parcerias.
+- **Memed** (memed.com.br) — receituário digital. Track expansão de produto.
+- **Telemedicina Morsch** (telemedicinamorsch.com.br) — laudos remotos. Track pricing.
+
+### Healthtech BR adjacentes
+- **Beep Saúde** (beepsaude.com.br) — vacinas + exames em casa. Modelo logística.
+- **Sami Saúde** (sami.com.br) — operadora digital de saúde. Pricing tier reference.
+- **Alice** (alice.com.br) — operadora digital + atendimento ágil. Pricing + journey.
+
+### Premium longevidade BR
+- **Mentalize** (mentalize.com.br) — saúde mental + biomarcadores. Voice + pricing.
+- **Hilab** (hilab.com.br) — exames POC. Pricing per-test reference.
+
+**Watchlist criteria:** adicione um competidor SE atender ≥2 critérios:
+1. ICP overlap ≥ 40% (classe A/B, 30-50, paga por saúde fora do plano)
+2. Posiciona-se como integrador (vs ponto-único)
+3. Tem pricing público acessível (tracking automático possível)
+4. Capta funding (sinal de competitividade próxima)
+
 ## Sites / blogs (RSS — futuro)
 - attia.md (Peter Attia)
 - hubermanlab.com

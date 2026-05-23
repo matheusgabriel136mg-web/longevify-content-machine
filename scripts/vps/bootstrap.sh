@@ -287,12 +287,86 @@ Persistent=true
 WantedBy=timers.target
 EOF
 
+# Pre-publish alerts (every 5min)
+cat > $SERVICES_DIR/longevify-prepublish.service <<EOF
+[Unit]
+Description=Longevify pre-publish T-15min alerts
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/prepublish-alerts.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-prepublish.log
+StandardError=append:/var/log/longevify-prepublish.log
+EOF
+
+cat > $SERVICES_DIR/longevify-prepublish.timer <<EOF
+[Unit]
+Description=Pre-publish T-15min alerts every 5min
+
+[Timer]
+OnCalendar=*-*-* *:00,05,10,15,20,25,30,35,40,45,50,55:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# Competitor tracker (weekly Sat 04:00 BRT = 07:00 UTC)
+cat > $SERVICES_DIR/longevify-competitor.service <<EOF
+[Unit]
+Description=Longevify Competitor Tracker weekly
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/competitor-tracker.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-competitor.log
+StandardError=append:/var/log/longevify-competitor.log
+EOF
+
+cat > $SERVICES_DIR/longevify-competitor.timer <<EOF
+[Unit]
+Description=Competitor Tracker weekly (Sat 04:00 BRT)
+
+[Timer]
+OnCalendar=Sat *-*-* 07:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# Telegram bot (long-poll daemon — service, not timer)
+cat > $SERVICES_DIR/longevify-bot.service <<EOF
+[Unit]
+Description=Longevify Telegram Bot (long-poll)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/telegram-bot.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/longevify-bot.log
+StandardError=append:/var/log/longevify-bot.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 systemctl daemon-reload
-for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup; do
+for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor; do
   systemctl enable longevify-${timer}.timer
   systemctl start longevify-${timer}.timer
 done
-echo "  ✓ 7 systemd timers configured + enabled + started"
+systemctl enable longevify-bot.service
+systemctl start longevify-bot.service
+echo "  ✓ 9 systemd timers + 1 daemon (telegram-bot) configured + enabled + started"
 
 echo ""
 echo "════════════════════════════════════════════════════"

@@ -191,8 +191,41 @@ async function handleEditing(runId) {
     if (decision.decision === "APPROVE") {
       transition(runId, "editing", "approving");
     } else if (decision.decision === "REVISE") {
-      // Send back to draft for human revise (no auto-rewrite yet)
-      transition(runId, "editing", "draft", { failure_reason: `REVISE: ${decision.reasons.join("; ")}` });
+      // ─── Auto-invoke critic-fix-loop pra tentar corrigir antes de mandar back to draft ──
+      const retryCount = run.retry_count || 0;
+      if (retryCount < 2) {
+        try {
+          // Identifica render script pela meta
+          const ideaPath = path.join(ROOT, "runs", runId, "idea.md");
+          const coPath = path.join(ROOT, "runs", runId, "content-object.md");
+          let renderScript = null;
+          for (const p of [coPath, ideaPath]) {
+            if (!fs.existsSync(p)) continue;
+            const txt = fs.readFileSync(p, "utf-8");
+            const pattern = (txt.match(/^pattern:\s*(\S+)/m) ?? [])[1];
+            if (pattern === "persona-bio-case-study") { renderScript = "render-persona-carousel.mjs"; break; }
+            if (pattern === "dado-punch-bryan-style") { renderScript = "templates/dado-punch.mjs"; break; }
+            if (pattern === "brand-manifesto") { renderScript = "templates/brand-manifesto.mjs"; break; }
+            if (pattern === "biomarker-gap") { renderScript = "templates/biomarker-gap.mjs"; break; }
+          }
+          if (renderScript) {
+            console.log(`  ↻ critic-fix-loop: retry ${retryCount + 1}/2 (REVISE → auto-patch attempt)`);
+            audit({ event: "critic_fix_attempt", run_id: runId, retry: retryCount + 1, render_script: renderScript });
+            execSync(`node ${path.join(__dirname, "agents", "critic-fix-loop.mjs")} --run ${runId} --render ${renderScript} --max-iters 2`, {
+              cwd: ROOT, stdio: "ignore", timeout: 180000,
+            });
+            // Re-incrementa retry, mantém em editing pra próximo tick re-roda editor
+            db.prepare(`UPDATE runs SET retry_count = retry_count + 1, updated_at = ? WHERE run_id = ?`).run(new Date().toISOString(), runId);
+            audit({ event: "critic_fix_completed", run_id: runId });
+            return; // próximo tick re-roda editor; se ainda REVISE, retry ou give up
+          }
+        } catch (e) {
+          audit({ event: "critic_fix_failed", run_id: runId, error: e.message.slice(0, 200) });
+          console.warn(`  ⚠ critic-fix-loop failed: ${e.message.slice(0, 100)}`);
+        }
+      }
+      // Max retries OU no render script known → send back to draft
+      transition(runId, "editing", "draft", { failure_reason: `REVISE max retries: ${decision.reasons.join("; ")}` });
     } else if (decision.decision === "REJECT") {
       transition(runId, "editing", "failed", { failure_reason: `REJECT: ${decision.reasons.join("; ")}` });
     } else if (decision.decision === "ESCALATE") {
