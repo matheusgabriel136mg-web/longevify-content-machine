@@ -14,6 +14,7 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import { execSync } from "child_process";
 import Database from "better-sqlite3";
+import { sendWithApproveButtons, sendPhotoAlbum } from "./telegram-notify.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -79,23 +80,33 @@ for (const r of upcoming) {
   if (alerted[key]) continue; // já alertado
 
   const minutesAway = Math.round((new Date(slotIso).getTime() - now) / 60000);
-  const msg = `🔔 *Pre-publish alert · T-${minutesAway}min*
+  const msg = `🔔 *Pre-publish · T-${minutesAway}min · ${r.run_id}*
 
-Run: \`${r.run_id}\`
 Slot: ${slotIso}
-Pillar: P${r.pillar || "?"}
-Persona: ${r.persona || "?"}
-Format: ${r.format || "?"}
+Pillar: P${r.pillar || "?"} · Persona: ${r.persona || "?"} · ${r.format || "?"}
 
-Pra publicar agora: reply \`/publish ${r.run_id}\` + \`/confirm\`
-Pra abortar: ignore OR reply \`/cancel ${r.run_id}\``;
+Botões abaixo OU "posta ${r.run_id}" OR /cancel ${r.run_id}`;
 
   try {
-    execSync(`node ${TELEGRAM_NOTIFY} --alert "${msg.replace(/"/g, '\\"').replace(/\n/g, '\\n')}" warn`, { stdio: "ignore", timeout: 15000 });
+    // First: tenta enviar preview com slides PNG (até 10)
+    const assetsDir = path.join(ROOT, "runs", r.run_id, "assets");
+    if (fs.existsSync(assetsDir)) {
+      const slides = fs.readdirSync(assetsDir)
+        .filter(f => /^slide-\d+.*\.png$/i.test(f))
+        .sort()
+        .map(f => path.join(assetsDir, f));
+      if (slides.length) {
+        try {
+          await sendPhotoAlbum(slides, `📸 Preview ${r.run_id} (${slides.length} slides)`);
+        } catch (e) { console.error(`  ⚠ preview send failed: ${e.message.slice(0, 80)}`); }
+      }
+    }
+    // Then: text msg com inline buttons
+    await sendWithApproveButtons(msg, r.run_id);
     alerted[key] = new Date().toISOString();
     sent++;
     audit({ event: "prepublish_alert_sent", run_id: r.run_id, slot: slotIso, minutes_away: minutesAway });
-    console.log(`  ✓ alerted ${r.run_id} (T-${minutesAway}min)`);
+    console.log(`  ✓ alerted ${r.run_id} (T-${minutesAway}min) + preview`);
   } catch (e) {
     console.error(`  ✗ alert failed ${r.run_id}: ${e.message.slice(0, 100)}`);
   }

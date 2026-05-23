@@ -339,6 +339,58 @@ Persistent=true
 WantedBy=timers.target
 EOF
 
+# Brand-drift Diarization #4 (monthly 1st 04:00 UTC = 01:00 BRT)
+cat > $SERVICES_DIR/longevify-brand-drift.service <<EOF
+[Unit]
+Description=Longevify Brand-Drift Diarization monthly
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/brand-drift-diarization.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-brand-drift.log
+StandardError=append:/var/log/longevify-brand-drift.log
+EOF
+
+cat > $SERVICES_DIR/longevify-brand-drift.timer <<EOF
+[Unit]
+Description=Brand-Drift Diarization monthly (1st 01:00 BRT)
+
+[Timer]
+OnCalendar=*-*-01 04:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+# R2 backup (daily 04:00 UTC = 01:00 BRT, after local backup)
+cat > $SERVICES_DIR/longevify-r2-backup.service <<EOF
+[Unit]
+Description=Longevify R2 anti-disaster backup daily
+
+[Service]
+Type=oneshot
+WorkingDirectory=$INSTALL_DIR
+ExecStart=/usr/bin/node scripts/agents/r2-backup.mjs
+EnvironmentFile=$INSTALL_DIR/.env
+StandardOutput=append:/var/log/longevify-r2-backup.log
+StandardError=append:/var/log/longevify-r2-backup.log
+EOF
+
+cat > $SERVICES_DIR/longevify-r2-backup.timer <<EOF
+[Unit]
+Description=R2 backup daily 04:00 UTC
+
+[Timer]
+OnCalendar=*-*-* 04:00:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
 # Telegram bot (long-poll daemon — service, not timer)
 cat > $SERVICES_DIR/longevify-bot.service <<EOF
 [Unit]
@@ -360,13 +412,13 @@ WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor; do
+for timer in daily-brief insights auto-updater cross-version idea-picker pipeline backup prepublish competitor brand-drift r2-backup; do
   systemctl enable longevify-${timer}.timer
   systemctl start longevify-${timer}.timer
 done
 systemctl enable longevify-bot.service
 systemctl start longevify-bot.service
-echo "  ✓ 9 systemd timers + 1 daemon (telegram-bot) configured + enabled + started"
+echo "  ✓ 11 systemd timers + 1 daemon (telegram-bot) configured + enabled + started"
 
 echo ""
 echo "════════════════════════════════════════════════════"
@@ -389,4 +441,8 @@ echo "  - Sun 23:00 BRT: Cross-version Diarization"
 echo "  - Mon 03:00 BRT: Foundation Auto-Updater"
 echo "  - every 15min: pipeline.mjs tick"
 echo "  - daily 03:00 UTC: backup /tmp/longevify-* → /opt/longevify-backups/"
+echo "  - daily 04:00 UTC: R2 anti-disaster tarball upload"
+echo "  - every 5min: prepublish T-15min alerts"
+echo "  - Sat 07:00 UTC: competitor tracker"
+echo "  - 1st month 04:00 UTC: brand-drift diarization"
 echo "════════════════════════════════════════════════════"

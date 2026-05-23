@@ -42,7 +42,7 @@ export async function sendTelegram(text, opts = {}) {
     return { ok: false, reason: "missing_env" };
   }
 
-  const { parseMode = "Markdown", silent = false } = opts;
+  const { parseMode = "Markdown", silent = false, replyMarkup = null } = opts;
 
   // Telegram limit: 4096 chars per message
   const chunks = chunkText(text, 4000);
@@ -50,16 +50,21 @@ export async function sendTelegram(text, opts = {}) {
 
   for (const chunk of chunks) {
     try {
+      const body = {
+        chat_id: CHAT_ID,
+        text: chunk,
+        parse_mode: parseMode,
+        disable_notification: silent,
+        disable_web_page_preview: true,
+      };
+      // Inline keyboard (callback_data buttons) — só na última chunk
+      if (replyMarkup && chunks.indexOf(chunk) === chunks.length - 1) {
+        body.reply_markup = replyMarkup;
+      }
       const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: chunk,
-          parse_mode: parseMode,
-          disable_notification: silent,
-          disable_web_page_preview: true,
-        }),
+        body: JSON.stringify(body),
       });
       const json = await res.json();
       if (!json.ok) {
@@ -87,6 +92,52 @@ export async function sendAlert(text, severity = "info") {
 export async function sendDailyBrief(briefMarkdown) {
   const header = `📋 *Daily Content Brief · ${new Date().toLocaleDateString("pt-BR")}*\n\n`;
   return sendTelegram(header + briefMarkdown, { silent: false });
+}
+
+// Send photo album (up to 10 PNGs as media group)
+export async function sendPhotoAlbum(photoPaths, caption = "") {
+  if (!BOT_TOKEN || !CHAT_ID) return { ok: false, reason: "missing_env" };
+  if (!photoPaths.length) return { ok: false, reason: "no_photos" };
+  const FormData = (await import("formdata-node")).FormData?.default ?? globalThis.FormData;
+  // Native fetch supports FormData since Node 18+
+  const form = new FormData();
+  form.append("chat_id", CHAT_ID);
+  const media = photoPaths.slice(0, 10).map((p, i) => ({
+    type: "photo",
+    media: `attach://photo${i}`,
+    caption: i === 0 ? caption : undefined,
+    parse_mode: i === 0 ? "Markdown" : undefined,
+  }));
+  form.append("media", JSON.stringify(media));
+  for (let i = 0; i < photoPaths.slice(0, 10).length; i++) {
+    const buf = fs.readFileSync(photoPaths[i]);
+    form.append(`photo${i}`, new Blob([buf], { type: "image/png" }), path.basename(photoPaths[i]));
+  }
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup`, {
+      method: "POST",
+      body: form,
+    });
+    const json = await res.json();
+    return { ok: json.ok, json };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+// Send approve/cancel inline buttons attached to text
+export async function sendWithApproveButtons(text, runId) {
+  return sendTelegram(text, {
+    replyMarkup: {
+      inline_keyboard: [[
+        { text: "✅ Approve + Publish", callback_data: `publish:${runId}` },
+        { text: "🚫 Cancel", callback_data: `cancel:${runId}` },
+      ], [
+        { text: "🔄 Re-edit", callback_data: `reedit:${runId}` },
+        { text: "🗑 Discard", callback_data: `discard:${runId}` },
+      ]],
+    },
+  });
 }
 
 function chunkText(text, maxLen) {

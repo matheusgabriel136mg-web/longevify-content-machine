@@ -218,7 +218,54 @@ function parseCommand(text) {
   return null;
 }
 
+async function answerCallbackQuery(callbackQueryId, text = "") {
+  try {
+    await fetch(`https://api.telegram.org/bot${TOKEN}/answerCallbackQuery`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ callback_query_id: callbackQueryId, text }),
+    });
+  } catch {}
+}
+
+async function handleCallbackQuery(cq) {
+  if (String(cq.message.chat.id) !== String(CHAT_ID)) return;
+  const data = cq.data || "";  // formato: "<action>:<runId>"
+  const [action, runId] = data.split(":");
+  audit({ event: "callback_received", action, run_id: runId });
+  await answerCallbackQuery(cq.id, `processando ${action}...`);
+
+  try {
+    let reply;
+    if (action === "publish") {
+      // Auto-confirm via button (sem 2-step pra cliques diretos)
+      const out = execSync(`cd ${ROOT} && npm run publish -- --run ${runId} 2>&1`, { encoding: "utf-8", timeout: 300000 });
+      const mediaId = (out.match(/media_id:\s*(\S+)/) ?? [, "?"])[1];
+      audit({ event: "published_via_button", run_id: runId, media_id: mediaId });
+      reply = `✅ Publicado!\nmedia_id: \`${mediaId}\``;
+    } else if (action === "cancel") {
+      // Set blocked
+      reply = `🚫 \`${runId}\` cancelado pra este slot`;
+      audit({ event: "cancelled_via_button", run_id: runId });
+    } else if (action === "reedit") {
+      const out = execSync(`node ${path.join(ROOT, "scripts", "agents", "editor-agent.mjs")} --run ${runId}`, { encoding: "utf-8", timeout: 60000 });
+      reply = "🔄 *Re-edit result*\n```\n" + out.trim().slice(-1500) + "\n```";
+    } else if (action === "discard") {
+      const target = path.join(ROOT, "runs", runId);
+      execSync(`DESTRUCTIVE_CONFIRMED=1 node ${path.join(ROOT, "scripts", "agents", "safe-rm.mjs")} --path "${target}" --agent telegram-button --reason "user discard button"`, { cwd: ROOT });
+      reply = `🗑 \`${runId}\` archived`;
+    } else {
+      reply = `❓ ação desconhecida: ${action}`;
+    }
+    await send(reply, cq.message.message_id);
+  } catch (e) {
+    await send(`❌ erro processando ${action}: ${e.message.slice(0, 300)}`, cq.message.message_id);
+    audit({ event: "callback_error", action, run_id: runId, error: e.message });
+  }
+}
+
 async function handleUpdate(update) {
+  if (update.callback_query) return handleCallbackQuery(update.callback_query);
   const msg = update.message;
   if (!msg || !msg.text) return;
   if (String(msg.chat.id) !== String(CHAT_ID)) {

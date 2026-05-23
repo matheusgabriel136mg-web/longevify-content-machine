@@ -1,0 +1,75 @@
+{
+  "id": "pedro",
+  "name": "Pedro",
+  "age": 39,
+  "biological_age": 33,
+  "location": "Parque Ibirapuera, Z2 matinal",
+  "city": "São Paulo",
+  "occupation": "Engenheiro · triatleta amador (Ironman 70.3)",
+  "cover_external": true,
+  "cover_filename": "cover-raw.png",
+  "_status": "TEMPLATE — biomarkers e copy precisam validação Matheus pra cada novo run",
+
+  "sintomas": [
+    { "n": "01", "text": "HRV caindo 15-20% sem motivo claro. Whoop sinaliza, médico não lê." },
+    { "n": "02", "text": "VO2max em platô há 6 meses. Treino sem retorno." },
+    { "n": "03", "text": "Recuperação que demora 3 dias depois de Z4. Antes recuperava em 24h." },
+    { "n": "04", "text": "Sono fragmentado pós-treino noturno. Pergunta: treino ou descanso amanhã?" }
+  ],
+
+  "biomarkers_before": [
+    { "name": "Ferritina",        "unit": "ng/mL", "value": "38",   "status": "BAIXO",  "pct": 0.19, "optStart": 0.25, "optEnd": 1.00 },
+    { "name": "Cortisol AM",      "unit": "µg/dL", "value": "19.2", "status": "ALTO",   "pct": 0.65, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "Testosterona total","unit": "ng/dL", "value": "420",  "status": "BAIXO",  "pct": 0.28, "optStart": 0.45, "optEnd": 0.90 },
+    { "name": "HRV (rMSSD)",      "unit": "ms",    "value": "32",   "status": "BAIXO",  "pct": 0.32, "optStart": 0.50, "optEnd": 0.90 },
+    { "name": "hs-CRP",           "unit": "mg/L",  "value": "2.4",  "status": "ALTO",   "pct": 0.55, "optStart": 0.00, "optEnd": 0.10 }
+  ],
+
+  "biomarkers_after": [
+    { "name": "Ferritina",         "unit": "ng/mL", "before": "38",   "after": "92",   "bPct": 0.19, "aPct": 0.46, "optStart": 0.25, "optEnd": 1.00 },
+    { "name": "Cortisol AM",       "unit": "µg/dL", "before": "19.2", "after": "14.5", "bPct": 0.65, "aPct": 0.48, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "Testosterona total","unit": "ng/dL", "before": "420",  "after": "620",  "bPct": 0.28, "aPct": 0.62, "optStart": 0.45, "optEnd": 0.90 },
+    { "name": "HRV (rMSSD)",       "unit": "ms",    "before": "32",   "after": "58",   "bPct": 0.32, "aPct": 0.58, "optStart": 0.50, "optEnd": 0.90 }
+  ],
+
+  "headliner_stat": {
+    "label": "IDADE BIOLÓGICA",
+    "before": "39",
+    "after": "33"
+  },
+
+  "protocolo": [
+    { "n": "01", "t": "Periodização Z2",        "b": "70% volume em Z2, 20% Z4-Z5. Recovery sobe em 3 sem.",   "icon": "icon-exercise.png" },
+    { "n": "02", "t": "Ferro heme + vit C",     "b": "Refeição da noite. Ferritina dobra. Lactato cai.",       "icon": "icon-ferro.png" },
+    { "n": "03", "t": "Magnésio glicinato 600mg","b": "Cortisol noturno + REM. Pré-sono.",                     "icon": "icon-supplement.png" },
+    { "n": "04", "t": "Sauna 3× por semana",    "b": "HSP + cortisol modulation. Pós-treino Z4.",              "icon": "icon-sauna.png" },
+    { "n": "05", "t": "Força 2× por semana",    "b": "Massa magra protege testosterona. Composto pesado.",     "icon": "icon-forca.png" },
+    { "n": "06", "t": "AI on-demand antes do treino", "b": "HRV+cortisol+sono → recomendação Z2 ou descanso.",  "icon": "icon-painel.png" }
+  ],
+
+  "copy": {
+    "s2_headline_1": "Whoop sinalizava.",
+    "s2_headline_2_italic": "Médico não lia.",
+    "s2_sub": "Dado de wearable sem sangue + interpretação = ruído.",
+    "s2_closing_italic": "O corpo já sabia. Faltava sistema que escutasse.",
+
+    "s3_headline_1": "O painel",
+    "s3_headline_2_italic": "que treino exige.",
+    "s3_sub": "Cinco marcadores que decidem se hoje é Z2 ou descanso.",
+
+    "s4_headline_1": "Protocolo de",
+    "s4_headline_2_italic": "atleta amador 40.",
+    "s4_sub": "Seis alavancas calibradas ao perfil dele — não à média de academia.",
+
+    "s5_headline_1": "Doze semanas.",
+    "s5_headline_2_italic": "Outro Pedro.",
+    "s5_sub": "VO2max sai do platô. HRV recupera. Sono restaura.",
+
+    "s6_headline_1": "Atleta amador",
+    "s6_headline_2_italic": "merece painel de pro.",
+    "s6_body": "HRV de ontem. Sono de ontem. Cortisol da última coleta.\nO integrador cruza em 5 segundos.\nResposta específica: treino HOJE é Z2, não Z4.",
+    "s6_closing_italic": "Substitui consulta de 3 semanas por pergunta de 30 segundos."
+  },
+
+  "palette_internal": "dark_cedar"
+}

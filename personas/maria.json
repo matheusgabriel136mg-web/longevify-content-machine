@@ -1,0 +1,75 @@
+{
+  "id": "maria",
+  "name": "Maria",
+  "age": 44,
+  "biological_age": 38,
+  "location": "Café · Vila Madalena",
+  "city": "São Paulo",
+  "occupation": "Sócia, escritório de advocacia tributária",
+  "cover_external": true,
+  "cover_filename": "cover-raw.png",
+  "_status": "TEMPLATE — biomarkers e copy precisam validação Matheus pra cada novo run",
+
+  "sintomas": [
+    { "n": "01", "text": "Cinco médicos. Três meses pra fechar agenda. Nenhum cruza dados." },
+    { "n": "02", "text": "Suplemento empilhado: vit D, ômega, magnésio. Sem leitura conjunta." },
+    { "n": "03", "text": "Convênio premium pediu \"só hemograma\". Sintoma persistiu. Plano caro, leitura curta." },
+    { "n": "04", "text": "Gastando R$2.800/mês fragmentado. Sem ninguém amarrando." }
+  ],
+
+  "biomarkers_before": [
+    { "name": "Vitamina D",      "unit": "ng/mL", "value": "24",   "status": "BAIXO",  "pct": 0.24, "optStart": 0.30, "optEnd": 0.80 },
+    { "name": "hs-CRP",          "unit": "mg/L",  "value": "3.2",  "status": "ALTO",   "pct": 0.65, "optStart": 0.00, "optEnd": 0.10 },
+    { "name": "Cortisol AM",     "unit": "µg/dL", "value": "21.5", "status": "ALTO",   "pct": 0.72, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "Ferritina",       "unit": "ng/mL", "value": "32",   "status": "BAIXO",  "pct": 0.16, "optStart": 0.25, "optEnd": 1.00 },
+    { "name": "TSH",             "unit": "µUI/mL","value": "3.8",  "status": "LIMITE", "pct": 0.76, "optStart": 0.10, "optEnd": 0.50 }
+  ],
+
+  "biomarkers_after": [
+    { "name": "Vitamina D",  "unit": "ng/mL", "before": "24",   "after": "52",   "bPct": 0.24, "aPct": 0.52, "optStart": 0.30, "optEnd": 0.80 },
+    { "name": "hs-CRP",      "unit": "mg/L",  "before": "3.2",  "after": "0.9",  "bPct": 0.65, "aPct": 0.18, "optStart": 0.00, "optEnd": 0.10 },
+    { "name": "Cortisol AM", "unit": "µg/dL", "before": "21.5", "after": "15.2", "bPct": 0.72, "aPct": 0.51, "optStart": 0.40, "optEnd": 0.70 },
+    { "name": "Ferritina",   "unit": "ng/mL", "before": "32",   "after": "78",   "bPct": 0.16, "aPct": 0.39, "optStart": 0.25, "optEnd": 1.00 }
+  ],
+
+  "headliner_stat": {
+    "label": "IDADE BIOLÓGICA",
+    "before": "44",
+    "after": "38"
+  },
+
+  "protocolo": [
+    { "n": "01", "t": "Painel completo único",  "b": "Lê todos os 5 marcadores juntos. Não fragmenta.", "icon": "icon-painel.png" },
+    { "n": "02", "t": "Leitura clínica 60min",  "b": "1 médica integrativa cruza dado + sintoma + agenda.", "icon": "icon-leitura.png" },
+    { "n": "03", "t": "Vit D3 + K2 + ômega",    "b": "Suplementação ajustada (ela já tinha tudo no armário).", "icon": "icon-vitd.png" },
+    { "n": "04", "t": "Sono ancorado 23h-7h",   "b": "Cortisol AM responde primeiro. Inflamação cai depois.", "icon": "icon-sono.png" },
+    { "n": "05", "t": "Ferro heme + vit C",     "b": "Refeição da noite. Ferritina dobra em 6 sem.",         "icon": "icon-ferro.png" },
+    { "n": "06", "t": "Recheck mensal",         "b": "Não esperar 6 meses. Loop fechado. Ajuste contínuo.", "icon": "icon-recheck.png" }
+  ],
+
+  "copy": {
+    "s2_headline_1": "Cinco médicos.",
+    "s2_headline_2_italic": "Nenhum amarrava.",
+    "s2_sub": "Convênio premium não resolve fragmentação. Resolve atendimento.",
+    "s2_closing_italic": "O sistema é caro porque é desconectado.",
+
+    "s3_headline_1": "O que o exame",
+    "s3_headline_2_italic": "mostrou em conjunto.",
+    "s3_sub": "Cinco marcadores fora — cada um isolado parecia tolerável.",
+
+    "s4_headline_1": "Um protocolo,",
+    "s4_headline_2_italic": "calibrado aos dados.",
+    "s4_sub": "Seis alavancas. Custo total: 5% do que ela gastava fragmentado.",
+
+    "s5_headline_1": "Doze semanas.",
+    "s5_headline_2_italic": "Outra Maria.",
+    "s5_sub": "Os mesmos exames. Faixa funcional alcançada.",
+
+    "s6_headline_1": "A fragmentação",
+    "s6_headline_2_italic": "é a doença escondida.",
+    "s6_body": "Cinco médicos. Três meses de agenda. Mil reais por consulta.\nUma integração. Um painel. Um protocolo.\nO mesmo dado lido por inteiro.",
+    "s6_closing_italic": "É por isso que existimos."
+  },
+
+  "palette_internal": "dark_cedar"
+}
