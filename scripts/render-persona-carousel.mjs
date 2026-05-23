@@ -149,20 +149,45 @@ async function renderSlide2() {
   let svg = `<rect width="${W}" height="${H}" fill="${BG}"/>`;
   svg += headlineXml(P.copy.s2_headline_1, P.copy.s2_headline_2_italic, P.copy.s2_sub);
 
-  const startY = 460;
-  const itemH = 130;
+  // ─── BUG FIX 2026-05-23: sintoma text overflow ─────────────────────────────
+  // Text area after numbered marker: blockW(740) - markerX(80) = 660px.
+  // At font-size 26 Inter, char width ~14-16px → safe ~42 chars per line.
+  // 49-67 char strings overflowed silently. Now: wrap at 42 / 26pt, or 48 / 22pt if 2 lines.
   const blockW = 740;
   const blockX = (W - blockW) / 2;
+  const textX = blockX + 80;
+  const textMaxW = blockW - 80;   // 660px
 
-  P.sintomas.forEach((it, i) => {
+  // Pre-wrap each sintoma so itemH can adapt to actual line count.
+  const items = P.sintomas.map(it => {
+    let fontSize = 26;
+    let lines = wrapText(it.text, 42);
+    if (lines.length > 2) {
+      // Shrink to fit 2 lines max.
+      fontSize = 22;
+      lines = wrapText(it.text, 48);
+    }
+    return { ...it, fontSize, lines };
+  });
+
+  const hasMultiline = items.some(it => it.lines.length > 1);
+  const itemH = hasMultiline ? 150 : 130;
+  const startY = hasMultiline ? 440 : 460;
+
+  items.forEach((it, i) => {
     const y = startY + i * itemH;
     if (i > 0) svg += `<line x1="${blockX}" y1="${y - 10}" x2="${blockX + blockW}" y2="${y - 10}" stroke="${WHITE}" stroke-width="0.5" opacity="0.18"/>`;
     svg += `<text x="${blockX}" y="${y + 38}" font-family="Courier New, monospace" font-size="22" font-weight="500" fill="${WHITE_SOFT}" letter-spacing="2">${it.n}</text>`;
-    svg += `<text x="${blockX + 80}" y="${y + 38}" font-family="Inter, sans-serif" font-size="26" font-weight="400" fill="${WHITE}">${esc(it.text)}</text>`;
+    const lineGap = it.fontSize === 22 ? 28 : 32;
+    const firstLineY = it.lines.length === 1 ? y + 38 : y + 28;
+    it.lines.forEach((ln, li) => {
+      svg += `<text x="${textX}" y="${firstLineY + li * lineGap}" font-family="Inter, sans-serif" font-size="${it.fontSize}" font-weight="400" fill="${WHITE}">${esc(ln)}</text>`;
+    });
   });
 
   if (P.copy.s2_closing_italic) {
-    svg += `<text x="${W/2}" y="${1050}" font-family="Georgia, serif" font-style="italic" font-size="24" font-weight="400" fill="${WHITE}" text-anchor="middle">${esc(P.copy.s2_closing_italic)}</text>`;
+    const closingY = hasMultiline ? Math.min(1180, startY + items.length * itemH + 50) : 1050;
+    svg += `<text x="${W/2}" y="${closingY}" font-family="Georgia, serif" font-style="italic" font-size="24" font-weight="400" fill="${WHITE}" text-anchor="middle">${esc(P.copy.s2_closing_italic)}</text>`;
   }
 
   const base = await sharp(Buffer.from(svgWrap(svg))).png().toBuffer();

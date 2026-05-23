@@ -16,6 +16,20 @@ import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
+// Local word-boundary wrap (same as render-persona-carousel).
+function wrapText(text, maxChars) {
+  if (!text) return [];
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let cur = "";
+  for (const w of words) {
+    if ((cur + " " + w).trim().length <= maxChars) cur = (cur + " " + w).trim();
+    else { if (cur) lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, "..");
@@ -95,24 +109,35 @@ async function renderSlide2() {
     { kicker: "04", text: "Treino que não rendia mesmo dormindo 7h." },
   ];
 
-  const startY = 460;
-  const itemH = 130;
+  // ─── BUG FIX 2026-05-23: text overflow on right edge ─────────────────────
   const blockW = 740;
   const blockX = (W - blockW) / 2;
+  const textX = blockX + 80;
+  const wrapped = items.map(it => {
+    let fontSize = 26;
+    let lines = wrapText(it.text, 42);
+    if (lines.length > 2) { fontSize = 22; lines = wrapText(it.text, 48); }
+    return { ...it, fontSize, lines };
+  });
+  const hasMultiline = wrapped.some(it => it.lines.length > 1);
+  const itemH = hasMultiline ? 150 : 130;
+  const startY = hasMultiline ? 440 : 460;
 
-  items.forEach((it, i) => {
+  wrapped.forEach((it, i) => {
     const y = startY + i * itemH;
     if (i > 0) {
       svg += `<line x1="${blockX}" y1="${y - 10}" x2="${blockX + blockW}" y2="${y - 10}" stroke="${WHITE}" stroke-width="0.5" opacity="0.18"/>`;
     }
-    // Kicker monospace
     svg += `<text x="${blockX}" y="${y + 38}" font-family="Courier New, monospace" font-size="22" font-weight="500" fill="${WHITE_SOFT}" letter-spacing="2">${it.kicker}</text>`;
-    // Body
-    svg += `<text x="${blockX + 80}" y="${y + 38}" font-family="Inter, sans-serif" font-size="26" font-weight="400" fill="${WHITE}">${esc(it.text)}</text>`;
+    const lineGap = it.fontSize === 22 ? 28 : 32;
+    const firstLineY = it.lines.length === 1 ? y + 38 : y + 28;
+    it.lines.forEach((ln, li) => {
+      svg += `<text x="${textX}" y="${firstLineY + li * lineGap}" font-family="Inter, sans-serif" font-size="${it.fontSize}" font-weight="400" fill="${WHITE}">${esc(ln)}</text>`;
+    });
   });
 
-  // Fechamento italic
-  svg += `<text x="${W/2}" y="${1050}" font-family="Georgia, serif" font-style="italic" font-size="24" font-weight="400" fill="${WHITE}" text-anchor="middle">Sintoma sem laudo é sinal mal lido.</text>`;
+  const closingY = hasMultiline ? Math.min(1180, startY + wrapped.length * itemH + 50) : 1050;
+  svg += `<text x="${W/2}" y="${closingY}" font-family="Georgia, serif" font-style="italic" font-size="24" font-weight="400" fill="${WHITE}" text-anchor="middle">Sintoma sem laudo é sinal mal lido.</text>`;
 
   const base = await sharp(Buffer.from(svgWrap(svg))).png().toBuffer();
   const withLogo = await compositeLogo(base);
